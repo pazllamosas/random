@@ -17,3 +17,4 @@ C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\random\src\ClinicaFrba\bin\Debug
 C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.csprojResolveAssemblyReference.cache
 C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Properties.Resources.resources
 C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.csproj.GenerateResource.Cache
+C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Inicio.Login.resources
