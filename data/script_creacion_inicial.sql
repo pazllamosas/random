@@ -273,9 +273,9 @@ CREATE TABLE RANDOM.PLANES(
 CREATE TABLE RANDOM.HISTORIAL_PLAN(
 	IdHistorialPlan int PRIMARY KEY IDENTITY(1,1),
 	IdAfiliado int,
-	Motivo nvarchar(255),
 	Fecha datetime,
-	PlanElegido nvarchar(255)
+	PlanElegido nvarchar(255),
+	Motivo nvarchar(255)
 )
 
 CREATE TABLE.RANDOM.ESTADO_CIVIL(
@@ -303,7 +303,8 @@ CREATE TABLE RANDOM.ESPECIALIDAD(
 
 CREATE TABLE RANDOM.ESPECIALIDAD_POR_PROFESIONAL(
 	IdProfesional int,
-	IdEspecialidad int
+	IdEspecialidad int,
+	PRIMARY KEY(IdProfesional, IdEspecialidad)
 )
 
 CREATE TABLE RANDOM.COMPRA_BONO(
@@ -335,7 +336,6 @@ CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
 	IdEspecialidad int,
 	EstadoDisponibilidad nvarchar(255)
 )
---TURNO NUMERO, TURNO FECHA AGENDA O TURNO? EN LA MAESTRA ESTA
 
 CREATE TABLE RANDOM.TURNO(
 	IdTurno int PRIMARY KEY IDENTITY(1,1),
@@ -601,7 +601,7 @@ INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Dni, Direccion, Telefono, Mail, Fec
 SELECT DISTINCT M.Paciente_Nombre, M.Paciente_Apellido, M.Paciente_Dni, M.Paciente_Direccion, M.Paciente_Telefono, M.Paciente_Mail, M.Paciente_Fecha_Nac
 FROM gd_esquema.Maestra M
 
-/*PERSONA*/ -- agregamos los meedicos nada mas aca
+/*PERSONA*/ -- agregamos los medicos nada mas aca
 INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Dni, Direccion, Telefono, Mail, Fecha_Nac) 
 SELECT DISTINCT M.Medico_Nombre, M.Medico_Apellido, M.Medico_Dni, M.Medico_Direccion, M.Medico_Telefono, M.Medico_Mail, M.Medico_Fecha_Nac
 FROM gd_esquema.Maestra M
@@ -634,6 +634,7 @@ SELECT DISTINCT P.IdPersona, PL.IdPlan
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Paciente_Nombre = P.Nombre AND M.Paciente_Apellido = P.Apellido AND M.Paciente_Dni = P.Dni
 JOIN RANDOM.PLANES PL ON M.Plan_Med_Codigo = PL.Codigo
+--FALTAN SETEAR COSAS
 
 /*TIPO_ESPECIALIDAD*/
 INSERT INTO RANDOM.TIPO_ESPECIALIDAD(Codigo,Descripcion)
@@ -651,3 +652,66 @@ INSERT INTO RANDOM.PROFESIONAL(IdPersona, Matricula)
 SELECT DISTINCT P.IdPersona, M.Especialidad_Codigo
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Medico_Nombre =P.Nombre AND M.Medico_Apellido = P.Apellido AND M.Medico_Dni = P.Dni
+
+/*ESTADO CIVIL*/
+INSERT INTO RANDOM.ESTADO_CIVIL(Descripcion)
+VALUES('Soltero\a')
+INSERT INTO RANDOM.ESTADO_CIVIL(Descripcion)
+VALUES('Casado\a')
+INSERT INTO RANDOM.ESTADO_CIVIL(Descripcion)
+VALUES('Viudo\a')
+INSERT INTO RANDOM.ESTADO_CIVIL(Descripcion)
+VALUES('Divorciado\a')
+INSERT INTO RANDOM.ESTADO_CIVIL(Descripcion)
+VALUES('Concubinato')
+
+/*TIPO DE CANCELACION*/
+INSERT INTO RANDOM.TIPO_CANCELACION(Descripcion)
+VALUES ('Repentina')
+INSERT INTO RANDOM.TIPO_CANCELACION(Descripcion)
+VALUES ('Viaje Programado')
+INSERT INTO RANDOM.TIPO_CANCELACION(Descripcion)
+VALUES ('Fuerza Mayor')
+INSERT INTO RANDOM.TIPO_CANCELACION(Descripcion)
+VALUES ('Superposición de horarios')
+INSERT INTO RANDOM.TIPO_CANCELACION(Descripcion)
+VALUES ('Enfermedad')
+INSERT INTO RANDOM.TIPO_CANCELACION(Descripcion)
+VALUES ('Urgencia')
+INSERT INTO RANDOM.TIPO_CANCELACION(Descripcion)
+VALUES ('Otros')
+
+
+
+
+
+/* VER REVISAR 
+1) TEMA TIPO DNI:
+	es necesario utilizar tipo y numero de documento? O se puede usar solo DNI ya que de los medicos y personas cargados solo tenemos dni?
+	En el enunciado se pide Tipo y número de documento
+HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
+
+2) TEMA USUARIO:
+	 Es obligatorio que todas las personas tengan un usuario? Y que un usuario tenga una persona asociada?
+	 Todos los afiliados y profesionales tienen que tener un username y password, queda a criterio de ustedes como se hace la asignación. Los mismos son necesarios para poder acceder al sistema y realizar las acciones correspondientes a su rol como la compra de bonos o pedido de turno  en la caso del afiliado o registrar el resultado de una consulta en el caso del profesional.
+
+3) AGENDA PROFESIONAL:
+	quien manejaria la agenda profesional? podria ser el administrador?
+	si podrian considerarlo de ese modo.
+
+4) No hay bonos de farmacia ni compra de medicamentos. 
+
+5) TABLA MAESTRA:
+	donde ponemos TURNO NUMERO, TURNO FECHA en la AGENDA O TURNO? 
+
+6) AFILIADO:
+	id familiar y Estado ??
+	faltan setear cosas
+
+7)TANTOS INDICES HACEN FALTA?
+
+8)CONSULTA SINTOMAS Y ENFERMEDAD SOLO DAN SINTOMA/ENFERMEDAD 1 Y DESPUES NULL
+
+9) ESPECIALIDAD POR PROFESIONAL
+	el profesional no deberia tener el id de especialidad? no hay forma de joinear?
+*/
