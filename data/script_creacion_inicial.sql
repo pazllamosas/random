@@ -236,10 +236,10 @@ CREATE TABLE RANDOM.USUARIO_POR_ROL(
 )
 
 CREATE TABLE RANDOM.PERSONA(
-	IdPersona int PRIMARY KEY,
+	IdPersona int PRIMARY KEY IDENTITY(1,1),
 	Nombre nvarchar(255),
 	Apellido nvarchar(255),
-	IdUsuario int,
+	--IdUsuario int, tengo la sospecha de que no ca, analizar. en los del otro cuatri no tenian realizacion
 	--TipoDocumento nvarchar(255), son todos dni, habria que dejarlo seteado?
 	Dni numeric(18, 0),
 	Direccion nvarchar(255),
@@ -247,7 +247,7 @@ CREATE TABLE RANDOM.PERSONA(
 	Mail nvarchar(255),
 	Fecha_Nac datetime,
 	Sexo nvarchar(255),
-	IdRol int
+	Baja bit DEFAULT 0,
 )
 
 CREATE TABLE RANDOM.AFILIADO(
@@ -257,15 +257,15 @@ CREATE TABLE RANDOM.AFILIADO(
 	IdPlan int,
 	--IdFamiliar,
 	NumeroAfiliado int,
-	Estado nvarchar(255),
+	--Estado nvarchar(255), que era esto?
 	NumeroUltimoBono int
 )
 
 CREATE TABLE RANDOM.PLANES(
-	IdPlan int PRIMARY KEY,
+	IdPlan int PRIMARY KEY IDENTITY(1,1),
 	Codigo numeric(18),
 	Nombre nvarchar(255),
-	Abono int,
+	Abono int, 
 	MontoConsulta numeric(18),
 	MontoExpendio numeric(18)
 )
@@ -284,7 +284,8 @@ CREATE TABLE.RANDOM.ESTADO_CIVIL(
 )
 
 CREATE TABLE RANDOM.PROFESIONAL(
-	IdPersona int PRIMARY KEY,
+	IdProfesional int PRIMARY KEY IDENTITY (1,1),
+	IdPersona int,
 	Matricula int
 )
 CREATE TABLE RANDOM.TIPO_ESPECIALIDAD(
@@ -363,7 +364,7 @@ CREATE TABLE RANDOM.TIPO_CANCELACION(
 )
 --FOREIGN KEY 
 
-ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (IdUsuario) REFERENCES RANDOM.USUARIO
+--ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (IdUsuario) REFERENCES RANDOM.USUARIO
 ALTER TABLE RANDOM.ROL_POR_FUNCIONALIDADES ADD FOREIGN KEY (IdFuncionalidad) REFERENCES RANDOM.FUNCIONALIDADES
 ALTER TABLE RANDOM.ROL_POR_FUNCIONALIDADES ADD FOREIGN KEY (IdRol) REFERENCES RANDOM.ROL
 ALTER TABLE RANDOM.USUARIO_POR_ROL ADD FOREIGN KEY (IdUsuario) REFERENCES RANDOM.USUARIO
@@ -389,10 +390,10 @@ ALTER TABLE RANDOM.CANCELACION ADD FOREIGN KEY (IdTurno) REFERENCES RANDOM.TURNO
 
 -- CREATE INDIXES
 
-IF NOT EXISTS(SELECT * FROM sys.indexes WHERE name = 'P_USERNAME' AND object_id = OBJECT_ID('RANDOM.PERSONA'))
+/*IF NOT EXISTS(SELECT * FROM sys.indexes WHERE name = 'P_USERNAME' AND object_id = OBJECT_ID('RANDOM.PERSONA'))
 BEGIN
 CREATE INDEX P_USERNAME ON RANDOM.PERSONA (IdUsuario);
-END
+END*/
 
 IF NOT EXISTS(SELECT * FROM sys.indexes WHERE name = 'A_FUNCIONALIDAD' AND object_id = OBJECT_ID('RANDOM.ROL_POR_FUNCIONALIDADES'))
 BEGIN
@@ -507,6 +508,7 @@ END
 
 ------------------------  MIGRACION  ------------------------------
 
+/*ROL*/
 INSERT INTO RANDOM.ROL(Descripcion)
 VALUES ('Administrador')
 INSERT INTO RANDOM.ROL(Descripcion)
@@ -514,6 +516,7 @@ VALUES ('Afiliado')
 INSERT INTO RANDOM.ROL(Descripcion)
 VALUES ('Profesional')
 
+/*FUNCIONALIDADES*/
 SET IDENTITY_INSERT RANDOM.FUNCIONALIDADES ON
 INSERT INTO RANDOM.FUNCIONALIDADES(IdFuncionalidad,DescripcionFunc)
 VALUES (0,'Alta Afiliado')
@@ -543,6 +546,7 @@ INSERT INTO RANDOM.FUNCIONALIDADES(IdFuncionalidad,DescripcionFunc)
 VALUES (12,'Consulta TOP 5')
 SET IDENTITY_INSERT RANDOM.FUNCIONALIDADES OFF
 
+/*ROL_POR_FUNCIONALIDADES*/
 INSERT INTO RANDOM.ROL_POR_FUNCIONALIDADES
 VALUES(0,1)
 INSERT INTO RANDOM.ROL_POR_FUNCIONALIDADES
@@ -574,6 +578,7 @@ VALUES(11,3)
 INSERT INTO RANDOM.ROL_POR_FUNCIONALIDADES
 VALUES(12,2)
 
+/*USUARIO*/
 INSERT INTO RANDOM.USUARIO(Username,Pass)
 VALUES('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7')
 INSERT INTO RANDOM.USUARIO(Username,Pass)
@@ -584,8 +589,65 @@ INSERT INTO RANDOM.USUARIO(Username,Pass)
 VALUES('jose','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7')
 INSERT INTO RANDOM.USUARIO(Username,Pass)
 VALUES('pepe','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7')
-
+	
+/*USUARIO_POR_ROL*/
 INSERT INTO RANDOM.USUARIO_POR_ROL(IdUsuario,IdRol)
 SELECT U.IdUsuario, 1
 FROM RANDOM.USUARIO U, RANDOM.ROL R
 WHERE R.Descripcion = 'Administrador'
+
+/*PERSONA*/ -- agregamos los afiliados nada mas aca
+INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Dni, Direccion, Telefono, Mail, Fecha_Nac) 
+SELECT DISTINCT M.Paciente_Nombre, M.Paciente_Apellido, M.Paciente_Dni, M.Paciente_Direccion, M.Paciente_Telefono, M.Paciente_Mail, M.Paciente_Fecha_Nac
+FROM gd_esquema.Maestra M
+
+/*PERSONA*/ -- agregamos los meedicos nada mas aca
+INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Dni, Direccion, Telefono, Mail, Fecha_Nac) 
+SELECT DISTINCT M.Medico_Nombre, M.Medico_Apellido, M.Medico_Dni, M.Medico_Direccion, M.Medico_Telefono, M.Medico_Mail, M.Medico_Fecha_Nac
+FROM gd_esquema.Maestra M
+
+/*PLANES*/
+INSERT INTO RANDOM.PLANES(Codigo,Nombre, MontoConsulta, MontoExpendio)
+SELECT DISTINCT M.Plan_Med_Codigo, M.Plan_Med_Descripcion, M.Plan_Med_Precio_Bono_Consulta, M.Plan_Med_Precio_Bono_Farmacia
+FROM gd_esquema.Maestra M
+
+/*Bonos de los planes seteo*/
+UPDATE RANDOM.PLANES
+SET Abono = 150
+WHERE IdPlan = 1;
+UPDATE RANDOM.PLANES
+SET Abono = 110
+WHERE IdPlan = 2;
+UPDATE RANDOM.PLANES
+SET Abono = 130
+WHERE IdPlan = 3;
+UPDATE RANDOM.PLANES
+SET Abono = 120
+WHERE IdPlan = 4;
+UPDATE RANDOM.PLANES
+SET Abono = 140
+WHERE IdPlan = 5;
+
+/*AFILIADO*/
+INSERT INTO RANDOM.AFILIADO(IdPersona, IdPlan)
+SELECT DISTINCT P.IdPersona, PL.IdPlan
+FROM gd_esquema.Maestra M
+JOIN RANDOM.PERSONA P ON M.Paciente_Nombre = P.Nombre AND M.Paciente_Apellido = P.Apellido AND M.Paciente_Dni = P.Dni
+JOIN RANDOM.PLANES PL ON M.Plan_Med_Codigo = PL.Codigo
+
+/*TIPO_ESPECIALIDAD*/
+INSERT INTO RANDOM.TIPO_ESPECIALIDAD(Codigo,Descripcion)
+SELECT DISTINCT M.Tipo_Especialidad_Codigo, M.Tipo_Especialidad_Descripcion
+FROM gd_esquema.Maestra M
+
+/*ESPECIALIDAD*/
+INSERT INTO RANDOM.ESPECIALIDAD(Codigo,Descripcion, IdTipoEspecialidad)
+SELECT DISTINCT M.Especialidad_Codigo, M.Especialidad_Descripcion, E.IdTipoEspecialidad
+FROM gd_esquema.Maestra M
+JOIN RANDOM.TIPO_ESPECIALIDAD E ON M.Tipo_Especialidad_Codigo = E.Codigo 
+
+/*PROFESIONAL*/
+INSERT INTO RANDOM.PROFESIONAL(IdPersona, Matricula)
+SELECT DISTINCT P.IdPersona, M.Especialidad_Codigo
+FROM gd_esquema.Maestra M
+JOIN RANDOM.PERSONA P ON M.Medico_Nombre =P.Nombre AND M.Medico_Apellido = P.Apellido AND M.Medico_Dni = P.Dni
