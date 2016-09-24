@@ -16,5 +16,10 @@ namespace ClinicaFrba.Inicio
         {
             InitializeComponent();
         }
+
+        private void btnCompraBonos_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
