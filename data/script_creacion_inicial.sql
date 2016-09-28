@@ -48,6 +48,9 @@ IF OBJECT_ID('RANDOM.FUNCIONALIDADES') IS NOT NULL
 DROP TABLE RANDOM.FUNCIONALIDADES
 IF OBJECT_ID('RANDOM.ROL') IS NOT NULL
 DROP TABLE RANDOM.ROL
+IF OBJECT_ID('RANDOM.TIPOS_DOCUMENTOS') IS NOT NULL
+DROP TABLE RANDOM.TIPOS_DOCUMENTOS
+
 
 -- DROP PROCEDURES Y FUNCTIONS 
 
@@ -240,7 +243,7 @@ CREATE TABLE RANDOM.PERSONA(
 	Nombre nvarchar(255),
 	Apellido nvarchar(255),
 	--IdUsuario int, tengo la sospecha de que no ca, analizar. en los del otro cuatri no tenian realizacion
-	--TipoDocumento nvarchar(255), son todos dni, habria que dejarlo seteado?
+	IdTipoDocumento int, 
 	Dni numeric(18, 0),
 	Direccion nvarchar(255),
 	Telefono numeric(18, 0),
@@ -248,6 +251,11 @@ CREATE TABLE RANDOM.PERSONA(
 	Fecha_Nac datetime,
 	Sexo nvarchar(255),
 	Baja bit DEFAULT 0,
+)
+
+CREATE TABLE RANDOM.TIPOS_DOCUMENTOS(
+	IdTipoDocumento int PRIMARY KEY IDENTITY(1,1),
+	Descripcion nvarchar(250)
 )
 
 CREATE TABLE RANDOM.AFILIADO(
@@ -387,6 +395,7 @@ ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdBono) REFERENCES RANDOM.BONO
 ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdResultado) REFERENCES RANDOM.RESULTADO_TURNO
 ALTER TABLE RANDOM.CANCELACION ADD FOREIGN KEY (IdTipoCancelacion) REFERENCES RANDOM.TIPO_CANCELACION
 ALTER TABLE RANDOM.CANCELACION ADD FOREIGN KEY (IdTurno) REFERENCES RANDOM.TURNO
+ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (IdTipoDocumento) REFERENCES RANDOM.TIPOS_DOCUMENTOS
 
 -- CREATE INDIXES
 
@@ -394,6 +403,11 @@ ALTER TABLE RANDOM.CANCELACION ADD FOREIGN KEY (IdTurno) REFERENCES RANDOM.TURNO
 BEGIN
 CREATE INDEX P_USERNAME ON RANDOM.PERSONA (IdUsuario);
 END*/
+
+IF NOT EXISTS(SELECT * FROM sys.indexes WHERE name = 'P_TIPODOCUMENTO' AND object_id = OBJECT_ID('RANDOM.PERSONA'))
+BEGIN
+CREATE INDEX A_FUNCIONALIDAD ON RANDOM.PERSONA (IdTipoDocumento);
+END
 
 IF NOT EXISTS(SELECT * FROM sys.indexes WHERE name = 'A_FUNCIONALIDAD' AND object_id = OBJECT_ID('RANDOM.ROL_POR_FUNCIONALIDADES'))
 BEGIN
@@ -690,6 +704,7 @@ VALUES ('Otros')
 	es necesario utilizar tipo y numero de documento? O se puede usar solo DNI ya que de los medicos y personas cargados solo tenemos dni?
 	En el enunciado se pide Tipo y número de documento
 HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
+--> creada
 
 2) TEMA USUARIO:
 	 Es obligatorio que todas las personas tengan un usuario? Y que un usuario tenga una persona asociada?
@@ -698,8 +713,10 @@ HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
 3) AGENDA PROFESIONAL:
 	quien manejaria la agenda profesional? podria ser el administrador?
 	si podrian considerarlo de ese modo.
+--> creo que seria la mejor forma
 
 4) No hay bonos de farmacia ni compra de medicamentos. 
+-->ok
 
 5) TABLA MAESTRA:
 	donde ponemos TURNO NUMERO, TURNO FECHA en la AGENDA O TURNO? 
@@ -709,9 +726,12 @@ HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
 	faltan setear cosas
 
 7)TANTOS INDICES HACEN FALTA?
+--> Emm no se, lo habiamos echo asi el año pasado, pero si se pueden sacar alguno mejor!
 
 8)CONSULTA SINTOMAS Y ENFERMEDAD SOLO DAN SINTOMA/ENFERMEDAD 1 Y DESPUES NULL
+--> eso se tendra que ir completando a medida de que el paciente va poniendo el sintoma y enfermedad creeria.
 
 9) ESPECIALIDAD POR PROFESIONAL
 	el profesional no deberia tener el id de especialidad? no hay forma de joinear?
+--> como puede tener muchas especialidades, va a estar en la tabla especialidad por profesional aclarada que especialidad tienen cada profesional.
 */
