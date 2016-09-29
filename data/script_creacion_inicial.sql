@@ -695,6 +695,16 @@ VALUES ('Urgencia')
 INSERT INTO RANDOM.TIPO_CANCELACION(Descripcion)
 VALUES ('Otros')
 
+INSERT INTO RANDOM.TIPOS_DOCUMENTOS(Descripcion)
+VALUES ('Documento Nacional de Identidad')
+INSERT INTO RANDOM.TIPOS_DOCUMENTOS(Descripcion)
+VALUES ('Libreta de enrolamiento')
+INSERT INTO RANDOM.TIPOS_DOCUMENTOS(Descripcion)
+VALUES ('Libreta Civica')
+INSERT INTO RANDOM.TIPOS_DOCUMENTOS(Descripcion)
+VALUES ('Cédula de Identidad')
+INSERT INTO RANDOM.TIPOS_DOCUMENTOS(Descripcion)
+VALUES ('Pasaporte')
 
 
 
@@ -728,10 +738,18 @@ HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
 7)TANTOS INDICES HACEN FALTA?
 --> Emm no se, lo habiamos echo asi el año pasado, pero si se pueden sacar alguno mejor!
 
+-> yo el año pasado hice 2 indices cuando los necesite. para mi son muchos al pedo, talvez en tablas qe ni hace falta, hace corra mas lento el script. Paz
+
+
 8)CONSULTA SINTOMAS Y ENFERMEDAD SOLO DAN SINTOMA/ENFERMEDAD 1 Y DESPUES NULL
 --> eso se tendra que ir completando a medida de que el paciente va poniendo el sintoma y enfermedad creeria.
 
 9) ESPECIALIDAD POR PROFESIONAL
 	el profesional no deberia tener el id de especialidad? no hay forma de joinear?
 --> como puede tener muchas especialidades, va a estar en la tabla especialidad por profesional aclarada que especialidad tienen cada profesional.
+
+-> Pero como joinea? porque pedis la especialidad y el profesional, como sabes que es de ese profesional? Paz
+
+10) IDEA NRO AFILIADO:
+Para crear el numero de afiliado se me ocurrio crear 2 campos uno que sea el numero de afiliado gral y otro qe sea por familiar, es decir 00, 01 etc. y que el primary key sea la union de ambos campos, asi es mas facil incrementar, nose que piensan ustedes. Paz
 */
