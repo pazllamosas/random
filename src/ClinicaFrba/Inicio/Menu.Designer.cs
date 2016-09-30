@@ -178,6 +178,7 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BackgroundImage = global::ClinicaFrba.Properties.Resources.Hospital_insurance;
             this.pictureBox1.Location = new System.Drawing.Point(12, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(152, 115);

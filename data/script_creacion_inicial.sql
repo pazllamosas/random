@@ -14,8 +14,6 @@ IF OBJECT_ID('RANDOM.RESULTADO_TURNO') IS NOT NULL
 DROP TABLE RANDOM.RESULTADO_TURNO
 IF OBJECT_ID('RANDOM.AGENDA_HORARIO_DISPONIBLE') IS NOT NULL
 DROP TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE
-IF OBJECT_ID('RANDOM.DIA') IS NOT NULL
-DROP TABLE RANDOM.DIA  
 IF OBJECT_ID('RANDOM.BONO') IS NOT NULL
 DROP TABLE RANDOM.BONO
 IF OBJECT_ID('RANDOM.COMPRA_BONO') IS NOT NULL
@@ -57,7 +55,7 @@ DROP TABLE RANDOM.TIPOS_DOCUMENTOS
 -- DROP TRIGGERS
 
 -- DROP INDIXES
-
+/*
 IF OBJECT_ID('A_FUNCIONALIDAD') IS NOT NULL
 BEGIN
 DROP index A_FUNCIONALIDAD ON RANDOM.ROL_POR_FUNCIONALIDADES ;
@@ -194,7 +192,7 @@ IF OBJECT_ID('P_USERNAME') IS NOT NULL
 BEGIN
 DROP index P_USERNAME ON RANDOM.PERSONA ;
 END;
-GO
+GO*/
 
 -- DROP SCHEMA
 
@@ -242,15 +240,15 @@ CREATE TABLE RANDOM.PERSONA(
 	IdPersona int PRIMARY KEY IDENTITY(1,1),
 	Nombre nvarchar(255),
 	Apellido nvarchar(255),
-	--IdUsuario int, tengo la sospecha de que no ca, analizar. en los del otro cuatri no tenian realizacion
 	IdTipoDocumento int, 
-	Dni numeric(18, 0),
+	Dni numeric(18,0),
 	Direccion nvarchar(255),
 	Telefono numeric(18, 0),
 	Mail nvarchar(255),
 	Fecha_Nac datetime,
 	Sexo nvarchar(255),
 	Baja bit DEFAULT 0,
+	Rol int
 )
 
 CREATE TABLE RANDOM.TIPOS_DOCUMENTOS(
@@ -263,9 +261,9 @@ CREATE TABLE RANDOM.AFILIADO(
 	IdEstadoCivil int,
 	CantidadACargo int,
 	IdPlan int,
-	--IdFamiliar,
-	NumeroAfiliado int,
-	--Estado nvarchar(255), que era esto?
+	NumeroAfiliadoRaiz int IDENTITY(1,1),
+	NumeroAfiliadoExt int DEFAULT '00',
+	Estado bit DEFAULT '1', --1 ACTIVO 0 BAJA
 	NumeroUltimoBono int
 )
 
@@ -331,24 +329,21 @@ CREATE TABLE RANDOM.BONO(
 	ConsultaNumero numeric(18)
 )
 
-CREATE TABLE RANDOM.DIA(
-	IdDia int PRIMARY KEY IDENTITY (1,1),
-	Dia nvarchar(255)
-)
 
 CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
 	IdAgenda int PRIMARY KEY IDENTITY (1,1),
 	IdProfesional int,
-	IdDia int,
+	Fecha datetime,
 	Hora datetime,
 	IdEspecialidad int,
 	EstadoDisponibilidad nvarchar(255)
 )
 
 CREATE TABLE RANDOM.TURNO(
-	IdTurno int PRIMARY KEY IDENTITY(1,1),
+	IdTurno int PRIMARY KEY,
 	IdAgenda int,
 	Estado nvarchar(255),
+	Fecha datetime,
 	IdBono int,
 	IdResultado int
 )
@@ -388,7 +383,6 @@ ALTER TABLE RANDOM.ESPECIALIDAD_POR_PROFESIONAL ADD FOREIGN KEY (IdEspecialidad)
 ALTER TABLE RANDOM.COMPRA_BONO ADD FOREIGN KEY (IdAfiliado) REFERENCES RANDOM.AFILIADO
 ALTER TABLE RANDOM.BONO ADD FOREIGN KEY (IdCompra) REFERENCES RANDOM.COMPRA_BONO
 ALTER TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE ADD FOREIGN KEY (IdProfesional) REFERENCES RANDOM.PROFESIONAL
-ALTER TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE ADD FOREIGN KEY (IdDia) REFERENCES RANDOM.DIA
 ALTER TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE ADD FOREIGN KEY (IdEspecialidad) REFERENCES RANDOM.ESPECIALIDAD
 ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdAgenda) REFERENCES RANDOM.AGENDA_HORARIO_DISPONIBLE
 ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdBono) REFERENCES RANDOM.BONO
@@ -396,6 +390,7 @@ ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdResultado) REFERENCES RANDOM.RESULTA
 ALTER TABLE RANDOM.CANCELACION ADD FOREIGN KEY (IdTipoCancelacion) REFERENCES RANDOM.TIPO_CANCELACION
 ALTER TABLE RANDOM.CANCELACION ADD FOREIGN KEY (IdTurno) REFERENCES RANDOM.TURNO
 ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (IdTipoDocumento) REFERENCES RANDOM.TIPOS_DOCUMENTOS
+ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (Rol) REFERENCES RANDOM.ROL
 
 -- CREATE INDIXES
 
@@ -403,7 +398,7 @@ ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (IdTipoDocumento) REFERENCES RANDOM.T
 BEGIN
 CREATE INDEX P_USERNAME ON RANDOM.PERSONA (IdUsuario);
 END*/
-
+/*
 IF NOT EXISTS(SELECT * FROM sys.indexes WHERE name = 'P_TIPODOCUMENTO' AND object_id = OBJECT_ID('RANDOM.PERSONA'))
 BEGIN
 CREATE INDEX A_FUNCIONALIDAD ON RANDOM.PERSONA (IdTipoDocumento);
@@ -517,7 +512,7 @@ END
 IF NOT EXISTS(SELECT * FROM sys.indexes WHERE name = 'C_TURNO' AND object_id = OBJECT_ID('RANDOM.CANCELACION'))
 BEGIN
 CREATE INDEX C_TURNO ON RANDOM.CANCELACION (IdTurno);
-END
+END */
 
 
 ------------------------  MIGRACION  ------------------------------
@@ -574,7 +569,7 @@ VALUES(4,1)
 INSERT INTO RANDOM.ROL_POR_FUNCIONALIDADES
 VALUES(5,1)
 INSERT INTO RANDOM.ROL_POR_FUNCIONALIDADES
-VALUES(6,3)
+VALUES(6,1)
 INSERT INTO RANDOM.ROL_POR_FUNCIONALIDADES
 VALUES(7,1)
 INSERT INTO RANDOM.ROL_POR_FUNCIONALIDADES
@@ -710,38 +705,43 @@ VALUES ('Pasaporte')
 
 
 /* VER REVISAR 
-1) TEMA TIPO DNI:
+1) TEMA TIPO DNI (OK):
 	es necesario utilizar tipo y numero de documento? O se puede usar solo DNI ya que de los medicos y personas cargados solo tenemos dni?
 	En el enunciado se pide Tipo y número de documento
 HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
 --> creada
 
-2) TEMA USUARIO:
+2) TEMA USUARIO (OK):
 	 Es obligatorio que todas las personas tengan un usuario? Y que un usuario tenga una persona asociada?
 	 Todos los afiliados y profesionales tienen que tener un username y password, queda a criterio de ustedes como se hace la asignación. Los mismos son necesarios para poder acceder al sistema y realizar las acciones correspondientes a su rol como la compra de bonos o pedido de turno  en la caso del afiliado o registrar el resultado de una consulta en el caso del profesional.
+--> CREAMOS SOLO USUARIO DE PRUEBAS
 
-3) AGENDA PROFESIONAL:
+3) AGENDA PROFESIONAL (OK):
 	quien manejaria la agenda profesional? podria ser el administrador?
 	si podrian considerarlo de ese modo.
 --> creo que seria la mejor forma
+-> LA MANEJA EL ADMIN
 
 4) No hay bonos de farmacia ni compra de medicamentos. 
 -->ok
 
-5) TABLA MAESTRA:
-	donde ponemos TURNO NUMERO, TURNO FECHA en la AGENDA O TURNO? 
+5) TABLA MAESTRA (OK):
+	donde ponemos TURNO NUMERO, TURNO FECHA en la AGENDA O TURNO?
+	--> ESTO VA EN TURNO, EL NUMERO DE TURNO ES UNICO POR LO TANTO VA A SER LE ID DE LA TABLA 
 
-6) AFILIADO:
-	id familiar y Estado ??
+6) AFILIADO (OK):
+	 Estado ??
 	faltan setear cosas
+	--> ESTADO ES BAJA O ACTIVO
 
-7)TANTOS INDICES HACEN FALTA?
+
+7)TANTOS INDICES HACEN FALTA? (HAY QE BORRAR O COMENTAR)
 --> Emm no se, lo habiamos echo asi el año pasado, pero si se pueden sacar alguno mejor!
 
 -> yo el año pasado hice 2 indices cuando los necesite. para mi son muchos al pedo, talvez en tablas qe ni hace falta, hace corra mas lento el script. Paz
 
 
-8)CONSULTA SINTOMAS Y ENFERMEDAD SOLO DAN SINTOMA/ENFERMEDAD 1 Y DESPUES NULL
+8)CONSULTA SINTOMAS Y ENFERMEDAD SOLO DAN SINTOMA/ENFERMEDAD 1 Y DESPUES NULL (OK)
 --> eso se tendra que ir completando a medida de que el paciente va poniendo el sintoma y enfermedad creeria.
 
 9) ESPECIALIDAD POR PROFESIONAL
@@ -750,6 +750,8 @@ HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
 
 -> Pero como joinea? porque pedis la especialidad y el profesional, como sabes que es de ese profesional? Paz
 
-10) IDEA NRO AFILIADO:
-Para crear el numero de afiliado se me ocurrio crear 2 campos uno que sea el numero de afiliado gral y otro qe sea por familiar, es decir 00, 01 etc. y que el primary key sea la union de ambos campos, asi es mas facil incrementar, nose que piensan ustedes. Paz
+10) IDEA NRO AFILIADO (OK):
+Para crear el numero de afiliado se me ocurrio crear 2 campos uno que sea el numero de afiliado gral y otro qe sea por familiar, es decir 00, 01 etc. 
 */
+
+
