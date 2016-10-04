@@ -8,10 +8,10 @@ IF OBJECT_ID('RANDOM.CANCELACION') IS NOT NULL
 DROP TABLE RANDOM.CANCELACION
 IF OBJECT_ID('RANDOM.TIPO_CANCELACION') IS NOT NULL
 DROP TABLE RANDOM.TIPO_CANCELACION
-IF OBJECT_ID('RANDOM.TURNO') IS NOT NULL
-DROP TABLE RANDOM.TURNO
 IF OBJECT_ID('RANDOM.RESULTADO_TURNO') IS NOT NULL
 DROP TABLE RANDOM.RESULTADO_TURNO
+IF OBJECT_ID('RANDOM.TURNO') IS NOT NULL
+DROP TABLE RANDOM.TURNO
 IF OBJECT_ID('RANDOM.AGENDA_HORARIO_DISPONIBLE') IS NOT NULL
 DROP TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE
 IF OBJECT_ID('RANDOM.BONO') IS NOT NULL
@@ -249,7 +249,7 @@ CREATE TABLE RANDOM.PERSONA(
 	Mail nvarchar(255),
 	Fecha_Nac datetime,
 	Baja bit DEFAULT 0,
-	Rol int
+	IdUsuario int
 )
 
 CREATE TABLE RANDOM.TIPOS_DOCUMENTOS(
@@ -392,7 +392,7 @@ ALTER TABLE RANDOM.RESULTADO_TURNO ADD FOREIGN KEY (IdTurno) REFERENCES RANDOM.T
 ALTER TABLE RANDOM.CANCELACION ADD FOREIGN KEY (IdTipoCancelacion) REFERENCES RANDOM.TIPO_CANCELACION
 ALTER TABLE RANDOM.CANCELACION ADD FOREIGN KEY (IdTurno) REFERENCES RANDOM.TURNO
 ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (IdTipoDocumento) REFERENCES RANDOM.TIPOS_DOCUMENTOS
-ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (Rol) REFERENCES RANDOM.ROL
+ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (IdUsuario) REFERENCES RANDOM.Usuario
 
 -- CREATE INDIXES
 
@@ -648,13 +648,13 @@ FROM RANDOM.USUARIO U, RANDOM.ROL R
 WHERE R.Descripcion = 'Administrador'
 
 /*PERSONA*/ -- agregamos los afiliados nada mas aca
-INSERT INTO RANDOM.PERSONA(Nombre, Apellido, IdTipoDocumento, Dni, Direccion, Telefono, Mail, Fecha_Nac, Rol) 
-SELECT DISTINCT M.Paciente_Nombre, M.Paciente_Apellido, 1, M.Paciente_Dni, M.Paciente_Direccion, M.Paciente_Telefono, M.Paciente_Mail, M.Paciente_Fecha_Nac, 2
+INSERT INTO RANDOM.PERSONA(Nombre, Apellido, IdTipoDocumento, Dni, Direccion, Telefono, Mail, Fecha_Nac) 
+SELECT DISTINCT M.Paciente_Nombre, M.Paciente_Apellido, 1, M.Paciente_Dni, M.Paciente_Direccion, M.Paciente_Telefono, M.Paciente_Mail, M.Paciente_Fecha_Nac
 FROM gd_esquema.Maestra M
 
 /*PERSONA*/ -- agregamos los medicos nada mas aca
-INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Dni, Direccion, Telefono, Mail, Fecha_Nac, Rol) 
-SELECT DISTINCT M.Medico_Nombre, M.Medico_Apellido, M.Medico_Dni, M.Medico_Direccion, M.Medico_Telefono, M.Medico_Mail, M.Medico_Fecha_Nac, 3
+INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Dni, Direccion, Telefono, Mail, Fecha_Nac) 
+SELECT DISTINCT M.Medico_Nombre, M.Medico_Apellido, M.Medico_Dni, M.Medico_Direccion, M.Medico_Telefono, M.Medico_Mail, M.Medico_Fecha_Nac
 FROM gd_esquema.Maestra M
 
 /*PLANES*/
@@ -704,7 +704,7 @@ SELECT DISTINCT P.IdPersona, M.Especialidad_Codigo
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Medico_Nombre =P.Nombre AND M.Medico_Apellido = P.Apellido AND M.Medico_Dni = P.Dni
 
-/*HISTORIAL_PLAN*/
+/*HISTORIAL_PLAN*/ -- inserto el primer plan de todas las personas de la base
 
 /*ESPECIALIDAD_POR_PROFESIONAL*/
 
