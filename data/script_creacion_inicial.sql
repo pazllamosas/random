@@ -182,12 +182,13 @@ CREATE TABLE RANDOM.COMPRA_BONO(
 )
 
 CREATE TABLE RANDOM.BONO(
-	IdBono int PRIMARY KEY IDENTITY(1,1),
-	IdCompra int,
-	Estado nvarchar(255),
+	IdBono int PRIMARY KEY, -- seria el numero de bono 
+	IdCompra int DEFAULT NULL,
+	--Estado nvarchar(255), creo que no va
 	Precio int,
 	FechaConsultaImpresion datetime,
-	ConsultaNumero numeric(18)
+	ConsultaNumero numeric(18),
+	habilitado bit DEFAULT 1
 )
 
 CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
@@ -444,8 +445,8 @@ FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Medico_Nombre =P.Nombre AND M.Medico_Apellido = P.Apellido AND M.Medico_Dni = P.Dni
 
 /*HISTORIAL_PLAN*/ -- inserto el primer plan de todas las personas de la base
-INSERT INTO RANDOM.HISTORIAL_PLAN(IdAfiliado, Fecha, IdPlan)
-SELECT DISTINCT A.IdPersona, '1957-10-24 00:00:00.000', A.IdPlan
+INSERT INTO RANDOM.HISTORIAL_PLAN(IdAfiliado, Fecha)
+SELECT DISTINCT A.IdPersona, '1957-10-24 00:00:00.000'
 FROM RANDOM.AFILIADO A
 
 /*ESPECIALIDAD_POR_PROFESIONAL*/
@@ -454,7 +455,14 @@ SELECT DISTINCT P.IdPersona, E.IdEspecialidad
 FROM RANDOM.PERSONA P, gd_esquema.Maestra M, RANDOM.ESPECIALIDAD E
 where M.Medico_Dni = P.Dni and  E.Codigo = M.Especialidad_Codigo
 
+/*COMPRA_BONO*/
+
+
 /*BONO*/
+/*INSERT RANDOM.BONO (IdCompra, Precio, FechaConsultaImpresion, ConsultaNumero)
+SELECT DISTINCT 
+FROM gd_esquema.Maestra M
+where */
 
 /*AGENDA_HORARIO_DISPONIBLE*/
 
