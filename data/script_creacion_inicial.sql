@@ -431,6 +431,7 @@ JOIN RANDOM.PLANES PL ON M.Plan_Med_Codigo = PL.Codigo
 INSERT INTO RANDOM.TIPO_ESPECIALIDAD(Codigo,Descripcion)
 SELECT DISTINCT M.Tipo_Especialidad_Codigo, M.Tipo_Especialidad_Descripcion
 FROM gd_esquema.Maestra M
+where M.Tipo_Especialidad_Codigo IS NOT NULL
 
 /*ESPECIALIDAD*/
 INSERT INTO RANDOM.ESPECIALIDAD(Codigo,Descripcion, IdTipoEspecialidad)
@@ -456,13 +457,20 @@ FROM RANDOM.PERSONA P, gd_esquema.Maestra M, RANDOM.ESPECIALIDAD E
 where M.Medico_Dni = P.Dni and  E.Codigo = M.Especialidad_Codigo
 
 /*COMPRA_BONO*/
+INSERT RANDOM.COMPRA_BONO (IdAfiliado, Fecha)
+SELECT DISTINCT P.IdPersona, M.Compra_Bono_Fecha
+from RANDOM.PERSONA P 
+join gd_esquema.Maestra M on P.Dni = M.Paciente_Dni AND M.Compra_Bono_Fecha IS NOT NULL
 
 
 /*BONO*/
 /*INSERT RANDOM.BONO (IdCompra, Precio, FechaConsultaImpresion, ConsultaNumero)
 SELECT DISTINCT 
 FROM gd_esquema.Maestra M
-where */
+where*/
+
+/*Inserto precio de las compras teniendo el precio en la tabla bonos ahora*/
+/*INSERT RANDOM.COMPRA_BONO (MontoTotal)*/
 
 /*AGENDA_HORARIO_DISPONIBLE*/
 
