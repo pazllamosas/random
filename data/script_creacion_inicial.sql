@@ -182,11 +182,11 @@ CREATE TABLE RANDOM.COMPRA_BONO(
 )
 
 CREATE TABLE RANDOM.BONO(
-	IdBono int PRIMARY KEY, -- seria el numero de bono 
-	IdCompra int DEFAULT NULL,
+	IdBono int PRIMARY KEY IDENTITY (1,1), -- No es el numero de bono porque sino tendria que cambiar el tipo de datos en muchos lugares
+	IdCompra int,
 	--Estado nvarchar(255), creo que no va
 	Precio int,
-	FechaConsultaImpresion datetime,
+	CompraBonoFecha datetime,
 	ConsultaNumero numeric(18),
 	habilitado bit DEFAULT 1
 )
@@ -203,7 +203,7 @@ CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
 CREATE TABLE RANDOM.TURNO(
 	IdTurno int PRIMARY KEY,
 	IdAgenda int,
-	Estado nvarchar(255),
+	--Estado nvarchar(255), estaba por algo en especial? Seria el habilitado para mi. Cubi.
 	FechaYHora datetime,
 	IdBono int,
 	--IdResultado int,
@@ -222,7 +222,7 @@ CREATE TABLE RANDOM.CANCELACION(
 	IdCancelacion int PRIMARY KEY IDENTITY(1,1),
 	IdTipoCancelacion int,
 	IdTurno int
-)
+ )
 
 CREATE TABLE RANDOM.TIPO_CANCELACION(
 	IdTipoCancelacion int PRIMARY KEY IDENTITY(1,1),
@@ -459,18 +459,34 @@ where M.Medico_Dni = P.Dni and  E.Codigo = M.Especialidad_Codigo
 /*COMPRA_BONO*/
 INSERT RANDOM.COMPRA_BONO (IdAfiliado, Fecha)
 SELECT DISTINCT P.IdPersona, M.Compra_Bono_Fecha
-from RANDOM.PERSONA P 
-join gd_esquema.Maestra M on P.Dni = M.Paciente_Dni AND M.Compra_Bono_Fecha IS NOT NULL
+FROM RANDOM.PERSONA P 
+JOIN gd_esquema.Maestra M on P.Dni = M.Paciente_Dni AND M.Compra_Bono_Fecha IS NOT NULL
 
 
 /*BONO*/
-/*INSERT RANDOM.BONO (IdCompra, Precio, FechaConsultaImpresion, ConsultaNumero)
-SELECT DISTINCT 
-FROM gd_esquema.Maestra M
-where*/
+INSERT RANDOM.BONO (IdCompra, Precio, CompraBonoFecha, ConsultaNumero)
+SELECT DISTINCT C.IdCompra, PL.MontoConsulta, M.Compra_Bono_Fecha,M.Bono_Consulta_Numero
+FROM RANDOM.PERSONA P 
+JOIN gd_esquema.Maestra M on P.Dni = M.Paciente_Dni
+JOIN RANDOM.COMPRA_BONO C ON  M.Compra_Bono_Fecha = C.Fecha AND C.IdAfiliado = P.IdPersona
+JOIN RANDOM.AFILIADO A ON P.IdPersona = A.IdPersona
+JOIN RANDOM.PLANES PL ON A.IdPlan = PL.IdPlan
+where M.Bono_Consulta_Fecha_Impresion IS NOT NULL
+AND  M.Bono_Consulta_Numero IS NOT NULL
 
 /*Inserto precio de las compras teniendo el precio en la tabla bonos ahora*/
-/*INSERT RANDOM.COMPRA_BONO (MontoTotal)*/
+SELECT B.IdCompra as ID, SUM (B.Precio) AS PRECIO
+INTO #TEMPORALPRECIOS
+FROM RANDOM.COMPRA_BONO CB, RANDOM.BONO b
+WHERE B.IdCompra = CB.IdCompra
+GROUP BY B.IdCompra
+
+update RANDOM.COMPRA_BONO 
+set MontoTotal = T.PRECIO
+FROM #TEMPORALPRECIOS T, RANDOM.COMPRA_BONO CB
+where T.ID = CB.IdCompra
+
+DROP TABLE #TEMPORALPRECIOS
 
 /*AGENDA_HORARIO_DISPONIBLE*/
 
@@ -480,7 +496,7 @@ where*/
 
 
 
-
+---------------DATOS PARA ESTRATEGIA-----------------
 
 /* VER REVISAR 
 1) TEMA TIPO DNI (OK):
@@ -530,6 +546,59 @@ HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
 
 10) IDEA NRO AFILIADO (OK):
 Para crear el numero de afiliado se me ocurrio crear 2 campos uno que sea el numero de afiliado gral y otro qe sea por familiar, es decir 00, 01 etc. 
+
+
+
+la matricula del profesional va a ser el id profesional
+
+El peridodo de ancelacion de un profesional se tiene que contar en dias, y no en horas de un solo dia.
+
+Cuando un turno es dado de baja se va a generar otro turno para suplnatar al que se dio de baja en caso de que sea necesario
+
+Usamos una grilla para los horarios disponibles y el date box todos los días de lunes a sábados 
+
+Los síntomas nuevos si bien se cargan una vez, va a ser un gran steing que especifique todos los síntomas que tiene la persona.
+Y el síntoma u enfermedad se carga después de que se vio el médico.
+
+No hay números de turno repetidos
+
+Que los nombres de usuarios sean números, 8 numeros. No tienen por qué ser el número de documento de la persona nueva 
+
+1.Que Compra_Bono_Fecha y Bono_Consulta_Fecha_Impresion tengan la misma fecha y todos los demás campos en nulos (exceptuando los datos del usuario y planes médicos)
+2.Que Compra_Bono_Fecha, Bono_Consulta_Fecha_Impresion, Consulta_Sintoma y Consulta_Enfermedades sean nulos, y todo lo demás contenga datos. 
+3.Que Compra_Bono_Fecha sea nulo y todos los demás campos tengan datos.
+1.Se efectúa la compra del bono.
+2 corresponde a la solicitud del turno.
+3.se refiere a que se efectivizó la consulta, registrando la utilización del bono y el diagnóstico del médico.
+
+Compra_Bono_Fecha es a fecha en la que se compra el bono, y Bono_Consulta_Fecha_Impresion es la fecha en la que se usa el bono.
+
+Hay dos registros de cada persona que tienen numero de turno porque uno es cuando saco el turno, y el otro cuando se concreto el turno, por eso tiene sintomas y enfermedad
+
+No hya numeros de bonos de consultas en mas de un usuario
+
+Poner tipo de documento porque lo dice el enunciado, aunque sean todos dni
+
+En la maestra no hay medicos que sean usuarios
+
+Los bonos de farmacia no se compran
+
+No hay que crear en ningun momentos funcionalidades
+
+Si el paciente tiene el turno no nulo, pero a la vez los campos Consulta_Sintomas y Consulta_Enfermedades estan en nulo. ¿Significa que la persona cancelo el turno?
+No, ese caso representa la solicitud del turno. Podrian considerar que hubo  una cancelación cuando no hay referencia de Consulta_Sintomas y Consulta_Enfermedades para un cierto número de turno.
+
+Bono_Consulta_Fecha_Impresión se refiere a la fecha en que se compró el bono utilizado.
+
+cuando hay un número de bono repetido en la maestra, se describen dos situaciones. Una  cuando se realiza la compra del bono y la otra cuando el paciente fue atendido utilizando el mismo. 
+
+Hay que definir como hacemos el parentezco entre los familiares en la maestra porque no hay algun campo que nos diga que son familiares
+
+Las 24 hs de cancelacion la podemos tomar como si fuese el dia anterior, no literal 24 hs
+
+En agenda_horario_disponible ponemos todos los horarios que tengan los doctores (los que carguemos nosotros si es que no estan en la maestra) y si  esta disponible o no.
+
+Todos los ID manejemoslo en INT, y los string NVARCHAR porque acepta unicode
+
+Hacer todas las validaciones en c#
 */
-
-
