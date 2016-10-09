@@ -201,7 +201,7 @@ CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
 )
 
 CREATE TABLE RANDOM.TURNO(
-	IdTurno int PRIMARY KEY,
+	IdTurno int PRIMARY KEY IDENTITY (1,1),
 	IdAgenda int,
 	--Estado nvarchar(255), estaba por algo en especial? Seria el habilitado para mi. Cubi.
 	FechaYHora datetime,
@@ -221,7 +221,8 @@ CREATE TABLE RANDOM.RESULTADO_TURNO(
 CREATE TABLE RANDOM.CANCELACION(
 	IdCancelacion int PRIMARY KEY IDENTITY(1,1),
 	IdTipoCancelacion int,
-	IdTurno int
+	IdTurno int,
+	Motivo nvarchar(255)
  )
 
 CREATE TABLE RANDOM.TIPO_CANCELACION(
@@ -329,17 +330,42 @@ VALUES(11,3,1)
 INSERT INTO RANDOM.ROL_POR_FUNCIONALIDADES
 VALUES(12,2,1)
 
-/*USUARIO*/
-INSERT INTO RANDOM.USUARIO(Username,Pass)
-VALUES('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7')
-INSERT INTO RANDOM.USUARIO(Username,Pass)
-VALUES('ana','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7')
-INSERT INTO RANDOM.USUARIO(Username,Pass)
-VALUES('maria','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7')
-INSERT INTO RANDOM.USUARIO(Username,Pass)
-VALUES('jose','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7')
-INSERT INTO RANDOM.USUARIO(Username,Pass)
-VALUES('pepe','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7')
+/*USUARIO  Y   USUARIO POR ROL  S*/
+INSERT INTO RANDOM.USUARIO(Username,Pass, FechaCreacion, UltimaModificacion)
+VALUES('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE(), GETDATE())
+INSERT INTO RANDOM.USUARIO(Username,Pass, FechaCreacion, UltimaModificacion)
+VALUES('ana','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE(), GETDATE())
+INSERT INTO RANDOM.USUARIO(Username,Pass, FechaCreacion, UltimaModificacion)
+VALUES('maria','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE(), GETDATE())
+INSERT INTO RANDOM.USUARIO(Username,Pass, FechaCreacion, UltimaModificacion)
+VALUES('jose','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE(), GETDATE())
+
+INSERT INTO RANDOM.USUARIO_POR_ROL(IdUsuario,IdRol)
+SELECT U.IdUsuario, 1
+FROM RANDOM.USUARIO U, RANDOM.ROL R
+WHERE R.Descripcion = 'Administrador'
+
+INSERT INTO RANDOM.USUARIO (Username, Pass, FechaCreacion, UltimaModificacion)
+SELECT DISTINCT M.Paciente_Mail, 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE(), GETDATE()
+FROM gd_esquema.Maestra M
+
+INSERT INTO RANDOM.USUARIO_POR_ROL(IdUsuario,IdRol)
+SELECT U.IdUsuario, 2
+FROM RANDOM.USUARIO U, RANDOM.ROL R
+WHERE R.Descripcion = 'Afiliado'
+
+INSERT INTO RANDOM.USUARIO (Username, Pass, FechaCreacion, UltimaModificacion)
+SELECT DISTINCT M.Medico_Mail, 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE(), GETDATE()
+FROM gd_esquema.Maestra M
+WHERE M.Medico_Mail IS NOT NULL
+
+
+INSERT INTO RANDOM.USUARIO_POR_ROL(IdUsuario,IdRol)
+SELECT U.IdUsuario, 3
+FROM RANDOM.USUARIO U, RANDOM.ROL R
+WHERE R.Descripcion = 'Profesional'
+
+
 	
 /*ESTADO CIVIL*/
 INSERT INTO RANDOM.ESTADO_CIVIL(Descripcion)
@@ -381,11 +407,6 @@ VALUES ('Cédula de Identidad')
 INSERT INTO RANDOM.TIPOS_DOCUMENTOS(Descripcion)
 VALUES ('Pasaporte')
 
-/*USUARIO_POR_ROL*/
-INSERT INTO RANDOM.USUARIO_POR_ROL(IdUsuario,IdRol)
-SELECT U.IdUsuario, 1
-FROM RANDOM.USUARIO U, RANDOM.ROL R
-WHERE R.Descripcion = 'Administrador'
 
 /*PERSONA*/ -- agregamos los afiliados nada mas aca
 INSERT INTO RANDOM.PERSONA(Nombre, Apellido, IdTipoDocumento, Dni, Direccion, Telefono, Mail, Fecha_Nac) 
@@ -492,8 +513,28 @@ DROP TABLE #TEMPORALPRECIOS
 
 /*TURNO*/
 
+--para mi turno tiene que estar con afiliado no con bono, por lo qe puse en whatsapp
+
+SET IDENTITY_INSERT RANDOM.TURNO ON
+INSERT INTO RANDOM.TURNO (IdTurno, FechaYHora, IdBono)
+SELECT DISTINCT M.Turno_Numero, M.Turno_Fecha, B.IdBono
+FROM RANDOM.BONO B, gd_esquema.Maestra M 
+WHERE M.Bono_Consulta_Numero = B.ConsultaNumero
+	AND M.Turno_Numero IS NOT NULL
+SET IDENTITY_INSERT RANDOM.TURNO OFF
+
+
 /*RESULTADO_TURNO*/
 
+INSERT INTO RANDOM.RESULTADO_TURNO(IdTurno, Sintomas, Enfermedades, Fecha)
+SELECT DISTINCT T.IdTurno , M.Consulta_Sintomas, M.Consulta_Enfermedades, T.FechaYHora
+FROM gd_esquema.Maestra M, RANDOM.TURNO T
+WHERE T.IdTurno = M.Turno_Numero
+	AND T.FechaYHora = M.Turno_Fecha
+	AND M.Consulta_Sintomas IS NOT NULL
+	AND M.Consulta_Enfermedades IS NOT NULL
+
+--fecha era fecha de turno??
 
 
 ---------------DATOS PARA ESTRATEGIA-----------------
@@ -508,7 +549,7 @@ HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
 2) TEMA USUARIO (OK):
 	 Es obligatorio que todas las personas tengan un usuario? Y que un usuario tenga una persona asociada?
 	 Todos los afiliados y profesionales tienen que tener un username y password, queda a criterio de ustedes como se hace la asignación. Los mismos son necesarios para poder acceder al sistema y realizar las acciones correspondientes a su rol como la compra de bonos o pedido de turno  en la caso del afiliado o registrar el resultado de una consulta en el caso del profesional.
---> CREAMOS SOLO USUARIO DE PRUEBAS
+--> CREAMOS SOLO USUARIO DE PRUEBAS - ADMIN Y LOS OTROS SE MIGRAN
 
 3) AGENDA PROFESIONAL (OK):
 	quien manejaria la agenda profesional? podria ser el administrador?
@@ -551,7 +592,7 @@ Para crear el numero de afiliado se me ocurrio crear 2 campos uno que sea el num
 
 la matricula del profesional va a ser el id profesional
 
-El peridodo de ancelacion de un profesional se tiene que contar en dias, y no en horas de un solo dia.
+El peridodo de cancelacion de un profesional se tiene que contar en dias, y no en horas de un solo dia.
 
 Cuando un turno es dado de baja se va a generar otro turno para suplnatar al que se dio de baja en caso de que sea necesario
 
@@ -579,7 +620,7 @@ No hya numeros de bonos de consultas en mas de un usuario
 
 Poner tipo de documento porque lo dice el enunciado, aunque sean todos dni
 
-En la maestra no hay medicos que sean usuarios
++++ En la maestra no hay medicos que sean usuarios -  DONDE DICE? YO CREO QE SI Y YA MIGRE ALGUNOS
 
 Los bonos de farmacia no se compran
 

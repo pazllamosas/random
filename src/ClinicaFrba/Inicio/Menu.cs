@@ -62,5 +62,10 @@ namespace ClinicaFrba.Inicio
             this.Hide();
             FormProvider.Login.Show();
         }
+
+        private void btnVerAfiliado_Click(object sender, EventArgs e)
+        {
+            FormProvider.Afiliado.Show();
+        }
     }
 }

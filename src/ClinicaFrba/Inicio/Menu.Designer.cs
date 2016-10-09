@@ -67,6 +67,7 @@
             this.btnVerAfiliado.TabIndex = 2;
             this.btnVerAfiliado.Text = "Ver Afiliados";
             this.btnVerAfiliado.UseVisualStyleBackColor = true;
+            this.btnVerAfiliado.Click += new System.EventHandler(this.btnVerAfiliado_Click);
             // 
             // btnVerProfesional
             // 
