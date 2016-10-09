@@ -16,5 +16,17 @@ namespace ClinicaFrba.Registro_Resultado
         {
             InitializeComponent();
         }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormProvider.MainMenu.Show();
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormProvider.MainMenu.Show();
+        }
     }
 }

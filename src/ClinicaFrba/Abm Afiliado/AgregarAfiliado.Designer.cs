@@ -48,8 +48,6 @@
             this.cmbSexo = new System.Windows.Forms.ComboBox();
             this.cmbTipoDoc = new System.Windows.Forms.ComboBox();
             this.txtTelefono = new System.Windows.Forms.TextBox();
-            this.txtFechaNac = new System.Windows.Forms.TextBox();
-            this.btnSeleccionar = new System.Windows.Forms.Button();
             this.cmbPlanMedico = new System.Windows.Forms.ComboBox();
             this.cmbEstadoCivil = new System.Windows.Forms.ComboBox();
             this.txtFamACargo = new System.Windows.Forms.TextBox();
@@ -57,6 +55,7 @@
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnAgregarFamiliar = new System.Windows.Forms.Button();
             this.btnAsigConyuge = new System.Windows.Forms.Button();
+            this.dtpFechaNac = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // lblApellido
@@ -249,23 +248,6 @@
             this.txtTelefono.Size = new System.Drawing.Size(182, 20);
             this.txtTelefono.TabIndex = 19;
             // 
-            // txtFechaNac
-            // 
-            this.txtFechaNac.Location = new System.Drawing.Point(144, 106);
-            this.txtFechaNac.Name = "txtFechaNac";
-            this.txtFechaNac.ReadOnly = true;
-            this.txtFechaNac.Size = new System.Drawing.Size(87, 20);
-            this.txtFechaNac.TabIndex = 20;
-            // 
-            // btnSeleccionar
-            // 
-            this.btnSeleccionar.Location = new System.Drawing.Point(249, 106);
-            this.btnSeleccionar.Name = "btnSeleccionar";
-            this.btnSeleccionar.Size = new System.Drawing.Size(75, 23);
-            this.btnSeleccionar.TabIndex = 21;
-            this.btnSeleccionar.Text = "Seleccionar";
-            this.btnSeleccionar.UseVisualStyleBackColor = true;
-            // 
             // cmbPlanMedico
             // 
             this.cmbPlanMedico.FormattingEnabled = true;
@@ -291,7 +273,7 @@
             // 
             // txtNroAf
             // 
-            this.txtNroAf.Location = new System.Drawing.Point(545, 12);
+            this.txtNroAf.Location = new System.Drawing.Point(515, 12);
             this.txtNroAf.Name = "txtNroAf";
             this.txtNroAf.ReadOnly = true;
             this.txtNroAf.Size = new System.Drawing.Size(144, 20);
@@ -302,13 +284,14 @@
             this.btnVolver.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnVolver.Image = global::ClinicaFrba.Properties.Resources.back;
             this.btnVolver.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVolver.Location = new System.Drawing.Point(619, 278);
+            this.btnVolver.Location = new System.Drawing.Point(589, 274);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(70, 28);
             this.btnVolver.TabIndex = 28;
             this.btnVolver.Text = "Volver";
             this.btnVolver.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // btnAgregarFamiliar
             // 
@@ -334,11 +317,19 @@
             this.btnAsigConyuge.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnAsigConyuge.UseVisualStyleBackColor = true;
             // 
+            // dtpFechaNac
+            // 
+            this.dtpFechaNac.Location = new System.Drawing.Point(144, 106);
+            this.dtpFechaNac.Name = "dtpFechaNac";
+            this.dtpFechaNac.Size = new System.Drawing.Size(180, 20);
+            this.dtpFechaNac.TabIndex = 29;
+            // 
             // AgregarAfiliado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(701, 318);
+            this.ClientSize = new System.Drawing.Size(671, 314);
+            this.Controls.Add(this.dtpFechaNac);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.txtNroAf);
             this.Controls.Add(this.btnAgregarFamiliar);
@@ -346,8 +337,6 @@
             this.Controls.Add(this.txtFamACargo);
             this.Controls.Add(this.cmbEstadoCivil);
             this.Controls.Add(this.cmbPlanMedico);
-            this.Controls.Add(this.btnSeleccionar);
-            this.Controls.Add(this.txtFechaNac);
             this.Controls.Add(this.txtTelefono);
             this.Controls.Add(this.cmbTipoDoc);
             this.Controls.Add(this.cmbSexo);
@@ -398,8 +387,6 @@
         private System.Windows.Forms.ComboBox cmbSexo;
         private System.Windows.Forms.ComboBox cmbTipoDoc;
         private System.Windows.Forms.TextBox txtTelefono;
-        private System.Windows.Forms.TextBox txtFechaNac;
-        private System.Windows.Forms.Button btnSeleccionar;
         private System.Windows.Forms.ComboBox cmbPlanMedico;
         private System.Windows.Forms.ComboBox cmbEstadoCivil;
         private System.Windows.Forms.TextBox txtFamACargo;
@@ -407,5 +394,6 @@
         private System.Windows.Forms.Button btnAgregarFamiliar;
         private System.Windows.Forms.TextBox txtNroAf;
         private System.Windows.Forms.Button btnVolver;
+        private System.Windows.Forms.DateTimePicker dtpFechaNac;
     }
 }

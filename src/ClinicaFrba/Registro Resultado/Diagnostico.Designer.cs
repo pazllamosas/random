@@ -36,8 +36,10 @@
             this.lblEnfermedad = new System.Windows.Forms.Label();
             this.txtSintomas = new System.Windows.Forms.TextBox();
             this.txtEnfermedad = new System.Windows.Forms.TextBox();
-            this.btnGuardar = new System.Windows.Forms.Button();
+            this.lblInfoSintomas = new System.Windows.Forms.Label();
+            this.btnAgregarSintoma = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
+            this.btnGuardar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblTurno
@@ -85,11 +87,11 @@
             // 
             this.lblSintomas.AutoSize = true;
             this.lblSintomas.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSintomas.Location = new System.Drawing.Point(45, 153);
+            this.lblSintomas.Location = new System.Drawing.Point(45, 134);
             this.lblSintomas.Name = "lblSintomas";
-            this.lblSintomas.Size = new System.Drawing.Size(67, 16);
+            this.lblSintomas.Size = new System.Drawing.Size(60, 16);
             this.lblSintomas.TabIndex = 4;
-            this.lblSintomas.Text = "Sintomas:";
+            this.lblSintomas.Text = "Sintoma:";
             // 
             // lblEnfermedad
             // 
@@ -103,9 +105,9 @@
             // 
             // txtSintomas
             // 
-            this.txtSintomas.Location = new System.Drawing.Point(119, 153);
+            this.txtSintomas.Location = new System.Drawing.Point(119, 134);
             this.txtSintomas.Name = "txtSintomas";
-            this.txtSintomas.Size = new System.Drawing.Size(496, 20);
+            this.txtSintomas.Size = new System.Drawing.Size(244, 20);
             this.txtSintomas.TabIndex = 6;
             // 
             // txtEnfermedad
@@ -115,19 +117,28 @@
             this.txtEnfermedad.Size = new System.Drawing.Size(244, 20);
             this.txtEnfermedad.TabIndex = 7;
             // 
-            // btnGuardar
+            // lblInfoSintomas
             // 
-            this.btnGuardar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGuardar.ForeColor = System.Drawing.Color.Green;
-            this.btnGuardar.Image = global::ClinicaFrba.Properties.Resources.save;
-            this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardar.Location = new System.Drawing.Point(222, 264);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(108, 33);
-            this.btnGuardar.TabIndex = 8;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGuardar.UseVisualStyleBackColor = true;
+            this.lblInfoSintomas.AutoSize = true;
+            this.lblInfoSintomas.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInfoSintomas.Location = new System.Drawing.Point(12, 106);
+            this.lblInfoSintomas.Name = "lblInfoSintomas";
+            this.lblInfoSintomas.Size = new System.Drawing.Size(243, 15);
+            this.lblInfoSintomas.TabIndex = 11;
+            this.lblInfoSintomas.Text = "Ingrese de a UNO los sintomas y agregelos";
+            // 
+            // btnAgregarSintoma
+            // 
+            this.btnAgregarSintoma.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAgregarSintoma.Image = global::ClinicaFrba.Properties.Resources.add;
+            this.btnAgregarSintoma.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAgregarSintoma.Location = new System.Drawing.Point(395, 128);
+            this.btnAgregarSintoma.Name = "btnAgregarSintoma";
+            this.btnAgregarSintoma.Size = new System.Drawing.Size(125, 29);
+            this.btnAgregarSintoma.TabIndex = 12;
+            this.btnAgregarSintoma.Text = "Agregar Sintoma";
+            this.btnAgregarSintoma.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnAgregarSintoma.UseVisualStyleBackColor = true;
             // 
             // btnCancelar
             // 
@@ -142,12 +153,30 @@
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
+            // btnGuardar
+            // 
+            this.btnGuardar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGuardar.ForeColor = System.Drawing.Color.Green;
+            this.btnGuardar.Image = global::ClinicaFrba.Properties.Resources.save;
+            this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardar.Location = new System.Drawing.Point(222, 264);
+            this.btnGuardar.Name = "btnGuardar";
+            this.btnGuardar.Size = new System.Drawing.Size(108, 33);
+            this.btnGuardar.TabIndex = 8;
+            this.btnGuardar.Text = "Guardar";
+            this.btnGuardar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // Diagnostico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(706, 318);
+            this.ClientSize = new System.Drawing.Size(671, 314);
+            this.Controls.Add(this.btnAgregarSintoma);
+            this.Controls.Add(this.lblInfoSintomas);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.txtEnfermedad);
@@ -177,5 +206,7 @@
         private System.Windows.Forms.TextBox txtEnfermedad;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.Label lblInfoSintomas;
+        private System.Windows.Forms.Button btnAgregarSintoma;
     }
 }

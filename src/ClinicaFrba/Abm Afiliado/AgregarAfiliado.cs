@@ -21,5 +21,11 @@ namespace ClinicaFrba.Abm_Afiliado
         {
 
         }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormProvider.Afiliado.Show(); 
+        }
     }
 }

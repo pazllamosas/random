@@ -16,5 +16,17 @@ namespace ClinicaFrba.AbmRol
         {
             InitializeComponent();
         }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormProvider.Rol.Show();
+        }
+
+        private void btnCrearRol_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormProvider.Rol.Show();
+        }
     }
 }

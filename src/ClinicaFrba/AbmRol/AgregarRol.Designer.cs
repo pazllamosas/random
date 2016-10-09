@@ -32,15 +32,14 @@
             this.lblNombreRol = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.lblFuncionalidades = new System.Windows.Forms.Label();
             this.numero = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.funcionalidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lblFuncionalidades = new System.Windows.Forms.Label();
             this.cmbUsuario = new System.Windows.Forms.ComboBox();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.btnAsignarUsuario = new System.Windows.Forms.Button();
             this.btnEliminarFunc = new System.Windows.Forms.Button();
             this.btnAgregarFunc = new System.Windows.Forms.Button();
-            this.btnVolver = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnCrearRol = new System.Windows.Forms.Button();
             this.btnEditarNombre = new System.Windows.Forms.Button();
@@ -83,16 +82,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(667, 80);
             this.dataGridView1.TabIndex = 7;
             // 
-            // lblFuncionalidades
-            // 
-            this.lblFuncionalidades.AutoSize = true;
-            this.lblFuncionalidades.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFuncionalidades.Location = new System.Drawing.Point(12, 67);
-            this.lblFuncionalidades.Name = "lblFuncionalidades";
-            this.lblFuncionalidades.Size = new System.Drawing.Size(315, 16);
-            this.lblFuncionalidades.TabIndex = 8;
-            this.lblFuncionalidades.Text = "Seleccione de a una las funcionalidades a asignar: ";
-            // 
             // numero
             // 
             this.numero.HeaderText = "Número";
@@ -104,6 +93,16 @@
             this.funcionalidad.HeaderText = "Funcionalidad";
             this.funcionalidad.Name = "funcionalidad";
             this.funcionalidad.ReadOnly = true;
+            // 
+            // lblFuncionalidades
+            // 
+            this.lblFuncionalidades.AutoSize = true;
+            this.lblFuncionalidades.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFuncionalidades.Location = new System.Drawing.Point(12, 67);
+            this.lblFuncionalidades.Name = "lblFuncionalidades";
+            this.lblFuncionalidades.Size = new System.Drawing.Size(315, 16);
+            this.lblFuncionalidades.TabIndex = 8;
+            this.lblFuncionalidades.Text = "Seleccione de a una las funcionalidades a asignar: ";
             // 
             // cmbUsuario
             // 
@@ -159,44 +158,33 @@
             this.btnAgregarFunc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnAgregarFunc.UseVisualStyleBackColor = true;
             // 
-            // btnVolver
-            // 
-            this.btnVolver.AutoSize = true;
-            this.btnVolver.Image = global::ClinicaFrba.Properties.Resources.back;
-            this.btnVolver.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVolver.Location = new System.Drawing.Point(198, 272);
-            this.btnVolver.Name = "btnVolver";
-            this.btnVolver.Size = new System.Drawing.Size(71, 29);
-            this.btnVolver.TabIndex = 6;
-            this.btnVolver.Text = "Volver";
-            this.btnVolver.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnVolver.UseVisualStyleBackColor = true;
-            // 
             // btnCancelar
             // 
             this.btnCancelar.AutoSize = true;
             this.btnCancelar.Image = global::ClinicaFrba.Properties.Resources.cancel;
             this.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancelar.Location = new System.Drawing.Point(410, 272);
+            this.btnCancelar.Location = new System.Drawing.Point(358, 272);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(85, 29);
             this.btnCancelar.TabIndex = 5;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // btnCrearRol
             // 
             this.btnCrearRol.AutoSize = true;
             this.btnCrearRol.Image = global::ClinicaFrba.Properties.Resources.save;
             this.btnCrearRol.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCrearRol.Location = new System.Drawing.Point(292, 272);
+            this.btnCrearRol.Location = new System.Drawing.Point(241, 272);
             this.btnCrearRol.Name = "btnCrearRol";
             this.btnCrearRol.Size = new System.Drawing.Size(92, 29);
             this.btnCrearRol.TabIndex = 4;
             this.btnCrearRol.Text = "Crear Rol";
             this.btnCrearRol.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnCrearRol.UseVisualStyleBackColor = true;
+            this.btnCrearRol.Click += new System.EventHandler(this.btnCrearRol_Click);
             // 
             // btnEditarNombre
             // 
@@ -216,7 +204,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(695, 313);
+            this.ClientSize = new System.Drawing.Size(671, 314);
             this.Controls.Add(this.btnAsignarUsuario);
             this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.cmbUsuario);
@@ -224,7 +212,6 @@
             this.Controls.Add(this.btnAgregarFunc);
             this.Controls.Add(this.lblFuncionalidades);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnCrearRol);
             this.Controls.Add(this.btnEditarNombre);
@@ -247,7 +234,6 @@
         private System.Windows.Forms.Button btnEditarNombre;
         private System.Windows.Forms.Button btnCrearRol;
         private System.Windows.Forms.Button btnCancelar;
-        private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn numero;
         private System.Windows.Forms.DataGridViewTextBoxColumn funcionalidad;

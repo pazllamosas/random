@@ -26,5 +26,11 @@ namespace ClinicaFrba.Inicio
         {
 
         }
+
+        private void btnIngresar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormProvider.MainMenu.Show();
+        }
     }
 }

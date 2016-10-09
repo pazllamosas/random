@@ -87,6 +87,7 @@
             this.btnEditarAf.Text = "Editar";
             this.btnEditarAf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnEditarAf.UseVisualStyleBackColor = true;
+            this.btnEditarAf.Click += new System.EventHandler(this.btnEditarAf_Click);
             // 
             // btnBajaAf
             // 
@@ -113,6 +114,7 @@
             this.btnCrearAf.Text = "Nuevo Afiliado";
             this.btnCrearAf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnCrearAf.UseVisualStyleBackColor = true;
+            this.btnCrearAf.Click += new System.EventHandler(this.btnCrearAf_Click);
             // 
             // btnVolver
             // 
@@ -126,12 +128,13 @@
             this.btnVolver.Text = "Volver";
             this.btnVolver.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // VerAfiliado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(705, 313);
+            this.ClientSize = new System.Drawing.Size(671, 314);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnCrearAf);
             this.Controls.Add(this.btnBajaAf);

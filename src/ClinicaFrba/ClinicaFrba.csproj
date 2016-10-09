@@ -86,25 +86,31 @@
     <Compile Include="AbmRol\Ver Rol.Designer.cs">
       <DependentUpon>Ver Rol.cs</DependentUpon>
     </Compile>
-    <Compile Include="Cancelar Atencion\Form1.cs">
+    <Compile Include="Cancelar Atencion\Cancelacion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Cancelar Atencion\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Cancelar Atencion\Cancelacion.Designer.cs">
+      <DependentUpon>Cancelacion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Compra Bono\Form1.cs">
+    <Compile Include="Cancelar Atencion\CancelacionAfiliado.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compra Bono\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Cancelar Atencion\CancelacionAfiliado.Designer.cs">
+      <DependentUpon>CancelacionAfiliado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cancelar Atencion\CancelacionMedico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cancelar Atencion\CancelacionMedico.Designer.cs">
+      <DependentUpon>CancelacionMedico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compra Bono\CompraBono.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compra Bono\CompraBono.Designer.cs">
+      <DependentUpon>CompraBono.cs</DependentUpon>
     </Compile>
     <Compile Include="conexion.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="funciones.cs" />
     <Compile Include="Inicio\Login.cs">
       <SubType>Form</SubType>
@@ -118,17 +124,47 @@
     <Compile Include="Inicio\Menu.Designer.cs">
       <DependentUpon>Menu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Listados\Form1.cs">
+    <Compile Include="Listados\ListadoAfiliadoMasBonos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Listados\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Listados\ListadoAfiliadoMasBonos.Designer.cs">
+      <DependentUpon>ListadoAfiliadoMasBonos.cs</DependentUpon>
     </Compile>
-    <Compile Include="Pedir Turno\Form1.cs">
+    <Compile Include="Listados\ListadoEspCancelaciones.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Pedir Turno\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Listados\ListadoEspCancelaciones.Designer.cs">
+      <DependentUpon>ListadoEspCancelaciones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Listados\ListadoEspecBono.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Listados\ListadoEspecBono.Designer.cs">
+      <DependentUpon>ListadoEspecBono.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Listados\ListadoEstadistico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Listados\ListadoEstadistico.Designer.cs">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Listados\ListadoProfMenosHoras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Listados\ListadoProfMenosHoras.Designer.cs">
+      <DependentUpon>ListadoProfMenosHoras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Listados\ListadoProfporPlan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Listados\ListadoProfporPlan.Designer.cs">
+      <DependentUpon>ListadoProfporPlan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pedir Turno\Turno.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pedir Turno\Turno.Designer.cs">
+      <DependentUpon>Turno.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -137,17 +173,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Registrar Agenta Medico\RegistrarAgenda.cs">
+    <Compile Include="Registrar Agenda Medico\RegistrarAgenda.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Registrar Agenta Medico\RegistrarAgenda.Designer.cs">
+    <Compile Include="Registrar Agenda Medico\RegistrarAgenda.Designer.cs">
       <DependentUpon>RegistrarAgenda.cs</DependentUpon>
     </Compile>
-    <Compile Include="Registro Llegada\Form1.cs">
+    <Compile Include="Registro Llegada\RegistroLlegada.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Registro Llegada\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Registro Llegada\RegistroLlegada.Designer.cs">
+      <DependentUpon>RegistroLlegada.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registro Llegada\TurnoProfesional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro Llegada\TurnoProfesional.Designer.cs">
+      <DependentUpon>TurnoProfesional.cs</DependentUpon>
     </Compile>
     <Compile Include="Registro Resultado\Diagnostico.cs">
       <SubType>Form</SubType>
@@ -167,19 +209,58 @@
     <EmbeddedResource Include="AbmRol\Ver Rol.resx">
       <DependentUpon>Ver Rol.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\Cancelacion.resx">
+      <DependentUpon>Cancelacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\CancelacionAfiliado.resx">
+      <DependentUpon>CancelacionAfiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cancelar Atencion\CancelacionMedico.resx">
+      <DependentUpon>CancelacionMedico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compra Bono\CompraBono.resx">
+      <DependentUpon>CompraBono.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Inicio\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Inicio\Menu.resx">
       <DependentUpon>Menu.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Listados\ListadoAfiliadoMasBonos.resx">
+      <DependentUpon>ListadoAfiliadoMasBonos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listados\ListadoEspCancelaciones.resx">
+      <DependentUpon>ListadoEspCancelaciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listados\ListadoEspecBono.resx">
+      <DependentUpon>ListadoEspecBono.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listados\ListadoEstadistico.resx">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listados\ListadoProfMenosHoras.resx">
+      <DependentUpon>ListadoProfMenosHoras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listados\ListadoProfporPlan.resx">
+      <DependentUpon>ListadoProfporPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pedir Turno\Turno.resx">
+      <DependentUpon>Turno.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Registrar Agenta Medico\RegistrarAgenda.resx">
+    <EmbeddedResource Include="Registrar Agenda Medico\RegistrarAgenda.resx">
       <DependentUpon>RegistrarAgenda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro Llegada\RegistroLlegada.resx">
+      <DependentUpon>RegistroLlegada.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro Llegada\TurnoProfesional.resx">
+      <DependentUpon>TurnoProfesional.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Registro Resultado\Diagnostico.resx">
       <DependentUpon>Diagnostico.cs</DependentUpon>
@@ -229,6 +310,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\person.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\busqueda.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\top5.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

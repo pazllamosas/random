@@ -16,5 +16,22 @@ namespace ClinicaFrba.AbmRol
         {
             InitializeComponent();
         }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            FormProvider.AgRol.Show();
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FormProvider.AgRol.Show();
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormProvider.MainMenu.Show();
+        }
     }
 }

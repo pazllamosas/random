@@ -16,5 +16,21 @@ namespace ClinicaFrba.Abm_Afiliado
         {
             InitializeComponent();
         }
+
+        private void btnCrearAf_Click(object sender, EventArgs e)
+        {
+            FormProvider.Agafiliado.Show();
+        }
+
+        private void btnEditarAf_Click(object sender, EventArgs e)
+        {
+            FormProvider.Agafiliado.Show();
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormProvider.MainMenu.Show();
+        }
     }
 }

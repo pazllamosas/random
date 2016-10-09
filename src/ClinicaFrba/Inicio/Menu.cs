@@ -19,7 +19,48 @@ namespace ClinicaFrba.Inicio
 
         private void btnCompraBonos_Click(object sender, EventArgs e)
         {
+            FormProvider.CompraBono.Show();
+        }
 
+        private void btnVerRol_Click(object sender, EventArgs e)
+        {
+            FormProvider.Rol.Show();
+        }
+
+        private void btnRegAgenda_Click(object sender, EventArgs e)
+        {
+            FormProvider.Agenda.Show();
+        }
+
+        private void btnRegLlegada_Click(object sender, EventArgs e)
+        {
+            FormProvider.RegistroLlegada.Show();
+        }
+
+        private void btnTurno_Click(object sender, EventArgs e)
+        {
+            FormProvider.Turno.Show();
+        }
+
+        private void btnRegResultado_Click(object sender, EventArgs e)
+        {
+            FormProvider.Diagnostico.Show();
+        }
+
+        private void btnCancelarturno_Click(object sender, EventArgs e)
+        {
+            FormProvider.Cancelacion.Show();
+        }
+
+        private void btnTop5_Click(object sender, EventArgs e)
+        {
+            FormProvider.ListadoEstadistico.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormProvider.Login.Show();
         }
     }
 }
