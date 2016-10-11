@@ -40,19 +40,19 @@
             this.btnRegResultado = new System.Windows.Forms.Button();
             this.btnCancelarturno = new System.Windows.Forms.Button();
             this.btnTop5 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnVerRol
             // 
-            this.btnVerRol.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVerRol.Location = new System.Drawing.Point(12, 187);
+            this.btnVerRol.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVerRol.Location = new System.Drawing.Point(12, 191);
             this.btnVerRol.Name = "btnVerRol";
-            this.btnVerRol.Size = new System.Drawing.Size(152, 31);
+            this.btnVerRol.Size = new System.Drawing.Size(152, 55);
             this.btnVerRol.TabIndex = 1;
             this.btnVerRol.Text = "Ver Roles";
             this.btnVerRol.UseVisualStyleBackColor = true;
@@ -60,10 +60,10 @@
             // 
             // btnVerAfiliado
             // 
-            this.btnVerAfiliado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVerAfiliado.Location = new System.Drawing.Point(12, 224);
+            this.btnVerAfiliado.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVerAfiliado.Location = new System.Drawing.Point(12, 258);
             this.btnVerAfiliado.Name = "btnVerAfiliado";
-            this.btnVerAfiliado.Size = new System.Drawing.Size(152, 31);
+            this.btnVerAfiliado.Size = new System.Drawing.Size(152, 55);
             this.btnVerAfiliado.TabIndex = 2;
             this.btnVerAfiliado.Text = "Ver Afiliados";
             this.btnVerAfiliado.UseVisualStyleBackColor = true;
@@ -71,40 +71,40 @@
             // 
             // btnVerProfesional
             // 
-            this.btnVerProfesional.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVerProfesional.Location = new System.Drawing.Point(12, 265);
+            this.btnVerProfesional.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVerProfesional.Location = new System.Drawing.Point(12, 334);
             this.btnVerProfesional.Name = "btnVerProfesional";
-            this.btnVerProfesional.Size = new System.Drawing.Size(152, 31);
+            this.btnVerProfesional.Size = new System.Drawing.Size(152, 55);
             this.btnVerProfesional.TabIndex = 3;
             this.btnVerProfesional.Text = "Ver Profesionales";
             this.btnVerProfesional.UseVisualStyleBackColor = true;
             // 
             // btnVerEspec
             // 
-            this.btnVerEspec.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVerEspec.Location = new System.Drawing.Point(203, 10);
+            this.btnVerEspec.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVerEspec.Location = new System.Drawing.Point(12, 407);
             this.btnVerEspec.Name = "btnVerEspec";
-            this.btnVerEspec.Size = new System.Drawing.Size(191, 32);
+            this.btnVerEspec.Size = new System.Drawing.Size(152, 55);
             this.btnVerEspec.TabIndex = 4;
             this.btnVerEspec.Text = "Ver Especialidades";
             this.btnVerEspec.UseVisualStyleBackColor = true;
             // 
             // btnPlan
             // 
-            this.btnPlan.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPlan.Location = new System.Drawing.Point(203, 226);
+            this.btnPlan.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPlan.Location = new System.Drawing.Point(215, 404);
             this.btnPlan.Name = "btnPlan";
-            this.btnPlan.Size = new System.Drawing.Size(191, 31);
+            this.btnPlan.Size = new System.Drawing.Size(191, 60);
             this.btnPlan.TabIndex = 5;
             this.btnPlan.Text = "Planes";
             this.btnPlan.UseVisualStyleBackColor = true;
             // 
             // btnRegAgenda
             // 
-            this.btnRegAgenda.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRegAgenda.Location = new System.Drawing.Point(203, 52);
+            this.btnRegAgenda.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegAgenda.Location = new System.Drawing.Point(215, 60);
             this.btnRegAgenda.Name = "btnRegAgenda";
-            this.btnRegAgenda.Size = new System.Drawing.Size(191, 32);
+            this.btnRegAgenda.Size = new System.Drawing.Size(191, 60);
             this.btnRegAgenda.TabIndex = 6;
             this.btnRegAgenda.Text = "Registrar Agenda Profesional";
             this.btnRegAgenda.UseVisualStyleBackColor = true;
@@ -112,10 +112,10 @@
             // 
             // btnRegLlegada
             // 
-            this.btnRegLlegada.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRegLlegada.Location = new System.Drawing.Point(203, 95);
+            this.btnRegLlegada.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegLlegada.Location = new System.Drawing.Point(215, 153);
             this.btnRegLlegada.Name = "btnRegLlegada";
-            this.btnRegLlegada.Size = new System.Drawing.Size(191, 33);
+            this.btnRegLlegada.Size = new System.Drawing.Size(191, 60);
             this.btnRegLlegada.TabIndex = 7;
             this.btnRegLlegada.Text = "Registrar Llegada";
             this.btnRegLlegada.UseVisualStyleBackColor = true;
@@ -123,10 +123,10 @@
             // 
             // btnCompraBonos
             // 
-            this.btnCompraBonos.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCompraBonos.Location = new System.Drawing.Point(203, 139);
+            this.btnCompraBonos.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCompraBonos.Location = new System.Drawing.Point(215, 241);
             this.btnCompraBonos.Name = "btnCompraBonos";
-            this.btnCompraBonos.Size = new System.Drawing.Size(191, 32);
+            this.btnCompraBonos.Size = new System.Drawing.Size(191, 60);
             this.btnCompraBonos.TabIndex = 8;
             this.btnCompraBonos.Text = "Comprar Bonos";
             this.btnCompraBonos.UseVisualStyleBackColor = true;
@@ -134,10 +134,10 @@
             // 
             // btnTurno
             // 
-            this.btnTurno.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTurno.Location = new System.Drawing.Point(203, 182);
+            this.btnTurno.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTurno.Location = new System.Drawing.Point(215, 324);
             this.btnTurno.Name = "btnTurno";
-            this.btnTurno.Size = new System.Drawing.Size(191, 32);
+            this.btnTurno.Size = new System.Drawing.Size(191, 60);
             this.btnTurno.TabIndex = 9;
             this.btnTurno.Text = "Pedir Turno";
             this.btnTurno.UseVisualStyleBackColor = true;
@@ -145,10 +145,10 @@
             // 
             // btnRegResultado
             // 
-            this.btnRegResultado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRegResultado.Location = new System.Drawing.Point(203, 265);
+            this.btnRegResultado.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegResultado.Location = new System.Drawing.Point(444, 60);
             this.btnRegResultado.Name = "btnRegResultado";
-            this.btnRegResultado.Size = new System.Drawing.Size(191, 32);
+            this.btnRegResultado.Size = new System.Drawing.Size(191, 60);
             this.btnRegResultado.TabIndex = 10;
             this.btnRegResultado.Text = "Registrar Resultado Atención";
             this.btnRegResultado.UseVisualStyleBackColor = true;
@@ -156,10 +156,10 @@
             // 
             // btnCancelarturno
             // 
-            this.btnCancelarturno.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelarturno.Location = new System.Drawing.Point(444, 63);
+            this.btnCancelarturno.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelarturno.Location = new System.Drawing.Point(444, 240);
             this.btnCancelarturno.Name = "btnCancelarturno";
-            this.btnCancelarturno.Size = new System.Drawing.Size(191, 32);
+            this.btnCancelarturno.Size = new System.Drawing.Size(191, 60);
             this.btnCancelarturno.TabIndex = 11;
             this.btnCancelarturno.Text = "Cancelar Turno";
             this.btnCancelarturno.UseVisualStyleBackColor = true;
@@ -167,19 +167,33 @@
             // 
             // btnTop5
             // 
-            this.btnTop5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTop5.Location = new System.Drawing.Point(444, 11);
+            this.btnTop5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTop5.Location = new System.Drawing.Point(444, 154);
             this.btnTop5.Name = "btnTop5";
-            this.btnTop5.Size = new System.Drawing.Size(191, 32);
+            this.btnTop5.Size = new System.Drawing.Size(191, 60);
             this.btnTop5.TabIndex = 12;
             this.btnTop5.Text = "TOP 5";
             this.btnTop5.UseVisualStyleBackColor = true;
             this.btnTop5.Click += new System.EventHandler(this.btnTop5_Click);
             // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Image = global::ClinicaFrba.Properties.Resources.person;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(28, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(117, 32);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "Cerrar sesión";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // pictureBox2
             // 
             this.pictureBox2.BackgroundImage = global::ClinicaFrba.Properties.Resources.medical_receptionist_salary1;
-            this.pictureBox2.Location = new System.Drawing.Point(431, 143);
+            this.pictureBox2.Location = new System.Drawing.Point(431, 305);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(228, 159);
             this.pictureBox2.TabIndex = 13;
@@ -188,31 +202,17 @@
             // pictureBox1
             // 
             this.pictureBox1.BackgroundImage = global::ClinicaFrba.Properties.Resources.Hospital_insurance;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 63);
+            this.pictureBox1.Location = new System.Drawing.Point(12, 60);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(152, 115);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Image = global::ClinicaFrba.Properties.Resources.person;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(12, 11);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 32);
-            this.button1.TabIndex = 14;
-            this.button1.Text = "Cerrar sesión";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 314);
+            this.ClientSize = new System.Drawing.Size(671, 476);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.btnTop5);
@@ -228,7 +228,10 @@
             this.Controls.Add(this.btnVerAfiliado);
             this.Controls.Add(this.btnVerRol);
             this.Controls.Add(this.pictureBox1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Menu";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

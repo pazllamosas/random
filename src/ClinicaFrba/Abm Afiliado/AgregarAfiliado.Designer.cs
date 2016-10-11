@@ -60,9 +60,9 @@
             // 
             // lblApellido
             // 
-            this.lblApellido.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblApellido.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblApellido.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblApellido.Location = new System.Drawing.Point(60, 19);
+            this.lblApellido.Location = new System.Drawing.Point(58, 83);
             this.lblApellido.Name = "lblApellido";
             this.lblApellido.Size = new System.Drawing.Size(77, 21);
             this.lblApellido.TabIndex = 0;
@@ -71,9 +71,9 @@
             // 
             // lblNombre
             // 
-            this.lblNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNombre.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblNombre.Location = new System.Drawing.Point(60, 48);
+            this.lblNombre.Location = new System.Drawing.Point(59, 138);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(77, 21);
             this.lblNombre.TabIndex = 1;
@@ -82,31 +82,31 @@
             // 
             // lblTipoDoc
             // 
-            this.lblTipoDoc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTipoDoc.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTipoDoc.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblTipoDoc.Location = new System.Drawing.Point(23, 137);
+            this.lblTipoDoc.Location = new System.Drawing.Point(361, 89);
             this.lblTipoDoc.Name = "lblTipoDoc";
-            this.lblTipoDoc.Size = new System.Drawing.Size(114, 21);
+            this.lblTipoDoc.Size = new System.Drawing.Size(133, 21);
             this.lblTipoDoc.TabIndex = 2;
             this.lblTipoDoc.Text = "Tipo Documento: ";
             this.lblTipoDoc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblNroDoc
             // 
-            this.lblNroDoc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNroDoc.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNroDoc.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblNroDoc.Location = new System.Drawing.Point(23, 167);
+            this.lblNroDoc.Location = new System.Drawing.Point(361, 139);
             this.lblNroDoc.Name = "lblNroDoc";
-            this.lblNroDoc.Size = new System.Drawing.Size(114, 21);
+            this.lblNroDoc.Size = new System.Drawing.Size(133, 21);
             this.lblNroDoc.TabIndex = 3;
             this.lblNroDoc.Text = "Nro Documento: ";
             this.lblNroDoc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblDomicilio
             // 
-            this.lblDomicilio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDomicilio.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDomicilio.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblDomicilio.Location = new System.Drawing.Point(23, 227);
+            this.lblDomicilio.Location = new System.Drawing.Point(22, 370);
             this.lblDomicilio.Name = "lblDomicilio";
             this.lblDomicilio.Size = new System.Drawing.Size(114, 21);
             this.lblDomicilio.TabIndex = 4;
@@ -115,9 +115,9 @@
             // 
             // lblTel
             // 
-            this.lblTel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblTel.Location = new System.Drawing.Point(23, 197);
+            this.lblTel.Location = new System.Drawing.Point(22, 312);
             this.lblTel.Name = "lblTel";
             this.lblTel.Size = new System.Drawing.Size(114, 21);
             this.lblTel.TabIndex = 5;
@@ -126,31 +126,32 @@
             // 
             // lblMail
             // 
-            this.lblMail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMail.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMail.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblMail.Location = new System.Drawing.Point(23, 257);
+            this.lblMail.Location = new System.Drawing.Point(22, 424);
             this.lblMail.Name = "lblMail";
             this.lblMail.Size = new System.Drawing.Size(114, 21);
             this.lblMail.TabIndex = 6;
             this.lblMail.Text = "Mail: ";
             this.lblMail.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblMail.Click += new System.EventHandler(this.lblMail_Click);
             // 
             // lblFechaNac
             // 
-            this.lblFechaNac.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFechaNac.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFechaNac.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblFechaNac.Location = new System.Drawing.Point(12, 106);
+            this.lblFechaNac.Location = new System.Drawing.Point(-1, 253);
             this.lblFechaNac.Name = "lblFechaNac";
-            this.lblFechaNac.Size = new System.Drawing.Size(125, 21);
+            this.lblFechaNac.Size = new System.Drawing.Size(136, 21);
             this.lblFechaNac.TabIndex = 7;
             this.lblFechaNac.Text = "Fecha Nacimiento: ";
             this.lblFechaNac.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblSexo
             // 
-            this.lblSexo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSexo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSexo.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblSexo.Location = new System.Drawing.Point(71, 76);
+            this.lblSexo.Location = new System.Drawing.Point(69, 195);
             this.lblSexo.Name = "lblSexo";
             this.lblSexo.Size = new System.Drawing.Size(66, 21);
             this.lblSexo.TabIndex = 8;
@@ -159,9 +160,9 @@
             // 
             // lblEstCivil
             // 
-            this.lblEstCivil.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEstCivil.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEstCivil.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblEstCivil.Location = new System.Drawing.Point(399, 74);
+            this.lblEstCivil.Location = new System.Drawing.Point(403, 258);
             this.lblEstCivil.Name = "lblEstCivil";
             this.lblEstCivil.Size = new System.Drawing.Size(91, 21);
             this.lblEstCivil.TabIndex = 9;
@@ -170,20 +171,20 @@
             // 
             // lblFamACarg
             // 
-            this.lblFamACarg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFamACarg.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFamACarg.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblFamACarg.Location = new System.Drawing.Point(364, 137);
+            this.lblFamACarg.Location = new System.Drawing.Point(329, 370);
             this.lblFamACarg.Name = "lblFamACarg";
-            this.lblFamACarg.Size = new System.Drawing.Size(126, 21);
+            this.lblFamACarg.Size = new System.Drawing.Size(165, 21);
             this.lblFamACarg.TabIndex = 10;
             this.lblFamACarg.Text = "Familiares a Cargo: ";
             this.lblFamACarg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblPlanMed
             // 
-            this.lblPlanMed.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlanMed.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPlanMed.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblPlanMed.Location = new System.Drawing.Point(381, 48);
+            this.lblPlanMed.Location = new System.Drawing.Point(385, 194);
             this.lblPlanMed.Name = "lblPlanMed";
             this.lblPlanMed.Size = new System.Drawing.Size(109, 21);
             this.lblPlanMed.TabIndex = 11;
@@ -192,43 +193,44 @@
             // 
             // txtApellido
             // 
-            this.txtApellido.Location = new System.Drawing.Point(142, 19);
+            this.txtApellido.Location = new System.Drawing.Point(141, 84);
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(182, 20);
             this.txtApellido.TabIndex = 12;
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(142, 49);
+            this.txtNombre.Location = new System.Drawing.Point(142, 138);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(182, 20);
             this.txtNombre.TabIndex = 13;
             // 
             // txtNroDoc
             // 
-            this.txtNroDoc.Location = new System.Drawing.Point(142, 168);
+            this.txtNroDoc.Location = new System.Drawing.Point(500, 139);
             this.txtNroDoc.Name = "txtNroDoc";
-            this.txtNroDoc.Size = new System.Drawing.Size(182, 20);
+            this.txtNroDoc.Size = new System.Drawing.Size(135, 20);
             this.txtNroDoc.TabIndex = 14;
             // 
             // txtDomicilio
             // 
-            this.txtDomicilio.Location = new System.Drawing.Point(142, 228);
+            this.txtDomicilio.Location = new System.Drawing.Point(141, 372);
             this.txtDomicilio.Name = "txtDomicilio";
             this.txtDomicilio.Size = new System.Drawing.Size(182, 20);
             this.txtDomicilio.TabIndex = 15;
             // 
             // txtMail
             // 
-            this.txtMail.Location = new System.Drawing.Point(142, 258);
+            this.txtMail.Location = new System.Drawing.Point(142, 424);
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(182, 20);
             this.txtMail.TabIndex = 16;
+            this.txtMail.TextChanged += new System.EventHandler(this.txtMail_TextChanged);
             // 
             // cmbSexo
             // 
             this.cmbSexo.FormattingEnabled = true;
-            this.cmbSexo.Location = new System.Drawing.Point(144, 75);
+            this.cmbSexo.Location = new System.Drawing.Point(141, 195);
             this.cmbSexo.Name = "cmbSexo";
             this.cmbSexo.Size = new System.Drawing.Size(180, 21);
             this.cmbSexo.TabIndex = 17;
@@ -236,14 +238,14 @@
             // cmbTipoDoc
             // 
             this.cmbTipoDoc.FormattingEnabled = true;
-            this.cmbTipoDoc.Location = new System.Drawing.Point(144, 137);
+            this.cmbTipoDoc.Location = new System.Drawing.Point(500, 89);
             this.cmbTipoDoc.Name = "cmbTipoDoc";
-            this.cmbTipoDoc.Size = new System.Drawing.Size(180, 21);
+            this.cmbTipoDoc.Size = new System.Drawing.Size(135, 21);
             this.cmbTipoDoc.TabIndex = 18;
             // 
             // txtTelefono
             // 
-            this.txtTelefono.Location = new System.Drawing.Point(142, 202);
+            this.txtTelefono.Location = new System.Drawing.Point(142, 312);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(182, 20);
             this.txtTelefono.TabIndex = 19;
@@ -251,7 +253,7 @@
             // cmbPlanMedico
             // 
             this.cmbPlanMedico.FormattingEnabled = true;
-            this.cmbPlanMedico.Location = new System.Drawing.Point(496, 48);
+            this.cmbPlanMedico.Location = new System.Drawing.Point(500, 196);
             this.cmbPlanMedico.Name = "cmbPlanMedico";
             this.cmbPlanMedico.Size = new System.Drawing.Size(135, 21);
             this.cmbPlanMedico.TabIndex = 22;
@@ -259,17 +261,18 @@
             // cmbEstadoCivil
             // 
             this.cmbEstadoCivil.FormattingEnabled = true;
-            this.cmbEstadoCivil.Location = new System.Drawing.Point(496, 74);
+            this.cmbEstadoCivil.Location = new System.Drawing.Point(500, 258);
             this.cmbEstadoCivil.Name = "cmbEstadoCivil";
             this.cmbEstadoCivil.Size = new System.Drawing.Size(135, 21);
             this.cmbEstadoCivil.TabIndex = 23;
             // 
             // txtFamACargo
             // 
-            this.txtFamACargo.Location = new System.Drawing.Point(496, 137);
+            this.txtFamACargo.Location = new System.Drawing.Point(500, 371);
             this.txtFamACargo.Name = "txtFamACargo";
             this.txtFamACargo.Size = new System.Drawing.Size(135, 20);
             this.txtFamACargo.TabIndex = 24;
+            this.txtFamACargo.TextChanged += new System.EventHandler(this.txtFamACargo_TextChanged);
             // 
             // txtNroAf
             // 
@@ -284,7 +287,7 @@
             this.btnVolver.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnVolver.Image = global::ClinicaFrba.Properties.Resources.back;
             this.btnVolver.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVolver.Location = new System.Drawing.Point(589, 274);
+            this.btnVolver.Location = new System.Drawing.Point(12, 12);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(70, 28);
             this.btnVolver.TabIndex = 28;
@@ -295,11 +298,12 @@
             // 
             // btnAgregarFamiliar
             // 
+            this.btnAgregarFamiliar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAgregarFamiliar.Image = global::ClinicaFrba.Properties.Resources.add;
             this.btnAgregarFamiliar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAgregarFamiliar.Location = new System.Drawing.Point(509, 166);
+            this.btnAgregarFamiliar.Location = new System.Drawing.Point(500, 409);
             this.btnAgregarFamiliar.Name = "btnAgregarFamiliar";
-            this.btnAgregarFamiliar.Size = new System.Drawing.Size(122, 23);
+            this.btnAgregarFamiliar.Size = new System.Drawing.Size(135, 36);
             this.btnAgregarFamiliar.TabIndex = 26;
             this.btnAgregarFamiliar.Text = "Agregar Familiar";
             this.btnAgregarFamiliar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -307,11 +311,12 @@
             // 
             // btnAsigConyuge
             // 
+            this.btnAsigConyuge.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAsigConyuge.Image = global::ClinicaFrba.Properties.Resources.add;
             this.btnAsigConyuge.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAsigConyuge.Location = new System.Drawing.Point(509, 105);
+            this.btnAsigConyuge.Location = new System.Drawing.Point(500, 301);
             this.btnAsigConyuge.Name = "btnAsigConyuge";
-            this.btnAsigConyuge.Size = new System.Drawing.Size(122, 23);
+            this.btnAsigConyuge.Size = new System.Drawing.Size(135, 33);
             this.btnAsigConyuge.TabIndex = 25;
             this.btnAsigConyuge.Text = "Agregar Conyuge";
             this.btnAsigConyuge.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -319,7 +324,7 @@
             // 
             // dtpFechaNac
             // 
-            this.dtpFechaNac.Location = new System.Drawing.Point(144, 106);
+            this.dtpFechaNac.Location = new System.Drawing.Point(141, 254);
             this.dtpFechaNac.Name = "dtpFechaNac";
             this.dtpFechaNac.Size = new System.Drawing.Size(180, 20);
             this.dtpFechaNac.TabIndex = 29;
@@ -328,7 +333,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 314);
+            this.ClientSize = new System.Drawing.Size(671, 476);
             this.Controls.Add(this.dtpFechaNac);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.txtNroAf);
@@ -357,7 +362,10 @@
             this.Controls.Add(this.lblTipoDoc);
             this.Controls.Add(this.lblNombre);
             this.Controls.Add(this.lblApellido);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AgregarAfiliado";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Afiliado";
             this.Load += new System.EventHandler(this.AgregarAfiliado_Load);
             this.ResumeLayout(false);

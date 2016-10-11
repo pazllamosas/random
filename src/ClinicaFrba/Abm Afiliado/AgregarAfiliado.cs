@@ -27,5 +27,20 @@ namespace ClinicaFrba.Abm_Afiliado
             this.Hide();
             FormProvider.Afiliado.Show(); 
         }
+
+        private void lblMail_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtMail_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtFamACargo_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -47,17 +47,17 @@
             // lblProfesional
             // 
             this.lblProfesional.AutoSize = true;
-            this.lblProfesional.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProfesional.Location = new System.Drawing.Point(36, 19);
+            this.lblProfesional.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProfesional.Location = new System.Drawing.Point(63, 16);
             this.lblProfesional.Name = "lblProfesional";
-            this.lblProfesional.Size = new System.Drawing.Size(145, 15);
+            this.lblProfesional.Size = new System.Drawing.Size(173, 18);
             this.lblProfesional.TabIndex = 0;
             this.lblProfesional.Text = "Seleccione el profesional";
             // 
             // cmbProfesional
             // 
             this.cmbProfesional.FormattingEnabled = true;
-            this.cmbProfesional.Location = new System.Drawing.Point(209, 18);
+            this.cmbProfesional.Location = new System.Drawing.Point(255, 16);
             this.cmbProfesional.Name = "cmbProfesional";
             this.cmbProfesional.Size = new System.Drawing.Size(121, 21);
             this.cmbProfesional.TabIndex = 1;
@@ -65,7 +65,7 @@
             // cmbEspecialidad
             // 
             this.cmbEspecialidad.FormattingEnabled = true;
-            this.cmbEspecialidad.Location = new System.Drawing.Point(210, 49);
+            this.cmbEspecialidad.Location = new System.Drawing.Point(255, 54);
             this.cmbEspecialidad.Name = "cmbEspecialidad";
             this.cmbEspecialidad.Size = new System.Drawing.Size(121, 21);
             this.cmbEspecialidad.TabIndex = 3;
@@ -73,38 +73,38 @@
             // lblEspecialidad
             // 
             this.lblEspecialidad.AutoSize = true;
-            this.lblEspecialidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEspecialidad.Location = new System.Drawing.Point(36, 54);
+            this.lblEspecialidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEspecialidad.Location = new System.Drawing.Point(55, 57);
             this.lblEspecialidad.Name = "lblEspecialidad";
-            this.lblEspecialidad.Size = new System.Drawing.Size(154, 15);
+            this.lblEspecialidad.Size = new System.Drawing.Size(181, 18);
             this.lblEspecialidad.TabIndex = 2;
             this.lblEspecialidad.Text = "Seleccione la especialidad";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(36, 86);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(36, 97);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(168, 15);
+            this.label1.Size = new System.Drawing.Size(200, 18);
             this.label1.TabIndex = 4;
             this.label1.Text = "Seleccione una fecha posible";
             // 
             // dtpTurnoPosible
             // 
-            this.dtpTurnoPosible.Location = new System.Drawing.Point(210, 82);
+            this.dtpTurnoPosible.Location = new System.Drawing.Point(255, 95);
             this.dtpTurnoPosible.Name = "dtpTurnoPosible";
             this.dtpTurnoPosible.Size = new System.Drawing.Size(200, 20);
             this.dtpTurnoPosible.TabIndex = 5;
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBuscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBuscar.Image = global::ClinicaFrba.Properties.Resources.busqueda;
             this.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBuscar.Location = new System.Drawing.Point(185, 124);
+            this.btnBuscar.Location = new System.Drawing.Point(220, 145);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(90, 23);
+            this.btnBuscar.Size = new System.Drawing.Size(96, 32);
             this.btnBuscar.TabIndex = 6;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -112,12 +112,12 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLimpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLimpiar.Image = global::ClinicaFrba.Properties.Resources.delete;
             this.btnLimpiar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLimpiar.Location = new System.Drawing.Point(302, 124);
+            this.btnLimpiar.Location = new System.Drawing.Point(337, 145);
             this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(87, 23);
+            this.btnLimpiar.Size = new System.Drawing.Size(93, 32);
             this.btnLimpiar.TabIndex = 7;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -128,9 +128,9 @@
             this.dgvHorariosDisp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvHorariosDisp.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnHorarios});
-            this.dgvHorariosDisp.Location = new System.Drawing.Point(132, 159);
+            this.dgvHorariosDisp.Location = new System.Drawing.Point(33, 196);
             this.dgvHorariosDisp.Name = "dgvHorariosDisp";
-            this.dgvHorariosDisp.Size = new System.Drawing.Size(343, 93);
+            this.dgvHorariosDisp.Size = new System.Drawing.Size(343, 162);
             this.dgvHorariosDisp.TabIndex = 8;
             // 
             // ColumnHorarios
@@ -143,26 +143,26 @@
             // 
             // btnSeleccionarTurno
             // 
-            this.btnSeleccionarTurno.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSeleccionarTurno.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSeleccionarTurno.Image = global::ClinicaFrba.Properties.Resources.select;
             this.btnSeleccionarTurno.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSeleccionarTurno.Location = new System.Drawing.Point(493, 187);
+            this.btnSeleccionarTurno.Location = new System.Drawing.Point(409, 252);
             this.btnSeleccionarTurno.Name = "btnSeleccionarTurno";
-            this.btnSeleccionarTurno.Size = new System.Drawing.Size(116, 41);
+            this.btnSeleccionarTurno.Size = new System.Drawing.Size(170, 52);
             this.btnSeleccionarTurno.TabIndex = 9;
             this.btnSeleccionarTurno.Text = "Seleccionar Turno";
-            this.btnSeleccionarTurno.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.btnSeleccionarTurno.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSeleccionarTurno.UseVisualStyleBackColor = true;
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnCancelar.Image = global::ClinicaFrba.Properties.Resources.cancel;
             this.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancelar.Location = new System.Drawing.Point(348, 272);
+            this.btnCancelar.Location = new System.Drawing.Point(386, 390);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(108, 33);
+            this.btnCancelar.Size = new System.Drawing.Size(108, 48);
             this.btnCancelar.TabIndex = 12;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -171,13 +171,13 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGuardar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.ForeColor = System.Drawing.Color.Green;
             this.btnGuardar.Image = global::ClinicaFrba.Properties.Resources.save;
             this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardar.Location = new System.Drawing.Point(195, 272);
+            this.btnGuardar.Location = new System.Drawing.Point(241, 390);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(108, 33);
+            this.btnGuardar.Size = new System.Drawing.Size(108, 48);
             this.btnGuardar.TabIndex = 11;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -188,7 +188,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 314);
+            this.ClientSize = new System.Drawing.Size(671, 476);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.btnSeleccionarTurno);
@@ -201,7 +201,10 @@
             this.Controls.Add(this.lblEspecialidad);
             this.Controls.Add(this.cmbProfesional);
             this.Controls.Add(this.lblProfesional);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Turno";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Turno";
             ((System.ComponentModel.ISupportInitialize)(this.dgvHorariosDisp)).EndInit();
             this.ResumeLayout(false);

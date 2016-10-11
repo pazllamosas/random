@@ -41,69 +41,73 @@
             // lblNroAfiliado
             // 
             this.lblNroAfiliado.AutoSize = true;
-            this.lblNroAfiliado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNroAfiliado.Location = new System.Drawing.Point(12, 22);
+            this.lblNroAfiliado.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNroAfiliado.Location = new System.Drawing.Point(146, 71);
             this.lblNroAfiliado.Name = "lblNroAfiliado";
-            this.lblNroAfiliado.Size = new System.Drawing.Size(154, 15);
+            this.lblNroAfiliado.Size = new System.Drawing.Size(181, 18);
             this.lblNroAfiliado.TabIndex = 0;
             this.lblNroAfiliado.Text = "Ingrese número de afiliado";
             this.lblNroAfiliado.Click += new System.EventHandler(this.lblNroAfiliado_Click);
             // 
             // txtNroAfiliado
             // 
-            this.txtNroAfiliado.Location = new System.Drawing.Point(176, 21);
+            this.txtNroAfiliado.Location = new System.Drawing.Point(342, 69);
             this.txtNroAfiliado.Name = "txtNroAfiliado";
-            this.txtNroAfiliado.Size = new System.Drawing.Size(100, 20);
+            this.txtNroAfiliado.Size = new System.Drawing.Size(119, 20);
             this.txtNroAfiliado.TabIndex = 13;
             // 
             // lblCantBonos
             // 
             this.lblCantBonos.AutoSize = true;
-            this.lblCantBonos.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCantBonos.Location = new System.Drawing.Point(12, 68);
+            this.lblCantBonos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCantBonos.Location = new System.Drawing.Point(59, 147);
             this.lblCantBonos.Name = "lblCantBonos";
-            this.lblCantBonos.Size = new System.Drawing.Size(224, 15);
+            this.lblCantBonos.Size = new System.Drawing.Size(268, 18);
             this.lblCantBonos.TabIndex = 14;
             this.lblCantBonos.Text = "Ingrese la cantidad de bonos a comprar";
+            this.lblCantBonos.Click += new System.EventHandler(this.lblCantBonos_Click);
             // 
             // txtCantBonos
             // 
-            this.txtCantBonos.Location = new System.Drawing.Point(254, 67);
+            this.txtCantBonos.Location = new System.Drawing.Point(342, 148);
             this.txtCantBonos.Name = "txtCantBonos";
-            this.txtCantBonos.Size = new System.Drawing.Size(100, 20);
+            this.txtCantBonos.Size = new System.Drawing.Size(119, 20);
             this.txtCantBonos.TabIndex = 15;
+            this.txtCantBonos.TextChanged += new System.EventHandler(this.txtCantBonos_TextChanged);
             // 
             // lblMonto
             // 
             this.lblMonto.AutoSize = true;
-            this.lblMonto.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMonto.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMonto.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.lblMonto.Location = new System.Drawing.Point(118, 160);
+            this.lblMonto.Location = new System.Drawing.Point(127, 245);
             this.lblMonto.Name = "lblMonto";
-            this.lblMonto.Size = new System.Drawing.Size(166, 29);
+            this.lblMonto.Size = new System.Drawing.Size(218, 37);
             this.lblMonto.TabIndex = 16;
             this.lblMonto.Text = "Monto Total: ";
+            this.lblMonto.Click += new System.EventHandler(this.lblMonto_Click);
             // 
             // txtMonto
             // 
-            this.txtMonto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMonto.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMonto.ForeColor = System.Drawing.Color.Blue;
-            this.txtMonto.Location = new System.Drawing.Point(279, 163);
+            this.txtMonto.Location = new System.Drawing.Point(351, 245);
             this.txtMonto.Name = "txtMonto";
             this.txtMonto.ReadOnly = true;
             this.txtMonto.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtMonto.Size = new System.Drawing.Size(91, 26);
+            this.txtMonto.Size = new System.Drawing.Size(91, 40);
             this.txtMonto.TabIndex = 17;
+            this.txtMonto.TextChanged += new System.EventHandler(this.txtMonto_TextChanged);
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnCancelar.Image = global::ClinicaFrba.Properties.Resources.cancel;
             this.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancelar.Location = new System.Drawing.Point(329, 268);
+            this.btnCancelar.Location = new System.Drawing.Point(351, 389);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(108, 33);
+            this.btnCancelar.Size = new System.Drawing.Size(122, 43);
             this.btnCancelar.TabIndex = 12;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -112,13 +116,13 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGuardar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.ForeColor = System.Drawing.Color.Green;
             this.btnGuardar.Image = global::ClinicaFrba.Properties.Resources.save;
             this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardar.Location = new System.Drawing.Point(176, 268);
+            this.btnGuardar.Location = new System.Drawing.Point(205, 389);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(108, 33);
+            this.btnGuardar.Size = new System.Drawing.Size(122, 43);
             this.btnGuardar.TabIndex = 11;
             this.btnGuardar.Text = "Comprar";
             this.btnGuardar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -129,7 +133,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 314);
+            this.ClientSize = new System.Drawing.Size(671, 475);
             this.Controls.Add(this.txtMonto);
             this.Controls.Add(this.lblMonto);
             this.Controls.Add(this.txtCantBonos);
@@ -138,7 +142,10 @@
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.lblNroAfiliado);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "CompraBono";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Compra Bono";
             this.ResumeLayout(false);
             this.PerformLayout();

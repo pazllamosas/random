@@ -22,5 +22,15 @@ namespace ClinicaFrba.Listados
             this.Hide();
             FormProvider.ListadoEstadistico.Show();
         }
+
+        private void lblSemestre_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbSemestre_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

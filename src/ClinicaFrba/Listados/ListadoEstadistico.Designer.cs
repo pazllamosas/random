@@ -41,19 +41,19 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::ClinicaFrba.Properties.Resources.top51;
-            this.pictureBox1.Location = new System.Drawing.Point(44, 23);
+            this.pictureBox1.Location = new System.Drawing.Point(31, 120);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(192, 203);
+            this.pictureBox1.Size = new System.Drawing.Size(200, 204);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
             // btnEspecialidadesCancelaciones
             // 
-            this.btnEspecialidadesCancelaciones.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEspecialidadesCancelaciones.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEspecialidadesCancelaciones.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnEspecialidadesCancelaciones.Location = new System.Drawing.Point(280, 23);
+            this.btnEspecialidadesCancelaciones.Location = new System.Drawing.Point(280, 48);
             this.btnEspecialidadesCancelaciones.Name = "btnEspecialidadesCancelaciones";
-            this.btnEspecialidadesCancelaciones.Size = new System.Drawing.Size(358, 31);
+            this.btnEspecialidadesCancelaciones.Size = new System.Drawing.Size(358, 51);
             this.btnEspecialidadesCancelaciones.TabIndex = 1;
             this.btnEspecialidadesCancelaciones.Text = "Especialidades con más cancelaciones";
             this.btnEspecialidadesCancelaciones.UseVisualStyleBackColor = true;
@@ -61,11 +61,11 @@
             // 
             // btnProfesionalesPlan
             // 
-            this.btnProfesionalesPlan.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnProfesionalesPlan.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnProfesionalesPlan.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnProfesionalesPlan.Location = new System.Drawing.Point(280, 70);
+            this.btnProfesionalesPlan.Location = new System.Drawing.Point(280, 120);
             this.btnProfesionalesPlan.Name = "btnProfesionalesPlan";
-            this.btnProfesionalesPlan.Size = new System.Drawing.Size(358, 31);
+            this.btnProfesionalesPlan.Size = new System.Drawing.Size(358, 51);
             this.btnProfesionalesPlan.TabIndex = 2;
             this.btnProfesionalesPlan.Text = "Profesionales más consultados por plan";
             this.btnProfesionalesPlan.UseVisualStyleBackColor = true;
@@ -73,11 +73,11 @@
             // 
             // btnProfesionalesMenosHoras
             // 
-            this.btnProfesionalesMenosHoras.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnProfesionalesMenosHoras.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnProfesionalesMenosHoras.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnProfesionalesMenosHoras.Location = new System.Drawing.Point(280, 117);
+            this.btnProfesionalesMenosHoras.Location = new System.Drawing.Point(280, 192);
             this.btnProfesionalesMenosHoras.Name = "btnProfesionalesMenosHoras";
-            this.btnProfesionalesMenosHoras.Size = new System.Drawing.Size(358, 31);
+            this.btnProfesionalesMenosHoras.Size = new System.Drawing.Size(358, 51);
             this.btnProfesionalesMenosHoras.TabIndex = 3;
             this.btnProfesionalesMenosHoras.Text = "Profesionales con menos horas trabajadas";
             this.btnProfesionalesMenosHoras.UseVisualStyleBackColor = true;
@@ -85,11 +85,11 @@
             // 
             // btnAfiliadosBonosComp
             // 
-            this.btnAfiliadosBonosComp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAfiliadosBonosComp.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAfiliadosBonosComp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnAfiliadosBonosComp.Location = new System.Drawing.Point(280, 164);
+            this.btnAfiliadosBonosComp.Location = new System.Drawing.Point(280, 265);
             this.btnAfiliadosBonosComp.Name = "btnAfiliadosBonosComp";
-            this.btnAfiliadosBonosComp.Size = new System.Drawing.Size(358, 31);
+            this.btnAfiliadosBonosComp.Size = new System.Drawing.Size(358, 51);
             this.btnAfiliadosBonosComp.TabIndex = 4;
             this.btnAfiliadosBonosComp.Text = "Afiliados con mayor cantidad de bonos comprados";
             this.btnAfiliadosBonosComp.UseVisualStyleBackColor = true;
@@ -97,11 +97,11 @@
             // 
             // btnEspecialidadesBonos
             // 
-            this.btnEspecialidadesBonos.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEspecialidadesBonos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEspecialidadesBonos.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnEspecialidadesBonos.Location = new System.Drawing.Point(280, 211);
+            this.btnEspecialidadesBonos.Location = new System.Drawing.Point(280, 338);
             this.btnEspecialidadesBonos.Name = "btnEspecialidadesBonos";
-            this.btnEspecialidadesBonos.Size = new System.Drawing.Size(358, 31);
+            this.btnEspecialidadesBonos.Size = new System.Drawing.Size(358, 51);
             this.btnEspecialidadesBonos.TabIndex = 5;
             this.btnEspecialidadesBonos.Text = "Especialidades con más bonos de consultas";
             this.btnEspecialidadesBonos.UseVisualStyleBackColor = true;
@@ -109,10 +109,10 @@
             // 
             // btnVolver
             // 
-            this.btnVolver.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVolver.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnVolver.Image = global::ClinicaFrba.Properties.Resources.back;
             this.btnVolver.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVolver.Location = new System.Drawing.Point(12, 272);
+            this.btnVolver.Location = new System.Drawing.Point(12, 12);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(79, 30);
             this.btnVolver.TabIndex = 15;
@@ -125,7 +125,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 314);
+            this.ClientSize = new System.Drawing.Size(671, 476);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnEspecialidadesBonos);
             this.Controls.Add(this.btnAfiliadosBonosComp);
@@ -133,7 +133,10 @@
             this.Controls.Add(this.btnProfesionalesPlan);
             this.Controls.Add(this.btnEspecialidadesCancelaciones);
             this.Controls.Add(this.pictureBox1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ListadoEstadistico";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TOP 5";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

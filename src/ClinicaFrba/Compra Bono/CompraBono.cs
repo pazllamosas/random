@@ -34,5 +34,25 @@ namespace ClinicaFrba.Compra_Bono
             FormProvider.MainMenu.Show();   
 
         }
+
+        private void lblMonto_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblCantBonos_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtCantBonos_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtMonto_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

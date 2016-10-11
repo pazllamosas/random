@@ -28,5 +28,10 @@ namespace ClinicaFrba.AbmRol
             this.Hide();
             FormProvider.Rol.Show();
         }
+
+        private void btnEditarNombre_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

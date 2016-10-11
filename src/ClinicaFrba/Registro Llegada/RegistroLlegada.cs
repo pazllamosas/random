@@ -27,5 +27,20 @@ namespace ClinicaFrba.Registro_Llegada
         {
             FormProvider.TurnoProf.Show();
         }
+
+        private void cmbProfesional_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbEspecialidad_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRegLlegada_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

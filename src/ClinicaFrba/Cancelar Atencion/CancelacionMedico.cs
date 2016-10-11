@@ -22,5 +22,11 @@ namespace ClinicaFrba.Cancelar_Atencion
             this.Hide();
             FormProvider.Cancelacion.Show();
         }
+
+        private void btnGuardarCanc_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormProvider.Cancelacion.Show();
+        }
     }
 }

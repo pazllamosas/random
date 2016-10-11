@@ -40,7 +40,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnHorario});
-            this.dataGridView1.Location = new System.Drawing.Point(28, 12);
+            this.dataGridView1.Location = new System.Drawing.Point(22, 80);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(602, 221);
             this.dataGridView1.TabIndex = 0;
@@ -54,12 +54,12 @@
             // 
             // btnVolver
             // 
-            this.btnVolver.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVolver.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnVolver.Image = global::ClinicaFrba.Properties.Resources.back;
             this.btnVolver.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVolver.Location = new System.Drawing.Point(158, 267);
+            this.btnVolver.Location = new System.Drawing.Point(12, 12);
             this.btnVolver.Name = "btnVolver";
-            this.btnVolver.Size = new System.Drawing.Size(78, 39);
+            this.btnVolver.Size = new System.Drawing.Size(78, 32);
             this.btnVolver.TabIndex = 8;
             this.btnVolver.Text = "Volver";
             this.btnVolver.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -68,11 +68,12 @@
             // 
             // btnSeleccTurno
             // 
+            this.btnSeleccTurno.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSeleccTurno.Image = global::ClinicaFrba.Properties.Resources.select;
             this.btnSeleccTurno.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSeleccTurno.Location = new System.Drawing.Point(394, 267);
+            this.btnSeleccTurno.Location = new System.Drawing.Point(222, 345);
             this.btnSeleccTurno.Name = "btnSeleccTurno";
-            this.btnSeleccTurno.Size = new System.Drawing.Size(134, 39);
+            this.btnSeleccTurno.Size = new System.Drawing.Size(164, 59);
             this.btnSeleccTurno.TabIndex = 9;
             this.btnSeleccTurno.Text = "Seleccionar Turno";
             this.btnSeleccTurno.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -83,11 +84,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(663, 318);
+            this.ClientSize = new System.Drawing.Size(663, 476);
             this.Controls.Add(this.btnSeleccTurno);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dataGridView1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "TurnoProfesional";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Turno";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

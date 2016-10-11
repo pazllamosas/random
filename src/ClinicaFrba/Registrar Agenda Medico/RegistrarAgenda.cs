@@ -16,5 +16,11 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
         {
             InitializeComponent();
         }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormProvider.MainMenu.Show();
+        }
     }
 }

@@ -49,7 +49,7 @@
             // txtIdRol
             // 
             this.txtIdRol.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.txtIdRol.Location = new System.Drawing.Point(16, 23);
+            this.txtIdRol.Location = new System.Drawing.Point(12, 12);
             this.txtIdRol.Name = "txtIdRol";
             this.txtIdRol.Size = new System.Drawing.Size(36, 20);
             this.txtIdRol.TabIndex = 0;
@@ -57,18 +57,19 @@
             // lblNombreRol
             // 
             this.lblNombreRol.AutoSize = true;
-            this.lblNombreRol.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNombreRol.Location = new System.Drawing.Point(101, 22);
+            this.lblNombreRol.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNombreRol.Location = new System.Drawing.Point(217, 46);
             this.lblNombreRol.Name = "lblNombreRol";
-            this.lblNombreRol.Size = new System.Drawing.Size(78, 18);
+            this.lblNombreRol.Size = new System.Drawing.Size(81, 20);
             this.lblNombreRol.TabIndex = 1;
             this.lblNombreRol.Text = "Nombre: ";
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(198, 20);
+            this.txtNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNombre.Location = new System.Drawing.Point(304, 44);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(135, 20);
+            this.txtNombre.Size = new System.Drawing.Size(135, 24);
             this.txtNombre.TabIndex = 2;
             // 
             // dataGridView1
@@ -77,9 +78,9 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.numero,
             this.funcionalidad});
-            this.dataGridView1.Location = new System.Drawing.Point(16, 86);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 130);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(667, 80);
+            this.dataGridView1.Size = new System.Drawing.Size(647, 94);
             this.dataGridView1.TabIndex = 7;
             // 
             // numero
@@ -97,17 +98,17 @@
             // lblFuncionalidades
             // 
             this.lblFuncionalidades.AutoSize = true;
-            this.lblFuncionalidades.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFuncionalidades.Location = new System.Drawing.Point(12, 67);
+            this.lblFuncionalidades.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFuncionalidades.Location = new System.Drawing.Point(9, 97);
             this.lblFuncionalidades.Name = "lblFuncionalidades";
-            this.lblFuncionalidades.Size = new System.Drawing.Size(315, 16);
+            this.lblFuncionalidades.Size = new System.Drawing.Size(342, 18);
             this.lblFuncionalidades.TabIndex = 8;
             this.lblFuncionalidades.Text = "Seleccione de a una las funcionalidades a asignar: ";
             // 
             // cmbUsuario
             // 
             this.cmbUsuario.FormattingEnabled = true;
-            this.cmbUsuario.Location = new System.Drawing.Point(256, 219);
+            this.cmbUsuario.Location = new System.Drawing.Point(313, 327);
             this.cmbUsuario.Name = "cmbUsuario";
             this.cmbUsuario.Size = new System.Drawing.Size(157, 21);
             this.cmbUsuario.TabIndex = 11;
@@ -115,20 +116,21 @@
             // lblUsuario
             // 
             this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsuario.Location = new System.Drawing.Point(13, 219);
+            this.lblUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsuario.Location = new System.Drawing.Point(60, 330);
             this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(225, 16);
+            this.lblUsuario.Size = new System.Drawing.Size(247, 18);
             this.lblUsuario.TabIndex = 12;
             this.lblUsuario.Text = "Seleccione un usuario para asignar: ";
             // 
             // btnAsignarUsuario
             // 
+            this.btnAsignarUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAsignarUsuario.Image = global::ClinicaFrba.Properties.Resources.select;
             this.btnAsignarUsuario.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAsignarUsuario.Location = new System.Drawing.Point(454, 216);
+            this.btnAsignarUsuario.Location = new System.Drawing.Point(499, 320);
             this.btnAsignarUsuario.Name = "btnAsignarUsuario";
-            this.btnAsignarUsuario.Size = new System.Drawing.Size(121, 23);
+            this.btnAsignarUsuario.Size = new System.Drawing.Size(151, 28);
             this.btnAsignarUsuario.TabIndex = 13;
             this.btnAsignarUsuario.Text = "Asignar Usuario";
             this.btnAsignarUsuario.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -136,11 +138,12 @@
             // 
             // btnEliminarFunc
             // 
+            this.btnEliminarFunc.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminarFunc.Image = global::ClinicaFrba.Properties.Resources.delete;
             this.btnEliminarFunc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEliminarFunc.Location = new System.Drawing.Point(358, 172);
+            this.btnEliminarFunc.Location = new System.Drawing.Point(343, 234);
             this.btnEliminarFunc.Name = "btnEliminarFunc";
-            this.btnEliminarFunc.Size = new System.Drawing.Size(137, 26);
+            this.btnEliminarFunc.Size = new System.Drawing.Size(181, 41);
             this.btnEliminarFunc.TabIndex = 10;
             this.btnEliminarFunc.Text = "Eliminar Funcionalidad";
             this.btnEliminarFunc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -148,11 +151,12 @@
             // 
             // btnAgregarFunc
             // 
+            this.btnAgregarFunc.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAgregarFunc.Image = global::ClinicaFrba.Properties.Resources.add1;
             this.btnAgregarFunc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAgregarFunc.Location = new System.Drawing.Point(198, 172);
+            this.btnAgregarFunc.Location = new System.Drawing.Point(152, 234);
             this.btnAgregarFunc.Name = "btnAgregarFunc";
-            this.btnAgregarFunc.Size = new System.Drawing.Size(141, 26);
+            this.btnAgregarFunc.Size = new System.Drawing.Size(181, 41);
             this.btnAgregarFunc.TabIndex = 9;
             this.btnAgregarFunc.Text = "Agregar Funcionalidad";
             this.btnAgregarFunc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -161,11 +165,12 @@
             // btnCancelar
             // 
             this.btnCancelar.AutoSize = true;
+            this.btnCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.Image = global::ClinicaFrba.Properties.Resources.cancel;
             this.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancelar.Location = new System.Drawing.Point(358, 272);
+            this.btnCancelar.Location = new System.Drawing.Point(343, 412);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(85, 29);
+            this.btnCancelar.Size = new System.Drawing.Size(112, 39);
             this.btnCancelar.TabIndex = 5;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -175,11 +180,12 @@
             // btnCrearRol
             // 
             this.btnCrearRol.AutoSize = true;
+            this.btnCrearRol.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCrearRol.Image = global::ClinicaFrba.Properties.Resources.save;
             this.btnCrearRol.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCrearRol.Location = new System.Drawing.Point(241, 272);
+            this.btnCrearRol.Location = new System.Drawing.Point(221, 412);
             this.btnCrearRol.Name = "btnCrearRol";
-            this.btnCrearRol.Size = new System.Drawing.Size(92, 29);
+            this.btnCrearRol.Size = new System.Drawing.Size(112, 39);
             this.btnCrearRol.TabIndex = 4;
             this.btnCrearRol.Text = "Crear Rol";
             this.btnCrearRol.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -189,22 +195,23 @@
             // btnEditarNombre
             // 
             this.btnEditarNombre.AutoSize = true;
-            this.btnEditarNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditarNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditarNombre.Image = global::ClinicaFrba.Properties.Resources.modify;
             this.btnEditarNombre.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEditarNombre.Location = new System.Drawing.Point(464, 15);
+            this.btnEditarNombre.Location = new System.Drawing.Point(490, 42);
             this.btnEditarNombre.Name = "btnEditarNombre";
-            this.btnEditarNombre.Size = new System.Drawing.Size(125, 25);
+            this.btnEditarNombre.Size = new System.Drawing.Size(135, 28);
             this.btnEditarNombre.TabIndex = 3;
             this.btnEditarNombre.Text = "Editar Nombre";
             this.btnEditarNombre.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnEditarNombre.UseVisualStyleBackColor = true;
+            this.btnEditarNombre.Click += new System.EventHandler(this.btnEditarNombre_Click);
             // 
             // AgregarRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 314);
+            this.ClientSize = new System.Drawing.Size(671, 476);
             this.Controls.Add(this.btnAsignarUsuario);
             this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.cmbUsuario);
@@ -218,7 +225,10 @@
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.lblNombreRol);
             this.Controls.Add(this.txtIdRol);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AgregarRol";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Rol";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
