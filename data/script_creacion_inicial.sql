@@ -104,13 +104,13 @@ CREATE TABLE RANDOM.PERSONA(
 	IdPersona int PRIMARY KEY IDENTITY(1,1),
 	Nombre nvarchar(255),
 	Apellido nvarchar(255),
-	IdTipoDocumento int, 
+	IdTipoDocumento int DEFAULT '1', 
 	Dni numeric(18,0),
 	Direccion nvarchar(255),
 	Telefono numeric(18, 0),
 	Mail nvarchar(255),
 	Fecha_Nac datetime,
-	Baja bit DEFAULT 0,
+	Estado bit DEFAULT 1, --1 ACTIVO 0 BAJA
 	IdUsuario int
 )
 
@@ -126,7 +126,7 @@ CREATE TABLE RANDOM.AFILIADO(
 	IdPlan int,
 	NumeroAfiliadoRaiz int IDENTITY(1,1),
 	NumeroAfiliadoExt int DEFAULT '00',
-	Estado bit DEFAULT '1', --1 ACTIVO 0 BAJA
+	Estado bit DEFAULT 1, --1 ACTIVO 0 BAJA
 	NumeroUltimoBono int
 )
 
@@ -178,7 +178,8 @@ CREATE TABLE RANDOM.COMPRA_BONO(
 	IdCompra int PRIMARY KEY IDENTITY (1,1),
 	IdAfiliado int,
 	Fecha datetime,
-	MontoTotal int
+	MontoTotal int,
+	Cantidad int DEFAULT 1
 )
 
 CREATE TABLE RANDOM.BONO(
@@ -328,7 +329,7 @@ VALUES(11,3,1)
 INSERT INTO RANDOM.ROL_POR_FUNCIONALIDADES
 VALUES(12,2,1)
 
-/*USUARIO  Y   USUARIO POR ROL  S*/
+/*USUARIO  Y   USUARIO POR ROL  */
 INSERT INTO RANDOM.USUARIO(Username,Pass, FechaCreacion, UltimaModificacion)
 VALUES('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE(), GETDATE())
 INSERT INTO RANDOM.USUARIO(Username,Pass, FechaCreacion, UltimaModificacion)
@@ -344,7 +345,7 @@ FROM RANDOM.USUARIO U, RANDOM.ROL R
 WHERE R.Descripcion = 'Administrador'
 
 INSERT INTO RANDOM.USUARIO (Username, Pass, FechaCreacion, UltimaModificacion)
-SELECT DISTINCT M.Paciente_Mail, 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE(), GETDATE()
+SELECT DISTINCT M.Paciente_Dni, 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE(), GETDATE()
 FROM gd_esquema.Maestra M
 
 INSERT INTO RANDOM.USUARIO_POR_ROL(IdUsuario,IdRol)
@@ -353,7 +354,7 @@ FROM RANDOM.USUARIO U, RANDOM.ROL R
 WHERE R.Descripcion = 'Afiliado'
 
 INSERT INTO RANDOM.USUARIO (Username, Pass, FechaCreacion, UltimaModificacion)
-SELECT DISTINCT M.Medico_Mail, 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE(), GETDATE()
+SELECT DISTINCT M.Medico_Dni, 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE(), GETDATE()
 FROM gd_esquema.Maestra M
 WHERE M.Medico_Mail IS NOT NULL
 
@@ -407,13 +408,14 @@ VALUES ('Pasaporte')
 
 
 /*PERSONA*/ -- agregamos los afiliados nada mas aca
-INSERT INTO RANDOM.PERSONA(Nombre, Apellido, IdTipoDocumento, Dni, Direccion, Telefono, Mail, Fecha_Nac) 
-SELECT DISTINCT M.Paciente_Nombre, M.Paciente_Apellido, 1, M.Paciente_Dni, M.Paciente_Direccion, M.Paciente_Telefono, M.Paciente_Mail, M.Paciente_Fecha_Nac
+INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Dni, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario) 
+SELECT DISTINCT M.Paciente_Nombre, M.Paciente_Apellido, M.Paciente_Dni, M.Paciente_Direccion, M.Paciente_Telefono, M.Paciente_Mail, M.Paciente_Fecha_Nac,2
 FROM gd_esquema.Maestra M
 
+
 /*PERSONA*/ -- agregamos los medicos nada mas aca
-INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Dni, Direccion, Telefono, Mail, Fecha_Nac) 
-SELECT DISTINCT M.Medico_Nombre, M.Medico_Apellido, M.Medico_Dni, M.Medico_Direccion, M.Medico_Telefono, M.Medico_Mail, M.Medico_Fecha_Nac
+INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Dni, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario) 
+SELECT DISTINCT M.Medico_Nombre, M.Medico_Apellido, M.Medico_Dni, M.Medico_Direccion, M.Medico_Telefono, M.Medico_Mail, M.Medico_Fecha_Nac, 3
 FROM gd_esquema.Maestra M
 
 /*PLANES*/
@@ -444,7 +446,7 @@ SELECT DISTINCT P.IdPersona, PL.IdPlan
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Paciente_Nombre = P.Nombre AND M.Paciente_Apellido = P.Apellido AND M.Paciente_Dni = P.Dni
 JOIN RANDOM.PLANES PL ON M.Plan_Med_Codigo = PL.Codigo
---FALTAN numero ultimo bono que no me acuerdo de nuevo para que era. Cubi.
+--FALTAN numero ultimo bono que no me acuerdo de nuevo para que era. Cubi.  /  seteo de estado civil?
 
 /*TIPO_ESPECIALIDAD*/
 INSERT INTO RANDOM.TIPO_ESPECIALIDAD(Codigo,Descripcion)
@@ -465,6 +467,7 @@ FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Medico_Nombre =P.Nombre AND M.Medico_Apellido = P.Apellido AND M.Medico_Dni = P.Dni
 
 /*HISTORIAL_PLAN*/ -- inserto el primer plan de todas las personas de la base
+-- y si ponemos la fecha de nacimiento en vez de esa fecha?? 
 INSERT INTO RANDOM.HISTORIAL_PLAN(IdAfiliado, Fecha)
 SELECT DISTINCT A.IdPersona, '1957-10-24 00:00:00.000'
 FROM RANDOM.AFILIADO A
@@ -473,7 +476,7 @@ FROM RANDOM.AFILIADO A
 INSERT RANDOM.ESPECIALIDAD_POR_PROFESIONAL (IdProfesional, IdEspecialidad)
 SELECT DISTINCT P.IdPersona, E.IdEspecialidad
 FROM RANDOM.PERSONA P, gd_esquema.Maestra M, RANDOM.ESPECIALIDAD E
-where M.Medico_Dni = P.Dni and  E.Codigo = M.Especialidad_Codigo
+WHERE M.Medico_Dni = P.Dni and  E.Codigo = M.Especialidad_Codigo
 
 /*COMPRA_BONO*/
 INSERT RANDOM.COMPRA_BONO (IdAfiliado, Fecha)
@@ -511,7 +514,7 @@ DROP TABLE #TEMPORALPRECIOS
 
 /*TURNO*/
 
---para mi turno tiene que estar con afiliado no con bono, por lo qe puse en whatsapp
+--para mi turno tiene que estar con afiliado no con bono, por lo qe puse en whatsapp - Registro de llegada para atención médica
 
 SET IDENTITY_INSERT RANDOM.TURNO ON
 INSERT INTO RANDOM.TURNO (IdTurno, FechaYHora, IdBono)

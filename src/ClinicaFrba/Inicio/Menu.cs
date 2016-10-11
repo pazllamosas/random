@@ -25,6 +25,7 @@ namespace ClinicaFrba.Inicio
         private void btnVerRol_Click(object sender, EventArgs e)
         {
             FormProvider.Rol.Show();
+            FormProvider.Rol.CargarRoles();
         }
 
         private void btnRegAgenda_Click(object sender, EventArgs e)
