@@ -179,13 +179,13 @@ CREATE TABLE RANDOM.COMPRA_BONO(
 	IdAfiliado int,
 	Fecha datetime,
 	MontoTotal int,
-	Cantidad int DEFAULT 1
+	Cantidad int --DEFAULT 1  creo que no iria porque sino en la migracion va a salir como 1 todas las compras, y son mas de una cada compra. Y es complicado sacar ese numero para cada uno, asi que mejor se lo dejamos en null y a los nuevos se los ponemos 
 )
 
 CREATE TABLE RANDOM.BONO(
 	IdBono int PRIMARY KEY IDENTITY (1,1), -- No es el numero de bono porque sino tendria que cambiar el tipo de datos en muchos lugares
 	IdCompra int,
-	--Estado nvarchar(255), creo que no va
+	Usado bit default 0, -- 1 si esta usado
 	Precio int,
 	CompraBonoFecha datetime,
 	ConsultaNumero numeric(18),
@@ -198,25 +198,22 @@ CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
 	FechaYHoraDesde datetime,
 	FechaYHoraHasta datetime,
 	IdEspecialidad int,
-	EstadoDisponibilidad nvarchar(255)
 )
 
 CREATE TABLE RANDOM.TURNO(
 	IdTurno int PRIMARY KEY IDENTITY (1,1),
 	IdAgenda int,
-	--Estado nvarchar(255), estaba por algo en especial? Seria el habilitado para mi. Cubi.
-	FechaYHora datetime,
-	IdBono int,
-	--IdResultado int,
+	FechaYHora datetime, --es la fecha y hora en la que se saca el turno
 	habilitado bit DEFAULT 1
 )
 
 CREATE TABLE RANDOM.RESULTADO_TURNO(
 	IdResultadoTurno int PRIMARY KEY IDENTITY(1,1),
 	IdTurno int,
+	IdBono int,
 	Sintomas nvarchar(255),
 	Enfermedades nvarchar(255),
-	Fecha datetime
+	Fecha datetime -- es la fecha y hora en la que se hace la consulta dado un turno que sacaste antes
 )
 
 CREATE TABLE RANDOM.CANCELACION(
@@ -250,7 +247,7 @@ ALTER TABLE RANDOM.BONO ADD FOREIGN KEY (IdCompra) REFERENCES RANDOM.COMPRA_BONO
 ALTER TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE ADD FOREIGN KEY (IdProfesional) REFERENCES RANDOM.PROFESIONAL
 ALTER TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE ADD FOREIGN KEY (IdEspecialidad) REFERENCES RANDOM.ESPECIALIDAD
 ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdAgenda) REFERENCES RANDOM.AGENDA_HORARIO_DISPONIBLE
-ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdBono) REFERENCES RANDOM.BONO
+ALTER TABLE RANDOM.RESULTADO_TURNO ADD FOREIGN KEY (IdBono) REFERENCES RANDOM.BONO
 ALTER TABLE RANDOM.RESULTADO_TURNO ADD FOREIGN KEY (IdTurno) REFERENCES RANDOM.TURNO
 ALTER TABLE RANDOM.CANCELACION ADD FOREIGN KEY (IdTipoCancelacion) REFERENCES RANDOM.TIPO_CANCELACION
 ALTER TABLE RANDOM.CANCELACION ADD FOREIGN KEY (IdTurno) REFERENCES RANDOM.TURNO
@@ -483,11 +480,11 @@ INSERT RANDOM.COMPRA_BONO (IdAfiliado, Fecha)
 SELECT DISTINCT P.IdPersona, M.Compra_Bono_Fecha
 FROM RANDOM.PERSONA P 
 JOIN gd_esquema.Maestra M on P.Dni = M.Paciente_Dni AND M.Compra_Bono_Fecha IS NOT NULL
+--tendriamos que agregar el campo cantidad para la migracion? O solo lo tenemos en cuenta para nuevos registros?
 
-
-/*BONO*/
-INSERT RANDOM.BONO (IdCompra, Precio, CompraBonoFecha, ConsultaNumero)
-SELECT DISTINCT C.IdCompra, PL.MontoConsulta, M.Compra_Bono_Fecha,M.Bono_Consulta_Numero
+/*BONO*/ -- falta ponerle el campo usado
+INSERT RANDOM.BONO (IdCompra, Precio, CompraBonoFecha, ConsultaNumero, Usado)
+SELECT DISTINCT C.IdCompra, PL.MontoConsulta, M.Compra_Bono_Fecha,M.Bono_Consulta_Numero, 1
 FROM RANDOM.PERSONA P 
 JOIN gd_esquema.Maestra M on P.Dni = M.Paciente_Dni
 JOIN RANDOM.COMPRA_BONO C ON  M.Compra_Bono_Fecha = C.Fecha AND C.IdAfiliado = P.IdPersona
@@ -513,30 +510,22 @@ DROP TABLE #TEMPORALPRECIOS
 /*AGENDA_HORARIO_DISPONIBLE*/
 
 /*TURNO*/
-
---para mi turno tiene que estar con afiliado no con bono, por lo qe puse en whatsapp - Registro de llegada para atención médica
-
 SET IDENTITY_INSERT RANDOM.TURNO ON
-INSERT INTO RANDOM.TURNO (IdTurno, FechaYHora, IdBono)
-SELECT DISTINCT M.Turno_Numero, M.Turno_Fecha, B.IdBono
-FROM RANDOM.BONO B, gd_esquema.Maestra M 
-WHERE M.Bono_Consulta_Numero = B.ConsultaNumero
-	AND M.Turno_Numero IS NOT NULL
-SET IDENTITY_INSERT RANDOM.TURNO OFF
-
+INSERT INTO RANDOM.TURNO (IdTurno, FechaYHora)
+SELECT DISTINCT M.Turno_Numero, M.Turno_Fecha
+FROM gd_esquema.Maestra M 
+where M.Turno_Numero IS NOT NULL AND M.Turno_Fecha IS NOT NULL
 
 /*RESULTADO_TURNO*/
-
-INSERT INTO RANDOM.RESULTADO_TURNO(IdTurno, Sintomas, Enfermedades, Fecha)
-SELECT DISTINCT T.IdTurno , M.Consulta_Sintomas, M.Consulta_Enfermedades, T.FechaYHora
-FROM gd_esquema.Maestra M, RANDOM.TURNO T
-WHERE T.IdTurno = M.Turno_Numero
-	AND T.FechaYHora = M.Turno_Fecha
+INSERT INTO RANDOM.RESULTADO_TURNO(IdTurno, IdBono, Sintomas, Enfermedades, Fecha)
+SELECT DISTINCT M.Turno_Numero, B.IdBono, M.Consulta_Sintomas, M.Consulta_Enfermedades, M.Bono_Consulta_Fecha_Impresion
+FROM RANDOM.BONO B, gd_esquema.Maestra M
+WHERE M.Bono_Consulta_Numero = B.ConsultaNumero
+	AND M.Turno_Numero IS NOT NULL
 	AND M.Consulta_Sintomas IS NOT NULL
 	AND M.Consulta_Enfermedades IS NOT NULL
-
---fecha era fecha de turno??
-
+	SET IDENTITY_INSERT RANDOM.TURNO OFF
+	
 
 ---------------DATOS PARA ESTRATEGIA-----------------
 
@@ -643,4 +632,6 @@ En agenda_horario_disponible ponemos todos los horarios que tengan los doctores 
 Todos los ID manejemoslo en INT, y los string NVARCHAR porque acepta unicode
 
 Hacer todas las validaciones en c#
+
+en la estrategia aclarar los comentarios que psue en la creacion de la tablas
 */
