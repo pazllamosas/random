@@ -120,7 +120,7 @@ CREATE TABLE RANDOM.FUNCIONALIDADES(
 CREATE TABLE RANDOM.ROL_POR_FUNCIONALIDADES(
 	IdFuncionalidad int,
 	IdRol int,
-	habilitada bit DEFAULT 1	
+	Habilitada bit DEFAULT 1	--para que en el menu se vean las de cada rol
 	)
 
 CREATE TABLE RANDOM.USUARIO(
@@ -136,7 +136,7 @@ CREATE TABLE RANDOM.USUARIO(
 CREATE TABLE RANDOM.USUARIO_POR_ROL(
 	IdUsuario int,
 	IdRol int,
-	habilitada bit DEFAULT 1
+	Habilitada bit DEFAULT 1 --para dar de baja un usuario por rol
 )
 
 CREATE TABLE RANDOM.PERSONA(
@@ -149,7 +149,6 @@ CREATE TABLE RANDOM.PERSONA(
 	Telefono numeric(18, 0),
 	Mail nvarchar(255),
 	Fecha_Nac datetime,
-	Estado bit DEFAULT 1, --1 ACTIVO 0 BAJA
 	IdUsuario int
 )
 
@@ -160,13 +159,13 @@ CREATE TABLE RANDOM.TIPOS_DOCUMENTOS(
 
 CREATE TABLE RANDOM.AFILIADO(
 	IdPersona int PRIMARY KEY,
-	IdEstadoCivil int,
+	IdEstadoCivil int DEFAULT 1,
 	CantidadACargo int DEFAULT '0',
 	IdPlan int,
 	NumeroAfiliadoRaiz int IDENTITY(1,1),
 	NumeroAfiliadoExt int DEFAULT '00',
-	Estado bit DEFAULT 1, --1 ACTIVO 0 BAJA
-	NumeroUltimoBono int
+	Estado bit DEFAULT 1--, 1 ACTIVO 0 BAJA
+	--NumeroUltimoBono int
 )
 
 CREATE TABLE RANDOM.PLANES(
@@ -191,8 +190,8 @@ CREATE TABLE.RANDOM.ESTADO_CIVIL(
 )
 
 CREATE TABLE RANDOM.PROFESIONAL(
-	IdProfesional int PRIMARY KEY
-	--Matricula int no va porque el id profesional seria la matricula
+	IdProfesional int PRIMARY KEY --es la matricula del profesional
+	
 )
 CREATE TABLE RANDOM.TIPO_ESPECIALIDAD(
 	IdTipoEspecialidad int PRIMARY KEY IDENTITY(1,1),
@@ -218,17 +217,17 @@ CREATE TABLE RANDOM.COMPRA_BONO(
 	IdAfiliado int,
 	Fecha datetime,
 	MontoTotal int,
-	Cantidad int --DEFAULT 1  creo que no iria porque sino en la migracion va a salir como 1 todas las compras, y son mas de una cada compra. Y es complicado sacar ese numero para cada uno, asi que mejor se lo dejamos en null y a los nuevos se los ponemos 
+	Cantidad int
 )
 
 CREATE TABLE RANDOM.BONO(
 	IdBono int PRIMARY KEY IDENTITY (1,1), -- No es el numero de bono porque sino tendria que cambiar el tipo de datos en muchos lugares
 	IdCompra int,
-	Usado bit default 0, -- 1 si esta usado
+	Usado bit default 1, -- 1 si esta usado
 	Precio int,
 	CompraBonoFecha datetime,
-	ConsultaNumero numeric(18),
-	habilitado bit DEFAULT 1
+	ConsultaNumero numeric(18), --numero de bono
+	Habilitado bit DEFAULT 1 -- para el cambio de plan
 )
 
 CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
@@ -242,8 +241,10 @@ CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
 CREATE TABLE RANDOM.TURNO(
 	IdTurno int PRIMARY KEY IDENTITY (1,1),
 	IdAgenda int,
-	FechaYHora datetime, --es la fecha y hora en la que se saca el turno
-	habilitado bit DEFAULT 1
+	IdAfiliado int,
+	FechaYHoraAltaTurno datetime, --es la fecha y hora en la que se saca el turno
+	FechaYHoraTurno datetime,
+	Habilitado bit DEFAULT 1
 )
 
 CREATE TABLE RANDOM.RESULTADO_TURNO(
@@ -292,6 +293,7 @@ ALTER TABLE RANDOM.CANCELACION ADD FOREIGN KEY (IdTipoCancelacion) REFERENCES RA
 ALTER TABLE RANDOM.CANCELACION ADD FOREIGN KEY (IdTurno) REFERENCES RANDOM.TURNO
 ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (IdTipoDocumento) REFERENCES RANDOM.TIPOS_DOCUMENTOS
 ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (IdUsuario) REFERENCES RANDOM.Usuario
+ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdAfiliado) REFERENCES RANDOM.AFILIADO
 
 -- CREATE INDIXES
 
@@ -399,6 +401,7 @@ INSERT INTO RANDOM.USUARIO_POR_ROL(IdUsuario,IdRol)
 SELECT U.IdUsuario, 3
 FROM RANDOM.USUARIO U, RANDOM.ROL R
 WHERE R.Descripcion = 'Profesional'
+
 
 
 	
@@ -519,11 +522,11 @@ INSERT RANDOM.COMPRA_BONO (IdAfiliado, Fecha)
 SELECT DISTINCT P.IdPersona, M.Compra_Bono_Fecha
 FROM RANDOM.PERSONA P 
 JOIN gd_esquema.Maestra M on P.Dni = M.Paciente_Dni AND M.Compra_Bono_Fecha IS NOT NULL
---tendriamos que agregar el campo cantidad para la migracion? O solo lo tenemos en cuenta para nuevos registros?
 
-/*BONO*/ -- falta ponerle el campo usado
-INSERT RANDOM.BONO (IdCompra, Precio, CompraBonoFecha, ConsultaNumero, Usado)
-SELECT DISTINCT C.IdCompra, PL.MontoConsulta, M.Compra_Bono_Fecha,M.Bono_Consulta_Numero, 1
+
+/*BONO*/
+INSERT RANDOM.BONO (IdCompra, Precio, CompraBonoFecha, ConsultaNumero)
+SELECT DISTINCT C.IdCompra, PL.MontoConsulta, M.Compra_Bono_Fecha,M.Bono_Consulta_Numero
 FROM RANDOM.PERSONA P 
 JOIN gd_esquema.Maestra M on P.Dni = M.Paciente_Dni
 JOIN RANDOM.COMPRA_BONO C ON  M.Compra_Bono_Fecha = C.Fecha AND C.IdAfiliado = P.IdPersona
@@ -546,14 +549,29 @@ where T.ID = CB.IdCompra
 
 DROP TABLE #TEMPORALPRECIOS
 
+--UPDATE de las cantidades de las compras para la migracion
+UPDATE RANDOM.COMPRA_BONO
+SET   Cantidad = joinBonoCompra.CANTIDAD
+FROM (SELECT B.IdCompra , COUNT (B.IdBONO) AS 'CANTIDAD'
+		FROM RANDOM.BONO B, RANDOM.COMPRA_BONO C
+		WHERE B.IdCompra = C.IdCompra
+		GROUP BY B.IdCompra) AS joinBonoCompra
+WHERE joinBonoCompra.IdCompra = RANDOM.COMPRA_BONO.IdCompra
+
+
 /*AGENDA_HORARIO_DISPONIBLE*/
+
+
 
 /*TURNO*/
 SET IDENTITY_INSERT RANDOM.TURNO ON
-INSERT INTO RANDOM.TURNO (IdTurno, FechaYHora)
-SELECT DISTINCT M.Turno_Numero, M.Turno_Fecha
-FROM gd_esquema.Maestra M 
-where M.Turno_Numero IS NOT NULL AND M.Turno_Fecha IS NOT NULL
+INSERT INTO RANDOM.TURNO (IdTurno, FechaYHoraAltaTurno, IdAfiliado, FechaYHoraTurno)
+SELECT DISTINCT M.Turno_Numero, M.Turno_Fecha, P.IdPersona, m.Bono_Consulta_Fecha_Impresion
+FROM gd_esquema.Maestra M, RANDOM.PERSONA P
+where M.Turno_Numero IS NOT NULL 
+	AND M.Turno_Fecha IS NOT NULL
+	AND M.Bono_Consulta_Fecha_Impresion IS NOT NULL
+	AND P.Dni = M.Paciente_Dni
 
 /*RESULTADO_TURNO*/
 INSERT INTO RANDOM.RESULTADO_TURNO(IdTurno, IdBono, Sintomas, Enfermedades, Fecha)
@@ -783,6 +801,8 @@ GO
 
 ---------------DATOS PARA ESTRATEGIA-----------------
 
+
+
 /* VER REVISAR 
 1) TEMA TIPO DNI (OK):
 	es necesario utilizar tipo y numero de documento? O se puede usar solo DNI ya que de los medicos y personas cargados solo tenemos dni?
@@ -832,7 +852,7 @@ HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
 10) IDEA NRO AFILIADO (OK):
 Para crear el numero de afiliado se me ocurrio crear 2 campos uno que sea el numero de afiliado gral y otro qe sea por familiar, es decir 00, 01 etc. 
 
-
+TURNO FECHA ES LA FECHA EN LA QUE SE EJECUTA EL TURNO.
 
 la matricula del profesional va a ser el id profesional
 
