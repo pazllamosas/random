@@ -32,9 +32,10 @@
             this.dgvRol = new System.Windows.Forms.DataGridView();
             this.Rol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnEditar = new System.Windows.Forms.Button();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
+            this.btnBajaRol = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRol)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,26 +70,26 @@
             this.Descripcion.Name = "Descripcion";
             this.Descripcion.ReadOnly = true;
             // 
-            // button1
+            // btnEditar
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Image = global::ClinicaFrba.Properties.Resources.modify;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(337, 368);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(111, 36);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Editar Rol";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnEditar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditar.Image = global::ClinicaFrba.Properties.Resources.modify;
+            this.btnEditar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEditar.Location = new System.Drawing.Point(286, 368);
+            this.btnEditar.Name = "btnEditar";
+            this.btnEditar.Size = new System.Drawing.Size(111, 36);
+            this.btnEditar.TabIndex = 3;
+            this.btnEditar.Text = "Editar Rol";
+            this.btnEditar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEditar.UseVisualStyleBackColor = true;
+            this.btnEditar.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnAgregar
             // 
             this.btnAgregar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAgregar.Image = global::ClinicaFrba.Properties.Resources.add;
             this.btnAgregar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAgregar.Location = new System.Drawing.Point(167, 368);
+            this.btnAgregar.Location = new System.Drawing.Point(55, 368);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.btnAgregar.Size = new System.Drawing.Size(123, 36);
@@ -113,12 +114,27 @@
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
+            // btnBajaRol
+            // 
+            this.btnBajaRol.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBajaRol.Image = global::ClinicaFrba.Properties.Resources.cancel;
+            this.btnBajaRol.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnBajaRol.Location = new System.Drawing.Point(497, 368);
+            this.btnBajaRol.Name = "btnBajaRol";
+            this.btnBajaRol.Size = new System.Drawing.Size(130, 36);
+            this.btnBajaRol.TabIndex = 4;
+            this.btnBajaRol.Text = "Inhabilitar Rol";
+            this.btnBajaRol.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnBajaRol.UseVisualStyleBackColor = true;
+            this.btnBajaRol.Click += new System.EventHandler(this.btnBajaRol_Click);
+            // 
             // verRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnBajaRol);
+            this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dgvRol);
@@ -138,8 +154,9 @@
         private System.Windows.Forms.DataGridView dgvRol;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnAgregar;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnEditar;
         private System.Windows.Forms.DataGridViewTextBoxColumn Rol;
         private System.Windows.Forms.DataGridViewTextBoxColumn Descripcion;
+        private System.Windows.Forms.Button btnBajaRol;
     }
 }
