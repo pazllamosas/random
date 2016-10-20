@@ -231,6 +231,7 @@ CREATE TABLE RANDOM.BONO(
 	IdCompra int,
 	Usado bit default 1, -- 1 si esta usado
 	Precio int,
+	IdPlan int,
 	CompraBonoFecha datetime,
 	ConsultaNumero numeric(18), --numero de bono
 	Habilitado bit DEFAULT 1 -- para el cambio de plan
@@ -531,8 +532,8 @@ JOIN gd_esquema.Maestra M on P.Dni = M.Paciente_Dni AND M.Compra_Bono_Fecha IS N
 
 
 /*BONO*/
-INSERT RANDOM.BONO (IdCompra, Precio, CompraBonoFecha, ConsultaNumero)
-SELECT DISTINCT C.IdCompra, PL.MontoConsulta, M.Compra_Bono_Fecha,M.Bono_Consulta_Numero
+INSERT RANDOM.BONO (IdCompra, Precio, IdPlan, CompraBonoFecha, ConsultaNumero)
+SELECT DISTINCT C.IdCompra, PL.MontoConsulta, PL.IdPlan, M.Compra_Bono_Fecha,M.Bono_Consulta_Numero
 FROM RANDOM.PERSONA P 
 JOIN gd_esquema.Maestra M on P.Dni = M.Paciente_Dni
 JOIN RANDOM.COMPRA_BONO C ON  M.Compra_Bono_Fecha = C.Fecha AND C.IdAfiliado = P.IdPersona
@@ -834,6 +835,48 @@ AS BEGIN
 END
 
 
+--------------TOP 5-----------------
+/*
+CREATE PROCEDURE RANDOM.top5EspecialidadesConMasCancelaciones(@fechaFrom varchar(50), @fechaTo varchar(50))
+AS BEGIN
+select top 5
+from
+order by  desc
+END
+GO
+
+CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom varchar(50), @fechaTo varchar(50))
+AS BEGIN
+select top 5
+from
+order by  desc
+END
+GO
+
+CREATE PROCEDURE RANDOM.top5ProfesionalesConMenosHorasTrabajadas(@fechaFrom varchar(50), @fechaTo varchar(50))
+AS BEGIN
+select top 5
+from
+order by  desc
+END
+GO
+
+CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados(@fechaFrom varchar(50), @fechaTo varchar(50))
+AS BEGIN
+select top 5
+from
+order by  desc
+END
+GO
+
+CREATE PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas(@fechaFrom varchar(50), @fechaTo varchar(50))
+AS BEGIN
+select top 5
+from
+order by  desc
+END
+GO
+*/
 ---------------DATOS PARA ESTRATEGIA-----------------
 
 
@@ -886,6 +929,10 @@ HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
 
 10) IDEA NRO AFILIADO (OK):
 Para crear el numero de afiliado se me ocurrio crear 2 campos uno que sea el numero de afiliado gral y otro qe sea por familiar, es decir 00, 01 etc. 
+
+Las fechas en cuestion las tomasmos como pensabamos. tomamos que los campos bono_consulta_fecha_impresión  y compra_bono_fecha son independientes
+
+las horas trabajadas son las horas que estuvo atendiendo gente
 
 TURNO FECHA ES LA FECHA EN LA QUE SE EJECUTA EL TURNO.
 
