@@ -91,6 +91,16 @@ IF OBJECT_ID('RANDOM.ASIGNAR_ROL') IS NOT NULL
 DROP PROCEDURE RANDOM.ASIGNAR_ROL
 IF OBJECT_ID('RANDOM.CREAR_ROL') IS NOT NULL
 DROP PROCEDURE RANDOM.CREAR_ROL
+IF OBJECT_ID('RANDOM.top5EspecialidadesConMasConsultasUtilizadas') IS NOT NULL
+DROP PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas
+/*IF OBJECT_ID('RANDOM.top5AfiliadosConMayorCantBonosComprados') IS NOT NULL
+DROP PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados
+IF OBJECT_ID('RANDOM.top5ProfesionalesConMenosHorasTrabajadas') IS NOT NULL
+DROP PROCEDURE RANDOM.top5ProfesionalesConMenosHorasTrabajadas*/
+IF OBJECT_ID('RANDOM.top5ProfesionalesMasConsultadosPorPlan') IS NOT NULL
+DROP PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan
+IF OBJECT_ID('RANDOM.top5EspecialidadesConMasCancelacionesDeTurno') IS NOT NULL
+DROP PROCEDURE RANDOM.top5EspecialidadesConMasCancelacionesDeTurno
 
 
 -- DROP TRIGGERS
@@ -291,6 +301,7 @@ ALTER TABLE RANDOM.ESPECIALIDAD_POR_PROFESIONAL ADD FOREIGN KEY (IdProfesional) 
 ALTER TABLE RANDOM.ESPECIALIDAD_POR_PROFESIONAL ADD FOREIGN KEY (IdEspecialidad) REFERENCES RANDOM.ESPECIALIDAD
 ALTER TABLE RANDOM.COMPRA_BONO ADD FOREIGN KEY (IdAfiliado) REFERENCES RANDOM.AFILIADO
 ALTER TABLE RANDOM.BONO ADD FOREIGN KEY (IdCompra) REFERENCES RANDOM.COMPRA_BONO
+ALTER TABLE RANDOM.BONO ADD FOREIGN KEY (IdPlan) REFERENCES RANDOM.PlANES
 ALTER TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE ADD FOREIGN KEY (IdProfesional) REFERENCES RANDOM.PROFESIONAL
 ALTER TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE ADD FOREIGN KEY (IdEspecialidad) REFERENCES RANDOM.ESPECIALIDAD
 ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdAgenda) REFERENCES RANDOM.AGENDA_HORARIO_DISPONIBLE
@@ -833,18 +844,24 @@ AS BEGIN
 	
 	RETURN @IDUSUARIO
 END
-
-
---------------TOP 5-----------------
-/*
-CREATE PROCEDURE RANDOM.top5EspecialidadesConMasCancelaciones(@fechaFrom varchar(50), @fechaTo varchar(50))
-AS BEGIN
-select top 5
-from
-order by  desc
-END
 GO
 
+--------------TOP 5-----------------
+GO
+CREATE PROCEDURE RANDOM.top5EspecialidadesConMasCancelacionesDeTurno (@fechaFrom nvarchar(50), @fechaTo nvarchar(50))
+AS BEGIN
+select top 5 E.Descripcion AS 'Especialidad', count(C.IdCancelacion) AS 'Cantidad'
+from RANDOM.CANCELACION C
+JOIN RANDOM.TURNO T ON C.IdTurno = T.IdTurno
+JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
+JOIN RANDOM.ESPECIALIDAD E ON HD.IdEspecialidad = E.IdEspecialidad
+WHERE T.FechaYHoraTurno between convert(datetime, @fechaFrom,109) and convert(datetime, @fechaTo,109)
+group by E.Descripcion 
+order by 2 desc
+END
+GO
+/*
+GO
 CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom varchar(50), @fechaTo varchar(50))
 AS BEGIN
 select top 5
@@ -852,31 +869,52 @@ from
 order by  desc
 END
 GO
+*/
 
-CREATE PROCEDURE RANDOM.top5ProfesionalesConMenosHorasTrabajadas(@fechaFrom varchar(50), @fechaTo varchar(50))
+----------------------------- FALTA DETALLAR SI PERTENECE A UN GRUPO FAMILIAR
+create table #TEMPORAL(
+IdPersona int,
+Cantidad int
+)
+--Primero aca busco el id de la persona, y en el procedure que le sigue busco el numero raiz y extension, para mostrar eso
+INSERT #TEMPORAL(IdPersona,Cantidad)
+select P.IdPersona AS 'Persona', sum(CB.Cantidad) AS 'Cantidad'
+from RANDOM.COMPRA_BONO CB
+JOIN RANDOM.AFILIADO A ON A.IdPersona = CB.IdAfiliado
+JOIN RANDOM.PERSONA P ON P.IdPersona = A.IdPersona
+group by P.IdPersona 
+order by 2 desc
+GO
+
+GO
+CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados
 AS BEGIN
-select top 5
-from
-order by  desc
+SELECT top 5 CAST (A.NumeroAfiliadoRaiz AS VARCHAR) + CAST (a.NumeroAfiliadoExt AS VARCHAR), T.Cantidad
+FROM #TEMPORAL T
+JOIN RANDOM.AFILIADO A ON A.IdPersona = T.IdPersona
 END
 GO
 
-CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados(@fechaFrom varchar(50), @fechaTo varchar(50))
-AS BEGIN
-select top 5
-from
-order by  desc
-END
-GO
+drop table #TEMPORAL
 
+----------------------------
+
+
+GO
 CREATE PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas(@fechaFrom varchar(50), @fechaTo varchar(50))
 AS BEGIN
-select top 5
-from
-order by  desc
+select top 5 E.Descripcion AS 'Especialidad', count(RT.IdResultadoTurno) AS 'Cantidad'
+from RANDOM.RESULTADO_TURNO RT 
+JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
+JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
+JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
+JOIN RANDOM.ESPECIALIDAD E ON HD.IdEspecialidad = E.IdEspecialidad
+WHERE T.FechaYHoraTurno between convert(datetime, @fechaFrom,109) and convert(datetime, @fechaTo,109)
+group by E.Descripcion 
+order by 2 desc
 END
 GO
-*/
+
 ---------------DATOS PARA ESTRATEGIA-----------------
 
 
