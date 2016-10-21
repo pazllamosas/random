@@ -36,10 +36,16 @@
             this.lblEnfermedad = new System.Windows.Forms.Label();
             this.txtSintomas = new System.Windows.Forms.TextBox();
             this.txtEnfermedad = new System.Windows.Forms.TextBox();
-            this.lblInfoSintomas = new System.Windows.Forms.Label();
-            this.btnAgregarSintoma = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
+            this.dgvTurnos = new System.Windows.Forms.DataGridView();
+            this.IdTurno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Apellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Dni = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FechaYHoraTurno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTurnos)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTurno
@@ -67,37 +73,38 @@
             // 
             this.lblFecha.AutoSize = true;
             this.lblFecha.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFecha.Location = new System.Drawing.Point(104, 79);
+            this.lblFecha.Location = new System.Drawing.Point(91, 82);
             this.lblFecha.Name = "lblFecha";
-            this.lblFecha.Size = new System.Drawing.Size(53, 18);
+            this.lblFecha.Size = new System.Drawing.Size(119, 18);
             this.lblFecha.TabIndex = 2;
-            this.lblFecha.Text = "Fecha:";
+            this.lblFecha.Text = "Fecha del Turno:";
             // 
             // dtpFecha
             // 
             this.dtpFecha.Checked = false;
-            this.dtpFecha.Location = new System.Drawing.Point(181, 79);
+            this.dtpFecha.Location = new System.Drawing.Point(219, 80);
             this.dtpFecha.MaxDate = new System.DateTime(3000, 1, 1, 0, 0, 0, 0);
             this.dtpFecha.MinDate = new System.DateTime(1999, 12, 27, 0, 0, 0, 0);
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(270, 20);
             this.dtpFecha.TabIndex = 3;
+            this.dtpFecha.ValueChanged += new System.EventHandler(this.dtpFecha_ValueChanged);
             // 
             // lblSintomas
             // 
             this.lblSintomas.AutoSize = true;
             this.lblSintomas.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSintomas.Location = new System.Drawing.Point(90, 213);
+            this.lblSintomas.Location = new System.Drawing.Point(82, 313);
             this.lblSintomas.Name = "lblSintomas";
-            this.lblSintomas.Size = new System.Drawing.Size(67, 18);
+            this.lblSintomas.Size = new System.Drawing.Size(75, 18);
             this.lblSintomas.TabIndex = 4;
-            this.lblSintomas.Text = "Sintoma:";
+            this.lblSintomas.Text = "Síntomas:";
             // 
             // lblEnfermedad
             // 
             this.lblEnfermedad.AutoSize = true;
             this.lblEnfermedad.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEnfermedad.Location = new System.Drawing.Point(65, 272);
+            this.lblEnfermedad.Location = new System.Drawing.Point(65, 355);
             this.lblEnfermedad.Name = "lblEnfermedad";
             this.lblEnfermedad.Size = new System.Drawing.Size(92, 18);
             this.lblEnfermedad.TabIndex = 5;
@@ -105,40 +112,17 @@
             // 
             // txtSintomas
             // 
-            this.txtSintomas.Location = new System.Drawing.Point(181, 214);
+            this.txtSintomas.Location = new System.Drawing.Point(181, 313);
             this.txtSintomas.Name = "txtSintomas";
-            this.txtSintomas.Size = new System.Drawing.Size(244, 20);
+            this.txtSintomas.Size = new System.Drawing.Size(375, 20);
             this.txtSintomas.TabIndex = 6;
             // 
             // txtEnfermedad
             // 
-            this.txtEnfermedad.Location = new System.Drawing.Point(181, 273);
+            this.txtEnfermedad.Location = new System.Drawing.Point(181, 356);
             this.txtEnfermedad.Name = "txtEnfermedad";
-            this.txtEnfermedad.Size = new System.Drawing.Size(244, 20);
+            this.txtEnfermedad.Size = new System.Drawing.Size(375, 20);
             this.txtEnfermedad.TabIndex = 7;
-            // 
-            // lblInfoSintomas
-            // 
-            this.lblInfoSintomas.AutoSize = true;
-            this.lblInfoSintomas.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblInfoSintomas.Location = new System.Drawing.Point(12, 164);
-            this.lblInfoSintomas.Name = "lblInfoSintomas";
-            this.lblInfoSintomas.Size = new System.Drawing.Size(314, 20);
-            this.lblInfoSintomas.TabIndex = 11;
-            this.lblInfoSintomas.Text = "Ingrese de a UNO los sintomas y agregelos";
-            // 
-            // btnAgregarSintoma
-            // 
-            this.btnAgregarSintoma.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAgregarSintoma.Image = global::ClinicaFrba.Properties.Resources.add;
-            this.btnAgregarSintoma.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAgregarSintoma.Location = new System.Drawing.Point(453, 204);
-            this.btnAgregarSintoma.Name = "btnAgregarSintoma";
-            this.btnAgregarSintoma.Size = new System.Drawing.Size(152, 36);
-            this.btnAgregarSintoma.TabIndex = 12;
-            this.btnAgregarSintoma.Text = "Agregar Sintoma";
-            this.btnAgregarSintoma.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnAgregarSintoma.UseVisualStyleBackColor = true;
             // 
             // btnCancelar
             // 
@@ -170,13 +154,68 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
+            // dgvTurnos
+            // 
+            this.dgvTurnos.AllowUserToAddRows = false;
+            this.dgvTurnos.AllowUserToDeleteRows = false;
+            this.dgvTurnos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTurnos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.IdTurno,
+            this.Nombre,
+            this.Apellido,
+            this.Descripcion,
+            this.Dni,
+            this.FechaYHoraTurno});
+            this.dgvTurnos.Location = new System.Drawing.Point(42, 118);
+            this.dgvTurnos.Name = "dgvTurnos";
+            this.dgvTurnos.ReadOnly = true;
+            this.dgvTurnos.Size = new System.Drawing.Size(584, 150);
+            this.dgvTurnos.TabIndex = 13;
+            // 
+            // IdTurno
+            // 
+            this.IdTurno.HeaderText = "Turno";
+            this.IdTurno.Name = "IdTurno";
+            this.IdTurno.ReadOnly = true;
+            this.IdTurno.Visible = false;
+            // 
+            // Nombre
+            // 
+            this.Nombre.HeaderText = "Nombre";
+            this.Nombre.Name = "Nombre";
+            this.Nombre.ReadOnly = true;
+            // 
+            // Apellido
+            // 
+            this.Apellido.HeaderText = "Apellido";
+            this.Apellido.Name = "Apellido";
+            this.Apellido.ReadOnly = true;
+            // 
+            // Descripcion
+            // 
+            this.Descripcion.HeaderText = "Tipo de Documento";
+            this.Descripcion.Name = "Descripcion";
+            this.Descripcion.ReadOnly = true;
+            // 
+            // Dni
+            // 
+            this.Dni.HeaderText = "Número";
+            this.Dni.Name = "Dni";
+            this.Dni.ReadOnly = true;
+            // 
+            // FechaYHoraTurno
+            // 
+            this.FechaYHoraTurno.HeaderText = "Fecha y Hora del Turno";
+            this.FechaYHoraTurno.Name = "FechaYHoraTurno";
+            this.FechaYHoraTurno.ReadOnly = true;
+            this.FechaYHoraTurno.Width = 123;
+            // 
             // Diagnostico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
-            this.Controls.Add(this.btnAgregarSintoma);
-            this.Controls.Add(this.lblInfoSintomas);
+            this.Controls.Add(this.dgvTurnos);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.txtEnfermedad);
@@ -192,6 +231,7 @@
             this.Name = "Diagnostico";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Diagnóstico";
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTurnos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -209,7 +249,12 @@
         private System.Windows.Forms.TextBox txtEnfermedad;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnCancelar;
-        private System.Windows.Forms.Label lblInfoSintomas;
-        private System.Windows.Forms.Button btnAgregarSintoma;
+        private System.Windows.Forms.DataGridView dgvTurnos;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IdTurno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Nombre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Apellido;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Descripcion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Dni;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FechaYHoraTurno;
     }
 }
