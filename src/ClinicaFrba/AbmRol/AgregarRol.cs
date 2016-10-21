@@ -28,7 +28,9 @@ namespace ClinicaFrba.AbmRol
                 }
             reader.Close();
            editando = false;
+           
          }
+        
         
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -47,22 +49,28 @@ namespace ClinicaFrba.AbmRol
            if (!editando)
             {
                 string nombre = txtNombre.Text;
-                bool resultado = Conexion.executeProcedure("RANDOM.CREAR_ROL", Conexion.generarArgumentos("@NOMBRE"), nombre);
-                if (resultado)
+
+                if (validacion())
                 {
-                    string query = "SELECT RANDOM.GET_ID_ROL ('" + nombre + "' ) AS id";
-                    SqlDataReader reader = Conexion.ejecutarQuery(query);
-                    reader.Read();
-                    string respuesta = (reader["id"].ToString());
-                    reader.Close();
-                    txtIdRol.Text = respuesta;
-                    MessageBox.Show("Rol creado");
-                    dgvFuncionalidades.ReadOnly = false;
-                    btnAgregarFunc.Enabled = true;
-                    btnEliminarFunc.Enabled = true;
-                    cmbUsuario.Enabled = true;
-                    btnAsignarUsuario.Enabled = true;
-                }
+                    bool resultado = Conexion.executeProcedure("RANDOM.CREAR_ROL", Conexion.generarArgumentos("@NOMBRE"), nombre);
+                    if (resultado)
+                    {
+                        string query = "SELECT RANDOM.GET_ID_ROL ('" + nombre + "' ) AS id";
+                        SqlDataReader reader = Conexion.ejecutarQuery(query);
+                        reader.Read();
+                        string respuesta = (reader["id"].ToString());
+                        reader.Close();
+                        txtIdRol.Text = respuesta;
+                        MessageBox.Show("Rol creado");
+                        dgvFuncionalidades.ReadOnly = false;
+                        btnAgregarFunc.Enabled = true;
+                        btnEliminarFunc.Enabled = true;
+                        cmbUsuario.Enabled = true;
+                        btnAsignarUsuario.Enabled = true;
+                    }
+                } else
+                    MessageBox.Show("Falta agregar funcionalidad", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
             } else
             {
                 if (editando)
@@ -162,8 +170,11 @@ namespace ClinicaFrba.AbmRol
         {
             if (this.txtNombre.Text.Trim() == "")
                 return false;
-            if (this.cmbUsuario.SelectedIndex == -1)
+            Int32 selectedRowCount = dgvFuncionalidades.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            if (selectedRowCount > (-1))
+            {
                 return false;
+            }
             return true;
         }
 
@@ -286,6 +297,11 @@ namespace ClinicaFrba.AbmRol
                 {
                 return false;
                 }
+        }
+
+        private void dgvFuncionalidades_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
 
 

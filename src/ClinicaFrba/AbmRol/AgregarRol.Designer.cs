@@ -32,6 +32,8 @@
             this.lblNombreRol = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.dgvFuncionalidades = new System.Windows.Forms.DataGridView();
+            this.numero = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.funcionalidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblFuncionalidades = new System.Windows.Forms.Label();
             this.cmbUsuario = new System.Windows.Forms.ComboBox();
             this.lblUsuario = new System.Windows.Forms.Label();
@@ -42,8 +44,6 @@
             this.btnCrearRol = new System.Windows.Forms.Button();
             this.btnEditarNombre = new System.Windows.Forms.Button();
             this.btnHabilitarRol = new System.Windows.Forms.Button();
-            this.numero = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.funcionalidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFuncionalidades)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,9 +83,23 @@
             this.funcionalidad});
             this.dgvFuncionalidades.Location = new System.Drawing.Point(12, 178);
             this.dgvFuncionalidades.Name = "dgvFuncionalidades";
-            this.dgvFuncionalidades.ReadOnly = true;
             this.dgvFuncionalidades.Size = new System.Drawing.Size(647, 94);
             this.dgvFuncionalidades.TabIndex = 7;
+            this.dgvFuncionalidades.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFuncionalidades_CellContentClick);
+            // 
+            // numero
+            // 
+            this.numero.HeaderText = "Número";
+            this.numero.Name = "numero";
+            this.numero.ReadOnly = true;
+            // 
+            // funcionalidad
+            // 
+            this.funcionalidad.FillWeight = 300F;
+            this.funcionalidad.HeaderText = "Funcionalidad";
+            this.funcionalidad.Name = "funcionalidad";
+            this.funcionalidad.ReadOnly = true;
+            this.funcionalidad.Width = 300;
             // 
             // lblFuncionalidades
             // 
@@ -133,7 +147,6 @@
             // 
             // btnEliminarFunc
             // 
-            this.btnEliminarFunc.Enabled = false;
             this.btnEliminarFunc.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminarFunc.Image = global::ClinicaFrba.Properties.Resources.delete;
             this.btnEliminarFunc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -148,7 +161,6 @@
             // 
             // btnAgregarFunc
             // 
-            this.btnAgregarFunc.Enabled = false;
             this.btnAgregarFunc.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAgregarFunc.Image = global::ClinicaFrba.Properties.Resources.add1;
             this.btnAgregarFunc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -221,20 +233,6 @@
             this.btnHabilitarRol.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnHabilitarRol.UseVisualStyleBackColor = true;
             this.btnHabilitarRol.Click += new System.EventHandler(this.btnHabilitarRol_Click);
-            // 
-            // numero
-            // 
-            this.numero.HeaderText = "Número";
-            this.numero.Name = "numero";
-            this.numero.ReadOnly = true;
-            // 
-            // funcionalidad
-            // 
-            this.funcionalidad.FillWeight = 300F;
-            this.funcionalidad.HeaderText = "Funcionalidad";
-            this.funcionalidad.Name = "funcionalidad";
-            this.funcionalidad.ReadOnly = true;
-            this.funcionalidad.Width = 300;
             // 
             // AgregarRol
             // 
