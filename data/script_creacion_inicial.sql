@@ -914,14 +914,14 @@ JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.ESPECIALIDAD E ON HD.IdEspecialidad = E.IdEspecialidad
-WHERE /*T.FechaYHoraTurno between convert(datetime, '20140101 00:00:00',109) and convert(datetime, '20170101 00:00:00',109)
+WHERE T.FechaYHoraTurno between convert(datetime, '20140101 00:00:00',109) and convert(datetime, '20170101 00:00:00',109)
 AND 1 = B.IdPlan
 group by E.Descripcion 
 order by 2 desc*/
 
 ---------------------
-/*
-GO
+
+/*GO
 CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fechaFrom varchar(50), @fechaTo varchar(50))
 AS BEGIN
 select top 5
