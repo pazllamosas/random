@@ -97,12 +97,17 @@ IF OBJECT_ID('RANDOM.top5EspecialidadesConMasConsultasUtilizadas') IS NOT NULL
 DROP PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas
 IF OBJECT_ID('RANDOM.top5AfiliadosConMayorCantBonosComprados') IS NOT NULL
 DROP PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados
-IF OBJECT_ID('RANDOM.top5ProfesionalesConMenosHorasTrabajadas') IS NOT NULL
-DROP PROCEDURE RANDOM.top5ProfesionalesConMenosHorasTrabajadas
+/*IF OBJECT_ID('RANDOM.top5ProfesionalesConMenosHorasTrabajadas') IS NOT NULL
+DROP PROCEDURE RANDOM.top5ProfesionalesConMenosHorasTrabajadas*/
 IF OBJECT_ID('RANDOM.top5ProfesionalesMasConsultadosPorPlan') IS NOT NULL
 DROP PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan
 IF OBJECT_ID('RANDOM.top5EspecialidadesConMasCancelacionesDeTurno') IS NOT NULL
 DROP PROCEDURE RANDOM.top5EspecialidadesConMasCancelacionesDeTurno
+IF OBJECT_ID('RANDOM.TURNO_CONCRETADO') IS NOT NULL
+DROP PROCEDURE RANDOM.TURNO_CONCRETADO
+IF OBJECT_ID('RANDOM.TURNO_SIN_CONCRETAR') IS NOT NULL
+DROP PROCEDURE RANDOM.TURNO_SIN_CONCRETAR 
+
 
 
 -- DROP TRIGGERS
@@ -181,7 +186,7 @@ CREATE TABLE RANDOM.AFILIADO(
 	CantidadACargo int DEFAULT '0',
 	IdPlan int,
 	NumeroAfiliadoRaiz int IDENTITY(1,1),
-	NumeroAfiliadoExt int DEFAULT '00',
+	NumeroAfiliadoExt nvarchar(255) DEFAULT '00',
 	Estado bit DEFAULT 1--, 1 ACTIVO 0 BAJA
 	--NumeroUltimoBono int
 )
@@ -869,7 +874,7 @@ END
 GO
 
 
---------------TOP 5-----------------
+--------------TOP 5-----------------  hasta que no este agenda horario disponible no va a andar
 GO
 CREATE PROCEDURE RANDOM.top5EspecialidadesConMasCancelacionesDeTurno (@fechaFrom nvarchar(50), @fechaTo nvarchar(50))
 AS BEGIN
@@ -883,9 +888,41 @@ group by E.Descripcion
 order by 2 desc
 END
 GO
+
+--------------------- detallar bajo que especialidad en la app
+
+GO
+CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom varchar(50), @fechaTo varchar(50), @IdPlan int)
+AS BEGIN
+select top 5 E.Descripcion AS 'Especialidad', count(RT.IdResultadoTurno) AS 'Cantidad'
+from RANDOM.RESULTADO_TURNO RT 
+JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
+JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
+JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
+JOIN RANDOM.ESPECIALIDAD E ON HD.IdEspecialidad = E.IdEspecialidad
+WHERE T.FechaYHoraTurno between convert(datetime, @fechaFrom,109) and convert(datetime, @fechaTo,109)
+AND @IdPlan = B.IdPlan
+group by E.Descripcion 
+order by 2 desc
+END
+GO
+
+--para probar la de arriba:
+/*select top 5 E.Descripcion AS 'Especialidad', count(RT.IdResultadoTurno) AS 'Cantidad'
+from RANDOM.RESULTADO_TURNO RT 
+JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
+JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
+JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
+JOIN RANDOM.ESPECIALIDAD E ON HD.IdEspecialidad = E.IdEspecialidad
+WHERE /*T.FechaYHoraTurno between convert(datetime, '20140101 00:00:00',109) and convert(datetime, '20170101 00:00:00',109)
+AND 1 = B.IdPlan
+group by E.Descripcion 
+order by 2 desc*/
+
+---------------------
 /*
 GO
-CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom varchar(50), @fechaTo varchar(50))
+CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fechaFrom varchar(50), @fechaTo varchar(50))
 AS BEGIN
 select top 5
 from
@@ -894,7 +931,7 @@ END
 GO
 */
 
------------------------------ FALTA DETALLAR SI PERTENECE A UN GRUPO FAMILIAR
+---------------------
 create table #TEMPORAL(
 IdPersona int,
 Cantidad int
@@ -912,17 +949,20 @@ GO
 GO
 CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados
 AS BEGIN
-SELECT top 5 CAST (A.NumeroAfiliadoRaiz AS VARCHAR) + CAST (a.NumeroAfiliadoExt AS VARCHAR), T.Cantidad
+SELECT top 5 CAST (A.NumeroAfiliadoRaiz AS VARCHAR) + CAST (a.NumeroAfiliadoExt AS VARCHAR), T.Cantidad, 
+				CASE WHEN a.NumeroAfiliadoExt != '00' THEN 'Si'
+                   WHEN a.CantidadACargo > 0 THEN 'Si'
+                   ELSE 'No'
+				END AS "Pertenece a grupo familiar"
 FROM #TEMPORAL T
 JOIN RANDOM.AFILIADO A ON A.IdPersona = T.IdPersona
+order by 2 desc
 END
 GO
 
 drop table #TEMPORAL
 
-----------------------------
-
-
+--------------------- hasta que no este agenda horario disponible no va a andar
 GO
 CREATE PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas(@fechaFrom varchar(50), @fechaTo varchar(50))
 AS BEGIN
@@ -937,8 +977,6 @@ group by E.Descripcion
 order by 2 desc
 END
 GO
-
-
 
 --------------- REGISTRO RESULTADO DIAGNOSTICO ---------------
 GO
@@ -984,107 +1022,67 @@ GO
 	En el enunciado se pide Tipo y número de documento
 HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
 --> creada
-
 2) TEMA USUARIO (OK):
 	 Es obligatorio que todas las personas tengan un usuario? Y que un usuario tenga una persona asociada?
 	 Todos los afiliados y profesionales tienen que tener un username y password, queda a criterio de ustedes como se hace la asignación. Los mismos son necesarios para poder acceder al sistema y realizar las acciones correspondientes a su rol como la compra de bonos o pedido de turno  en la caso del afiliado o registrar el resultado de una consulta en el caso del profesional.
 --> CREAMOS SOLO USUARIO DE PRUEBAS - ADMIN Y LOS OTROS SE MIGRAN
-
 3) AGENDA PROFESIONAL (OK):
 	quien manejaria la agenda profesional? podria ser el administrador?
 	si podrian considerarlo de ese modo.
 --> creo que seria la mejor forma
 -> LA MANEJA EL ADMIN
-
 4) No hay bonos de farmacia ni compra de medicamentos. 
 -->ok
-
 5) TABLA MAESTRA (OK):
 	donde ponemos TURNO NUMERO, TURNO FECHA en la AGENDA O TURNO?
 	--> ESTO VA EN TURNO, EL NUMERO DE TURNO ES UNICO POR LO TANTO VA A SER LE ID DE LA TABLA 
-
 6) AFILIADO (OK):
 	 Estado ??
 	faltan setear cosas
 	--> ESTADO ES BAJA O ACTIVO
-
-
 7)TANTOS INDICES HACEN FALTA? (HAY QE BORRAR O COMENTAR)
 --> Emm no se, lo habiamos echo asi el año pasado, pero si se pueden sacar alguno mejor!
-
 -> yo el año pasado hice 2 indices cuando los necesite. para mi son muchos al pedo, talvez en tablas qe ni hace falta, hace corra mas lento el script. Paz
-
-
 8)CONSULTA SINTOMAS Y ENFERMEDAD SOLO DAN SINTOMA/ENFERMEDAD 1 Y DESPUES NULL (OK)
 --> eso se tendra que ir completando a medida de que el paciente va poniendo el sintoma y enfermedad creeria.
-
 9) ESPECIALIDAD POR PROFESIONAL
 	el profesional no deberia tener el id de especialidad? no hay forma de joinear?
 --> como puede tener muchas especialidades, va a estar en la tabla especialidad por profesional aclarada que especialidad tienen cada profesional.
-
 -> Pero como joinea? porque pedis la especialidad y el profesional, como sabes que es de ese profesional? Paz
-
 10) IDEA NRO AFILIADO (OK):
 Para crear el numero de afiliado se me ocurrio crear 2 campos uno que sea el numero de afiliado gral y otro qe sea por familiar, es decir 00, 01 etc. 
-
 Las fechas en cuestion las tomasmos como pensabamos. tomamos que los campos bono_consulta_fecha_impresión  y compra_bono_fecha son independientes
-
 las horas trabajadas son las horas que estuvo atendiendo gente
-
 TURNO FECHA ES LA FECHA EN LA QUE SE EJECUTA EL TURNO.
-
 la matricula del profesional va a ser el id profesional
-
 El peridodo de cancelacion de un profesional se tiene que contar en dias, y no en horas de un solo dia.
-
 Cuando un turno es dado de baja se va a generar otro turno para suplnatar al que se dio de baja en caso de que sea necesario
-
 Usamos una grilla para los horarios disponibles y el date box todos los días de lunes a sábados 
-
 Los síntomas nuevos si bien se cargan una vez, va a ser un gran steing que especifique todos los síntomas que tiene la persona.
 Y el síntoma u enfermedad se carga después de que se vio el médico.
-
 No hay números de turno repetidos
-
 Que los nombres de usuarios sean números, 8 numeros. No tienen por qué ser el número de documento de la persona nueva 
-
 1.Que Compra_Bono_Fecha y Bono_Consulta_Fecha_Impresion tengan la misma fecha y todos los demás campos en nulos (exceptuando los datos del usuario y planes médicos)
 2.Que Compra_Bono_Fecha, Bono_Consulta_Fecha_Impresion, Consulta_Sintoma y Consulta_Enfermedades sean nulos, y todo lo demás contenga datos. 
 3.Que Compra_Bono_Fecha sea nulo y todos los demás campos tengan datos.
 1.Se efectúa la compra del bono.
 2 corresponde a la solicitud del turno.
 3.se refiere a que se efectivizó la consulta, registrando la utilización del bono y el diagnóstico del médico.
-
 Compra_Bono_Fecha es a fecha en la que se compra el bono, y Bono_Consulta_Fecha_Impresion es la fecha en la que se usa el bono.
-
 Hay dos registros de cada persona que tienen numero de turno porque uno es cuando saco el turno, y el otro cuando se concreto el turno, por eso tiene sintomas y enfermedad
-
 No hya numeros de bonos de consultas en mas de un usuario
-
 Poner tipo de documento porque lo dice el enunciado, aunque sean todos dni
-
 +++ En la maestra no hay medicos que sean usuarios -  DONDE DICE? YO CREO QE SI Y YA MIGRE ALGUNOS
-
 Los bonos de farmacia no se compran
-
 No hay que crear en ningun momentos funcionalidades
-
 Si el paciente tiene el turno no nulo, pero a la vez los campos Consulta_Sintomas y Consulta_Enfermedades estan en nulo. ¿Significa que la persona cancelo el turno?
 No, ese caso representa la solicitud del turno. Podrian considerar que hubo  una cancelación cuando no hay referencia de Consulta_Sintomas y Consulta_Enfermedades para un cierto número de turno.
-
 Bono_Consulta_Fecha_Impresión se refiere a la fecha en que se compró el bono utilizado.
-
 cuando hay un número de bono repetido en la maestra, se describen dos situaciones. Una  cuando se realiza la compra del bono y la otra cuando el paciente fue atendido utilizando el mismo. 
-
 Hay que definir como hacemos el parentezco entre los familiares en la maestra porque no hay algun campo que nos diga que son familiares
-
 Las 24 hs de cancelacion la podemos tomar como si fuese el dia anterior, no literal 24 hs
-
 En agenda_horario_disponible ponemos todos los horarios que tengan los doctores (los que carguemos nosotros si es que no estan en la maestra) y si  esta disponible o no.
-
 Todos los ID manejemoslo en INT, y los string NVARCHAR porque acepta unicode
-
 Hacer todas las validaciones en c#
-
 en la estrategia aclarar los comentarios que psue en la creacion de la tablas
 */
