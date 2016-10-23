@@ -116,6 +116,7 @@ namespace ClinicaFrba
         public static DataTable cargarTablaConsulta(string consulta)
         {
             DataTable dt = new DataTable();
+            establecerConexionBD();
             try
             {
                 SqlConnection cn = getSqlInstanceConnection();
@@ -137,6 +138,7 @@ namespace ClinicaFrba
         public static DataTable obtenerTablaProcedure(string procedure, List<string> args, params object[] values)
         {
             DataTable dt = new DataTable();
+            establecerConexionBD();
             try
             {
                 SqlConnection cn = getSqlInstanceConnection();

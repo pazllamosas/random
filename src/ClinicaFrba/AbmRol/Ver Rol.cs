@@ -113,5 +113,10 @@ namespace ClinicaFrba.AbmRol
             }
         }
 
+        private void dgvRol_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
     }
 }

@@ -57,6 +57,7 @@
             this.dgvRol.Name = "dgvRol";
             this.dgvRol.Size = new System.Drawing.Size(647, 211);
             this.dgvRol.TabIndex = 0;
+            this.dgvRol.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRol_CellContentClick);
             // 
             // Rol
             // 

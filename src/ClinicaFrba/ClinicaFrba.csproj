@@ -50,6 +50,12 @@
     <Compile Include="Abm Afiliado\AgregarAfiliado.Designer.cs">
       <DependentUpon>AgregarAfiliado.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm Afiliado\CambioPlanes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Afiliado\CambioPlanes.Designer.cs">
+      <DependentUpon>CambioPlanes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm Afiliado\VerAfiliado.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -199,6 +205,9 @@
     </Compile>
     <EmbeddedResource Include="Abm Afiliado\AgregarAfiliado.resx">
       <DependentUpon>AgregarAfiliado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Afiliado\CambioPlanes.resx">
+      <DependentUpon>CambioPlanes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Afiliado\VerAfiliado.resx">
       <DependentUpon>VerAfiliado.cs</DependentUpon>

@@ -19,7 +19,31 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void AgregarAfiliado_Load(object sender, EventArgs e)
         {
+            cmbPlanMedico.ValueMember = "IdPlan";
+            cmbPlanMedico.DisplayMember = "Nombre";
+            cmbPlanMedico.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_PLANES");
 
+            cmbSexo.Items.Add("Femenino");
+            cmbSexo.Items.Add("Masculino");
+
+            cmbEstadoCivil.ValueMember = "IdEstadoCivil";
+            cmbEstadoCivil.DisplayMember = "Descripcion";
+            cmbEstadoCivil.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_ESTADO_CIVIL");
+
+            cmbTipoDoc.ValueMember = "IdTipoDocumento";
+            cmbTipoDoc.DisplayMember = "Descripcion";
+            cmbTipoDoc.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_TIPO_DOCUMENTO");
+
+            this.cmbPlanMedico.SelectedIndex = -1;
+            this.cmbSexo.SelectedIndex = -1;
+            this.cmbEstadoCivil.SelectedIndex = -1;
+            this.cmbTipoDoc.SelectedIndex = -1;
+
+
+
+
+
+           
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
@@ -41,6 +65,11 @@ namespace ClinicaFrba.Abm_Afiliado
         private void txtFamACargo_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnCambiarPlan_Click(object sender, EventArgs e)
+        {
+            FormProvider.CambioPlanAfiliado.Show();
         }
     }
 }

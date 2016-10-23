@@ -83,6 +83,7 @@
             this.funcionalidad});
             this.dgvFuncionalidades.Location = new System.Drawing.Point(12, 178);
             this.dgvFuncionalidades.Name = "dgvFuncionalidades";
+            this.dgvFuncionalidades.ReadOnly = true;
             this.dgvFuncionalidades.Size = new System.Drawing.Size(647, 94);
             this.dgvFuncionalidades.TabIndex = 7;
             this.dgvFuncionalidades.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFuncionalidades_CellContentClick);
@@ -119,6 +120,7 @@
             this.cmbUsuario.Name = "cmbUsuario";
             this.cmbUsuario.Size = new System.Drawing.Size(157, 21);
             this.cmbUsuario.TabIndex = 11;
+            this.cmbUsuario.SelectedIndexChanged += new System.EventHandler(this.cmbUsuario_SelectedIndexChanged);
             // 
             // lblUsuario
             // 
@@ -147,6 +149,7 @@
             // 
             // btnEliminarFunc
             // 
+            this.btnEliminarFunc.Enabled = false;
             this.btnEliminarFunc.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminarFunc.Image = global::ClinicaFrba.Properties.Resources.delete;
             this.btnEliminarFunc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -161,6 +164,7 @@
             // 
             // btnAgregarFunc
             // 
+            this.btnAgregarFunc.Enabled = false;
             this.btnAgregarFunc.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAgregarFunc.Image = global::ClinicaFrba.Properties.Resources.add1;
             this.btnAgregarFunc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;

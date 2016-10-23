@@ -170,11 +170,7 @@ namespace ClinicaFrba.AbmRol
         {
             if (this.txtNombre.Text.Trim() == "")
                 return false;
-            Int32 selectedRowCount = dgvFuncionalidades.Rows.GetRowCount(DataGridViewElementStates.Selected);
-            if (selectedRowCount > (-1))
-            {
-                return false;
-            }
+           
             return true;
         }
 
@@ -300,6 +296,11 @@ namespace ClinicaFrba.AbmRol
         }
 
         private void dgvFuncionalidades_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void cmbUsuario_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

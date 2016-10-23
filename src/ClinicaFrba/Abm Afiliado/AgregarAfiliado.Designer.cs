@@ -52,10 +52,11 @@
             this.cmbEstadoCivil = new System.Windows.Forms.ComboBox();
             this.txtFamACargo = new System.Windows.Forms.TextBox();
             this.txtNroAf = new System.Windows.Forms.TextBox();
+            this.dtpFechaNac = new System.Windows.Forms.DateTimePicker();
+            this.btnCambiarPlan = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnAgregarFamiliar = new System.Windows.Forms.Button();
             this.btnAsigConyuge = new System.Windows.Forms.Button();
-            this.dtpFechaNac = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // lblApellido
@@ -162,7 +163,7 @@
             // 
             this.lblEstCivil.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEstCivil.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblEstCivil.Location = new System.Drawing.Point(403, 258);
+            this.lblEstCivil.Location = new System.Drawing.Point(403, 283);
             this.lblEstCivil.Name = "lblEstCivil";
             this.lblEstCivil.Size = new System.Drawing.Size(91, 21);
             this.lblEstCivil.TabIndex = 9;
@@ -173,7 +174,7 @@
             // 
             this.lblFamACarg.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFamACarg.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblFamACarg.Location = new System.Drawing.Point(329, 370);
+            this.lblFamACarg.Location = new System.Drawing.Point(329, 383);
             this.lblFamACarg.Name = "lblFamACarg";
             this.lblFamACarg.Size = new System.Drawing.Size(165, 21);
             this.lblFamACarg.TabIndex = 10;
@@ -261,14 +262,14 @@
             // cmbEstadoCivil
             // 
             this.cmbEstadoCivil.FormattingEnabled = true;
-            this.cmbEstadoCivil.Location = new System.Drawing.Point(500, 258);
+            this.cmbEstadoCivil.Location = new System.Drawing.Point(500, 285);
             this.cmbEstadoCivil.Name = "cmbEstadoCivil";
             this.cmbEstadoCivil.Size = new System.Drawing.Size(135, 21);
             this.cmbEstadoCivil.TabIndex = 23;
             // 
             // txtFamACargo
             // 
-            this.txtFamACargo.Location = new System.Drawing.Point(500, 371);
+            this.txtFamACargo.Location = new System.Drawing.Point(500, 383);
             this.txtFamACargo.Name = "txtFamACargo";
             this.txtFamACargo.Size = new System.Drawing.Size(135, 20);
             this.txtFamACargo.TabIndex = 24;
@@ -281,6 +282,27 @@
             this.txtNroAf.ReadOnly = true;
             this.txtNroAf.Size = new System.Drawing.Size(144, 20);
             this.txtNroAf.TabIndex = 27;
+            // 
+            // dtpFechaNac
+            // 
+            this.dtpFechaNac.Location = new System.Drawing.Point(141, 254);
+            this.dtpFechaNac.Name = "dtpFechaNac";
+            this.dtpFechaNac.Size = new System.Drawing.Size(180, 20);
+            this.dtpFechaNac.TabIndex = 29;
+            // 
+            // btnCambiarPlan
+            // 
+            this.btnCambiarPlan.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCambiarPlan.Image = global::ClinicaFrba.Properties.Resources.modify;
+            this.btnCambiarPlan.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCambiarPlan.Location = new System.Drawing.Point(506, 223);
+            this.btnCambiarPlan.Name = "btnCambiarPlan";
+            this.btnCambiarPlan.Size = new System.Drawing.Size(120, 33);
+            this.btnCambiarPlan.TabIndex = 30;
+            this.btnCambiarPlan.Text = "Cambiar Plan";
+            this.btnCambiarPlan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnCambiarPlan.UseVisualStyleBackColor = true;
+            this.btnCambiarPlan.Click += new System.EventHandler(this.btnCambiarPlan_Click);
             // 
             // btnVolver
             // 
@@ -314,7 +336,7 @@
             this.btnAsigConyuge.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAsigConyuge.Image = global::ClinicaFrba.Properties.Resources.add;
             this.btnAsigConyuge.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAsigConyuge.Location = new System.Drawing.Point(500, 301);
+            this.btnAsigConyuge.Location = new System.Drawing.Point(500, 312);
             this.btnAsigConyuge.Name = "btnAsigConyuge";
             this.btnAsigConyuge.Size = new System.Drawing.Size(135, 33);
             this.btnAsigConyuge.TabIndex = 25;
@@ -322,18 +344,12 @@
             this.btnAsigConyuge.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnAsigConyuge.UseVisualStyleBackColor = true;
             // 
-            // dtpFechaNac
-            // 
-            this.dtpFechaNac.Location = new System.Drawing.Point(141, 254);
-            this.dtpFechaNac.Name = "dtpFechaNac";
-            this.dtpFechaNac.Size = new System.Drawing.Size(180, 20);
-            this.dtpFechaNac.TabIndex = 29;
-            // 
             // AgregarAfiliado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
+            this.Controls.Add(this.btnCambiarPlan);
             this.Controls.Add(this.dtpFechaNac);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.txtNroAf);
@@ -403,5 +419,6 @@
         private System.Windows.Forms.TextBox txtNroAf;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.DateTimePicker dtpFechaNac;
+        private System.Windows.Forms.Button btnCambiarPlan;
     }
 }

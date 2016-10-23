@@ -75,6 +75,19 @@ namespace ClinicaFrba
             }
         }
         private static Abm_Afiliado.AgregarAfiliado _Agafiliado;
+        
+        public static Abm_Afiliado.CambioPlanes CambioPlanAfiliado
+        {
+            get
+            {
+                if (_CambioPlanAfiliado == null)
+                {
+                    _CambioPlanAfiliado = new Abm_Afiliado.CambioPlanes();
+                }
+                return _CambioPlanAfiliado;
+            }
+        }
+        private static Abm_Afiliado.CambioPlanes _CambioPlanAfiliado;
 
         public static AbmRol.AgregarRol AgRol
         {

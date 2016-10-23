@@ -31,12 +31,12 @@
             this.lblDni = new System.Windows.Forms.Label();
             this.txtBusqDni = new System.Windows.Forms.TextBox();
             this.dgvAfiliados = new System.Windows.Forms.DataGridView();
-            this.btnEditarAf = new System.Windows.Forms.Button();
-            this.btnBajaAf = new System.Windows.Forms.Button();
-            this.btnCrearAf = new System.Windows.Forms.Button();
-            this.btnVolver = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
+            this.btnVolver = new System.Windows.Forms.Button();
+            this.btnCrearAf = new System.Windows.Forms.Button();
+            this.btnBajaAf = new System.Windows.Forms.Button();
+            this.btnEditarAf = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAfiliados)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,61 +66,6 @@
             this.dgvAfiliados.Size = new System.Drawing.Size(647, 171);
             this.dgvAfiliados.TabIndex = 3;
             // 
-            // btnEditarAf
-            // 
-            this.btnEditarAf.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditarAf.Image = global::ClinicaFrba.Properties.Resources.modify;
-            this.btnEditarAf.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEditarAf.Location = new System.Drawing.Point(439, 408);
-            this.btnEditarAf.Name = "btnEditarAf";
-            this.btnEditarAf.Size = new System.Drawing.Size(76, 40);
-            this.btnEditarAf.TabIndex = 4;
-            this.btnEditarAf.Text = "Editar";
-            this.btnEditarAf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEditarAf.UseVisualStyleBackColor = true;
-            this.btnEditarAf.Click += new System.EventHandler(this.btnEditarAf_Click);
-            // 
-            // btnBajaAf
-            // 
-            this.btnBajaAf.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBajaAf.Image = global::ClinicaFrba.Properties.Resources.cancel;
-            this.btnBajaAf.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBajaAf.Location = new System.Drawing.Point(302, 408);
-            this.btnBajaAf.Name = "btnBajaAf";
-            this.btnBajaAf.Size = new System.Drawing.Size(116, 40);
-            this.btnBajaAf.TabIndex = 5;
-            this.btnBajaAf.Text = "Dar de Baja";
-            this.btnBajaAf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnBajaAf.UseVisualStyleBackColor = true;
-            // 
-            // btnCrearAf
-            // 
-            this.btnCrearAf.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCrearAf.Image = global::ClinicaFrba.Properties.Resources.add;
-            this.btnCrearAf.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCrearAf.Location = new System.Drawing.Point(151, 408);
-            this.btnCrearAf.Name = "btnCrearAf";
-            this.btnCrearAf.Size = new System.Drawing.Size(130, 40);
-            this.btnCrearAf.TabIndex = 6;
-            this.btnCrearAf.Text = "Nuevo Afiliado";
-            this.btnCrearAf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnCrearAf.UseVisualStyleBackColor = true;
-            this.btnCrearAf.Click += new System.EventHandler(this.btnCrearAf_Click);
-            // 
-            // btnVolver
-            // 
-            this.btnVolver.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVolver.Image = global::ClinicaFrba.Properties.Resources.back;
-            this.btnVolver.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVolver.Location = new System.Drawing.Point(12, 12);
-            this.btnVolver.Name = "btnVolver";
-            this.btnVolver.Size = new System.Drawing.Size(75, 32);
-            this.btnVolver.TabIndex = 7;
-            this.btnVolver.Text = "Volver";
-            this.btnVolver.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnVolver.UseVisualStyleBackColor = true;
-            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
-            // 
             // btnLimpiar
             // 
             this.btnLimpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -146,6 +91,62 @@
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
+            // btnVolver
+            // 
+            this.btnVolver.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVolver.Image = global::ClinicaFrba.Properties.Resources.back;
+            this.btnVolver.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnVolver.Location = new System.Drawing.Point(12, 12);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(75, 32);
+            this.btnVolver.TabIndex = 7;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
+            // 
+            // btnCrearAf
+            // 
+            this.btnCrearAf.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCrearAf.Image = global::ClinicaFrba.Properties.Resources.add;
+            this.btnCrearAf.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCrearAf.Location = new System.Drawing.Point(151, 408);
+            this.btnCrearAf.Name = "btnCrearAf";
+            this.btnCrearAf.Size = new System.Drawing.Size(130, 40);
+            this.btnCrearAf.TabIndex = 6;
+            this.btnCrearAf.Text = "Nuevo Afiliado";
+            this.btnCrearAf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnCrearAf.UseVisualStyleBackColor = true;
+            this.btnCrearAf.Click += new System.EventHandler(this.btnCrearAf_Click);
+            // 
+            // btnBajaAf
+            // 
+            this.btnBajaAf.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBajaAf.Image = global::ClinicaFrba.Properties.Resources.cancel;
+            this.btnBajaAf.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnBajaAf.Location = new System.Drawing.Point(302, 408);
+            this.btnBajaAf.Name = "btnBajaAf";
+            this.btnBajaAf.Size = new System.Drawing.Size(116, 40);
+            this.btnBajaAf.TabIndex = 5;
+            this.btnBajaAf.Text = "Dar de Baja";
+            this.btnBajaAf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnBajaAf.UseVisualStyleBackColor = true;
+            // 
+            // btnEditarAf
+            // 
+            this.btnEditarAf.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditarAf.Image = global::ClinicaFrba.Properties.Resources.modify;
+            this.btnEditarAf.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEditarAf.Location = new System.Drawing.Point(439, 408);
+            this.btnEditarAf.Name = "btnEditarAf";
+            this.btnEditarAf.Size = new System.Drawing.Size(76, 40);
+            this.btnEditarAf.TabIndex = 4;
+            this.btnEditarAf.Text = "Editar";
+            this.btnEditarAf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEditarAf.UseVisualStyleBackColor = true;
+            this.btnEditarAf.Click += new System.EventHandler(this.btnEditarAf_Click);
             // 
             // VerAfiliado
             // 
@@ -166,6 +167,7 @@
             this.Name = "VerAfiliado";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Afiliado";
+            this.Load += new System.EventHandler(this.VerAfiliado_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAfiliados)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
