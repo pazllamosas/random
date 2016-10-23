@@ -937,7 +937,7 @@ order by 2 desc
 GO
 
 GO
-CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados
+CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados(@fechaFrom varchar(50), @fechaTo varchar(50))
 AS BEGIN
 SELECT top 5 CAST (A.NumeroAfiliadoRaiz AS VARCHAR) + CAST (a.NumeroAfiliadoExt AS VARCHAR), T.Cantidad, 
 				CASE WHEN a.NumeroAfiliadoExt != '00' THEN 'Si'

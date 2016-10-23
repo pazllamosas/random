@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtAnioAConsultar = new System.Windows.Forms.TextBox();
             this.lblAnioConsultar = new System.Windows.Forms.Label();
             this.cmbSemestre = new System.Windows.Forms.ComboBox();
             this.lblSemestre = new System.Windows.Forms.Label();
@@ -42,15 +41,9 @@
             this.lblAfiliadoBonos = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.pickerAño = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResultado)).BeginInit();
             this.SuspendLayout();
-            // 
-            // txtAnioAConsultar
-            // 
-            this.txtAnioAConsultar.Location = new System.Drawing.Point(523, 100);
-            this.txtAnioAConsultar.Name = "txtAnioAConsultar";
-            this.txtAnioAConsultar.Size = new System.Drawing.Size(100, 20);
-            this.txtAnioAConsultar.TabIndex = 38;
             // 
             // lblAnioConsultar
             // 
@@ -65,7 +58,9 @@
             // 
             // cmbSemestre
             // 
-            this.cmbSemestre.FormattingEnabled = true;
+            this.cmbSemestre.Items.AddRange(new object[] {
+            "Primer semestre",
+            "Segundo semestre"});
             this.cmbSemestre.Location = new System.Drawing.Point(205, 100);
             this.cmbSemestre.Name = "cmbSemestre";
             this.cmbSemestre.Size = new System.Drawing.Size(121, 21);
@@ -139,6 +134,7 @@
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // btnVolver
             // 
@@ -167,16 +163,10 @@
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Image = global::ClinicaFrba.Properties.Resources.busqueda;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(219, 174);
+            this.button1.Location = new System.Drawing.Point(0, 0);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(95, 35);
-            this.button1.TabIndex = 40;
-            this.button1.Text = "Buscar";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 45;
             // 
             // button2
             // 
@@ -190,12 +180,22 @@
             this.button2.Text = "Limpiar";
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // pickerAño
+            // 
+            this.pickerAño.Location = new System.Drawing.Point(524, 97);
+            this.pickerAño.Name = "pickerAño";
+            this.pickerAño.Size = new System.Drawing.Size(135, 20);
+            this.pickerAño.TabIndex = 44;
+            this.pickerAño.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // ListadoAfiliadoMasBonos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
+            this.Controls.Add(this.pickerAño);
             this.Controls.Add(this.lblAfiliadoBonos);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.button2);
@@ -203,7 +203,6 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.dgvResultado);
-            this.Controls.Add(this.txtAnioAConsultar);
             this.Controls.Add(this.lblAnioConsultar);
             this.Controls.Add(this.cmbSemestre);
             this.Controls.Add(this.lblSemestre);
@@ -220,7 +219,6 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtAnioAConsultar;
         private System.Windows.Forms.Label lblAnioConsultar;
         private System.Windows.Forms.ComboBox cmbSemestre;
         private System.Windows.Forms.Label lblSemestre;
@@ -234,5 +232,6 @@
         private System.Windows.Forms.Label lblAfiliadoBonos;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.DateTimePicker pickerAño;
     }
 }
