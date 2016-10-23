@@ -33,8 +33,8 @@
             this.lblUsuario = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lblContrasenia = new System.Windows.Forms.Label();
-            this.textBoxUSUARIO = new System.Windows.Forms.TextBox();
-            this.textBoxPASS = new System.Windows.Forms.TextBox();
+            this.txtUsuario = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
             this.cmbRol = new System.Windows.Forms.ComboBox();
             this.btnIngresar = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -95,23 +95,25 @@
             this.lblContrasenia.Text = "Contraseña: ";
             this.lblContrasenia.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // textBoxUSUARIO
+            // txtUsuario
             // 
-            this.textBoxUSUARIO.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.textBoxUSUARIO.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxUSUARIO.Location = new System.Drawing.Point(295, 137);
-            this.textBoxUSUARIO.Name = "textBoxUSUARIO";
-            this.textBoxUSUARIO.Size = new System.Drawing.Size(134, 26);
-            this.textBoxUSUARIO.TabIndex = 4;
+            this.txtUsuario.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.txtUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUsuario.Location = new System.Drawing.Point(295, 137);
+            this.txtUsuario.Name = "txtUsuario";
+            this.txtUsuario.Size = new System.Drawing.Size(134, 26);
+            this.txtUsuario.TabIndex = 4;
+            this.txtUsuario.TextChanged += new System.EventHandler(this.txtUsuario_TextChanged);
             // 
-            // textBoxPASS
+            // txtPassword
             // 
-            this.textBoxPASS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.textBoxPASS.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPASS.Location = new System.Drawing.Point(295, 255);
-            this.textBoxPASS.Name = "textBoxPASS";
-            this.textBoxPASS.Size = new System.Drawing.Size(134, 26);
-            this.textBoxPASS.TabIndex = 5;
+            this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPassword.Location = new System.Drawing.Point(295, 255);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(134, 26);
+            this.txtPassword.TabIndex = 5;
+            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
             // 
             // cmbRol
             // 
@@ -128,6 +130,7 @@
             this.btnIngresar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.btnIngresar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnIngresar.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.btnIngresar.Enabled = false;
             this.btnIngresar.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnIngresar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.btnIngresar.Image = ((System.Drawing.Image)(resources.GetObject("btnIngresar.Image")));
@@ -151,8 +154,8 @@
             this.ClientSize = new System.Drawing.Size(620, 476);
             this.Controls.Add(this.btnIngresar);
             this.Controls.Add(this.cmbRol);
-            this.Controls.Add(this.textBoxPASS);
-            this.Controls.Add(this.textBoxUSUARIO);
+            this.Controls.Add(this.txtPassword);
+            this.Controls.Add(this.txtUsuario);
             this.Controls.Add(this.lblContrasenia);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lblUsuario);
@@ -175,8 +178,8 @@
         private System.Windows.Forms.Label lblUsuario;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblContrasenia;
-        private System.Windows.Forms.TextBox textBoxUSUARIO;
-        private System.Windows.Forms.TextBox textBoxPASS;
+        private System.Windows.Forms.TextBox txtUsuario;
+        private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.ComboBox cmbRol;
         private System.Windows.Forms.Button btnIngresar;
     }
