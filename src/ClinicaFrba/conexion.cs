@@ -183,7 +183,8 @@ namespace ClinicaFrba
             }
         }
 
-        public static SqlDataReader executeProcedureWithReader(string procedure, List<string> args, params object[] values)
+        //quizas no se use 
+        /*public static SqlDataReader executeProcedureWithReader(string procedure, List<string> args, params object[] values)
         {
             try
             {
@@ -204,7 +205,7 @@ namespace ClinicaFrba
                 MessageBox.Show(ex.Message);
                 return null;
             }
-        }
+        }*/
 
         private static bool _validateArgumentsAndParameters(List<string> args, params object[] values)
         {

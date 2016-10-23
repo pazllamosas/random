@@ -874,7 +874,7 @@ END
 GO
 
 
---------------TOP 5-----------------  hasta que no este agenda horario disponible no va a andar
+--------------TOP 5-----------------  
 GO
 CREATE PROCEDURE RANDOM.top5EspecialidadesConMasCancelacionesDeTurno (@fechaFrom nvarchar(50), @fechaTo nvarchar(50))
 AS BEGIN
@@ -889,7 +889,8 @@ order by 2 desc
 END
 GO
 
---------------------- detallar bajo que especialidad en la app
+--------------------- 
+--hacer que me busque el top de cada especialidad directamkente, sin que de a elegir
 
 GO
 CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom varchar(50), @fechaTo varchar(50), @IdPlan int)
@@ -907,18 +908,6 @@ order by 2 desc
 END
 GO
 
---para probar la de arriba:
-/*select top 5 E.Descripcion AS 'Especialidad', count(RT.IdResultadoTurno) AS 'Cantidad'
-from RANDOM.RESULTADO_TURNO RT 
-JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
-JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
-JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
-JOIN RANDOM.ESPECIALIDAD E ON HD.IdEspecialidad = E.IdEspecialidad
-WHERE T.FechaYHoraTurno between convert(datetime, '20140101 00:00:00',109) and convert(datetime, '20170101 00:00:00',109)
-AND 1 = B.IdPlan
-group by E.Descripcion 
-order by 2 desc*/
-
 ---------------------
 
 /*GO
@@ -932,6 +921,7 @@ GO
 */
 
 ---------------------
+-- agregarke de alguna manera las fechas. Podria hacer un procedure adentro de otro para hacer eso, y no insertar directo en la tabla temporal. Pero tal vex pueda hacer todo en un solo SP.
 create table #TEMPORAL(
 IdPersona int,
 Cantidad int
