@@ -546,7 +546,7 @@ JOIN RANDOM.PERSONA P ON M.Medico_Nombre =P.Nombre AND M.Medico_Apellido = P.Ape
 /*HISTORIAL_PLAN*/ -- inserto el primer plan de todas las personas de la base
 -- y si ponemos la fecha de nacimiento en vez de esa fecha?? 
 INSERT INTO RANDOM.HISTORIAL_PLAN(IdAfiliado, Fecha)
-SELECT DISTINCT A.IdPersona, '1957-10-24 00:00:00.000'
+SELECT DISTINCT A.IdPersona, CONVERT(DATETIME, '1957-10-24 00:00:00.000', 21)
 FROM RANDOM.AFILIADO A
 
 /*ESPECIALIDAD_POR_PROFESIONAL*/
