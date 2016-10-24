@@ -52,6 +52,12 @@ DROP TABLE RANDOM.TIPOS_DOCUMENTOS
 
 -- DROP PROCEDURES Y FUNCTIONS 
 
+IF OBJECT_ID('RANDOM.GET_ID_TIPO_DOC') IS NOT NULL
+DROP FUNCTION RANDOM.GET_ID_TIPO_DOC
+IF OBJECT_ID('RANDOM.GET_ID_ESTADO_CIVIL') IS NOT NULL
+DROP FUNCTION RANDOM.GET_ID_ESTADO_CIVIL
+IF OBJECT_ID('RANDOM.GET_ID_PLAN') IS NOT NULL
+DROP FUNCTION RANDOM.GET_ID_PLAN
 IF OBJECT_ID('RANDOM.GET_ID_USUARIO') IS NOT NULL
 DROP FUNCTION RANDOM.GET_ID_USUARIO
 IF OBJECT_ID('RANDOM.GET_ID_ROL') IS NOT NULL
@@ -69,7 +75,14 @@ DROP FUNCTION RANDOM.EXISTE_FUNCIONALIDAD_ROL
 IF OBJECT_ID('RANDOM.EXISTE_ROL') IS NOT NULL
 DROP FUNCTION RANDOM.EXISTE_ROL
 
-
+IF OBJECT_ID('RANDOM.CAMBIO_PLAN') IS NOT NULL
+DROP PROCEDURE RANDOM.CAMBIO_PLAN
+IF OBJECT_ID('RANDOM.BAJA_AFILIADO') IS NOT NULL
+DROP PROCEDURE RANDOM.BAJA_AFILIADO
+IF OBJECT_ID('RANDOM.CREAR_AFILIADO') IS NOT NULL
+DROP PROCEDURE RANDOM.CREAR_AFILIADO
+IF OBJECT_ID('RANDOM.MODIFICAR_AFILIADO') IS NOT NULL
+DROP PROCEDURE RANDOM.MODIFICAR_AFILIADO
 IF OBJECT_ID('RANDOM.GET_ROLES') IS NOT NULL
 DROP PROCEDURE RANDOM.GET_ROLES
 IF OBJECT_ID('RANDOM.GET_PLANES') IS NOT NULL
@@ -180,7 +193,7 @@ CREATE TABLE RANDOM.PERSONA(
 	Apellido nvarchar(255),
 	Sexo nvarchar(255) CHECK (Sexo IN ('Femenino', 'MACULINO')),
 	IdTipoDocumento int DEFAULT '1', 
-	Dni numeric(18,0),
+	Documento numeric(18,0),
 	Direccion nvarchar(255),
 	Telefono numeric(18, 0),
 	Mail nvarchar(255),
@@ -485,13 +498,13 @@ VALUES ('Pasaporte')
 
 
 /*PERSONA*/ -- agregamos los afiliados nada mas aca
-INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Dni, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario) 
+INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Documento, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario) 
 SELECT DISTINCT M.Paciente_Nombre, M.Paciente_Apellido, M.Paciente_Dni, M.Paciente_Direccion, M.Paciente_Telefono, M.Paciente_Mail, M.Paciente_Fecha_Nac,2
 FROM gd_esquema.Maestra M
 
 
 /*PERSONA*/ -- agregamos los medicos nada mas aca
-INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Dni, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario) 
+INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Documento, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario) 
 SELECT DISTINCT M.Medico_Nombre, M.Medico_Apellido, M.Medico_Dni, M.Medico_Direccion, M.Medico_Telefono, M.Medico_Mail, M.Medico_Fecha_Nac, 3
 FROM gd_esquema.Maestra M
 
@@ -521,7 +534,7 @@ WHERE IdPlan = 5;
 INSERT INTO RANDOM.AFILIADO(IdPersona, IdPlan)
 SELECT DISTINCT P.IdPersona, PL.IdPlan
 FROM gd_esquema.Maestra M
-JOIN RANDOM.PERSONA P ON M.Paciente_Nombre = P.Nombre AND M.Paciente_Apellido = P.Apellido AND M.Paciente_Dni = P.Dni
+JOIN RANDOM.PERSONA P ON M.Paciente_Nombre = P.Nombre AND M.Paciente_Apellido = P.Apellido AND M.Paciente_Dni = P.Documento
 JOIN RANDOM.PLANES PL ON M.Plan_Med_Codigo = PL.Codigo
 --FALTAN numero ultimo bono que no me acuerdo de nuevo para que era. Cubi.  /  seteo de estado civil?
 
@@ -541,7 +554,7 @@ JOIN RANDOM.TIPO_ESPECIALIDAD E ON M.Tipo_Especialidad_Codigo = E.Codigo
 INSERT INTO RANDOM.PROFESIONAL(IdProfesional)
 SELECT DISTINCT P.IdPersona
 FROM gd_esquema.Maestra M
-JOIN RANDOM.PERSONA P ON M.Medico_Nombre =P.Nombre AND M.Medico_Apellido = P.Apellido AND M.Medico_Dni = P.Dni
+JOIN RANDOM.PERSONA P ON M.Medico_Nombre =P.Nombre AND M.Medico_Apellido = P.Apellido AND M.Medico_Dni = P.Documento
 
 /*HISTORIAL_PLAN*/ -- inserto el primer plan de todas las personas de la base
 -- y si ponemos la fecha de nacimiento en vez de esa fecha?? 
@@ -553,20 +566,20 @@ FROM RANDOM.AFILIADO A
 INSERT RANDOM.ESPECIALIDAD_POR_PROFESIONAL (IdProfesional, IdEspecialidad)
 SELECT DISTINCT P.IdPersona, E.IdEspecialidad
 FROM RANDOM.PERSONA P, gd_esquema.Maestra M, RANDOM.ESPECIALIDAD E
-WHERE M.Medico_Dni = P.Dni and  E.Codigo = M.Especialidad_Codigo
+WHERE M.Medico_Dni = P.Documento and  E.Codigo = M.Especialidad_Codigo
 
 /*COMPRA_BONO*/
 INSERT RANDOM.COMPRA_BONO (IdAfiliado, Fecha)
 SELECT DISTINCT P.IdPersona, M.Compra_Bono_Fecha
 FROM RANDOM.PERSONA P 
-JOIN gd_esquema.Maestra M on P.Dni = M.Paciente_Dni AND M.Compra_Bono_Fecha IS NOT NULL
+JOIN gd_esquema.Maestra M on P.Documento = M.Paciente_Dni AND M.Compra_Bono_Fecha IS NOT NULL
 
 
 /*BONO*/
 INSERT RANDOM.BONO (IdCompra, Precio, IdPlan, CompraBonoFecha, ConsultaNumero)
 SELECT DISTINCT C.IdCompra, PL.MontoConsulta, PL.IdPlan, M.Compra_Bono_Fecha,M.Bono_Consulta_Numero
 FROM RANDOM.PERSONA P 
-JOIN gd_esquema.Maestra M on P.Dni = M.Paciente_Dni
+JOIN gd_esquema.Maestra M on P.Documento = M.Paciente_Dni
 JOIN RANDOM.COMPRA_BONO C ON  M.Compra_Bono_Fecha = C.Fecha AND C.IdAfiliado = P.IdPersona
 JOIN RANDOM.AFILIADO A ON P.IdPersona = A.IdPersona
 JOIN RANDOM.PLANES PL ON A.IdPlan = PL.IdPlan
@@ -609,7 +622,7 @@ FROM gd_esquema.Maestra M, RANDOM.PERSONA P
 where M.Turno_Numero IS NOT NULL 
 	AND M.Turno_Fecha IS NOT NULL
 	AND M.Bono_Consulta_Fecha_Impresion IS NOT NULL
-	AND P.Dni = M.Paciente_Dni
+	AND P.Documento = M.Paciente_Dni
 
 /*RESULTADO_TURNO*/
 INSERT INTO RANDOM.RESULTADO_TURNO(IdTurno, IdBono, Sintomas, Enfermedades, Fecha)
@@ -885,9 +898,9 @@ GO
 GO
 CREATE PROCEDURE RANDOM.GET_AFILIADOS(@DNI NUMERIC(18,0))AS
 BEGIN
-	SELECT P.Apellido, P.Nombre, P.Dni, P.Fecha_Nac, A.NumeroAfiliadoRaiz
+	SELECT P.Apellido, P.Nombre, P.Documento, P.Fecha_Nac, A.NumeroAfiliadoRaiz
 	FROM RANDOM.AFILIADO A, RANDOM.PERSONA P
-	WHERE P.Dni = @DNI
+	WHERE P.Documento = @DNI
 		AND P.IdPersona = A.IdPersona
 
 END
@@ -913,6 +926,117 @@ BEGIN
 	SELECT * FROM RANDOM.TIPOS_DOCUMENTOS
 END
 GO
+
+GO
+CREATE FUNCTION RANDOM.GET_ID_TIPO_DOC(@DESCRIPCION nvarchar(255))
+RETURNS INT
+AS BEGIN
+	DECLARE @IDTIPODOC INT
+	SELECT @IDTIPODOC = IdTipoDocumento FROM RANDOM.TIPOS_DOCUMENTOS
+	WHERE Descripcion = @DESCRIPCION
+	RETURN @IDTIPODOC
+END
+GO
+
+GO
+CREATE FUNCTION RANDOM.GET_ID_ESTADO_CIVIL(@DESCRIPCION nvarchar(255))
+RETURNS INT
+AS BEGIN
+	DECLARE @IDESTADOCIVIL INT
+	SELECT @IDESTADOCIVIL = IdEstadoCivil FROM RANDOM.ESTADO_CIVIL
+	WHERE Descripcion = @DESCRIPCION
+	RETURN @IDESTADOCIVIL
+END
+GO
+
+GO
+CREATE FUNCTION RANDOM.GET_ID_PLAN(@NOMBRE nvarchar(255))
+RETURNS INT
+AS BEGIN
+	DECLARE @IDPLAN INT
+	SELECT @IDPLAN = IdPlan FROM RANDOM.PLANES
+	WHERE Nombre = @NOMBRE
+	RETURN @IDPLAN
+END
+GO
+
+
+GO 
+CREATE PROCEDURE RANDOM.CREAR_AFILIADO (@NOMBRE nvarchar(255),  
+										@APELLIDO nvarchar(255), 
+										@SEXO nvarchar(255), 
+										@IDTIPODOC int, 
+										@DOCUMENTO numeric(18,0),
+										@DIRECCION nvarchar(255),
+										@TELEFONO numeric(18,0),
+										@MAIL nvarchar(255),
+										@FECHANAC datetime,
+										@IDESTADOCIVIL int,
+										@FAMILIARESACARGO int,
+										@IDPLAN int) AS 
+BEGIN 
+	INSERT INTO RANDOM.PERSONA (Nombre, Apellido, Sexo, IdTipoDocumento, Documento, Direccion, Telefono, Mail, Fecha_Nac)
+	VALUES (@NOMBRE, @APELLIDO, @SEXO, @IDTIPODOC, @DOCUMENTO, @DIRECCION, @TELEFONO, @MAIL, @FECHANAC)
+	INSERT INTO RANDOM.AFILIADO (IdEstadoCivil, CantidadACargo, IdPlan)
+	VALUES(@IDESTADOCIVIL, @FAMILIARESACARGO, @IDPLAN)
+END 
+GO
+
+CREATE PROCEDURE RANDOM.MODIFICAR_AFILIADO(@IDPERSONA int,
+											@NOMBRE nvarchar(255),  
+											@APELLIDO nvarchar(255), 
+											@SEXO nvarchar(255), 
+											@IDTIPODOC int, 
+											@DOCUMENTO numeric(18,0),
+											@DIRECCION nvarchar(255),
+											@TELEFONO numeric(18,0),
+											@MAIL nvarchar(255),
+											@FECHANAC datetime,
+											@IDESTADOCIVIL int,
+											@FAMILIARESACARGO int,
+											@IDPLAN int) AS 
+BEGIN 
+	UPDATE RANDOM.PERSONA SET
+		Nombre = @NOMBRE,
+		Apellido = @APELLIDO,
+		Sexo = @SEXO,
+		IdTipoDocumento = @IDTIPODOC,
+		Documento = @DOCUMENTO,
+		Direccion = @DIRECCION,
+		Telefono = @TELEFONO,
+		Mail = @MAIL,
+		Fecha_Nac = @FECHANAC
+	WHERE IdPersona = @IDPERSONA
+	UPDATE RANDOM.AFILIADO SET
+		IdEstadoCivil = @IDESTADOCIVIL,
+		CantidadACargo = @FAMILIARESACARGO,
+		IdPlan = @IDPLAN
+	WHERE IdPersona = @IDPERSONA
+END
+GO
+
+CREATE PROCEDURE RANDOM.BAJA_AFILIADO (@IDPERSONA int) AS
+BEGIN
+	UPDATE RANDOM.AFILIADO SET
+		Estado = 0
+	WHERE IdPersona = @IDPERSONA
+END
+GO
+
+CREATE PROCEDURE RANDOM.CAMBIO_PLAN(@IDPERSONA int,
+									@IDPLAN int,
+									@MOTIVO nvarchar(255))AS
+BEGIN
+	INSERT INTO RANDOM.HISTORIAL_PLAN(IdAfiliado, Fecha, Motivo)
+	VALUES (@IDPERSONA, GETDATE(), @MOTIVO)
+	UPDATE RANDOM.AFILIADO SET
+		IdPlan = @IDPLAN
+	WHERE IdPersona = @IDPERSONA
+END
+GO
+
+
+
 
 
 --------------- REGISTRO RESULTADO DIAGNOSTICO ---------------
@@ -1137,5 +1261,6 @@ Las 24 hs de cancelacion la podemos tomar como si fuese el dia anterior, no lite
 En agenda_horario_disponible ponemos todos los horarios que tengan los doctores (los que carguemos nosotros si es que no estan en la maestra) y si  esta disponible o no.
 Todos los ID manejemoslo en INT, y los string NVARCHAR porque acepta unicode
 Hacer todas las validaciones en c#
+BAJA AFILIADO: se decidio dar de baja los afiliados de a uno. Es decir qe aunqe el afiliado principal se da de baja, los demas afiliados siguen activos. BAJA INDIVIDUAL
 en la estrategia aclarar los comentarios que psue en la creacion de la tablas
 */
