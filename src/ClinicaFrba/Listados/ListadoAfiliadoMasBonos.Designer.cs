@@ -32,9 +32,6 @@
             this.cmbSemestre = new System.Windows.Forms.ComboBox();
             this.lblSemestre = new System.Windows.Forms.Label();
             this.dgvResultado = new System.Windows.Forms.DataGridView();
-            this.ColumnAfiliado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnCant = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnGrupoFamiliar = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
@@ -79,35 +76,10 @@
             // dgvResultado
             // 
             this.dgvResultado.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvResultado.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnAfiliado,
-            this.ColumnCant,
-            this.ColumnGrupoFamiliar});
             this.dgvResultado.Location = new System.Drawing.Point(12, 237);
             this.dgvResultado.Name = "dgvResultado";
             this.dgvResultado.Size = new System.Drawing.Size(647, 205);
             this.dgvResultado.TabIndex = 39;
-            // 
-            // ColumnAfiliado
-            // 
-            this.ColumnAfiliado.HeaderText = "Afiliado";
-            this.ColumnAfiliado.Name = "ColumnAfiliado";
-            this.ColumnAfiliado.ReadOnly = true;
-            this.ColumnAfiliado.Width = 200;
-            // 
-            // ColumnCant
-            // 
-            this.ColumnCant.HeaderText = "Cantidad";
-            this.ColumnCant.Name = "ColumnCant";
-            this.ColumnCant.ReadOnly = true;
-            this.ColumnCant.Width = 150;
-            // 
-            // ColumnGrupoFamiliar
-            // 
-            this.ColumnGrupoFamiliar.HeaderText = "Pertenece a grupo familiar";
-            this.ColumnGrupoFamiliar.Name = "ColumnGrupoFamiliar";
-            this.ColumnGrupoFamiliar.ReadOnly = true;
-            this.ColumnGrupoFamiliar.Width = 150;
             // 
             // btnLimpiar
             // 
@@ -223,9 +195,6 @@
         private System.Windows.Forms.ComboBox cmbSemestre;
         private System.Windows.Forms.Label lblSemestre;
         private System.Windows.Forms.DataGridView dgvResultado;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnAfiliado;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnCant;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnGrupoFamiliar;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Button btnVolver;

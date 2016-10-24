@@ -63,6 +63,7 @@ namespace ClinicaFrba.Listados
              DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
              lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin));
              this.dgvResultado.DataSource = dt;
+             dgvResultado.Enabled = false;
          }
 
          private void button2_Click(object sender, EventArgs e)

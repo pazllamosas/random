@@ -911,7 +911,43 @@ BEGIN
 END
 GO
 
---------------TOP 5-----------------  
+
+--------------- REGISTRO RESULTADO DIAGNOSTICO ---------------
+GO
+CREATE PROCEDURE RANDOM.TURNO_CONCRETADO(@TURNO int, @SINTOMAS nvarchar(255), @ENFERMEDAD nvarchar(255)) AS
+BEGIN
+	IF ( EXISTS ( SELECT * FROM RANDOM.TURNO WHERE IdTurno = @TURNO ))
+	BEGIN
+		UPDATE RANDOM.TURNO SET
+			habilitado = 1
+		WHERE IdTurno = @TURNO
+		
+		INSERT INTO RANDOM.RESULTADO_TURNO (IdTurno, Sintomas, Enfermedades, Fecha)
+		VALUES (@TURNO, @SINTOMAS, @ENFERMEDAD, GETDATE())
+	END
+	ELSE
+		RAISERROR ('No existe el Turno', 16, 217) WITH SETERROR
+END
+GO
+
+CREATE PROCEDURE RANDOM.TURNO_SIN_CONCRETAR(@TURNO int) AS
+BEGIN
+	IF ( EXISTS ( SELECT * FROM RANDOM.TURNO WHERE IdTurno = @TURNO ))
+	BEGIN
+		UPDATE RANDOM.TURNO SET
+			habilitado = 1
+		WHERE IdTurno = @TURNO
+		
+		INSERT INTO RANDOM.RESULTADO_TURNO (IdTurno, Fecha)
+		VALUES (@TURNO, GETDATE())
+	END
+	ELSE
+		RAISERROR ('No existe el Turno', 16, 217) WITH SETERROR
+END
+GO
+
+-------------------------------TOP 5------------------------------
+
 GO
 CREATE PROCEDURE RANDOM.top5EspecialidadesConMasCancelacionesDeTurno (@fechaFrom nvarchar(50), @fechaTo nvarchar(50))
 AS BEGIN
@@ -959,12 +995,16 @@ GO
 
 ---------------------
 -- agregarke de alguna manera las fechas. Podria hacer un procedure adentro de otro para hacer eso, y no insertar directo en la tabla temporal. Pero tal vex pueda hacer todo en un solo SP.
-create table #TEMPORAL(
+
+IF OBJECT_ID('TEMPORAL') IS NOT NULL
+DROP TABLE TEMPORAL
+
+create table TEMPORAL(
 IdPersona int,
 Cantidad int
 )
 --Primero aca busco el id de la persona, y en el procedure que le sigue busco el numero raiz y extension, para mostrar eso
-INSERT #TEMPORAL(IdPersona,Cantidad)
+INSERT TEMPORAL(IdPersona,Cantidad)
 select P.IdPersona AS 'Persona', sum(CB.Cantidad) AS 'Cantidad'
 from RANDOM.COMPRA_BONO CB
 JOIN RANDOM.AFILIADO A ON A.IdPersona = CB.IdAfiliado
@@ -976,20 +1016,20 @@ GO
 GO
 CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados(@fechaFrom varchar(50), @fechaTo varchar(50))
 AS BEGIN
-SELECT top 5 CAST (A.NumeroAfiliadoRaiz AS VARCHAR) + CAST (a.NumeroAfiliadoExt AS VARCHAR), T.Cantidad, 
+SELECT top 5 CAST (A.NumeroAfiliadoRaiz AS VARCHAR) + CAST (a.NumeroAfiliadoExt AS VARCHAR) AS 'Afiliado', T.Cantidad, 
 				CASE WHEN a.NumeroAfiliadoExt != '00' THEN 'Si'
                    WHEN a.CantidadACargo > 0 THEN 'Si'
                    ELSE 'No'
 				END AS "Pertenece a grupo familiar"
-FROM #TEMPORAL T
+FROM TEMPORAL T
 JOIN RANDOM.AFILIADO A ON A.IdPersona = T.IdPersona
 order by 2 desc
 END
 GO
 
-drop table #TEMPORAL
 
---------------------- hasta que no este agenda horario disponible no va a andar
+
+---------------------
 GO
 CREATE PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas(@fechaFrom varchar(50), @fechaTo varchar(50))
 AS BEGIN
@@ -1002,40 +1042,6 @@ JOIN RANDOM.ESPECIALIDAD E ON HD.IdEspecialidad = E.IdEspecialidad
 WHERE T.FechaYHoraTurno between convert(datetime, @fechaFrom,109) and convert(datetime, @fechaTo,109)
 group by E.Descripcion 
 order by 2 desc
-END
-GO
-
---------------- REGISTRO RESULTADO DIAGNOSTICO ---------------
-GO
-CREATE PROCEDURE RANDOM.TURNO_CONCRETADO(@TURNO int, @SINTOMAS nvarchar(255), @ENFERMEDAD nvarchar(255)) AS
-BEGIN
-	IF ( EXISTS ( SELECT * FROM RANDOM.TURNO WHERE IdTurno = @TURNO ))
-	BEGIN
-		UPDATE RANDOM.TURNO SET
-			habilitado = 1
-		WHERE IdTurno = @TURNO
-		
-		INSERT INTO RANDOM.RESULTADO_TURNO (IdTurno, Sintomas, Enfermedades, Fecha)
-		VALUES (@TURNO, @SINTOMAS, @ENFERMEDAD, GETDATE())
-	END
-	ELSE
-		RAISERROR ('No existe el Turno', 16, 217) WITH SETERROR
-END
-GO
-
-CREATE PROCEDURE RANDOM.TURNO_SIN_CONCRETAR(@TURNO int) AS
-BEGIN
-	IF ( EXISTS ( SELECT * FROM RANDOM.TURNO WHERE IdTurno = @TURNO ))
-	BEGIN
-		UPDATE RANDOM.TURNO SET
-			habilitado = 1
-		WHERE IdTurno = @TURNO
-		
-		INSERT INTO RANDOM.RESULTADO_TURNO (IdTurno, Fecha)
-		VALUES (@TURNO, GETDATE())
-	END
-	ELSE
-		RAISERROR ('No existe el Turno', 16, 217) WITH SETERROR
 END
 GO
 

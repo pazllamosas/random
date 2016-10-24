@@ -31,14 +31,12 @@
             this.lblEspCancelaciones = new System.Windows.Forms.Label();
             this.btnVolver = new System.Windows.Forms.Button();
             this.dgvResultado = new System.Windows.Forms.DataGridView();
-            this.ColumnEspecialidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnCant = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtAnioAConsultar = new System.Windows.Forms.TextBox();
             this.lblAnioConsultar = new System.Windows.Forms.Label();
             this.cmbSemestre = new System.Windows.Forms.ComboBox();
             this.lblSemestre = new System.Windows.Forms.Label();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
+            this.pickerAño = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResultado)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,34 +68,10 @@
             // dgvResultado
             // 
             this.dgvResultado.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvResultado.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnEspecialidad,
-            this.ColumnCant});
             this.dgvResultado.Location = new System.Drawing.Point(13, 242);
             this.dgvResultado.Name = "dgvResultado";
             this.dgvResultado.Size = new System.Drawing.Size(646, 200);
             this.dgvResultado.TabIndex = 48;
-            // 
-            // ColumnEspecialidad
-            // 
-            this.ColumnEspecialidad.HeaderText = "Especialidad";
-            this.ColumnEspecialidad.Name = "ColumnEspecialidad";
-            this.ColumnEspecialidad.ReadOnly = true;
-            this.ColumnEspecialidad.Width = 300;
-            // 
-            // ColumnCant
-            // 
-            this.ColumnCant.HeaderText = "Cantidad";
-            this.ColumnCant.Name = "ColumnCant";
-            this.ColumnCant.ReadOnly = true;
-            this.ColumnCant.Width = 150;
-            // 
-            // txtAnioAConsultar
-            // 
-            this.txtAnioAConsultar.Location = new System.Drawing.Point(539, 106);
-            this.txtAnioAConsultar.Name = "txtAnioAConsultar";
-            this.txtAnioAConsultar.Size = new System.Drawing.Size(100, 20);
-            this.txtAnioAConsultar.TabIndex = 47;
             // 
             // lblAnioConsultar
             // 
@@ -140,6 +114,7 @@
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // btnBuscar
             // 
@@ -153,18 +128,26 @@
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
+            // pickerAño
+            // 
+            this.pickerAño.Location = new System.Drawing.Point(540, 105);
+            this.pickerAño.Name = "pickerAño";
+            this.pickerAño.Size = new System.Drawing.Size(119, 20);
+            this.pickerAño.TabIndex = 55;
             // 
             // ListadoEspCancelaciones
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
+            this.Controls.Add(this.pickerAño);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.lblEspCancelaciones);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dgvResultado);
-            this.Controls.Add(this.txtAnioAConsultar);
             this.Controls.Add(this.lblAnioConsultar);
             this.Controls.Add(this.cmbSemestre);
             this.Controls.Add(this.lblSemestre);
@@ -184,13 +167,11 @@
         private System.Windows.Forms.Label lblEspCancelaciones;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.DataGridView dgvResultado;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnEspecialidad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnCant;
-        private System.Windows.Forms.TextBox txtAnioAConsultar;
         private System.Windows.Forms.Label lblAnioConsultar;
         private System.Windows.Forms.ComboBox cmbSemestre;
         private System.Windows.Forms.Label lblSemestre;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button btnBuscar;
+        private System.Windows.Forms.DateTimePicker pickerAño;
     }
 }

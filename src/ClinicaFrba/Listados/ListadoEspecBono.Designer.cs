@@ -31,14 +31,12 @@
             this.lblEspBono = new System.Windows.Forms.Label();
             this.btnVolver = new System.Windows.Forms.Button();
             this.dgvResultado = new System.Windows.Forms.DataGridView();
-            this.ColumnEspecialidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnCant = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtAnioAConsultar = new System.Windows.Forms.TextBox();
             this.lblAnioConsultar = new System.Windows.Forms.Label();
             this.cmbSemestre = new System.Windows.Forms.ComboBox();
             this.lblSemestre = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.pickerAño = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResultado)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,34 +68,10 @@
             // dgvResultado
             // 
             this.dgvResultado.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvResultado.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnEspecialidad,
-            this.ColumnCant});
             this.dgvResultado.Location = new System.Drawing.Point(12, 260);
             this.dgvResultado.Name = "dgvResultado";
             this.dgvResultado.Size = new System.Drawing.Size(647, 177);
             this.dgvResultado.TabIndex = 57;
-            // 
-            // ColumnEspecialidad
-            // 
-            this.ColumnEspecialidad.HeaderText = "Especialidad";
-            this.ColumnEspecialidad.Name = "ColumnEspecialidad";
-            this.ColumnEspecialidad.ReadOnly = true;
-            this.ColumnEspecialidad.Width = 300;
-            // 
-            // ColumnCant
-            // 
-            this.ColumnCant.HeaderText = "Cantidad";
-            this.ColumnCant.Name = "ColumnCant";
-            this.ColumnCant.ReadOnly = true;
-            this.ColumnCant.Width = 150;
-            // 
-            // txtAnioAConsultar
-            // 
-            this.txtAnioAConsultar.Location = new System.Drawing.Point(517, 115);
-            this.txtAnioAConsultar.Name = "txtAnioAConsultar";
-            this.txtAnioAConsultar.Size = new System.Drawing.Size(100, 20);
-            this.txtAnioAConsultar.TabIndex = 56;
             // 
             // lblAnioConsultar
             // 
@@ -139,6 +113,7 @@
             this.button2.Text = "Limpiar";
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
@@ -152,18 +127,26 @@
             this.button1.Text = "Buscar";
             this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // pickerAño
+            // 
+            this.pickerAño.Location = new System.Drawing.Point(518, 112);
+            this.pickerAño.Name = "pickerAño";
+            this.pickerAño.Size = new System.Drawing.Size(129, 20);
+            this.pickerAño.TabIndex = 64;
             // 
             // ListadoEspecBono
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
+            this.Controls.Add(this.pickerAño);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lblEspBono);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dgvResultado);
-            this.Controls.Add(this.txtAnioAConsultar);
             this.Controls.Add(this.lblAnioConsultar);
             this.Controls.Add(this.cmbSemestre);
             this.Controls.Add(this.lblSemestre);
@@ -183,13 +166,11 @@
         private System.Windows.Forms.Label lblEspBono;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.DataGridView dgvResultado;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnEspecialidad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnCant;
-        private System.Windows.Forms.TextBox txtAnioAConsultar;
         private System.Windows.Forms.Label lblAnioConsultar;
         private System.Windows.Forms.ComboBox cmbSemestre;
         private System.Windows.Forms.Label lblSemestre;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DateTimePicker pickerAño;
     }
 }
