@@ -68,7 +68,8 @@ namespace ClinicaFrba.Listados
 
          private void button2_Click(object sender, EventArgs e)
          {
-             dgvResultado.Rows.Clear();
+             dgvResultado.Columns.Clear();
+             cmbSemestre.Items.Clear();
          }
     }
 

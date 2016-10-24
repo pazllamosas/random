@@ -35,7 +35,8 @@ namespace ClinicaFrba.Listados
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            dgvResultado.Rows.Clear();
+            dgvResultado.Columns.Clear();
+            cmbSemestre.Items.Clear();
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
