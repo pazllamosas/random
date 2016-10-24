@@ -37,6 +37,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.pickerAño = new System.Windows.Forms.DateTimePicker();
+            this.lblPlan = new System.Windows.Forms.Label();
+            this.cmbPlan = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResultado)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,6 +88,9 @@
             // cmbSemestre
             // 
             this.cmbSemestre.FormattingEnabled = true;
+            this.cmbSemestre.Items.AddRange(new object[] {
+            "Primer semestre",
+            "Segundo semestre"});
             this.cmbSemestre.Location = new System.Drawing.Point(202, 114);
             this.cmbSemestre.Name = "cmbSemestre";
             this.cmbSemestre.Size = new System.Drawing.Size(121, 21);
@@ -138,11 +143,37 @@
             this.pickerAño.Size = new System.Drawing.Size(129, 20);
             this.pickerAño.TabIndex = 66;
             // 
+            // lblPlan
+            // 
+            this.lblPlan.AutoSize = true;
+            this.lblPlan.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlan.Location = new System.Drawing.Point(25, 160);
+            this.lblPlan.Name = "lblPlan";
+            this.lblPlan.Size = new System.Drawing.Size(118, 18);
+            this.lblPlan.TabIndex = 68;
+            this.lblPlan.Text = "Plan a consultar:";
+            // 
+            // cmbPlan
+            // 
+            this.cmbPlan.FormattingEnabled = true;
+            this.cmbPlan.Items.AddRange(new object[] {
+            "150",
+            "140",
+            "130",
+            "120",
+            "110"});
+            this.cmbPlan.Location = new System.Drawing.Point(202, 157);
+            this.cmbPlan.Name = "cmbPlan";
+            this.cmbPlan.Size = new System.Drawing.Size(121, 21);
+            this.cmbPlan.TabIndex = 69;
+            // 
             // ListadoProfporPlan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
+            this.Controls.Add(this.cmbPlan);
+            this.Controls.Add(this.lblPlan);
             this.Controls.Add(this.pickerAño);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -174,5 +205,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DateTimePicker pickerAño;
+        private System.Windows.Forms.Label lblPlan;
+        private System.Windows.Forms.ComboBox cmbPlan;
     }
 }

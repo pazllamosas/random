@@ -102,6 +102,8 @@ IF OBJECT_ID('RANDOM.ASIGNAR_ROL') IS NOT NULL
 DROP PROCEDURE RANDOM.ASIGNAR_ROL
 IF OBJECT_ID('RANDOM.CREAR_ROL') IS NOT NULL
 DROP PROCEDURE RANDOM.CREAR_ROL
+IF OBJECT_ID('RANDOM.antesDelTop') IS NOT NULL
+DROP PROCEDURE RANDOM.antesDelTop 
 IF OBJECT_ID('RANDOM.top5EspecialidadesConMasConsultasUtilizadas') IS NOT NULL
 DROP PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas
 IF OBJECT_ID('RANDOM.top5AfiliadosConMayorCantBonosComprados') IS NOT NULL
@@ -116,6 +118,7 @@ IF OBJECT_ID('RANDOM.TURNO_CONCRETADO') IS NOT NULL
 DROP PROCEDURE RANDOM.TURNO_CONCRETADO
 IF OBJECT_ID('RANDOM.TURNO_SIN_CONCRETAR') IS NOT NULL
 DROP PROCEDURE RANDOM.TURNO_SIN_CONCRETAR 
+
 
 
 
@@ -962,21 +965,20 @@ order by 2 desc
 END
 GO
 
---------------------- 
---hacer que me busque el top de cada especialidad directamkente, sin que de a elegir
+---------------------
 
 GO
 CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom varchar(50), @fechaTo varchar(50), @IdPlan int)
 AS BEGIN
-select top 5 E.Descripcion AS 'Especialidad', count(RT.IdResultadoTurno) AS 'Cantidad'
+select top 5 P.IdProfesional AS 'Matrícula Profesional', count(RT.IdResultadoTurno) AS 'Cantidad'
 from RANDOM.RESULTADO_TURNO RT 
 JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
-JOIN RANDOM.ESPECIALIDAD E ON HD.IdEspecialidad = E.IdEspecialidad
+JOIN RANDOM.PROFESIONAL P ON HD.IdEspecialidad = P.IdProfesional
 WHERE T.FechaYHoraTurno between convert(datetime, @fechaFrom,109) and convert(datetime, @fechaTo,109)
 AND @IdPlan = B.IdPlan
-group by E.Descripcion 
+group by P.IdProfesional
 order by 2 desc
 END
 GO
@@ -994,7 +996,6 @@ GO
 */
 
 ---------------------
--- agregarke de alguna manera las fechas. Podria hacer un procedure adentro de otro para hacer eso, y no insertar directo en la tabla temporal. Pero tal vex pueda hacer todo en un solo SP.
 
 IF OBJECT_ID('TEMPORAL') IS NOT NULL
 DROP TABLE TEMPORAL
@@ -1004,19 +1005,26 @@ IdPersona int,
 Cantidad int
 )
 --Primero aca busco el id de la persona, y en el procedure que le sigue busco el numero raiz y extension, para mostrar eso
+GO
+CREATE PROCEDURE RANDOM.antesDelTop(@fechaFrom varchar(50), @fechaTo varchar(50))
+as
+begin
 INSERT TEMPORAL(IdPersona,Cantidad)
 select P.IdPersona AS 'Persona', sum(CB.Cantidad) AS 'Cantidad'
 from RANDOM.COMPRA_BONO CB
 JOIN RANDOM.AFILIADO A ON A.IdPersona = CB.IdAfiliado
 JOIN RANDOM.PERSONA P ON P.IdPersona = A.IdPersona
+WHERE CB.Fecha between convert(datetime, @fechaFrom,109) and convert(datetime, @fechaTo,109)
 group by P.IdPersona 
 order by 2 desc
+end
 GO
 
 GO
 CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados(@fechaFrom varchar(50), @fechaTo varchar(50))
 AS BEGIN
-SELECT top 5 CAST (A.NumeroAfiliadoRaiz AS VARCHAR) + CAST (a.NumeroAfiliadoExt AS VARCHAR) AS 'Afiliado', T.Cantidad, 
+EXEC RANDOM.antesDelTop @fechaFrom , @fechaTo
+SELECT distinct top 5  CAST (A.NumeroAfiliadoRaiz AS VARCHAR) + CAST (a.NumeroAfiliadoExt AS VARCHAR) AS 'Afiliado', T.Cantidad, 
 				CASE WHEN a.NumeroAfiliadoExt != '00' THEN 'Si'
                    WHEN a.CantidadACargo > 0 THEN 'Si'
                    ELSE 'No'
@@ -1028,6 +1036,18 @@ END
 GO
 
 
+/*para probar
+select * from temporal
+EXEC RANDOM.antesDelTop '20141228 18:00:00' , '20151230 18:00:00'
+
+select P.IdPersona AS 'Persona', sum(CB.Cantidad) AS 'Cantidad'
+from RANDOM.COMPRA_BONO CB
+JOIN RANDOM.AFILIADO A ON A.IdPersona = CB.IdAfiliado
+JOIN RANDOM.PERSONA P ON P.IdPersona = A.IdPersona
+WHERE CB.Fecha between '20141228 18:00:00' and '20151230 18:00:00'
+group by P.IdPersona 
+order by 2 desc
+*/
 
 ---------------------
 GO

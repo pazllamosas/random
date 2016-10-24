@@ -90,6 +90,9 @@
             // cmbSemestre
             // 
             this.cmbSemestre.FormattingEnabled = true;
+            this.cmbSemestre.Items.AddRange(new object[] {
+            "Primer semestre",
+            "Segundo semestre"});
             this.cmbSemestre.Location = new System.Drawing.Point(214, 98);
             this.cmbSemestre.Name = "cmbSemestre";
             this.cmbSemestre.Size = new System.Drawing.Size(121, 21);

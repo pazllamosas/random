@@ -41,7 +41,6 @@ namespace ClinicaFrba.Listados
         private void button2_Click(object sender, EventArgs e)
         {
             dgvResultado.Columns.Clear();
-            cmbSemestre.Items.Clear();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -64,11 +63,44 @@ namespace ClinicaFrba.Listados
             List<string> lista = new List<string>();
             lista.Add("@fechaFrom");
             lista.Add("@fechaTo");
+            lista.Add("@idPlan");
 
-            DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5ProfesionalesMasConsultadosPorPlan",
-            lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin));
-            this.dgvResultado.DataSource = dt;
-            dgvResultado.Enabled = false;
+        
+            switch (cmbPlan.SelectedIndex){
+                case 0:
+                    DataTable dt0 = Conexion.obtenerTablaProcedure("RANDOM.top5ProfesionalesMasConsultadosPorPlan",
+                    lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin),1);
+                    this.dgvResultado.DataSource = dt0;
+                    dgvResultado.Enabled = false;
+                    break;
+                case 1:
+                    DataTable dt1 = Conexion.obtenerTablaProcedure("RANDOM.top5ProfesionalesMasConsultadosPorPlan",
+                    lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin),5);
+                    this.dgvResultado.DataSource = dt1;
+                    dgvResultado.Enabled = false;
+                    break;
+                case 2:
+                    DataTable dt2 = Conexion.obtenerTablaProcedure("RANDOM.top5ProfesionalesMasConsultadosPorPlan",
+                    lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin),3);
+                    this.dgvResultado.DataSource = dt2;
+                    dgvResultado.Enabled = false;
+                    break;
+                case 3:
+                    DataTable dt3 = Conexion.obtenerTablaProcedure("RANDOM.top5ProfesionalesMasConsultadosPorPlan",
+                    lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin),4);
+                    this.dgvResultado.DataSource = dt3;
+                    dgvResultado.Enabled = false;
+                    break;
+                case 4:
+                    DataTable dt4 = Conexion.obtenerTablaProcedure("RANDOM.top5ProfesionalesMasConsultadosPorPlan",
+                    lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin),2);
+                    this.dgvResultado.DataSource = dt4;
+                    dgvResultado.Enabled = false;
+                    break;
+            
+             }
+
+        
         }
     }
 }
