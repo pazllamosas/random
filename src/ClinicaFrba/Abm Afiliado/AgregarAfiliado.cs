@@ -71,5 +71,30 @@ namespace ClinicaFrba.Abm_Afiliado
         {
             FormProvider.CambioPlanAfiliado.Show();
         }
+
+        private void lblTel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtTelefono_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblDomicilio_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtDomicilio_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAgregarFamiliar_Click(object sender, EventArgs e)
+        {
+            FormProvider.AgregarFamiliarAfiliado.Show();
+        }
     }
 }
