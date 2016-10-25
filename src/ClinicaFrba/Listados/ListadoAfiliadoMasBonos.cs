@@ -70,6 +70,11 @@ namespace ClinicaFrba.Listados
          {
              dgvResultado.Columns.Clear();
          }
+
+         private void ListadoAfiliadoMasBonos_Load(object sender, EventArgs e)
+         {
+             this.cmbSemestre.SelectedIndex = -1;
+         }
     }
 
 }

@@ -121,6 +121,12 @@
             // cmbPlan
             // 
             this.cmbPlan.FormattingEnabled = true;
+            this.cmbPlan.Items.AddRange(new object[] {
+            "150",
+            "140",
+            "130",
+            "120",
+            "110"});
             this.cmbPlan.Location = new System.Drawing.Point(525, 150);
             this.cmbPlan.Name = "cmbPlan";
             this.cmbPlan.Size = new System.Drawing.Size(121, 21);
@@ -129,6 +135,40 @@
             // cmbEspecialidad
             // 
             this.cmbEspecialidad.FormattingEnabled = true;
+            this.cmbEspecialidad.Items.AddRange(new object[] {
+            "Medicina Familiar y Comunitaria",
+            "Anestesiología y Reanimación",
+            "Dermatología Médico-Quirúrgica y Venereología",
+            "Urología",
+            "Nefrología",
+            "Oncología Radioterápica",
+            "Neurología",
+            "Infectología",
+            "Cirugía General y del Aparato Digestivo",
+            "Reumatología",
+            "Oftalmología",
+            "Aparato Digestivo o Gastroenterología",
+            "Alergología",
+            "Neurofisiología Clínica",
+            "Ginecología y Obstetricia o Tocología",
+            "Medicina Interna",
+            "Nutriología",
+            "Hidrología Médica",
+            "Oncología Médica",
+            "Psiquiatría",
+            "Geriatría",
+            "Medicina Nuclear",
+            "Medicina Preventiva y Salud Pública",
+            "Bioquímica Clínica",
+            "Cirugía Cardiovascular",
+            "Neumología",
+            "Angiología y Cirugía Vascular",
+            "Cirugía Oral y Maxilofacial",
+            "Neurocirugía",
+            "Cirugía Pediátrica",
+            "Radiodiagnóstico o Radiología",
+            "Otorrinolaringología",
+            "Pediatría"});
             this.cmbEspecialidad.Location = new System.Drawing.Point(214, 150);
             this.cmbEspecialidad.Name = "cmbEspecialidad";
             this.cmbEspecialidad.Size = new System.Drawing.Size(121, 21);
@@ -156,6 +196,7 @@
             this.button2.Text = "Limpiar";
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
@@ -169,6 +210,7 @@
             this.button1.Text = "Buscar";
             this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // pickerAño
             // 
@@ -200,6 +242,7 @@
             this.Name = "ListadoProfMenosHoras";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TOP 5";
+            this.Load += new System.EventHandler(this.ListadoProfMenosHoras_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvResultado)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -59,5 +59,10 @@ namespace ClinicaFrba.Listados
             this.dgvResultado.DataSource = dt;
             dgvResultado.Enabled = false;
         }
+
+        private void ListadoEspecBono_Load(object sender, EventArgs e)
+        {
+            this.cmbSemestre.SelectedIndex = -1;
+        }
     }
 }

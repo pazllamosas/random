@@ -64,5 +64,10 @@ namespace ClinicaFrba.Listados
             this.dgvResultado.DataSource = dt;
             dgvResultado.Enabled = false;
         }
+
+        private void ListadoEspCancelaciones_Load(object sender, EventArgs e)
+        {
+            this.cmbSemestre.SelectedIndex = -1;
+        }
     }
 }

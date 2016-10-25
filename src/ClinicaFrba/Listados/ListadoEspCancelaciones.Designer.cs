@@ -159,6 +159,7 @@
             this.Name = "ListadoEspCancelaciones";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TOP 5";
+            this.Load += new System.EventHandler(this.ListadoEspCancelaciones_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvResultado)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

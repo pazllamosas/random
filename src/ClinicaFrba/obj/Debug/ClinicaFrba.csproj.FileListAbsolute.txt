@@ -9,3 +9,33 @@ C:\Users\Matias\Documents\Visual Studio 2012\Projects\ClinicaFrba\ClinicaFrba\Cl
 C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\TP CLINICA FRBA 1.0 - 2C 2016\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\bin\Debug\ClinicaFrba.exe.config
 C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\TP CLINICA FRBA 1.0 - 2C 2016\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.exe
 C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\TP CLINICA FRBA 1.0 - 2C 2016\Aplicacion Desktop\ClinicaFrba\ClinicaFrba\obj\Debug\ClinicaFrba.pdb
+C:\Users\martin\Desktop\random\src\ClinicaFrba\bin\Debug\ClinicaFrba.exe.config
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.exe
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.pdb
+C:\Users\martin\Desktop\random\src\ClinicaFrba\bin\Debug\ClinicaFrba.exe
+C:\Users\martin\Desktop\random\src\ClinicaFrba\bin\Debug\ClinicaFrba.pdb
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.csprojResolveAssemblyReference.cache
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afiliado.AgregarAfiliado.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afiliado.CambioPlanes.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afiliado.VerAfiliado.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.AbmRol.AgregarRol.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.AbmRol.verRol.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Cancelar_Atencion.Cancelacion.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Cancelar_Atencion.CancelacionAfiliado.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Cancelar_Atencion.CancelacionMedico.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Compra_Bono.CompraBono.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Inicio.Login.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Inicio.Menu.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Listados.ListadoAfiliadoMasBonos.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Listados.ListadoEspCancelaciones.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Listados.ListadoEspecBono.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Listados.ListadoEstadistico.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Listados.ListadoProfMenosHoras.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Listados.ListadoProfporPlan.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Pedir_Turno.Turno.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Properties.Resources.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Registrar_Agenta_Medico.RegistrarAgenda.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Registro_Llegada.RegistroLlegada.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Registro_Llegada.TurnoProfesional.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Registro_Resultado.Diagnostico.resources
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.csproj.GenerateResource.Cache

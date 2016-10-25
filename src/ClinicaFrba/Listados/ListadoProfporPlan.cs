@@ -102,5 +102,10 @@ namespace ClinicaFrba.Listados
 
         
         }
+
+        private void ListadoProfporPlan_Load(object sender, EventArgs e)
+        {
+            this.cmbSemestre.SelectedIndex = -1;
+        }
     }
 }

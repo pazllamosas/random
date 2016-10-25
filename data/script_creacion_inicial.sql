@@ -121,8 +121,8 @@ IF OBJECT_ID('RANDOM.top5EspecialidadesConMasConsultasUtilizadas') IS NOT NULL
 DROP PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas
 IF OBJECT_ID('RANDOM.top5AfiliadosConMayorCantBonosComprados') IS NOT NULL
 DROP PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados
-/*IF OBJECT_ID('RANDOM.top5ProfesionalesConMenosHorasTrabajadas') IS NOT NULL
-DROP PROCEDURE RANDOM.top5ProfesionalesConMenosHorasTrabajadas*/
+IF OBJECT_ID('RANDOM.top5ProfesionalesMenosHorasTrabajadas') IS NOT NULL
+DROP PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas
 IF OBJECT_ID('RANDOM.top5ProfesionalesMasConsultadosPorPlan') IS NOT NULL
 DROP PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan
 IF OBJECT_ID('RANDOM.top5EspecialidadesConMasCancelacionesDeTurno') IS NOT NULL
@@ -1109,15 +1109,25 @@ GO
 
 ---------------------
 
-/*GO
-CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fechaFrom varchar(50), @fechaTo varchar(50))
+GO
+CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fechaFrom varchar(50), @fechaTo varchar(50), @numeroPlan varchar(50), @nombreEspecialidad varchar(50))
 AS BEGIN
-select top 5
-from
-order by  desc
+select top 5 P.IdProfesional AS 'Matrícula Profesinal', count(RT.IdResultadoTurno) AS 'Cantidad'
+from RANDOM.RESULTADO_TURNO RT
+JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
+JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
+JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
+JOIN RANDOM.PROFESIONAL P ON HD.IdEspecialidad = P.IdProfesional
+JOIN RANDOM.PLANES PL ON PL.IdPlan = B.IdPlan
+JOIN RANDOM.ESPECIALIDAD E ON E.IdEspecialidad = HD.IdEspecialidad
+WHERE T.FechaYHoraTurno between convert(datetime, @fechaFrom,109) and convert(datetime, @fechaTo,109)
+AND E.Descripcion = @nombreEspecialidad
+AND PL.Abono = @numeroPlan
+group by P.IdProfesional
+order by 2 asc
 END
 GO
-*/
+
 
 ---------------------
 
