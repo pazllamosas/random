@@ -1144,7 +1144,68 @@ BEGIN
 END
 GO
 
-
+--9 compra de bonos
+ CREATE PROCEDURE RANDOM.COMPRA_DE_BONO(@IdAfiliado int, @Cantidad int, @MontoTotal INT) AS
+ BEGIN    
+ 	DECLARE @IdPlan int  
+ 	DECLARE @Monto int
+ 	DECLARE @Estado int
+ 	DECLARE @CONTADOR INT = 0 
+ 	DECLARE @Raiz INT
+ 	DECLARE @IdCompra INT
+ 
+ 	SET @IdPlan = (SELECT A.IdPlan FROM RANDOM.AFILIADO A WHERE (CONCAT (A.NumeroAfiliadoRaiz, A.NumeroAfiliadoExt)) = @IdAfiliado)
+ 	SET @Monto = (SELECT B.MontoConsulta FROM RANDOM.PLANES B WHERE B.IdPlan = @IdPlan)
+ 	SET @Estado = (SELECT C.Estado FROM RANDOM.AFILIADO C WHERE (CONCAT (C.NumeroAfiliadoRaiz, C.NumeroAfiliadoExt)) = @IdAfiliado)
+ 	SET @Raiz = (SELECT D.NumeroAfiliadoRaiz FROM RANDOM.AFILIADO D WHERE (CONCAT (D.NumeroAfiliadoRaiz, D.NumeroAfiliadoExt)) = @IdAfiliado)
+ 
+ 	IF(@Estado = 1) --si usuario activo
+ 	BEGIN
+ 
+ 	INSERT INTO RANDOM.COMPRA_BONO(IdAfiliado, Fecha, MontoTotal, Cantidad)
+ 	values(@Raiz, GETDATE(), @MontoTotal, @Cantidad)
+ 	SET @IdCompra = SCOPE_IDENTITY()
+  
+ 	 WHILE (@CONTADOR < @Cantidad)
+ 	 BEGIN
+ 	     INSERT INTO RANDOM.BONO(IdCompra, Usado, Precio, IdPlan, CompraBonoFecha, ConsultaNumero, Habilitado)
+ 	     values(@IdCompra, 0, @Monto, @IdPlan, GETDATE(), NULL, 1) 
+ 	     SET @CONTADOR = @CONTADOR + 1 
+ 	 END
+ 
+ 	 END
+ 	ELSE
+ 	BEGIN	
+ 	RAISERROR ('El usuario esta dado de baja', -1, -1, 'El usuario esta dado de baja')
+ 	END
+ END
+ GO
+ 
+ CREATE FUNCTION RANDOM.CALCULO_MONTO(@IdAfiliado int, @Cantidad int)
+ RETURNS INT
+ AS BEGIN
+ 
+     DECLARE @IdPlan int  
+ 	DECLARE @Monto int
+ 	DECLARE @MontoTotal INT
+ 	DECLARE @Numero INT
+ 	DECLARE @Resultado INT
+ 	
+ 	IF (EXISTS (SELECT * FROM RANDOM.AFILIADO WHERE (CONCAT (NumeroAfiliadoRaiz, NumeroAfiliadoExt)) = @IdAfiliado))
+ 	   BEGIN
+        SET @IdPlan = (SELECT A.IdPlan FROM RANDOM.AFILIADO A WHERE (CONCAT (A.NumeroAfiliadoRaiz, A.NumeroAfiliadoExt)) = @IdAfiliado)
+ 	   SET @Monto = (SELECT P.MontoConsulta FROM RANDOM.PLANES P WHERE P.IdPlan = @IdPlan)
+ 	   SET @MontoTotal = (@Monto * @Cantidad)
+ 	   SET @Resultado = @MontoTotal
+ 	   END
+ 	ELSE
+ 	   BEGIN
+    SET @Resultado = -1
+ 	   END
+ 
+ 	RETURN @Resultado
+ END
+GO
 
 --11 registro de llegada para atencion medica
 GO
