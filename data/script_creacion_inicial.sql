@@ -898,11 +898,11 @@ GO
 GO
 CREATE PROCEDURE RANDOM.GET_AFILIADOS(@DNI NUMERIC(18,0))AS
 BEGIN
-	SELECT P.Apellido, P.Nombre, P.Documento, P.Fecha_Nac, A.NumeroAfiliadoRaiz
+	SELECT A.IdPersona, P.Apellido, P.Nombre,P.Documento, P.Telefono, P.Direccion, P.Fecha_Nac, P.Sexo, P.IdTipoDocumento , A.IdPlan, A.IdEstadoCivil, A.CantidadACargo, P.Mail ,A.NumeroAfiliadoRaiz, A.NumeroAfiliadoExt
 	FROM RANDOM.AFILIADO A, RANDOM.PERSONA P
 	WHERE P.Documento = @DNI
 		AND P.IdPersona = A.IdPersona
-
+		
 END
 GO
 

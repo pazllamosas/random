@@ -143,12 +143,12 @@
             // 
             this.lblFechaNac.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFechaNac.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblFechaNac.Location = new System.Drawing.Point(9, 244);
+            this.lblFechaNac.Location = new System.Drawing.Point(13, 219);
             this.lblFechaNac.Name = "lblFechaNac";
-            this.lblFechaNac.Size = new System.Drawing.Size(136, 21);
+            this.lblFechaNac.Size = new System.Drawing.Size(112, 44);
             this.lblFechaNac.TabIndex = 7;
             this.lblFechaNac.Text = "Fecha Nacimiento: ";
-            this.lblFechaNac.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblFechaNac.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblSexo
             // 
@@ -289,9 +289,9 @@
             // 
             // dtpFechaNac
             // 
-            this.dtpFechaNac.Location = new System.Drawing.Point(151, 243);
+            this.dtpFechaNac.Location = new System.Drawing.Point(130, 240);
             this.dtpFechaNac.Name = "dtpFechaNac";
-            this.dtpFechaNac.Size = new System.Drawing.Size(159, 20);
+            this.dtpFechaNac.Size = new System.Drawing.Size(218, 20);
             this.dtpFechaNac.TabIndex = 29;
             // 
             // btnGuardar

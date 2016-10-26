@@ -12,6 +12,7 @@ namespace ClinicaFrba.Abm_Afiliado
 {
     public partial class AgregarAfiliado : Form
     {
+        private static bool editando = false;
         public AgregarAfiliado()
         {
             InitializeComponent();
@@ -95,6 +96,35 @@ namespace ClinicaFrba.Abm_Afiliado
         private void btnAgregarFamiliar_Click(object sender, EventArgs e)
         {
             FormProvider.AgregarFamiliarAfiliado.Show();
+        }
+
+        public void EditarAfiliado(string idAfiliado, string apellido, string nombre, string nroDocumento, string telefono, string direccion, string fechaNacimiento, string sexo, string tipoDocumento, string plan,string estadoCivil, string cantACargo, string mail, string nroAfiliadoRaiz, string nroAfiliadoExt)
+        {
+            txtApellido.Text = apellido;
+            txtNombre.Text = nombre;
+            txtNroDoc.Text = nroDocumento;
+            txtTelefono.Text = telefono;
+            txtDomicilio.Text = direccion;
+            dtpFechaNac.Text = fechaNacimiento;
+            cmbSexo.Text = sexo;
+            txtFamACargo.Text = cantACargo;
+            txtMail.Text = mail;
+            txtNroAf.Text = (nroAfiliadoRaiz + " " + nroAfiliadoExt);
+            cmbEstadoCivil.SelectedValue = Convert.ToInt32(estadoCivil);
+            cmbPlanMedico.Text = plan;
+            cmbTipoDoc.Text = tipoDocumento;
+
+            
+
+
+            editando = true;
+
+            btnGuardar.Text = "Guardar";
+
+
+            
+            
+
         }
     }
 }
