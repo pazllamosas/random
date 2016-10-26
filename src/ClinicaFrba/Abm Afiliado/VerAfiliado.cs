@@ -20,6 +20,7 @@ namespace ClinicaFrba.Abm_Afiliado
         private void btnCrearAf_Click(object sender, EventArgs e)
         {
             FormProvider.Agafiliado.Show();
+            FormProvider.Agafiliado.LimpiarCampos();
         }
 
         private void btnEditarAf_Click(object sender, EventArgs e)

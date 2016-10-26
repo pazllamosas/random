@@ -214,6 +214,7 @@
             this.txtNroDoc.Name = "txtNroDoc";
             this.txtNroDoc.Size = new System.Drawing.Size(153, 20);
             this.txtNroDoc.TabIndex = 14;
+            this.txtNroDoc.TextChanged += new System.EventHandler(this.txtNroDoc_TextChanged);
             // 
             // txtDomicilio
             // 
@@ -293,6 +294,7 @@
             this.dtpFechaNac.Name = "dtpFechaNac";
             this.dtpFechaNac.Size = new System.Drawing.Size(218, 20);
             this.dtpFechaNac.TabIndex = 29;
+            this.dtpFechaNac.ValueChanged += new System.EventHandler(this.dtpFechaNac_ValueChanged);
             // 
             // btnGuardar
             // 
@@ -306,6 +308,7 @@
             this.btnGuardar.Text = "Crear Afiliado Principal";
             this.btnGuardar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnCambiarPlan
             // 

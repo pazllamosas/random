@@ -35,10 +35,10 @@ namespace ClinicaFrba.Abm_Afiliado
             cmbTipoDoc.DisplayMember = "Descripcion";
             cmbTipoDoc.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_TIPO_DOCUMENTO");
 
-            this.cmbPlanMedico.SelectedIndex = -1;
-            this.cmbSexo.SelectedIndex = -1;
-            this.cmbEstadoCivil.SelectedIndex = -1;
-            this.cmbTipoDoc.SelectedIndex = -1;
+            //this.cmbPlanMedico.SelectedIndex = -1;
+            //this.cmbSexo.SelectedIndex = -1;
+            //this.cmbEstadoCivil.SelectedIndex = -1;
+            //this.cmbTipoDoc.SelectedIndex = -1;
 
 
 
@@ -65,7 +65,10 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void txtFamACargo_TextChanged(object sender, EventArgs e)
         {
-
+            if (!funciones.permiteNumeros(txtTelefono.Text))
+            {
+                MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnCambiarPlan_Click(object sender, EventArgs e)
@@ -80,6 +83,10 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void txtTelefono_TextChanged(object sender, EventArgs e)
         {
+            if(!funciones.permiteNumeros(txtTelefono.Text))
+            {
+                MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
 
@@ -111,20 +118,85 @@ namespace ClinicaFrba.Abm_Afiliado
             txtMail.Text = mail;
             txtNroAf.Text = (nroAfiliadoRaiz + " " + nroAfiliadoExt);
             cmbEstadoCivil.SelectedValue = Convert.ToInt32(estadoCivil);
-            cmbPlanMedico.Text = plan;
-            cmbTipoDoc.Text = tipoDocumento;
-
-            
-
+            cmbPlanMedico.SelectedValue = plan;
+            cmbTipoDoc.SelectedValue = tipoDocumento;
 
             editando = true;
-
             btnGuardar.Text = "Guardar";
 
+        }
 
-            
-            
+        public void LimpiarCampos()
+        {
+            this.cmbPlanMedico.SelectedIndex = -1;
+            this.cmbSexo.SelectedIndex = -1;
+            this.cmbEstadoCivil.SelectedIndex = -1;
+            this.cmbTipoDoc.SelectedIndex = -1;
+        }
 
+        
+        
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            if (!editando)
+            {
+                
+
+                if (validacion())
+                {
+                    Conexion.executeProcedure( "RANDOM.CREAR_AFILIADO", 
+                        Conexion.generarArgumentos( "@NOMBRE", "@APELLIDO", "@SEXO", "@IDTIPODOC", "@DOCUMENTO", "@DIRECCION", "@TELEFONO", "@MAIL", "@FECHANAC", "@IDESTADOCIVIL", "@FAMILIARESACARGO", "@IDPLAN"),
+                            txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value.ToString("yyyy-MM-dd"), Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));  
+                   MessageBox.Show("Afiliado Principal Creado");
+                }
+            }
+
+        }
+
+        private bool validacion()
+        {
+            if (this.txtNombre.Text.Trim() == "")
+                return false;
+            if (this.txtApellido.Text.Trim() == "")
+                return false;
+            if (this.txtTelefono.Text.Trim() == "")
+                return false;
+            if (this.txtDomicilio.Text.Trim() == "")
+                return false;
+            if (this.txtNroDoc.Text.Trim() == "")
+                return false;
+            if (this.txtFamACargo.Text.Trim() == "")
+                return false;
+            if (this.txtMail.Text.Trim() == "")
+                return false;
+            if (cmbSexo.SelectedIndex == -1)
+                return false;
+            if (cmbTipoDoc.SelectedIndex == -1)
+                return false;
+            if (cmbPlanMedico.SelectedIndex == -1)
+                return false;
+            if (cmbEstadoCivil.SelectedIndex == -1)
+                return false;
+            if (dtpFechaNac.Checked == false)
+                return false;
+                        
+            return true;
+        }
+
+        private void dtpFechaNac_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpFechaNac.Value > DateTime.Today)
+            {
+                MessageBox.Show("Fecha de nacimiento superior a la fecha actual", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void txtNroDoc_TextChanged(object sender, EventArgs e)
+        {
+            if (!funciones.permiteNumeros(txtTelefono.Text))
+            {
+                MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
