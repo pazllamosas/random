@@ -36,6 +36,7 @@
             this.txtMonto = new System.Windows.Forms.TextBox();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblNroAfiliado
@@ -80,7 +81,7 @@
             this.lblMonto.AutoSize = true;
             this.lblMonto.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMonto.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.lblMonto.Location = new System.Drawing.Point(127, 245);
+            this.lblMonto.Location = new System.Drawing.Point(118, 279);
             this.lblMonto.Name = "lblMonto";
             this.lblMonto.Size = new System.Drawing.Size(218, 37);
             this.lblMonto.TabIndex = 16;
@@ -91,7 +92,7 @@
             // 
             this.txtMonto.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMonto.ForeColor = System.Drawing.Color.Blue;
-            this.txtMonto.Location = new System.Drawing.Point(351, 245);
+            this.txtMonto.Location = new System.Drawing.Point(351, 276);
             this.txtMonto.Name = "txtMonto";
             this.txtMonto.ReadOnly = true;
             this.txtMonto.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -129,11 +130,22 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(325, 212);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(148, 23);
+            this.button1.TabIndex = 18;
+            this.button1.Text = "Calcular monto total";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.calculoMonto_Click);
+            // 
             // CompraBono
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 475);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.txtMonto);
             this.Controls.Add(this.lblMonto);
             this.Controls.Add(this.txtCantBonos);
@@ -162,5 +174,6 @@
         private System.Windows.Forms.TextBox txtCantBonos;
         private System.Windows.Forms.Label lblMonto;
         private System.Windows.Forms.TextBox txtMonto;
+        private System.Windows.Forms.Button button1;
     }
 }

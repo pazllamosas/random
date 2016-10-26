@@ -115,6 +115,13 @@ IF OBJECT_ID('RANDOM.ASIGNAR_ROL') IS NOT NULL
 DROP PROCEDURE RANDOM.ASIGNAR_ROL
 IF OBJECT_ID('RANDOM.CREAR_ROL') IS NOT NULL
 DROP PROCEDURE RANDOM.CREAR_ROL
+
+--9 compra de bonos
+IF OBJECT_ID('RANDOM.COMPRA_DE_BONO') IS NOT NULL
+DROP PROCEDURE RANDOM.COMPRA_DE_BONO
+IF OBJECT_ID('RANDOM.CALCULO_MONTO') IS NOT NULL
+DROP FUNCTION RANDOM.CALCULO_MONTO
+
 IF OBJECT_ID('RANDOM.antesDelTop') IS NOT NULL
 DROP PROCEDURE RANDOM.antesDelTop 
 IF OBJECT_ID('RANDOM.top5EspecialidadesConMasConsultasUtilizadas') IS NOT NULL
@@ -1070,6 +1077,69 @@ BEGIN
 	END
 	ELSE
 		RAISERROR ('No existe el Turno', 16, 217) WITH SETERROR
+END
+GO
+
+---9 compra de bonos
+CREATE PROCEDURE RANDOM.COMPRA_DE_BONO(@IdAfiliado int, @Cantidad int, @MontoTotal INT) AS
+BEGIN    
+	DECLARE @IdPlan int  
+	DECLARE @Monto int
+	DECLARE @Estado int
+	DECLARE @CONTADOR INT = 0 
+	DECLARE @Raiz INT
+	DECLARE @IdCompra INT
+
+	SET @IdPlan = (SELECT A.IdPlan FROM RANDOM.AFILIADO A WHERE (CONCAT (A.NumeroAfiliadoRaiz, A.NumeroAfiliadoExt)) = @IdAfiliado)
+	SET @Monto = (SELECT B.MontoConsulta FROM RANDOM.PLANES B WHERE B.IdPlan = @IdPlan)
+	SET @Estado = (SELECT C.Estado FROM RANDOM.AFILIADO C WHERE (CONCAT (C.NumeroAfiliadoRaiz, C.NumeroAfiliadoExt)) = @IdAfiliado)
+	SET @Raiz = (SELECT D.NumeroAfiliadoRaiz FROM RANDOM.AFILIADO D WHERE (CONCAT (D.NumeroAfiliadoRaiz, D.NumeroAfiliadoExt)) = @IdAfiliado)
+
+	IF(@Estado = 1) --si usuario activo
+	BEGIN
+
+	INSERT INTO RANDOM.COMPRA_BONO(IdAfiliado, Fecha, MontoTotal, Cantidad)
+	values(@Raiz, GETDATE(), @MontoTotal, @Cantidad)
+	SET @IdCompra = SCOPE_IDENTITY()
+ 
+	 WHILE (@CONTADOR < @Cantidad)
+	 BEGIN
+	     INSERT INTO RANDOM.BONO(IdCompra, Usado, Precio, IdPlan, CompraBonoFecha, ConsultaNumero, Habilitado)
+	     values(@IdCompra, 0, @Monto, @IdPlan, GETDATE(), NULL, 1) 
+	     SET @CONTADOR = @CONTADOR + 1 
+	 END
+
+	 END
+	ELSE
+	BEGIN	
+	RAISERROR ('El usuario esta dado de baja', -1, -1, 'El usuario esta dado de baja')
+	END
+END
+GO
+
+CREATE FUNCTION RANDOM.CALCULO_MONTO(@IdAfiliado int, @Cantidad int)
+RETURNS INT
+AS BEGIN
+
+    DECLARE @IdPlan int  
+	DECLARE @Monto int
+	DECLARE @MontoTotal INT
+	DECLARE @Numero INT
+	DECLARE @Resultado INT
+	
+	IF (EXISTS (SELECT * FROM RANDOM.AFILIADO WHERE (CONCAT (NumeroAfiliadoRaiz, NumeroAfiliadoExt)) = @IdAfiliado))
+	   BEGIN
+       SET @IdPlan = (SELECT A.IdPlan FROM RANDOM.AFILIADO A WHERE (CONCAT (A.NumeroAfiliadoRaiz, A.NumeroAfiliadoExt)) = @IdAfiliado)
+	   SET @Monto = (SELECT P.MontoConsulta FROM RANDOM.PLANES P WHERE P.IdPlan = @IdPlan)
+	   SET @MontoTotal = (@Monto * @Cantidad)
+	   SET @Resultado = @MontoTotal
+	   END
+	ELSE
+	   BEGIN
+	   SET @Resultado = -1
+	   END
+
+	RETURN @Resultado
 END
 GO
 
