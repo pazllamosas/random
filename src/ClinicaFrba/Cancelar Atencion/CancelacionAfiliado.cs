@@ -15,6 +15,10 @@ namespace ClinicaFrba.Cancelar_Atencion
         public CancelacionAfiliado()
         {
             InitializeComponent();
+            cmbTipoCancelacion.ValueMember = "IdTipoCancelacion";
+            cmbTipoCancelacion.DisplayMember = "Descripcion";
+            cmbTipoCancelacion.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_TIPOS_CANCELACION");
+            this.cmbTipoCancelacion.SelectedIndex = -1;
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
