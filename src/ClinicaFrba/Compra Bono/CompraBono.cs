@@ -38,18 +38,18 @@ namespace ClinicaFrba.Compra_Bono
             {
                 MessageBox.Show("El bono no fue comprado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            this.txtNroAfiliado.Clear();
-            this.txtCantBonos.Clear();
-            this.txtMonto.Clear();
+            txtNroAfiliado.Text = null;
+            txtCantBonos.Text = null;
+            txtMonto.Text = null;
             this.Hide();
             FormProvider.MainMenu.Show();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            this.txtNroAfiliado.Clear();
-            this.txtCantBonos.Clear();
-            this.txtMonto.Clear();
+            txtNroAfiliado.Text = null;
+            txtCantBonos.Text = null;
+            txtMonto.Text = null;
             this.Hide();
             FormProvider.MainMenu.Show();
 

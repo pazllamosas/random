@@ -36,6 +36,8 @@
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnRegLlegada = new System.Windows.Forms.Button();
+            this.dgvLlegada = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvLlegada)).BeginInit();
             this.SuspendLayout();
             // 
             // cmbEspecialidad
@@ -43,7 +45,7 @@
             this.cmbEspecialidad.FormattingEnabled = true;
             this.cmbEspecialidad.Location = new System.Drawing.Point(297, 126);
             this.cmbEspecialidad.Name = "cmbEspecialidad";
-            this.cmbEspecialidad.Size = new System.Drawing.Size(149, 21);
+            this.cmbEspecialidad.Size = new System.Drawing.Size(227, 21);
             this.cmbEspecialidad.TabIndex = 11;
             this.cmbEspecialidad.SelectedIndexChanged += new System.EventHandler(this.cmbEspecialidad_SelectedIndexChanged);
             // 
@@ -62,7 +64,7 @@
             this.cmbProfesional.FormattingEnabled = true;
             this.cmbProfesional.Location = new System.Drawing.Point(297, 82);
             this.cmbProfesional.Name = "cmbProfesional";
-            this.cmbProfesional.Size = new System.Drawing.Size(149, 21);
+            this.cmbProfesional.Size = new System.Drawing.Size(227, 21);
             this.cmbProfesional.TabIndex = 9;
             this.cmbProfesional.SelectedIndexChanged += new System.EventHandler(this.cmbProfesional_SelectedIndexChanged);
             // 
@@ -81,20 +83,21 @@
             this.btnLimpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLimpiar.Image = global::ClinicaFrba.Properties.Resources.delete;
             this.btnLimpiar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLimpiar.Location = new System.Drawing.Point(339, 186);
+            this.btnLimpiar.Location = new System.Drawing.Point(398, 172);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(98, 33);
             this.btnLimpiar.TabIndex = 13;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // btnBuscar
             // 
             this.btnBuscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBuscar.Image = global::ClinicaFrba.Properties.Resources.busqueda;
             this.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBuscar.Location = new System.Drawing.Point(222, 186);
+            this.btnBuscar.Location = new System.Drawing.Point(197, 172);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(98, 33);
             this.btnBuscar.TabIndex = 12;
@@ -131,11 +134,20 @@
             this.btnRegLlegada.UseVisualStyleBackColor = true;
             this.btnRegLlegada.Click += new System.EventHandler(this.btnRegLlegada_Click);
             // 
+            // dgvLlegada
+            // 
+            this.dgvLlegada.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvLlegada.Location = new System.Drawing.Point(12, 225);
+            this.dgvLlegada.Name = "dgvLlegada";
+            this.dgvLlegada.Size = new System.Drawing.Size(647, 171);
+            this.dgvLlegada.TabIndex = 16;
+            // 
             // RegistroLlegada
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
+            this.Controls.Add(this.dgvLlegada);
             this.Controls.Add(this.btnRegLlegada);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnLimpiar);
@@ -149,6 +161,8 @@
             this.Name = "RegistroLlegada";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Llegada";
+            this.Load += new System.EventHandler(this.RegistroLlegada_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvLlegada)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -164,5 +178,6 @@
         private System.Windows.Forms.Label lblProfesional;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnRegLlegada;
+        private System.Windows.Forms.DataGridView dgvLlegada;
     }
 }

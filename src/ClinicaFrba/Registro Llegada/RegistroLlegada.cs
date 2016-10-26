@@ -25,7 +25,9 @@ namespace ClinicaFrba.Registro_Llegada
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            FormProvider.TurnoProf.Show();
+            string Apellido = cmbProfesional.Text;
+            string descripcion = cmbEspecialidad.Text;
+            dgvLlegada.DataSource = Conexion.obtenerTablaProcedure("RANDOM.BUSCAR_MEDICO", Conexion.generarArgumentos("@Descripcion", "@Apellido"), descripcion, Apellido);
         }
 
         private void cmbProfesional_SelectedIndexChanged(object sender, EventArgs e)
@@ -41,6 +43,41 @@ namespace ClinicaFrba.Registro_Llegada
         private void btnRegLlegada_Click(object sender, EventArgs e)
         {
 
+
+            FormProvider.TurnoProf.Show();
         }
+
+
+        private void RegistroLlegada_Load(object sender, EventArgs e)
+        {
+            Conexion.establecerConexionBD();
+
+            cmbEspecialidad.ValueMember = "IdEspecialidad";
+            cmbEspecialidad.DisplayMember = "Descripcion";
+            cmbEspecialidad.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_ESPECIALIDAD");
+
+            cmbProfesional.ValueMember = "IdPersona";
+            cmbProfesional.DisplayMember = "Apellido";
+            cmbProfesional.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_MEDICOS");
+
+            this.cmbEspecialidad.SelectedIndex = -1;
+            this.cmbProfesional.SelectedIndex = -1;
+        }
+
+
+
+
+        private void dgvLlegada_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+           {
+            dgvLlegada.DataSource = null;
+               cmbProfesional.Text = null;
+               cmbEspecialidad.Text = null;
+           }
+
     }
 }
