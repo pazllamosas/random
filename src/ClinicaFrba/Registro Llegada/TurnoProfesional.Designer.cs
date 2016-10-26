@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvTurnoProfesional = new System.Windows.Forms.DataGridView();
             this.ColumnHorario = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnSeleccTurno = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTurnoProfesional)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dgvTurnoProfesional
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvTurnoProfesional.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTurnoProfesional.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnHorario});
-            this.dataGridView1.Location = new System.Drawing.Point(22, 80);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(602, 221);
-            this.dataGridView1.TabIndex = 0;
+            this.dgvTurnoProfesional.Location = new System.Drawing.Point(22, 80);
+            this.dgvTurnoProfesional.Name = "dgvTurnoProfesional";
+            this.dgvTurnoProfesional.Size = new System.Drawing.Size(602, 221);
+            this.dgvTurnoProfesional.TabIndex = 0;
             // 
             // ColumnHorario
             // 
@@ -87,22 +87,22 @@
             this.ClientSize = new System.Drawing.Size(663, 476);
             this.Controls.Add(this.btnSeleccTurno);
             this.Controls.Add(this.btnVolver);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvTurnoProfesional);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "TurnoProfesional";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Turno";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTurnoProfesional)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnHorario;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnSeleccTurno;
+        public System.Windows.Forms.DataGridView dgvTurnoProfesional;
     }
 }

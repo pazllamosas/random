@@ -42,9 +42,12 @@ namespace ClinicaFrba.Registro_Llegada
 
         private void btnRegLlegada_Click(object sender, EventArgs e)
         {
-
-
+            DataGridViewRow d = dgvLlegada.SelectedRows[0];
+            string IdMedicoS = d.Cells[3].Value.ToString();
+            Int32 IdMedico = Convert.ToInt32(IdMedicoS);
+            FormProvider.TurnoProf.dgvTurnoProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_TURNOS_MEDICO", Conexion.generarArgumentos("@IdMedico"), IdMedico);
             FormProvider.TurnoProf.Show();
+            this.Hide();
         }
 
 
@@ -73,11 +76,17 @@ namespace ClinicaFrba.Registro_Llegada
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
-           {
+        {
             dgvLlegada.DataSource = null;
-               cmbProfesional.Text = null;
-               cmbEspecialidad.Text = null;
-           }
+            cmbProfesional.Text = null;
+            cmbEspecialidad.Text = null;
+        }
+
+        private void dgvLlegada_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
 
     }
 }

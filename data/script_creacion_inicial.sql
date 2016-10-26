@@ -134,6 +134,12 @@ IF OBJECT_ID('RANDOM.GET_MEDICOS') IS NOT NULL
 DROP PROCEDURE RANDOM.GET_MEDICOS
 IF OBJECT_ID('RANDOM.BUSCAR_MEDICO') IS NOT NULL
 DROP PROCEDURE RANDOM.BUSCAR_MEDICO
+IF OBJECT_ID('RANDOM.TRAER_TURNOS_MEDICO') IS NOT NULL
+DROP PROCEDURE RANDOM.TRAER_TURNOS_MEDICO
+IF OBJECT_ID('RANDOM.BONOS_DISPONIBLES') IS NOT NULL
+DROP FUNCTION RANDOM.BONOS_DISPONIBLES
+IF OBJECT_ID('RANDOM.REGISTRO_LLEGADA') IS NOT NULL
+DROP PROCEDURE RANDOM.REGISTRO_LLEGADA
 
 IF OBJECT_ID('RANDOM.antesDelTop') IS NOT NULL
 DROP PROCEDURE RANDOM.antesDelTop 
@@ -1140,76 +1146,12 @@ GO
 
 
 
----9 compra de bonos
-CREATE PROCEDURE RANDOM.COMPRA_DE_BONO(@IdAfiliado int, @Cantidad int, @MontoTotal INT) AS
-BEGIN    
-	DECLARE @IdPlan int  
-	DECLARE @Monto int
-	DECLARE @Estado int
-	DECLARE @CONTADOR INT = 0 
-	DECLARE @Raiz INT
-	DECLARE @IdCompra INT
-
-	SET @IdPlan = (SELECT A.IdPlan FROM RANDOM.AFILIADO A WHERE (CONCAT (A.NumeroAfiliadoRaiz, A.NumeroAfiliadoExt)) = @IdAfiliado)
-	SET @Monto = (SELECT B.MontoConsulta FROM RANDOM.PLANES B WHERE B.IdPlan = @IdPlan)
-	SET @Estado = (SELECT C.Estado FROM RANDOM.AFILIADO C WHERE (CONCAT (C.NumeroAfiliadoRaiz, C.NumeroAfiliadoExt)) = @IdAfiliado)
-	SET @Raiz = (SELECT D.NumeroAfiliadoRaiz FROM RANDOM.AFILIADO D WHERE (CONCAT (D.NumeroAfiliadoRaiz, D.NumeroAfiliadoExt)) = @IdAfiliado)
-
-	IF(@Estado = 1) --si usuario activo
-	BEGIN
-
-	INSERT INTO RANDOM.COMPRA_BONO(IdAfiliado, Fecha, MontoTotal, Cantidad)
-	values(@Raiz, GETDATE(), @MontoTotal, @Cantidad)
-	SET @IdCompra = SCOPE_IDENTITY()
- 
-	 WHILE (@CONTADOR < @Cantidad)
-	 BEGIN
-	     INSERT INTO RANDOM.BONO(IdCompra, Usado, Precio, IdPlan, CompraBonoFecha, ConsultaNumero, Habilitado)
-	     values(@IdCompra, 0, @Monto, @IdPlan, GETDATE(), NULL, 1) 
-	     SET @CONTADOR = @CONTADOR + 1 
-	 END
-
-	 END
-	ELSE
-	BEGIN	
-	RAISERROR ('El usuario esta dado de baja', -1, -1, 'El usuario esta dado de baja')
-	END
-END
-GO
-
-CREATE FUNCTION RANDOM.CALCULO_MONTO(@IdAfiliado int, @Cantidad int)
-RETURNS INT
-AS BEGIN
-
-    DECLARE @IdPlan int  
-	DECLARE @Monto int
-	DECLARE @MontoTotal INT
-	DECLARE @Numero INT
-	DECLARE @Resultado INT
-	
-	IF (EXISTS (SELECT * FROM RANDOM.AFILIADO WHERE (CONCAT (NumeroAfiliadoRaiz, NumeroAfiliadoExt)) = @IdAfiliado))
-	   BEGIN
-       SET @IdPlan = (SELECT A.IdPlan FROM RANDOM.AFILIADO A WHERE (CONCAT (A.NumeroAfiliadoRaiz, A.NumeroAfiliadoExt)) = @IdAfiliado)
-	   SET @Monto = (SELECT P.MontoConsulta FROM RANDOM.PLANES P WHERE P.IdPlan = @IdPlan)
-	   SET @MontoTotal = (@Monto * @Cantidad)
-	   SET @Resultado = @MontoTotal
-	   END
-	ELSE
-	   BEGIN
-	   SET @Resultado = -1
-	   END
-
-	RETURN @Resultado
-END
-GO
-
-
---11 registro de llegada para atencion medica -- DEBERIA SERVIR PARA EL 10 TAMBIEN
+--11 registro de llegada para atencion medica
 GO
 CREATE PROCEDURE RANDOM.GET_ESPECIALIDAD AS
 BEGIN
 	SELECT * FROM RANDOM.ESPECIALIDAD
-	ORDER BY IdEspecialidad ASC
+	ORDER BY Descripcion ASC
 END
 GO
 
@@ -1246,6 +1188,49 @@ IF(@Descripcion != '' AND @Apellido != '')
 END
 GO
 
+GO
+CREATE PROCEDURE RANDOM.TRAER_TURNOS_MEDICO(@IdMedico INT) AS
+BEGIN
+    SELECT DISTINCT A.IdAfiliado, A.FechaYHoraTurno,  B.IdProfesional, B.FechaYHoraDesde, B.FechaYHoraHasta
+	FROM RANDOM.TURNO A, RANDOM.AGENDA_HORARIO_DISPONIBLE B
+	WHERE @IdMedico = B.IdProfesional AND A.IdAgenda = B.IdAgenda
+END
+GO
+
+GO
+CREATE FUNCTION RANDOM.BONOS_DISPONIBLES(@IdAfiliado int)
+RETURNS INT
+AS BEGIN
+      DECLARE @IdCompra INT
+	  DECLARE @ConsultaNumero INT
+	  DECLARE @CantidadDisponibleBonos INT
+
+	  SET @IdCompra = (SELECT A.IdCompra FROM RANDOM.COMPRA_BONO A WHERE A.IdAfiliado= @IdAfiliado)
+	  SET @ConsultaNumero = (SELECT COUNT(B.ConsultaNumero) FROM RANDOM.BONO B WHERE B.IdCompra = @IdCompra AND B.ConsultaNumero = NULL)
+   	
+      RETURN @CantidadDisponibleBonos
+END
+GO
+
+GO
+CREATE PROCEDURE RANDOM.REGISTRO_LLEGADA(@IdAfiliado int) AS
+BEGIN
+
+	   DECLARE @IdCompra INT
+	   DECLARE @IdBono INT
+
+	   SET @IdCompra = (SELECT A.IdCompra FROM RANDOM.COMPRA_BONO A WHERE A.IdAfiliado = @IdAfiliado)
+	   SET @IdBono = (SELECT B.IdBono FROM RANDOM.BONO B WHERE B.IdCompra = @IdCompra)
+
+	   IF((SELECT C.Usado FROM RANDOM.BONO C WHERE @IdBono = C.IdBono) != 1) --como varios idBono para un idCompra, chequear!!!
+	   BEGIN
+	   UPDATE RANDOM.BONO
+	   SET Usado= 1, ConsultaNumero = SCOPE_IDENTITY() + 1 --NOSE CHEQUEAR CUANDO ESTE MIGRADO!!!!!!!!!!!! capaz ni hace falta ponerlo por identity
+	   WHERE IdBono = @IdBono
+	   END
+
+END
+GO
 
 -------------------------------TOP 5------------------------------
 

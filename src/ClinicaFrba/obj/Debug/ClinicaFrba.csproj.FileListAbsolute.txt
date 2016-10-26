@@ -42,7 +42,6 @@ C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.csproj.Gene
 C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\bin\Debug\ClinicaFrba.exe.config
 C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\bin\Debug\ClinicaFrba.exe
 C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\bin\Debug\ClinicaFrba.pdb
-C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.csprojResolveAssemblyReference.cache
 C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afiliado.AgregarAfiliado.resources
 C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afiliado.AgregarFamiliar.resources
 C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afiliado.CambioPlanes.resources

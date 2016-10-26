@@ -178,6 +178,6 @@
         private System.Windows.Forms.Label lblProfesional;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnRegLlegada;
-        private System.Windows.Forms.DataGridView dgvLlegada;
+        public System.Windows.Forms.DataGridView dgvLlegada;
     }
 }
