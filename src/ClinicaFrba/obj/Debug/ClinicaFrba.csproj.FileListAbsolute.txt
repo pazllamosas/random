@@ -69,3 +69,4 @@ C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Registro_Res
 C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.csproj.GenerateResource.Cache
 C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.exe
 C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.pdb
+C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.csprojResolveAssemblyReference.cache

@@ -30,14 +30,20 @@ namespace ClinicaFrba.Registro_Llegada
             DataGridViewRow d = dgvTurnoProfesional.SelectedRows[0];
             string afiliadoS = d.Cells[1].Value.ToString();
             Int32 afiliado = Convert.ToInt32(afiliadoS);
+            string fechaHoraTurnoS = d.Cells[2].Value.ToString();
+            Int32 fechaHoraTurno = Convert.ToInt32(fechaHoraTurnoS);
+            //deberia salir de un archivo de configuracion!
+            Int32 fechaHora = 20151228; //CHEQUEAR BIEN ESTO DE LAS FECHASS
 
             string query = "SELECT RANDOM.BONOS_DISPONIBLES ('" + afiliado + "') AS id";
             SqlDataReader reader = Conexion.ejecutarQuery(query);
             reader.Read();
             Int32 CantidadDisponibleBonos = int.Parse(reader["id"].ToString());
+            txtBonos.Text = Convert.ToString(CantidadDisponibleBonos);
             reader.Close();
             if (CantidadDisponibleBonos > 0)
             {
+                if(fechaHora <= fechaHoraTurno){
                 bool resultado = Conexion.executeProcedure("RANDOM.REGISTRO_LLEGADA", Conexion.generarArgumentos("@IdAfiliado"), afiliado);
                 if (resultado)
                 {
@@ -46,20 +52,38 @@ namespace ClinicaFrba.Registro_Llegada
                 else
                 {
                     MessageBox.Show("No se registro la llegada", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
+                }}else{
+                    MessageBox.Show("El turno esta pasado de hora/fecha");}
             }
             else
             {
                 MessageBox.Show("El afiliado no tiene bonos disponibles");
             }
-            this.Hide();
-            FormProvider.RegistroLlegada.Show();
-            //        dgvTurnoProfesional.DataSource = null;
+            
         }
 
         public void dgvTurnoProfesional_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void lblBonos_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtBonos_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        
+
+        private void Volver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormProvider.RegistroLlegada.Show();
+            //dgvTurnoProfesional.DataSource = null;
         }
     }
 }

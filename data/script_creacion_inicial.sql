@@ -127,6 +127,12 @@ DROP PROCEDURE RANDOM.COMPRA_DE_BONO
 IF OBJECT_ID('RANDOM.CALCULO_MONTO') IS NOT NULL
 DROP FUNCTION RANDOM.CALCULO_MONTO
 
+--10 pedido de turno
+IF OBJECT_ID('RANDOM.PEDIDO_DE_TURNO') IS NOT NULL
+DROP FUNCTION RANDOM.PEDIDO_DE_TURNO
+IF OBJECT_ID('RANDOM.RESERVO_FECHA_TURNO') IS NOT NULL
+DROP PROCEDURE RANDOM.RESERVO_FECHA_TURNO
+
 --11 registro de llegada para atencion medica
 IF OBJECT_ID('RANDOM.GET_ESPECIALIDAD') IS NOT NULL
 DROP PROCEDURE RANDOM.GET_ESPECIALIDAD
@@ -1207,6 +1213,51 @@ GO
  END
 GO
 
+--10 pedido de turno
+GO
+CREATE FUNCTION RANDOM.PEDIDO_DE_TURNO(@FechaDisponible datetime, @IdProfesional INT)
+RETURNS datetime
+AS BEGIN
+
+            DECLARE @FechaHoraDesde datetime
+	        DECLARE @FechaHoraHasta datetime
+	        DECLARE @Agenda int
+			DECLARE @Resultado datetime
+
+	        SET @FechaHoraDesde = (SELECT A.FechaYHoraDesde FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @IdProfesional)
+	        SET @FechaHoraHasta = (SELECT B.FechaYHoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE B WHERE B.IdProfesional = @IdProfesional)
+	        SET @Agenda = (SELECT C.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE C WHERE C.IdProfesional = @IdProfesional)
+
+			WHILE((SELECT D.FechaYHoraTurno FROM RANDOM.TURNO D WHERE D.IdAgenda = @Agenda) = @FechaDisponible)
+			  BEGIN
+                  IF((SELECT E.Habilitado FROM RANDOM.TURNO E WHERE E.IdAgenda = @Agenda) = 0)
+				      BEGIN
+                         SET @Resultado = (SELECT F.FechaYHoraTurno FROM RANDOM.TURNO F WHERE F.IdAgenda = @Agenda)
+	  		          END
+                  ELSE
+	                  BEGIN	
+	                     SET @Resultado = -1
+	                  END
+		      END
+	 RETURN @Resultado
+END
+GO
+
+GO
+CREATE PROCEDURE RANDOM.RESERVO_FECHA_TURNO(@FechaElegida datetime, @Afiliado INT, @Profesional int) AS
+BEGIN
+     
+	  DECLARE @IdAgenda INT
+
+	  SET @IdAgenda = (SELECT A.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @Profesional)
+
+	  UPDATE RANDOM.TURNO
+	  SET IdAgenda = @IdAgenda, IdAfiliado =  @Afiliado, FechaYHoraAltaTurno = GETDATE(), Habilitado = 0 --habilitado en 0 esta ocupado
+	  WHERE FechaYHoraTurno = @FechaElegida
+
+END
+GO
+
 --11 registro de llegada para atencion medica
 GO
 CREATE PROCEDURE RANDOM.GET_ESPECIALIDAD AS
@@ -1248,7 +1299,7 @@ IF(@Descripcion != '' AND @Apellido != '')
   END
 END
 GO
-
+SELECT * FROM RANDOM.TURNO
 GO
 CREATE PROCEDURE RANDOM.TRAER_TURNOS_MEDICO(@IdMedico INT) AS
 BEGIN
@@ -1279,16 +1330,25 @@ BEGIN
 
 	   DECLARE @IdCompra INT
 	   DECLARE @IdBono INT
+	   DECLARE @PlanActual INT
 
 	   SET @IdCompra = (SELECT A.IdCompra FROM RANDOM.COMPRA_BONO A WHERE A.IdAfiliado = @IdAfiliado)
 	   SET @IdBono = (SELECT B.IdBono FROM RANDOM.BONO B WHERE B.IdCompra = @IdCompra)
+	   SET @PlanActual = (SELECT C.IdPlan FROM RANDOM.AFILIADO C WHERE (CONCAT(C.NumeroAfiliadoRaiz, C.NumeroAfiliadoExt)) = @IdAfiliado)
 
-	   IF((SELECT C.Usado FROM RANDOM.BONO C WHERE @IdBono = C.IdBono) != 1) --como varios idBono para un idCompra, chequear!!!
-	   BEGIN
-	   UPDATE RANDOM.BONO
-	   SET Usado= 1, ConsultaNumero = SCOPE_IDENTITY() + 1 --NOSE CHEQUEAR CUANDO ESTE MIGRADO!!!!!!!!!!!! capaz ni hace falta ponerlo por identity
-	   WHERE IdBono = @IdBono
-	   END
+	   IF((SELECT D.IdPlan FROM RANDOM.BONO D WHERE @IdBono = D.IdBono) = @PlanActual) --chequeo plan actual con el que compro el bono
+	     BEGIN
+	       IF((SELECT E.Usado FROM RANDOM.BONO E WHERE @IdBono = E.IdBono) != 1) --como varios idBono para un idCompra, chequear!!!
+	         BEGIN
+	           UPDATE RANDOM.BONO
+	           SET Usado= 1, ConsultaNumero = SCOPE_IDENTITY() + 1 --NOSE CHEQUEAR CUANDO ESTE MIGRADO!!!!!!!!!!!! capaz ni hace falta ponerlo por identity
+	           WHERE IdBono = @IdBono
+	         END
+	     END
+	   ELSE 
+	     BEGIN
+	       RAISERROR ('El bono fue comprado con otro plan', -10, -10, 'El bono fue comprado con otro plan')
+	     END
 
 END
 GO
