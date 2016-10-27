@@ -36,7 +36,7 @@
             this.lblSemestre = new System.Windows.Forms.Label();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
-            this.pickerAño = new System.Windows.Forms.DateTimePicker();
+            this.txtAnioAConsultar = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResultado)).BeginInit();
             this.SuspendLayout();
             // 
@@ -133,19 +133,19 @@
             this.btnBuscar.UseVisualStyleBackColor = true;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
-            // pickerAño
+            // txtAnioAConsultar
             // 
-            this.pickerAño.Location = new System.Drawing.Point(540, 105);
-            this.pickerAño.Name = "pickerAño";
-            this.pickerAño.Size = new System.Drawing.Size(119, 20);
-            this.pickerAño.TabIndex = 55;
+            this.txtAnioAConsultar.Location = new System.Drawing.Point(540, 105);
+            this.txtAnioAConsultar.Name = "txtAnioAConsultar";
+            this.txtAnioAConsultar.Size = new System.Drawing.Size(100, 20);
+            this.txtAnioAConsultar.TabIndex = 55;
             // 
             // ListadoEspCancelaciones
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
-            this.Controls.Add(this.pickerAño);
+            this.Controls.Add(this.txtAnioAConsultar);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.lblEspCancelaciones);
@@ -176,6 +176,6 @@
         private System.Windows.Forms.Label lblSemestre;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button btnBuscar;
-        private System.Windows.Forms.DateTimePicker pickerAño;
+        private System.Windows.Forms.TextBox txtAnioAConsultar;
     }
 }

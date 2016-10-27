@@ -12,14 +12,13 @@ namespace ClinicaFrba.Listados
 {
     public partial class ListadoProfMenosHoras : Form
     {
+        string mesInicio;
+        string mesFin;
+        string anio;
         public ListadoProfMenosHoras()
         {
             InitializeComponent();
-
             dgvResultado.Rows.Clear();
-            pickerAño.Format = DateTimePickerFormat.Custom;
-            pickerAño.CustomFormat = "yyyy";
-            pickerAño.ShowUpDown = true;
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
@@ -31,35 +30,32 @@ namespace ClinicaFrba.Listados
         private void button2_Click(object sender, EventArgs e)
         {
             dgvResultado.Columns.Clear();
+            txtAnioAConsultar.Clear();
+            this.cmbSemestre.SelectedIndex = -1;
+            this.cmbEspecialidad.SelectedIndex = -1;
+            this.cmbPlan.SelectedIndex = -1;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Int32 mesInicio;
-            Int32 mesFin;
-            if (cmbSemestre.SelectedIndex == 0)
+            anio = txtAnioAConsultar.Text;
+            if ((cmbSemestre.SelectedIndex != -1) & (cmbEspecialidad.SelectedIndex != -1) & (cmbPlan.SelectedIndex != -1))
             {
-                mesInicio = 1;
-                mesFin = 6;
+                List<string> lista = new List<string>();
+                lista.Add("@fechaFrom");
+                lista.Add("@fechaTo");
+                lista.Add("@numeroPlan");
+                lista.Add("@nombreEspecialidad");
+
+                DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5ProfesionalesMenosHorasTrabajadas",
+                lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), cmbPlan.SelectedValue, cmbEspecialidad.SelectedValue);
+                this.dgvResultado.DataSource = dt;
+                dgvResultado.Enabled = false;
             }
             else
             {
-                mesInicio = 7;
-                mesFin = 12;
+                MessageBox.Show("Debe elegir una opcion en cada combo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            //Creo las fechas de inicio y fin dependiendo del año y el semestre elegido
-            DateTime fechaInicio = new DateTime(Int32.Parse(pickerAño.Text), mesInicio, 1);
-            DateTime fechaFin = new DateTime(Int32.Parse(pickerAño.Text), mesFin, 1);
-            List<string> lista = new List<string>();
-            lista.Add("@fechaFrom");
-            lista.Add("@fechaTo");
-            lista.Add("@numeroPlan");
-            lista.Add("@nombreEspecialidad");
-            // no se como poner bien las ultimas dos variables
-            DataTable dt0 = Conexion.obtenerTablaProcedure("RANDOM.top5ProfesionalesMenosHorasTrabajadas",
-            lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin), cmbPlan.SelectedValue,cmbEspecialidad.SelectedValue );
-            this.dgvResultado.DataSource = dt0;
-            dgvResultado.Enabled = false;
         }
 
         private void ListadoProfMenosHoras_Load(object sender, EventArgs e)
@@ -67,6 +63,28 @@ namespace ClinicaFrba.Listados
             this.cmbSemestre.SelectedIndex = -1;
             this.cmbEspecialidad.SelectedIndex = -1;
             this.cmbPlan.SelectedIndex = -1;
+        }
+
+        private void cmbSemestre_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbSemestre.SelectedIndex == 0)
+            {
+                mesInicio = "1";
+                mesFin = "6";
+            }
+            else if (cmbSemestre.SelectedIndex == 1)
+            {
+                mesInicio = "7";
+                mesFin = "12";
+            }
+        }
+
+        private void txtAnioAConsultar_TextChanged(object sender, EventArgs e)
+        {
+            if (!funciones.permiteNumeros(txtAnioAConsultar.Text))
+            {
+                MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

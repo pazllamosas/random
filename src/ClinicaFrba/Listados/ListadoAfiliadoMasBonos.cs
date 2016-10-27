@@ -12,15 +12,28 @@ namespace ClinicaFrba.Listados
 {
     public partial class ListadoAfiliadoMasBonos : Form
     {
+        string mesInicio;
+        string mesFin;
+        string anio;
         public ListadoAfiliadoMasBonos()
         {
             InitializeComponent();
-
             dgvResultado.Rows.Clear();
-            pickerAño.Format = DateTimePickerFormat.Custom;
-            pickerAño.CustomFormat = "yyyy";
-            pickerAño.ShowUpDown = true;
-            //cmbSemestre.SelectedIndex = 0;
+            //cmbSemestre.SelectedIndex = -1;
+        }
+
+        private void cmbSemestre_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbSemestre.SelectedIndex == 0)
+            {
+                mesInicio = "1";
+                mesFin = "6";
+            }
+            else if (cmbSemestre.SelectedIndex == 1)
+            {
+                mesInicio = "7";
+                mesFin = "12";
+            }
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -34,47 +47,51 @@ namespace ClinicaFrba.Listados
             FormProvider.ListadoEstadistico.Show();
         }
 
-         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
 
         }
 
-         private void btnBuscar_Click(object sender, EventArgs e)
-         {
-             Int32 mesInicio;
-             Int32 mesFin;
-             if (cmbSemestre.SelectedIndex == 0)
-             {
-                 mesInicio = 1;
-                 mesFin = 6;
-             }
-             else
-             {
-                 mesInicio = 7;
-                 mesFin = 12;
-             }
-             //Creo las fechas de inicio y fin dependiendo del año y el semestre elegido
-             DateTime fechaInicio = new DateTime(Int32.Parse(pickerAño.Text), mesInicio, 1);
-             DateTime fechaFin = new DateTime(Int32.Parse(pickerAño.Text), mesFin, 1);
-             List<string> lista = new List<string>();
-             lista.Add("@fechaFrom");
-             lista.Add("@fechaTo");
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            anio = txtAnioAConsultar.Text;
+            if (cmbSemestre.SelectedIndex != -1)
+            {
+                List<string> lista = new List<string>();
+                lista.Add("@fechaFrom");
+                lista.Add("@fechaTo");
 
-             DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
-             lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin));
-             this.dgvResultado.DataSource = dt;
-             dgvResultado.Enabled = false;
-         }
+                DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
+                lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"));
+                this.dgvResultado.DataSource = dt;
+                dgvResultado.Enabled = false;
+            }
+            else
+            {
+                MessageBox.Show("Debe elegir una opcion en cada combo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
-         private void button2_Click(object sender, EventArgs e)
-         {
-             dgvResultado.Columns.Clear();
-         }
+        }
 
-         private void ListadoAfiliadoMasBonos_Load(object sender, EventArgs e)
-         {
-             this.cmbSemestre.SelectedIndex = -1;
-         }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            dgvResultado.Columns.Clear();
+            txtAnioAConsultar.Clear();
+            this.cmbSemestre.SelectedIndex = -1;
+        }
+
+        private void ListadoAfiliadoMasBonos_Load(object sender, EventArgs e)
+        {
+            //this.cmbSemestre.SelectedIndex = -1;
+        }
+
+        private void txtAnioAConsultar_TextChanged(object sender, EventArgs e)
+        {
+            if (!funciones.permiteNumeros(txtAnioAConsultar.Text))
+            {
+                MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
-
 }

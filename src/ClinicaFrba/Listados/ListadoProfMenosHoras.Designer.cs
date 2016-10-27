@@ -40,7 +40,7 @@
             this.lblEspecialidad = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.pickerAño = new System.Windows.Forms.DateTimePicker();
+            this.txtAnioAConsultar = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResultado)).BeginInit();
             this.SuspendLayout();
             // 
@@ -212,19 +212,19 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // pickerAño
+            // txtAnioAConsultar
             // 
-            this.pickerAño.Location = new System.Drawing.Point(525, 97);
-            this.pickerAño.Name = "pickerAño";
-            this.pickerAño.Size = new System.Drawing.Size(121, 20);
-            this.pickerAño.TabIndex = 68;
+            this.txtAnioAConsultar.Location = new System.Drawing.Point(526, 98);
+            this.txtAnioAConsultar.Name = "txtAnioAConsultar";
+            this.txtAnioAConsultar.Size = new System.Drawing.Size(120, 20);
+            this.txtAnioAConsultar.TabIndex = 68;
             // 
             // ListadoProfMenosHoras
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
-            this.Controls.Add(this.pickerAño);
+            this.Controls.Add(this.txtAnioAConsultar);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.cmbEspecialidad);
@@ -263,6 +263,6 @@
         private System.Windows.Forms.Label lblEspecialidad;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DateTimePicker pickerAño;
+        private System.Windows.Forms.TextBox txtAnioAConsultar;
     }
 }
