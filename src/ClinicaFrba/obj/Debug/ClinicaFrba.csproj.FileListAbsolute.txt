@@ -70,3 +70,4 @@ C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.csproj.Gener
 C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.exe
 C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.pdb
 C:\Users\MeeeL\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.csprojResolveAssemblyReference.cache
+C:\Users\martin\Desktop\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.Abm_Afiliado.AgregarFamiliar.resources

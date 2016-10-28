@@ -14,7 +14,7 @@ namespace ClinicaFrba.Inicio
     public partial class Login : Form
     {
 
-         private string password = "";
+        private string password = "";
 
         public Login()
         {
@@ -33,7 +33,7 @@ namespace ClinicaFrba.Inicio
             cmbRol.DisplayMember = "Descripcion";
             cmbRol.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_ROLES");
             this.cmbRol.SelectedIndex = -1;
-            
+
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
@@ -41,17 +41,24 @@ namespace ClinicaFrba.Inicio
             string usuario = txtUsuario.Text;
             string password = txtPassword.Text;
             string contrasenia = funciones.SHA256Encripta(this.password);
-            if (usuarioValido(usuario))
+            if (cmbRol.SelectedIndex != -1)
             {
-                if (passwordValida(usuario, password))
+                if (usuarioValido(usuario))
                 {
-                    loginCorrecto(usuario);
+                    if (passwordValida(usuario, password))
+                    {
+                        loginCorrecto(usuario);
 
-                    this.Hide();
-                    FormProvider.MainMenu.Show();
-                    //habilitar lo siguiente cuando se termine de hacer lo de los menues, con que rol entra cada uno y eso.
-                    //FormProvider.MainMenu.habilitarFuncionalidadesPorRol(usuario, cmbRol.Text);
+                        this.Hide();
+                        FormProvider.MainMenu.Show();
+                        //habilitar lo siguiente cuando se termine de hacer lo de los menues, con que rol entra cada uno y eso.
+                        //FormProvider.MainMenu.habilitarFuncionalidades(cmbRol.Text);
+                    }
                 }
+            }
+            else
+            {
+                MessageBox.Show("debe seleccionar una opcion del combo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -95,7 +102,7 @@ namespace ClinicaFrba.Inicio
             }
             else
             {
-                MessageBox.Show("La contraseña es invalida","Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                MessageBox.Show("La contraseña es invalida", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                 loginIncorrecto(usuario);
                 txtPassword.Clear();
 
@@ -130,11 +137,19 @@ namespace ClinicaFrba.Inicio
                 btnIngresar.Enabled = false;
             }
 
-            // traigo los roles que posee una parsona
+            /* REVISAR CUBI, no me anda el for, y cuando ande, sacar lo del arriba de todo del combo que se llena con los tres datos
+            // traigo los roles que posee una parsona para que se vean en el combo de roles en login
             string nombreUsuario = txtUsuario.Text;//fijarse que capaz van comillas dobles en la variable del query
             SqlDataReader Roles = Conexion.ejecutarQuery("select r.Descripcion from random.USUARIO_POR_ROL ur join random.USUARIO u on u.Username = '" +  nombreUsuario + "' join random.ROL r on r.IdRol = ur.IdRol where u.IdUsuario = ur.IdUsuario");
             // hago while para agregar al combo lo que me devuelve la query
-            //cmbRol.Items.Add.rol
+            string rol;
+            for (int i = 1; Roles.HasRows; i++)
+            {
+                rol = Roles[i].ToString();
+                cmbRol.Items.Add.rol;
+            }*/
+
+
         }
 
         private void txtPassword_TextChanged(object sender, EventArgs e)
@@ -148,7 +163,7 @@ namespace ClinicaFrba.Inicio
                 btnIngresar.Enabled = false;
             }
         }
-        }
-
     }
+
+}
 

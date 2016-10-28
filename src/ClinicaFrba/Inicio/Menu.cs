@@ -17,6 +17,32 @@ namespace ClinicaFrba.Inicio
             InitializeComponent();
         }
 
+        public void habilitarFuncionalidadesPorRol(string rol)
+        {
+            switch (rol)
+            {
+                case "Administrador":
+                    btnCancelarturno.Visible = true;
+                    btnPlan.Visible = true;
+                    btnCompraBonos.Visible = true;
+                    btnRegLlegada.Visible = true;
+                    btnRegAgenda.Visible = true;
+                    btnVerEspec.Visible = true;
+                    btnVerProfesional.Visible = true;
+                    btnVerAfiliado.Visible = true;
+                    btnVerRol.Visible = true;
+                    break;
+                case "Afiliado":
+                    btnTop5.Visible = true;
+                    btnTurno.Visible = true;
+                    break;
+                case "Profesional":
+                    btnTop5.Visible = true;
+                    btnRegResultado.Visible = true;
+                    break;
+            }
+        }
+
         private void btnCompraBonos_Click(object sender, EventArgs e)
         {
             FormProvider.CompraBono.Show();
