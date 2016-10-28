@@ -464,23 +464,12 @@ INSERT INTO RANDOM.USUARIO (Username, Pass, FechaCreacion, UltimaModificacion)
 SELECT DISTINCT M.Paciente_Dni, 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE(), GETDATE()
 FROM gd_esquema.Maestra M
 
-INSERT INTO RANDOM.USUARIO_POR_ROL(IdUsuario,IdRol)
-SELECT U.IdUsuario, 2
-FROM RANDOM.USUARIO U, RANDOM.ROL R
-WHERE R.Descripcion = 'Afiliado'
+
 
 INSERT INTO RANDOM.USUARIO (Username, Pass, FechaCreacion, UltimaModificacion)
 SELECT DISTINCT M.Medico_Dni, 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE(), GETDATE()
 FROM gd_esquema.Maestra M
 WHERE M.Medico_Mail IS NOT NULL
-
-
-INSERT INTO RANDOM.USUARIO_POR_ROL(IdUsuario,IdRol)
-SELECT U.IdUsuario, 3
-FROM RANDOM.USUARIO U, RANDOM.ROL R
-WHERE R.Descripcion = 'Profesional'
-
-
 
 	
 /*ESTADO CIVIL*/
@@ -526,14 +515,29 @@ VALUES ('Pasaporte')
 
 /*PERSONA*/ -- agregamos los afiliados nada mas aca
 INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Documento, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario) 
-SELECT DISTINCT M.Paciente_Nombre, M.Paciente_Apellido, M.Paciente_Dni, M.Paciente_Direccion, M.Paciente_Telefono, M.Paciente_Mail, M.Paciente_Fecha_Nac,2
+SELECT DISTINCT M.Paciente_Nombre, M.Paciente_Apellido, M.Paciente_Dni, M.Paciente_Direccion, M.Paciente_Telefono, M.Paciente_Mail, M.Paciente_Fecha_Nac,u.IdUsuario
 FROM gd_esquema.Maestra M
+join random.USUARIO u on u.Username = cast(M.Paciente_Dni as nvarchar)
 
 
 /*PERSONA*/ -- agregamos los medicos nada mas aca
 INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Documento, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario) 
-SELECT DISTINCT M.Medico_Nombre, M.Medico_Apellido, M.Medico_Dni, M.Medico_Direccion, M.Medico_Telefono, M.Medico_Mail, M.Medico_Fecha_Nac, 3
+SELECT DISTINCT M.Medico_Nombre, M.Medico_Apellido, M.Medico_Dni, M.Medico_Direccion, M.Medico_Telefono, M.Medico_Mail, M.Medico_Fecha_Nac, u.IdUsuario
 FROM gd_esquema.Maestra M
+join random.USUARIO u on u.Username = cast(M.Medico_Dni as nvarchar)
+
+/*inserto los roles de los ususarios afiliados y medicos*/
+INSERT INTO RANDOM.USUARIO_POR_ROL(IdUsuario,IdRol)
+SELECT distinct u.IdUsuario, 2
+FROM gd_esquema.Maestra M
+JOIN RANDOM.PERSONA P ON M.Medico_Dni = P.Documento
+join random.USUARIO u on u.IdUsuario = p.IdUsuario
+
+INSERT INTO RANDOM.USUARIO_POR_ROL(IdUsuario,IdRol)
+SELECT distinct u.IdUsuario, 3
+FROM gd_esquema.Maestra M
+JOIN RANDOM.PERSONA P ON M.Paciente_Dni = P.Documento
+join random.USUARIO u on u.IdUsuario = p.IdUsuario
 
 /*PLANES*/
 INSERT INTO RANDOM.PLANES(Codigo,Nombre, MontoConsulta, MontoExpendio)

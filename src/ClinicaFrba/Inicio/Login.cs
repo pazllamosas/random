@@ -49,6 +49,8 @@ namespace ClinicaFrba.Inicio
 
                     this.Hide();
                     FormProvider.MainMenu.Show();
+                    //habilitar lo siguiente cuando se termine de hacer lo de los menues, con que rol entra cada uno y eso.
+                    //FormProvider.MainMenu.habilitarFuncionalidadesPorRol(usuario, cmbRol.Text);
                 }
             }
         }
@@ -127,6 +129,12 @@ namespace ClinicaFrba.Inicio
             {
                 btnIngresar.Enabled = false;
             }
+
+            // traigo los roles que posee una parsona
+            string nombreUsuario = txtUsuario.Text;//fijarse que capaz van comillas dobles en la variable del query
+            SqlDataReader Roles = Conexion.ejecutarQuery("select r.Descripcion from random.USUARIO_POR_ROL ur join random.USUARIO u on u.Username = '" +  nombreUsuario + "' join random.ROL r on r.IdRol = ur.IdRol where u.IdUsuario = ur.IdUsuario");
+            // hago while para agregar al combo lo que me devuelve la query
+            //cmbRol.Items.Add.rol
         }
 
         private void txtPassword_TextChanged(object sender, EventArgs e)
