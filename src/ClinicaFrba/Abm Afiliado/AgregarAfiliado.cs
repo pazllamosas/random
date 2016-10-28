@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -35,22 +36,21 @@ namespace ClinicaFrba.Abm_Afiliado
             cmbTipoDoc.DisplayMember = "Descripcion";
             cmbTipoDoc.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_TIPO_DOCUMENTO");
 
+            this.cargaDeAgregarFamiliar();
+
             //this.cmbPlanMedico.SelectedIndex = -1;
             //this.cmbSexo.SelectedIndex = -1;
             //this.cmbEstadoCivil.SelectedIndex = -1;
             //this.cmbTipoDoc.SelectedIndex = -1;
 
 
-
-
-
-           
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
+            this.LimpiarCampos();
             this.Hide();
-            FormProvider.Afiliado.Show(); 
+            FormProvider.Afiliado.Show();
         }
 
         private void lblMail_Click(object sender, EventArgs e)
@@ -65,14 +65,18 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void txtFamACargo_TextChanged(object sender, EventArgs e)
         {
-            if (!funciones.permiteNumeros(txtTelefono.Text))
+            if (!funciones.permiteNumeros(txtFamACargo.Text))
             {
                 MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         private void btnCambiarPlan_Click(object sender, EventArgs e)
         {
+            string PlanViejo = cmbPlanMedico.Text;
+            string nroAfiliadoRaiz = txtNroAf.Text;
+            FormProvider.CambioPlanAfiliado.cargaDatos(PlanViejo, nroAfiliadoRaiz);
             FormProvider.CambioPlanAfiliado.Show();
         }
 
@@ -83,7 +87,7 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void txtTelefono_TextChanged(object sender, EventArgs e)
         {
-            if(!funciones.permiteNumeros(txtTelefono.Text))
+            if (!funciones.permiteNumeros(txtTelefono.Text))
             {
                 MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -105,7 +109,7 @@ namespace ClinicaFrba.Abm_Afiliado
             FormProvider.AgregarFamiliarAfiliado.Show();
         }
 
-        public void EditarAfiliado(string idAfiliado, string apellido, string nombre, string nroDocumento, string telefono, string direccion, string fechaNacimiento, string sexo, string tipoDocumento, string plan,string estadoCivil, string cantACargo, string mail, string nroAfiliadoRaiz, string nroAfiliadoExt)
+        public void EditarAfiliado(string idAfiliado, string apellido, string nombre, string nroDocumento, string telefono, string direccion, string fechaNacimiento, string sexo, string tipoDocumento, string plan, string estadoCivil, string cantACargo, string mail, string nroAfiliadoRaiz, string nroAfiliadoExt)
         {
             txtApellido.Text = apellido;
             txtNombre.Text = nombre;
@@ -116,13 +120,18 @@ namespace ClinicaFrba.Abm_Afiliado
             cmbSexo.Text = sexo;
             txtFamACargo.Text = cantACargo;
             txtMail.Text = mail;
-            txtNroAf.Text = (nroAfiliadoRaiz + " " + nroAfiliadoExt);
+            txtNroAf.Text = nroAfiliadoRaiz;
             cmbEstadoCivil.SelectedValue = Convert.ToInt32(estadoCivil);
             cmbPlanMedico.SelectedValue = plan;
             cmbTipoDoc.SelectedValue = tipoDocumento;
 
+            //cmbSexo.Items.Add("Femenino");
+            //cmbSexo.Items.Add("Masculino");
+
             editando = true;
             btnGuardar.Text = "Guardar";
+
+            this.cargaDeAgregarFamiliar();
 
         }
 
@@ -134,22 +143,53 @@ namespace ClinicaFrba.Abm_Afiliado
             this.cmbTipoDoc.SelectedIndex = -1;
         }
 
-        
-        
+
+
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             if (!editando)
             {
-                
+
 
                 if (validacion())
                 {
-                    Conexion.executeProcedure( "RANDOM.CREAR_AFILIADO", 
-                        Conexion.generarArgumentos( "@NOMBRE", "@APELLIDO", "@SEXO", "@IDTIPODOC", "@DOCUMENTO", "@DIRECCION", "@TELEFONO", "@MAIL", "@FECHANAC", "@IDESTADOCIVIL", "@FAMILIARESACARGO", "@IDPLAN"),
-                            txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value.ToString("yyyy-MM-dd"), Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));  
-                   MessageBox.Show("Afiliado Principal Creado");
+                    Conexion.executeProcedure("RANDOM.CREAR_AFILIADO",
+                        Conexion.generarArgumentos("@NOMBRE", "@APELLIDO", "@SEXO", "@IDTIPODOC", "@DOCUMENTO", "@DIRECCION", "@TELEFONO", "@MAIL", "@FECHANAC", "@IDESTADOCIVIL", "@FAMILIARESACARGO", "@IDPLAN"),
+                            txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value.ToString("yyyy-MM-dd"), Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));
+                    MessageBox.Show("Afiliado Principal Creado");
+
+                    this.cargaDeAgregarFamiliar();
+                }
+                else
+                {
+                    MessageBox.Show("Faltan cargar datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            else
+            {
+                if (validacion())
+                {
+                    string dni = txtNroDoc.Text;
+                    string query = "SELECT RANDOM.GET_ID_PERSONA ('" + dni + "' ) AS id";
+
+                    SqlDataReader reader = Conexion.ejecutarQuery(query);
+                    reader.Read();
+                    int idPersona = int.Parse(reader["id"].ToString());
+                    reader.Close();
+
+                    Conexion.executeProcedure("RANDOM.MODIFICAR_AFILIADO",
+                        Conexion.generarArgumentos("IDPERSONA", "NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDESTADOCIVIL", "FAMILIARESACARGO", "IDPLAN"),
+                        idPersona, txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value.ToString("yyyy-MM-dd"), Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));
+                    MessageBox.Show("Afiliado Principal Modificado");
+                    this.cargaDeAgregarFamiliar();
+                }
+                else
+                {
+                    MessageBox.Show("Faltan cargar datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+            }
+
 
         }
 
@@ -179,7 +219,7 @@ namespace ClinicaFrba.Abm_Afiliado
                 return false;
             if (dtpFechaNac.Checked == false)
                 return false;
-                        
+
             return true;
         }
 
@@ -193,10 +233,36 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void txtNroDoc_TextChanged(object sender, EventArgs e)
         {
-            if (!funciones.permiteNumeros(txtTelefono.Text))
+            if (!funciones.permiteNumeros(txtNroDoc.Text))
             {
                 MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
+
+        private void cargaDeAgregarFamiliar()
+        {
+            string EstadoCivil = cmbEstadoCivil.Text;
+            if (EstadoCivil == "Casado" || EstadoCivil == "Concubinato")
+            {
+                btnAgregarFamiliar.Enabled = true;
+            }
+            else
+            {
+                btnAgregarFamiliar.Enabled = false;
+            }
+            if (Convert.ToInt32(txtFamACargo.Text) > 0)
+            {
+                btnAgregarFamiliar.Enabled = true;
+            }
+            else
+            {
+                btnAgregarFamiliar.Enabled = false;
+            }
+
+        }
+
+
     }
 }

@@ -36,6 +36,7 @@
             this.lblPlanActual = new System.Windows.Forms.Label();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
+            this.txtNroAfiliado = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtMotivo
@@ -109,7 +110,6 @@
             // btnGuardar
             // 
             this.btnGuardar.AutoSize = true;
-            this.btnGuardar.Enabled = false;
             this.btnGuardar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.Image = global::ClinicaFrba.Properties.Resources.save;
             this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -122,11 +122,19 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
+            // txtNroAfiliado
+            // 
+            this.txtNroAfiliado.Location = new System.Drawing.Point(545, 13);
+            this.txtNroAfiliado.Name = "txtNroAfiliado";
+            this.txtNroAfiliado.Size = new System.Drawing.Size(100, 20);
+            this.txtNroAfiliado.TabIndex = 16;
+            // 
             // CambioPlanes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
+            this.Controls.Add(this.txtNroAfiliado);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.txtMotivo);
@@ -140,6 +148,7 @@
             this.Name = "CambioPlanes";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CambioPlanes";
+            this.Load += new System.EventHandler(this.CambioPlanes_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -155,5 +164,6 @@
         private System.Windows.Forms.ComboBox cmbNuevoPlan;
         private System.Windows.Forms.Label lblNuevoPlan;
         private System.Windows.Forms.Label lblPlanActual;
+        private System.Windows.Forms.TextBox txtNroAfiliado;
     }
 }

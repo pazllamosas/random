@@ -25,8 +25,52 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            FormProvider.Agafiliado.Show();
+            if (validacion())
+            {
+
+                string nroAfiliado = txtNroAfiliado.Text;
+                Int32 idPlan = cmbNuevoPlan.SelectedIndex;
+                string motivo = txtMotivo.Text;
+
+                Conexion.executeProcedure("RANDOM.CAMBIO_PLAN",
+                    Conexion.generarArgumentos("@NRO_AFILIADO_RAIZ", "@IDPLAN", "@MOTIVO"),
+                        nroAfiliado, idPlan, motivo);
+                MessageBox.Show("Plan cambiado");
+                this.Hide();
+                FormProvider.Agafiliado.Show();
+            }
+            else
+            {
+                MessageBox.Show("Faltan cargar datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+        }
+
+       
+
+        public void cargaDatos(string PlanViejo, string nroAfiliadoRaiz)
+        {
+            txtPlanActual.Text = PlanViejo;
+            txtNroAfiliado.Text = nroAfiliadoRaiz;
+        }
+
+        private bool validacion()
+        {
+            if (txtMotivo.Text.Trim() == "")
+                return false;
+            if (cmbNuevoPlan.SelectedIndex == -1)
+                return false;
+            return true;
+        }
+
+        private void CambioPlanes_Load(object sender, EventArgs e)
+        {
+            txtNroAfiliado.Visible = false;
+            cmbNuevoPlan.ValueMember = "IdPlan";
+            cmbNuevoPlan.DisplayMember = "Nombre";
+            cmbNuevoPlan.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_PLANES");
+            cmbNuevoPlan.SelectedIndex = -1;
+            this.cargaDatos(txtPlanActual.Text, txtNroAfiliado.Text);
         }
     }
 }
