@@ -51,6 +51,7 @@
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnAgregarFamiliar = new System.Windows.Forms.Button();
+            this.txtNroAf = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // dtpFechaNac
@@ -66,6 +67,7 @@
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(182, 20);
             this.txtTelefono.TabIndex = 46;
+            this.txtTelefono.TextChanged += new System.EventHandler(this.txtTelefono_TextChanged);
             // 
             // cmbTipoDoc
             // 
@@ -277,11 +279,20 @@
             this.btnAgregarFamiliar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnAgregarFamiliar.UseVisualStyleBackColor = true;
             // 
+            // txtNroAf
+            // 
+            this.txtNroAf.Location = new System.Drawing.Point(515, 12);
+            this.txtNroAf.Name = "txtNroAf";
+            this.txtNroAf.ReadOnly = true;
+            this.txtNroAf.Size = new System.Drawing.Size(144, 20);
+            this.txtNroAf.TabIndex = 53;
+            // 
             // AgregarFamiliar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
+            this.Controls.Add(this.txtNroAf);
             this.Controls.Add(this.btnAgregarFamiliar);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.btnVolver);
@@ -310,6 +321,7 @@
             this.Name = "AgregarFamiliar";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Agregar Familiar";
+            this.Load += new System.EventHandler(this.AgregarFamiliar_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -340,5 +352,6 @@
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnAgregarFamiliar;
+        private System.Windows.Forms.TextBox txtNroAf;
     }
 }

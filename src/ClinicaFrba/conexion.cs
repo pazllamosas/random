@@ -161,6 +161,28 @@ namespace ClinicaFrba
         }
 
 
+        public static bool executeProcedureSinArg(string procedure)
+        {
+            try
+            {
+                SqlDataReader dr;
+                SqlConnection cn = getSqlInstanceConnection();
+                SqlCommand cm = new SqlCommand(procedure, cn);
+                cm.CommandTimeout = 2000;
+                cm.CommandType = CommandType.StoredProcedure;
+                
+                dr = cm.ExecuteReader();
+                dr.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
+
+
         public static bool executeProcedure(string procedure, List<string> args, params object[] values)
         {
             try

@@ -57,6 +57,7 @@
             this.txtBusqDni.Name = "txtBusqDni";
             this.txtBusqDni.Size = new System.Drawing.Size(158, 24);
             this.txtBusqDni.TabIndex = 1;
+            this.txtBusqDni.TextChanged += new System.EventHandler(this.txtBusqDni_TextChanged);
             // 
             // dgvAfiliados
             // 
@@ -78,6 +79,7 @@
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // btnBuscar
             // 

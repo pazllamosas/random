@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -69,16 +70,57 @@ namespace ClinicaFrba.Abm_Afiliado
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             string dni = txtBusqDni.Text;
-            dgvAfiliados.DataSource = Conexion.obtenerTablaProcedure("RANDOM.GET_AFILIADOS", Conexion.generarArgumentos("@DNI"), dni);
-            dgvAfiliados.Columns[0].Visible = false;
-            dgvAfiliados.Columns[7].Visible = false;
-            dgvAfiliados.Columns[8].Visible = false;
-            dgvAfiliados.Columns[9].Visible = false;
-            dgvAfiliados.Columns[10].Visible = false;
-            dgvAfiliados.Columns[11].Visible = false;
-            dgvAfiliados.Columns[12].Visible = false;
-            dgvAfiliados.Columns[13].Visible = false;
-            dgvAfiliados.Columns[14].Visible = false;
+
+            if (afiliadoValido(dni))
+            {
+                dgvAfiliados.DataSource = Conexion.obtenerTablaProcedure("RANDOM.GET_AFILIADOS", Conexion.generarArgumentos("@DNI"), dni);
+                dgvAfiliados.Columns[0].Visible = false;
+                dgvAfiliados.Columns[7].Visible = false;
+                dgvAfiliados.Columns[8].Visible = false;
+                dgvAfiliados.Columns[9].Visible = false;
+                dgvAfiliados.Columns[10].Visible = false;
+                dgvAfiliados.Columns[11].Visible = false;
+                dgvAfiliados.Columns[12].Visible = false;
+                dgvAfiliados.Columns[13].Visible = false;
+                dgvAfiliados.Columns[14].Visible = false;
+            }
+        }
+
+        private void txtBusqDni_TextChanged(object sender, EventArgs e)
+        {
+            if (!funciones.permiteNumeros(txtBusqDni.Text))
+            {
+                MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtBusqDni.Clear();
+            }
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            txtBusqDni.Clear();
+            dgvAfiliados.Columns.Clear();
+            
+        }
+
+        public Boolean afiliadoValido(string dni)
+        {
+            string query = "SELECT RANDOM.EXISTE_AFILIADO ('" + dni + "' ) AS id";
+
+            SqlDataReader reader = Conexion.ejecutarQuery(query);
+            reader.Read();
+            int respuesta = int.Parse(reader["id"].ToString());
+            reader.Close();
+
+            if (respuesta >= 1)
+            {
+
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("El afiliado no existe en la base", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
         }
     }
 }

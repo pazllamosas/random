@@ -239,6 +239,7 @@
             this.cmbSexo.Name = "cmbSexo";
             this.cmbSexo.Size = new System.Drawing.Size(180, 21);
             this.cmbSexo.TabIndex = 17;
+            this.cmbSexo.SelectedIndexChanged += new System.EventHandler(this.cmbSexo_SelectedIndexChanged);
             // 
             // cmbTipoDoc
             // 

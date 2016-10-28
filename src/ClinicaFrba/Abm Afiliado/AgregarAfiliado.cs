@@ -36,7 +36,7 @@ namespace ClinicaFrba.Abm_Afiliado
             cmbTipoDoc.DisplayMember = "Descripcion";
             cmbTipoDoc.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_TIPO_DOCUMENTO");
 
-            this.cargaDeAgregarFamiliar();
+           
 
             //this.cmbPlanMedico.SelectedIndex = -1;
             //this.cmbSexo.SelectedIndex = -1;
@@ -68,6 +68,7 @@ namespace ClinicaFrba.Abm_Afiliado
             if (!funciones.permiteNumeros(txtFamACargo.Text))
             {
                 MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtFamACargo.Clear();
             }
 
         }
@@ -90,6 +91,7 @@ namespace ClinicaFrba.Abm_Afiliado
             if (!funciones.permiteNumeros(txtTelefono.Text))
             {
                 MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtTelefono.Clear();
             }
 
         }
@@ -106,6 +108,11 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void btnAgregarFamiliar_Click(object sender, EventArgs e)
         {
+            string nroAfiliadoRaiz = txtNroAf.Text;
+            string estadoCivil = cmbEstadoCivil.Text;
+            string cantACargo = txtFamACargo.Text;
+
+            FormProvider.AgregarFamiliarAfiliado.recepcionDatos(nroAfiliadoRaiz, estadoCivil, cantACargo);
             FormProvider.AgregarFamiliarAfiliado.Show();
         }
 
@@ -158,6 +165,8 @@ namespace ClinicaFrba.Abm_Afiliado
                             txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value.ToString("yyyy-MM-dd"), Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));
                     MessageBox.Show("Afiliado Principal Creado");
 
+                   
+
                     this.cargaDeAgregarFamiliar();
                 }
                 else
@@ -209,7 +218,7 @@ namespace ClinicaFrba.Abm_Afiliado
                 return false;
             if (this.txtMail.Text.Trim() == "")
                 return false;
-            if (cmbSexo.SelectedIndex == -1)
+            if (cmbSexo.Text.Trim() == "")
                 return false;
             if (cmbTipoDoc.SelectedIndex == -1)
                 return false;
@@ -228,6 +237,13 @@ namespace ClinicaFrba.Abm_Afiliado
             if (dtpFechaNac.Value > DateTime.Today)
             {
                 MessageBox.Show("Fecha de nacimiento superior a la fecha actual", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dtpFechaNac.Checked = false;
+                dtpFechaNac.Format = DateTimePickerFormat.Custom;
+                dtpFechaNac.CustomFormat = " ";
+           }
+            else
+            {
+                dtpFechaNac.Format = DateTimePickerFormat.Short;
             }
         }
 
@@ -236,6 +252,7 @@ namespace ClinicaFrba.Abm_Afiliado
             if (!funciones.permiteNumeros(txtNroDoc.Text))
             {
                 MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtNroDoc.Clear();            
             }
         }
 
@@ -260,6 +277,11 @@ namespace ClinicaFrba.Abm_Afiliado
             {
                 btnAgregarFamiliar.Enabled = false;
             }
+
+        }
+
+        private void cmbSexo_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
         }
 
