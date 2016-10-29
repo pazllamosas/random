@@ -137,18 +137,30 @@ namespace ClinicaFrba.Inicio
                 btnIngresar.Enabled = false;
             }
 
-            /* REVISAR CUBI, no me anda el for, y cuando ande, sacar lo del arriba de todo del combo que se llena con los tres datos
+            /*
+            // REVISAR CUBI, no me anda ROles, no me trae las cosas creo
             // traigo los roles que posee una parsona para que se vean en el combo de roles en login
             string nombreUsuario = txtUsuario.Text;//fijarse que capaz van comillas dobles en la variable del query
-            SqlDataReader Roles = Conexion.ejecutarQuery("select r.Descripcion from random.USUARIO_POR_ROL ur join random.USUARIO u on u.Username = '" +  nombreUsuario + "' join random.ROL r on r.IdRol = ur.IdRol where u.IdUsuario = ur.IdUsuario");
+            SqlDataReader reader = Conexion.ejecutarQuery("select r.Descripcion AS Descripcion from random.USUARIO_POR_ROL ur join random.USUARIO u on u.Username = " + nombreUsuario + " join random.ROL r on r.IdRol = ur.IdRol where u.IdUsuario = ur.IdUsuario");
             // hago while para agregar al combo lo que me devuelve la query
-            string rol;
+            //string rol
+            System.Object[] ItemObject = new System.Object[3];
+            if (Roles.HasRows)
+            {
+                for (int i = 0; Roles.HasRows; i++)
+                {
+                    ItemObject[i] = Roles[i].ToString();
+                }
+                cmbRol.Items.AddRange(ItemObject);
+            }*/
+
+            //otra manera
+            /*string rol;
             for (int i = 1; Roles.HasRows; i++)
             {
                 rol = Roles[i].ToString();
                 cmbRol.Items.Add.rol;
             }*/
-
 
         }
 
@@ -162,6 +174,15 @@ namespace ClinicaFrba.Inicio
             {
                 btnIngresar.Enabled = false;
             }
+        }
+
+        private void txtUsuario_Leave(object sender, EventArgs e)
+        {
+
+        }
+        private void cmbRol_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 
