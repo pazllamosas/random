@@ -1488,7 +1488,7 @@ Cantidad int
 )
 --Primero aca busco el id de la persona, y en el procedure que le sigue busco el numero raiz y extension, para mostrar eso
 GO
-CREATE PROCEDURE RANDOM.antesDelTop(@fechaFrom varchar(50), @fechaTo varchar(50))
+CREATE PROCEDURE RANDOM.antesDelTop(@fechaFrom datetime, @fechaTo datetime)
 as
 begin
 INSERT TEMPORAL(IdPersona,Cantidad)
@@ -1496,14 +1496,14 @@ select P.IdPersona AS 'Persona', sum(CB.Cantidad) AS 'Cantidad'
 from RANDOM.COMPRA_BONO CB
 JOIN RANDOM.AFILIADO A ON A.IdPersona = CB.IdAfiliado
 JOIN RANDOM.PERSONA P ON P.IdPersona = A.IdPersona
-WHERE CB.Fecha between convert(datetime, @fechaFrom,109) and convert(datetime, @fechaTo,109)
+WHERE CB.Fecha between @fechaFrom and @fechaTo
 group by P.IdPersona 
 order by 2 desc
 end
 GO
 
 GO
-CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados(@fechaFrom varchar(50), @fechaTo varchar(50))
+CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados(@fechaFrom datetime, @fechaTo datetime)
 AS BEGIN
 EXEC RANDOM.antesDelTop @fechaFrom , @fechaTo
 SELECT distinct top 5  CAST (A.NumeroAfiliadoRaiz AS VARCHAR) + CAST (a.NumeroAfiliadoExt AS VARCHAR) AS 'Afiliado', T.Cantidad, 
@@ -1520,7 +1520,7 @@ GO
 
 /*para probar
 select * from temporal
-EXEC RANDOM.antesDelTop '20141228 18:00:00' , '20151230 18:00:00'
+EXEC RANDOM.antesDelTop '2014/12/28 18:00:00' , '2015/12/30 18:00:00'
 
 select P.IdPersona AS 'Persona', sum(CB.Cantidad) AS 'Cantidad'
 from RANDOM.COMPRA_BONO CB
@@ -1551,7 +1551,8 @@ GO
 
 ---------------DATOS PARA ESTRATEGIA-----------------
 
-/* M.Turno_Fecha ES A FECHA QUE SE HACE EL TURNO Y BONO COSULTA FECHA IMPRESION ES LA FECHA EN LA QUE SE CONSUME EL BONO
+/*
+en la cancelacion, es un dia solo, o un rango de dias, no se ven fechas cuando el medico cancela  M.Turno_Fecha ES A FECHA QUE SE HACE EL TURNO Y BONO COSULTA FECHA IMPRESION ES LA FECHA EN LA QUE SE CONSUME EL BONO
 1) TEMA TIPO DNI (OK):
 	es necesario utilizar tipo y numero de documento? O se puede usar solo DNI ya que de los medicos y personas cargados solo tenemos dni?
 	En el enunciado se pide Tipo y número de documento

@@ -24,16 +24,7 @@ namespace ClinicaFrba.Listados
 
         private void cmbSemestre_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbSemestre.SelectedIndex == 0)
-            {
-                mesInicio = "1";
-                mesFin = "6";
-            }
-            else if (cmbSemestre.SelectedIndex == 1)
-            {
-                mesInicio = "7";
-                mesFin = "12";
-            }
+          
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -90,6 +81,20 @@ namespace ClinicaFrba.Listados
             if (!funciones.permiteNumeros(txtAnioAConsultar.Text))
             {
                 MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void cmbSemestre_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if (cmbSemestre.SelectedIndex == 0)
+            {
+                mesInicio = "1";
+                mesFin = "6";
+            }
+            else if (cmbSemestre.SelectedIndex == 1)
+            {
+                mesInicio = "7";
+                mesFin = "12";
             }
         }
 
