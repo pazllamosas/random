@@ -1,1 +1,1 @@
-src/ClinicaFrba/obj*
+src/ClinicaFrba/obj/Debug/*
