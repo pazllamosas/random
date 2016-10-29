@@ -321,8 +321,9 @@ CREATE TABLE RANDOM.BONO(
 CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
 	IdAgenda int PRIMARY KEY IDENTITY (1,1),
 	IdProfesional int,
-	FechaYHoraDesde datetime,
-	FechaYHoraHasta datetime,
+	HoraDesde nvarchar(255),
+	HoraHasta nvarchar(255),
+	nombreDia nvarchar (255),
 	IdEspecialidad int,
 )
 
@@ -330,10 +331,10 @@ CREATE TABLE RANDOM.TURNO(
 	IdTurno int PRIMARY KEY IDENTITY (1,1),
 	IdAgenda int,
 	IdAfiliado int,
-	FechaYHoraAltaTurno datetime, --es la fecha y hora en la que se saca el turno
-	FechaYHoraTurno datetime,
+	FechaYHoraTurno datetime, --es la fecha y hora en la que se HACE el turno
 	Habilitado bit DEFAULT 1
 )
+
 
 CREATE TABLE RANDOM.RESULTADO_TURNO(
 	IdResultadoTurno int PRIMARY KEY IDENTITY(1,1),
@@ -654,13 +655,19 @@ WHERE joinBonoCompra.IdCompra = RANDOM.COMPRA_BONO.IdCompra
 
 
 /*AGENDA_HORARIO_DISPONIBLE*/
-
+insert INTO RANDOM.AGENDA_HORARIO_DISPONIBLE 
+SELECT DISTINCT P.IdPersona,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Bono_Consulta_Fecha_Impresion) AS 'DIA DE SEMANA' , EP.IdEspecialidad
+FROM gd_esquema.Maestra M
+JOIN RANDOM.PERSONA P ON M.Medico_Dni = P.Documento
+JOIN RANDOM.ESPECIALIDAD_POR_PROFESIONAL EP ON  P.IdPersona = EP.IdProfesional
+where M.Bono_Consulta_Fecha_Impresion IS NOT NULL
+group by P.IdPersona, EP.IdEspecialidad, DATepart(weekday, M.Bono_Consulta_Fecha_Impresion)
 
 
 /*TURNO*/
 SET IDENTITY_INSERT RANDOM.TURNO ON
-INSERT INTO RANDOM.TURNO (IdTurno, FechaYHoraAltaTurno, IdAfiliado, FechaYHoraTurno)
-SELECT DISTINCT M.Turno_Numero, M.Turno_Fecha, P.IdPersona, m.Bono_Consulta_Fecha_Impresion
+INSERT INTO RANDOM.TURNO (IdTurno, FechaYHoraTurno, IdAfiliado)
+SELECT DISTINCT M.Turno_Numero, M.Turno_Fecha,  P.IdPersona
 FROM gd_esquema.Maestra M, RANDOM.PERSONA P
 where M.Turno_Numero IS NOT NULL 
 	AND M.Turno_Fecha IS NOT NULL
@@ -1359,10 +1366,12 @@ IF(@Descripcion != '' AND @Apellido != '')
 END
 GO
 
-GO
+
+--AGREGAR LA COLUMNA DIA
+GO 
 CREATE PROCEDURE RANDOM.TRAER_TURNOS_MEDICO(@IdMedico INT) AS
 BEGIN
-    SELECT DISTINCT A.IdAfiliado, A.FechaYHoraTurno,  B.IdProfesional, B.FechaYHoraDesde, B.FechaYHoraHasta
+    SELECT DISTINCT A.IdAfiliado, A.FechaYHoraTurno,  B.IdProfesional, B.HoraDesde, B.HoraHasta
 	FROM RANDOM.TURNO A, RANDOM.AGENDA_HORARIO_DISPONIBLE B
 	WHERE @IdMedico = B.IdProfesional AND A.IdAgenda = B.IdAgenda
 END
@@ -1542,7 +1551,7 @@ GO
 
 ---------------DATOS PARA ESTRATEGIA-----------------
 
-/* VER REVISAR 
+/* M.Turno_Fecha ES A FECHA QUE SE HACE EL TURNO Y BONO COSULTA FECHA IMPRESION ES LA FECHA EN LA QUE SE CONSUME EL BONO
 1) TEMA TIPO DNI (OK):
 	es necesario utilizar tipo y numero de documento? O se puede usar solo DNI ya que de los medicos y personas cargados solo tenemos dni?
 	En el enunciado se pide Tipo y número de documento
