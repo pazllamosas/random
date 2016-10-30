@@ -138,6 +138,12 @@ DROP PROCEDURE RANDOM.COMPRA_DE_BONO
 IF OBJECT_ID('RANDOM.CALCULO_MONTO') IS NOT NULL
 DROP FUNCTION RANDOM.CALCULO_MONTO
 
+--10 pedido de turno
+IF OBJECT_ID('RANDOM.PEDIDO_DE_TURNO') IS NOT NULL
+DROP PROCEDURE RANDOM.PEDIDO_DE_TURNO
+IF OBJECT_ID('RANDOM.RESERVO_FECHA_TURNO') IS NOT NULL
+DROP PROCEDURE RANDOM.RESERVO_FECHA_TURNO
+
 --11 registro de llegada para atencion medica
 IF OBJECT_ID('RANDOM.GET_ESPECIALIDAD') IS NOT NULL
 DROP PROCEDURE RANDOM.GET_ESPECIALIDAD
@@ -1354,6 +1360,46 @@ GO
  END
 GO
 
+--10 pedido de turno
+
+GO
+CREATE PROCEDURE RANDOM.PEDIDO_DE_TURNO(@Descripcion nvarchar(255), @Apellido nvarchar(255), @Fecha DATETIME) AS
+BEGIN
+IF(@Descripcion = '') 
+  BEGIN
+    SELECT DISTINCT A.Apellido, A.IdPersona, B.Descripcion, D.HoraDesde , D.HoraHasta
+	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D
+	WHERE @Apellido = A.Apellido AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona AND D.IdProfesional = C.IdProfesional
+  END
+IF(@Apellido = '') 
+  BEGIN
+    SELECT DISTINCT A.Apellido, A.IdPersona, B.Descripcion, D.HoraDesde, D.HoraHasta
+	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D
+	WHERE @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona AND D.IdProfesional = C.IdProfesional
+  END
+IF(@Descripcion != '' AND @Apellido != '') 
+  BEGIN
+    SELECT DISTINCT A.Apellido, A.IdPersona, B.Descripcion, D.HoraDesde, D.HoraHasta
+	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D
+	WHERE @Apellido = A.Apellido AND @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona  AND D.IdProfesional = C.IdProfesional
+  END
+END
+GO
+/*
+CREATE PROCEDURE RANDOM.RESERVO_FECHA_TURNO(@FechaElegida datetime, @Afiliado INT, @Profesional int) AS
+BEGIN
+     
+	  DECLARE @IdAgenda INT
+
+	  SET @IdAgenda = (SELECT A.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @Profesional)
+
+	  UPDATE RANDOM.TURNO
+	  SET IdAgenda = @IdAgenda, IdAfiliado =  @Afiliado, FechaYHoraAltaTurno = GETDATE(), Habilitado = 0 --habilitado en 0 esta ocupado
+	  WHERE FechaYHoraTurno = @FechaElegida
+
+END
+GO
+*/
 --11 registro de llegada para atencion medica
 GO
 CREATE PROCEDURE RANDOM.GET_ESPECIALIDAD AS

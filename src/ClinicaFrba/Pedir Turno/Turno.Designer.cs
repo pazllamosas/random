@@ -37,7 +37,6 @@
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.dgvHorariosDisp = new System.Windows.Forms.DataGridView();
-            this.ColumnHorarios = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnSeleccionarTurno = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
@@ -61,6 +60,7 @@
             this.cmbProfesional.Name = "cmbProfesional";
             this.cmbProfesional.Size = new System.Drawing.Size(121, 21);
             this.cmbProfesional.TabIndex = 1;
+            this.cmbProfesional.SelectedIndexChanged += new System.EventHandler(this.cmbProfesional_SelectedIndexChanged);
             // 
             // cmbEspecialidad
             // 
@@ -69,6 +69,7 @@
             this.cmbEspecialidad.Name = "cmbEspecialidad";
             this.cmbEspecialidad.Size = new System.Drawing.Size(121, 21);
             this.cmbEspecialidad.TabIndex = 3;
+            this.cmbEspecialidad.SelectedIndexChanged += new System.EventHandler(this.cmbEspecialidad_SelectedIndexChanged_1);
             // 
             // lblEspecialidad
             // 
@@ -102,20 +103,21 @@
             this.btnBuscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBuscar.Image = global::ClinicaFrba.Properties.Resources.busqueda;
             this.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBuscar.Location = new System.Drawing.Point(220, 145);
+            this.btnBuscar.Location = new System.Drawing.Point(220, 136);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(96, 32);
             this.btnBuscar.TabIndex = 6;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // btnLimpiar
             // 
             this.btnLimpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLimpiar.Image = global::ClinicaFrba.Properties.Resources.delete;
             this.btnLimpiar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLimpiar.Location = new System.Drawing.Point(337, 145);
+            this.btnLimpiar.Location = new System.Drawing.Point(337, 136);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(93, 32);
             this.btnLimpiar.TabIndex = 7;
@@ -126,27 +128,17 @@
             // dgvHorariosDisp
             // 
             this.dgvHorariosDisp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvHorariosDisp.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnHorarios});
-            this.dgvHorariosDisp.Location = new System.Drawing.Point(33, 196);
+            this.dgvHorariosDisp.Location = new System.Drawing.Point(33, 183);
             this.dgvHorariosDisp.Name = "dgvHorariosDisp";
-            this.dgvHorariosDisp.Size = new System.Drawing.Size(343, 162);
+            this.dgvHorariosDisp.Size = new System.Drawing.Size(626, 153);
             this.dgvHorariosDisp.TabIndex = 8;
-            // 
-            // ColumnHorarios
-            // 
-            this.ColumnHorarios.HeaderText = "Horarios Disponibles";
-            this.ColumnHorarios.Name = "ColumnHorarios";
-            this.ColumnHorarios.ReadOnly = true;
-            this.ColumnHorarios.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.ColumnHorarios.Width = 300;
             // 
             // btnSeleccionarTurno
             // 
             this.btnSeleccionarTurno.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSeleccionarTurno.Image = global::ClinicaFrba.Properties.Resources.select;
             this.btnSeleccionarTurno.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSeleccionarTurno.Location = new System.Drawing.Point(409, 252);
+            this.btnSeleccionarTurno.Location = new System.Drawing.Point(255, 352);
             this.btnSeleccionarTurno.Name = "btnSeleccionarTurno";
             this.btnSeleccionarTurno.Size = new System.Drawing.Size(170, 52);
             this.btnSeleccionarTurno.TabIndex = 9;
@@ -160,7 +152,7 @@
             this.btnCancelar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnCancelar.Image = global::ClinicaFrba.Properties.Resources.cancel;
             this.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancelar.Location = new System.Drawing.Point(386, 390);
+            this.btnCancelar.Location = new System.Drawing.Point(380, 416);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(108, 48);
             this.btnCancelar.TabIndex = 12;
@@ -175,7 +167,7 @@
             this.btnGuardar.ForeColor = System.Drawing.Color.Green;
             this.btnGuardar.Image = global::ClinicaFrba.Properties.Resources.save;
             this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardar.Location = new System.Drawing.Point(241, 390);
+            this.btnGuardar.Location = new System.Drawing.Point(193, 416);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(108, 48);
             this.btnGuardar.TabIndex = 11;
@@ -206,6 +198,7 @@
             this.Name = "Turno";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Turno";
+            this.Load += new System.EventHandler(this.Turno_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvHorariosDisp)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -223,7 +216,6 @@
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.DataGridView dgvHorariosDisp;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnHorarios;
         private System.Windows.Forms.Button btnSeleccionarTurno;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Button btnGuardar;
