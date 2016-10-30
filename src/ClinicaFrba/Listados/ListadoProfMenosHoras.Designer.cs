@@ -97,6 +97,7 @@
             this.cmbSemestre.Name = "cmbSemestre";
             this.cmbSemestre.Size = new System.Drawing.Size(121, 21);
             this.cmbSemestre.TabIndex = 54;
+            this.cmbSemestre.SelectedIndexChanged += new System.EventHandler(this.cmbSemestre_SelectedIndexChanged_1);
             // 
             // lblSemestre
             // 

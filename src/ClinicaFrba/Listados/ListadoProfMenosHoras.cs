@@ -39,7 +39,7 @@ namespace ClinicaFrba.Listados
         private void button1_Click(object sender, EventArgs e)
         {
             anio = txtAnioAConsultar.Text;
-            if ((cmbSemestre.SelectedIndex != -1) & (cmbEspecialidad.SelectedIndex != -1) & (cmbPlan.SelectedIndex != -1))
+            if ((cmbSemestre.SelectedIndex != -1) && (cmbEspecialidad.SelectedIndex != -1) && (cmbPlan.SelectedIndex != -1) && (anio != ""))
             {
                 List<string> lista = new List<string>();
                 lista.Add("@fechaFrom");
@@ -49,12 +49,19 @@ namespace ClinicaFrba.Listados
 
                 DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5ProfesionalesMenosHorasTrabajadas",
                 lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), cmbPlan.SelectedValue, cmbEspecialidad.SelectedValue);
-                this.dgvResultado.DataSource = dt;
-                dgvResultado.Enabled = false;
+                if (dt == null)
+                {
+                    MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    this.dgvResultado.DataSource = dt;
+                    dgvResultado.Enabled = false;
+                }
             }
             else
             {
-                MessageBox.Show("Debe elegir una opcion en cada combo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Debe ingresar una opcion en cada campo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -67,6 +74,19 @@ namespace ClinicaFrba.Listados
 
         private void cmbSemestre_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
+        }
+
+        private void txtAnioAConsultar_TextChanged(object sender, EventArgs e)
+        {
+            if (!funciones.permiteNumeros(txtAnioAConsultar.Text))
+            {
+                MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void cmbSemestre_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
             if (cmbSemestre.SelectedIndex == 0)
             {
                 mesInicio = "1";
@@ -76,14 +96,6 @@ namespace ClinicaFrba.Listados
             {
                 mesInicio = "7";
                 mesFin = "12";
-            }
-        }
-
-        private void txtAnioAConsultar_TextChanged(object sender, EventArgs e)
-        {
-            if (!funciones.permiteNumeros(txtAnioAConsultar.Text))
-            {
-                MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

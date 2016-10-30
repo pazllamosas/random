@@ -1442,14 +1442,14 @@ GO
 -------------------------------TOP 5------------------------------
 
 GO
-CREATE PROCEDURE RANDOM.top5EspecialidadesConMasCancelacionesDeTurno (@fechaFrom nvarchar(50), @fechaTo nvarchar(50))
+CREATE PROCEDURE RANDOM.top5EspecialidadesConMasCancelacionesDeTurno (@fechaFrom datetime, @fechaTo datetime)
 AS BEGIN
 select top 5 E.Descripcion AS 'Especialidad', count(C.IdCancelacion) AS 'Cantidad'
 from RANDOM.CANCELACION C
 JOIN RANDOM.TURNO T ON C.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.ESPECIALIDAD E ON HD.IdEspecialidad = E.IdEspecialidad
-WHERE T.FechaYHoraTurno between convert(datetime, @fechaFrom,109) and convert(datetime, @fechaTo,109)
+WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
 group by E.Descripcion 
 order by 2 desc
 END
@@ -1458,7 +1458,7 @@ GO
 ---------------------
 
 GO
-CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom varchar(50), @fechaTo varchar(50), @IdPlan int)
+CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom datetime, @fechaTo datetime, @IdPlan int)
 AS BEGIN
 select top 5 P.IdProfesional AS 'Matrícula Profesional', count(RT.IdResultadoTurno) AS 'Cantidad'
 from RANDOM.RESULTADO_TURNO RT 
@@ -1466,7 +1466,7 @@ JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.PROFESIONAL P ON HD.IdEspecialidad = P.IdProfesional
-WHERE T.FechaYHoraTurno between convert(datetime, @fechaFrom,109) and convert(datetime, @fechaTo,109)
+WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
 AND @IdPlan = B.IdPlan
 group by P.IdProfesional
 order by 2 desc
@@ -1476,7 +1476,7 @@ GO
 ---------------------
 
 GO
-CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fechaFrom varchar(50), @fechaTo varchar(50), @numeroPlan varchar(50), @nombreEspecialidad varchar(50))
+CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fechaFrom datetime, @fechaTo datetime, @numeroPlan varchar(50), @nombreEspecialidad varchar(50))
 AS BEGIN
 select top 5 P.IdProfesional AS 'Matrícula Profesinal', count(RT.IdResultadoTurno) AS 'Cantidad'
 from RANDOM.RESULTADO_TURNO RT
@@ -1486,7 +1486,7 @@ JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.PROFESIONAL P ON HD.IdEspecialidad = P.IdProfesional
 JOIN RANDOM.PLANES PL ON PL.IdPlan = B.IdPlan
 JOIN RANDOM.ESPECIALIDAD E ON E.IdEspecialidad = HD.IdEspecialidad
-WHERE T.FechaYHoraTurno between convert(datetime, @fechaFrom,109) and convert(datetime, @fechaTo,109)
+WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
 AND E.Descripcion = @nombreEspecialidad
 AND PL.Abono = @numeroPlan
 group by P.IdProfesional
@@ -1551,7 +1551,7 @@ order by 2 desc
 
 ---------------------
 GO
-CREATE PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas(@fechaFrom varchar(50), @fechaTo varchar(50))
+CREATE PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas(@fechaFrom datetime, @fechaTo datetime)
 AS BEGIN
 select top 5 E.Descripcion AS 'Especialidad', count(RT.IdResultadoTurno) AS 'Cantidad'
 from RANDOM.RESULTADO_TURNO RT 
@@ -1559,13 +1559,11 @@ JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.ESPECIALIDAD E ON HD.IdEspecialidad = E.IdEspecialidad
-WHERE T.FechaYHoraTurno between convert(datetime, @fechaFrom,109) and convert(datetime, @fechaTo,109)
+WHERE T.FechaYHoraTurno between  @fechaFrom and @fechaTo
 group by E.Descripcion 
 order by 2 desc
 END
 GO
-
-
 
 ---------------DATOS PARA ESTRATEGIA-----------------
 

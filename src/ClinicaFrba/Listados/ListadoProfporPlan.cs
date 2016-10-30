@@ -57,7 +57,7 @@ namespace ClinicaFrba.Listados
         private void button1_Click(object sender, EventArgs e)
         {
             anio = txtAnioAConsultar.Text;
-            if (cmbSemestre.SelectedIndex == 0 || cmbSemestre.SelectedIndex == 1)
+            if (cmbSemestre.SelectedIndex != -1 && anio != "" && cmbPlan.SelectedIndex != -1)
             {
                 List<string> lista = new List<string>();
                 lista.Add("@fechaFrom");
@@ -68,38 +68,73 @@ namespace ClinicaFrba.Listados
                     case 0:
                         DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
                         lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), "1");
-                        this.dgvResultado.DataSource = dt;
-                        dgvResultado.Enabled = false;
+                        if (dt == null)
+                        {
+                            MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            this.dgvResultado.DataSource = dt;
+                            dgvResultado.Enabled = false;
+                        }
                         break;
                     case 1:
                         DataTable dt1 = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
                         lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), "5");
-                        this.dgvResultado.DataSource = dt1;
-                        dgvResultado.Enabled = false;
+                        if (dt1 == null)
+                        {
+                            MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            this.dgvResultado.DataSource = dt1;
+                            dgvResultado.Enabled = false;
+                        }
                         break;
                     case 2:
                         DataTable dt2 = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
                         lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), "3");
-                        this.dgvResultado.DataSource = dt2;
-                        dgvResultado.Enabled = false;
+                        if (dt2 == null)
+                        {
+                            MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            this.dgvResultado.DataSource = dt2;
+                            dgvResultado.Enabled = false;
+                        }
                         break;
                     case 3:
                         DataTable dt3 = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
                         lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), "4");
-                        this.dgvResultado.DataSource = dt3;
-                        dgvResultado.Enabled = false;
+                        if (dt3 == null)
+                        {
+                            MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            this.dgvResultado.DataSource = dt3;
+                            dgvResultado.Enabled = false;
+                        }
                         break;
                     case 4:
                         DataTable dt4 = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
                         lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), "2");
-                        this.dgvResultado.DataSource = dt4;
-                        dgvResultado.Enabled = false;
+                        if (dt4 == null)
+                        {
+                            MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            this.dgvResultado.DataSource = dt4;
+                            dgvResultado.Enabled = false;
+                        }
                         break;
                 }
             }
             else
             {
-                MessageBox.Show("Debe elegir una opcion en cada combo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Debe ingresar una opcion en cada campo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

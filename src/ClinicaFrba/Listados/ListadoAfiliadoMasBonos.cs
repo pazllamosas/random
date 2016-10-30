@@ -46,7 +46,7 @@ namespace ClinicaFrba.Listados
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             anio = txtAnioAConsultar.Text;
-            if (cmbSemestre.SelectedIndex != -1)
+            if (cmbSemestre.SelectedIndex != -1 && anio !="" )
             {
                 List<string> lista = new List<string>();
                 lista.Add("@fechaFrom");
@@ -54,12 +54,19 @@ namespace ClinicaFrba.Listados
 
                 DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
                 lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"));
-                this.dgvResultado.DataSource = dt;
-                dgvResultado.Enabled = false;
+                // hacer un if para ver si eligio anio correcto
+                if (dt == null)
+                {
+                    MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                } else
+                {
+                    this.dgvResultado.DataSource = dt;
+                    dgvResultado.Enabled = false;
+                }
             }
             else
             {
-                MessageBox.Show("Debe elegir una opcion en cada combo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Debe ingresar una opcion en cada campo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
