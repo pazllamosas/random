@@ -667,13 +667,14 @@ group by P.IdPersona, EP.IdEspecialidad, DATepart(weekday, M.Bono_Consulta_Fecha
 /*TURNO*/
 SET IDENTITY_INSERT RANDOM.TURNO ON
 INSERT INTO RANDOM.TURNO (IdTurno, FechaYHoraTurno, IdAfiliado)
-SELECT DISTINCT M.Turno_Numero, M.Turno_Fecha,  P.IdPersona
+SELECT DISTINCT M.Turno_Numero, M.Turno_Fecha, P.IdPersona
 FROM gd_esquema.Maestra M, RANDOM.PERSONA P
 where M.Turno_Numero IS NOT NULL 
 	AND M.Turno_Fecha IS NOT NULL
 	AND M.Bono_Consulta_Fecha_Impresion IS NOT NULL
 	AND P.Documento = M.Paciente_Dni
-	
+
+
 /*INSERT INTO RANDOM.TURNO (IdTurno, IdAgenda, FechaYHoraTurno, IdAfiliado)
 SELECT DISTINCT M.Turno_Numero, hd.IdAgenda, M.Turno_Fecha, P.IdPersona
 FROM gd_esquema.Maestra M
@@ -1376,33 +1377,31 @@ CREATE PROCEDURE RANDOM.BUSCAR_MEDICO(@Descripcion nvarchar(255), @Apellido nvar
 BEGIN
 IF(@Descripcion = '')
   BEGIN
-    SELECT DISTINCT A.Apellido, A.Nombre, B.Descripcion, A.IdPersona
+    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad
 	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C
 	WHERE @Apellido = A.Apellido AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona
   END
 IF(@Apellido = '')
   BEGIN
-    SELECT DISTINCT A.Apellido, A.Nombre, B.Descripcion, A.IdPersona
+    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad
 	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C
 	WHERE @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona
   END
 IF(@Descripcion != '' AND @Apellido != '')
   BEGIN
-    SELECT DISTINCT A.Apellido, A.Nombre, B.Descripcion, A.IdPersona
+    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad
 	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C
 	WHERE @Apellido = A.Apellido AND @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona
   END
 END
 GO
 
-
---AGREGAR LA COLUMNA DIA
 GO 
-CREATE PROCEDURE RANDOM.TRAER_TURNOS_MEDICO(@IdMedico INT) AS
+CREATE PROCEDURE RANDOM.TRAER_TURNOS_MEDICO(@IdMedico INT, @IdEspecialidad INT, @FechaHoy DATETIME) AS
 BEGIN
-    SELECT DISTINCT A.IdAfiliado, A.FechaYHoraTurno,  B.IdProfesional, B.HoraDesde, B.HoraHasta
+    SELECT DISTINCT A.IdAfiliado, A.FechaYHoraTurno
 	FROM RANDOM.TURNO A, RANDOM.AGENDA_HORARIO_DISPONIBLE B
-	WHERE @IdMedico = B.IdProfesional AND A.IdAgenda = B.IdAgenda
+	WHERE @IdMedico = B.IdProfesional AND @IdEspecialidad = B.IdEspecialidad AND A.IdAgenda = B.IdAgenda  AND CONVERT(char(10), @FechaHoy, 103) = CONVERT(char(10), A.FechaYHoraTurno, 103)
 END
 GO
 

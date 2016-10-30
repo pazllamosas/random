@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace ClinicaFrba.Registro_Llegada
 {
@@ -28,6 +29,8 @@ namespace ClinicaFrba.Registro_Llegada
             string Apellido = cmbProfesional.Text;
             string descripcion = cmbEspecialidad.Text;
             dgvLlegada.DataSource = Conexion.obtenerTablaProcedure("RANDOM.BUSCAR_MEDICO", Conexion.generarArgumentos("@Descripcion", "@Apellido"), descripcion, Apellido);
+            dgvLlegada.Columns[2].Visible = false;
+            dgvLlegada.Columns[4].Visible = false;
         }
 
         private void cmbProfesional_SelectedIndexChanged(object sender, EventArgs e)
@@ -43,9 +46,13 @@ namespace ClinicaFrba.Registro_Llegada
         private void btnRegLlegada_Click(object sender, EventArgs e)
         {
             DataGridViewRow d = dgvLlegada.SelectedRows[0];
-            string IdMedicoS = d.Cells[3].Value.ToString();
+            string IdMedicoS = d.Cells[2].Value.ToString();
             Int32 IdMedico = Convert.ToInt32(IdMedicoS);
-            FormProvider.TurnoProf.dgvTurnoProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_TURNOS_MEDICO", Conexion.generarArgumentos("@IdMedico"), IdMedico);
+            string IdEspecialidadS = d.Cells[4].Value.ToString();
+            Int32 IdEspecialidad = Convert.ToInt32(IdEspecialidadS);
+            string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
+            DateTime fechaHoy = Convert.ToDateTime(fecha);
+            FormProvider.TurnoProf.dgvTurnoProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_TURNOS_MEDICO", Conexion.generarArgumentos("@IdMedico", "@IdEspecialidad", "@FechaHoy"), IdMedico, IdEspecialidad, fechaHoy);
             FormProvider.TurnoProf.Show();
             this.Hide();
         }
@@ -83,6 +90,11 @@ namespace ClinicaFrba.Registro_Llegada
         }
 
         private void dgvLlegada_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgvLlegada_CellContentClick_2(object sender, DataGridViewCellEventArgs e)
         {
 
         }
