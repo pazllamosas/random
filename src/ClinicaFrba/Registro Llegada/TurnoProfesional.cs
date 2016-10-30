@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace ClinicaFrba.Registro_Llegada
 {
@@ -28,12 +29,15 @@ namespace ClinicaFrba.Registro_Llegada
         public void btnSeleccTurno_Click(object sender, EventArgs e)
         {
             DataGridViewRow d = dgvTurnoProfesional.SelectedRows[0];
-            string afiliadoS = d.Cells[1].Value.ToString();
+            
+            string afiliadoS = d.Cells[0].Value.ToString();
             Int32 afiliado = Convert.ToInt32(afiliadoS);
-            string fechaHoraTurnoS = d.Cells[2].Value.ToString();
-            Int32 fechaHoraTurno = Convert.ToInt32(fechaHoraTurnoS);
-            //deberia salir de un archivo de configuracion!
-            Int32 fechaHora = 20151228; //CHEQUEAR BIEN ESTO DE LAS FECHASS
+            
+            string fechaHoraTurnoS = d.Cells[1].Value.ToString();
+            DateTime fechaHoraTurno = Convert.ToDateTime(fechaHoraTurnoS);
+
+            string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
+            DateTime fechaHoy = Convert.ToDateTime(fecha);
 
             string query = "SELECT RANDOM.BONOS_DISPONIBLES ('" + afiliado + "') AS id";
             SqlDataReader reader = Conexion.ejecutarQuery(query);
@@ -41,9 +45,13 @@ namespace ClinicaFrba.Registro_Llegada
             Int32 CantidadDisponibleBonos = int.Parse(reader["id"].ToString());
             txtBonos.Text = Convert.ToString(CantidadDisponibleBonos);
             reader.Close();
+
+            int comparacion = DateTime.Compare(fechaHoy, fechaHoraTurno);
+
             if (CantidadDisponibleBonos > 0)
             {
-                if(fechaHora <= fechaHoraTurno){
+                if (comparacion <= 0) //probar!!
+                {
                 bool resultado = Conexion.executeProcedure("RANDOM.REGISTRO_LLEGADA", Conexion.generarArgumentos("@IdAfiliado"), afiliado);
                 if (resultado)
                 {
