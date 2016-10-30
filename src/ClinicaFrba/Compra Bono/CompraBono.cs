@@ -29,6 +29,8 @@ namespace ClinicaFrba.Compra_Bono
             Int32 cantidadBonos = Convert.ToInt32(txtCantBonos.Text);
             Int32 montoTotal = calculoMontoTotal(afiliado, cantidadBonos);
 
+            if (montoTotal != -1)
+            {
             bool resultado = Conexion.executeProcedure("RANDOM.COMPRA_DE_BONO", Conexion.generarArgumentos("@IdAfiliado", "@Cantidad", "@MontoTotal"), afiliado, cantidadBonos, montoTotal);
             if (resultado)
             {
@@ -37,6 +39,9 @@ namespace ClinicaFrba.Compra_Bono
             else
             {
                 MessageBox.Show("El bono no fue comprado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }}
+            else{
+                 MessageBox.Show("No existe el afiliado");
             }
             txtNroAfiliado.Text = null;
             txtCantBonos.Text = null;
@@ -84,7 +89,15 @@ namespace ClinicaFrba.Compra_Bono
             Int32 afiliado = Convert.ToInt32(txtNroAfiliado.Text);
             Int32 cantidadBonos = Convert.ToInt32(txtCantBonos.Text);
             Int32 montoTotal = calculoMontoTotal(afiliado, cantidadBonos);
-            txtMonto.Text = Convert.ToString(montoTotal);
+            if (montoTotal != -1)
+            {
+                txtMonto.Text = Convert.ToString(montoTotal);
+            }
+            else
+            {
+                MessageBox.Show("No existe el afiliado");
+            }
+            
         }
 
         private Int32 calculoMontoTotal(Int32 afiliado, Int32 cantidadBonos)
