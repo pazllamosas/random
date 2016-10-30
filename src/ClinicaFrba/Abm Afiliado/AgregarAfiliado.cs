@@ -109,10 +109,11 @@ namespace ClinicaFrba.Abm_Afiliado
         private void btnAgregarFamiliar_Click(object sender, EventArgs e)
         {
             string nroAfiliadoRaiz = txtNroAf.Text;
-            string estadoCivil = cmbEstadoCivil.Text;
-            string cantACargo = txtFamACargo.Text;
+            Int32 estadoCivil = cmbEstadoCivil.SelectedIndex;
+            Int32 cantACargo = Convert.ToInt32(txtFamACargo.Text);
+            Int32 planMedico = Convert.ToInt32(cmbPlanMedico.SelectedValue);
 
-            FormProvider.AgregarFamiliarAfiliado.recepcionDatos(nroAfiliadoRaiz, estadoCivil, cantACargo);
+            FormProvider.AgregarFamiliarAfiliado.recepcionDatos(nroAfiliadoRaiz, estadoCivil, cantACargo, planMedico);
             FormProvider.AgregarFamiliarAfiliado.Show();
         }
 
@@ -128,7 +129,7 @@ namespace ClinicaFrba.Abm_Afiliado
             txtFamACargo.Text = cantACargo;
             txtMail.Text = mail;
             txtNroAf.Text = nroAfiliadoRaiz;
-            cmbEstadoCivil.SelectedValue = Convert.ToInt32(estadoCivil);
+            cmbEstadoCivil.SelectedValue = estadoCivil;
             cmbPlanMedico.SelectedValue = plan;
             cmbTipoDoc.SelectedValue = tipoDocumento;
 

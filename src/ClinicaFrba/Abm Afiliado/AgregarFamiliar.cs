@@ -12,8 +12,9 @@ namespace ClinicaFrba.Abm_Afiliado
 {
     public partial class AgregarFamiliar : Form
     {
-        string estadoCivilAfiliado;
-        string cantACargoAfiliado;
+        Int32 estadoCivilAfiliado;
+        Int32 cantACargoAfiliado;
+        Int32 planMedico;
 
         public AgregarFamiliar()
         {
@@ -22,17 +23,19 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
+            this.LimpiarCampos();
             this.Hide();
             FormProvider.Agafiliado.Show();
         }
 
-        public void recepcionDatos(string nroAfiliadoRaiz, string estadoCivil, string cantACargo)
+        public void recepcionDatos(string nroAfiliadoRaiz, Int32 estadoCivil, Int32 cantACargo, Int32 idPlan)
         {
             txtNroAf.Text = nroAfiliadoRaiz;
-            string estadoCivilAfiliado = estadoCivil;
-            string cantACargoAfiliado = cantACargo;
+            estadoCivilAfiliado = estadoCivil;
+            cantACargoAfiliado = cantACargo;
+            planMedico = idPlan;
 
-            if (estadoCivilAfiliado == "Casado" || estadoCivilAfiliado == "Concubinato")
+            if (estadoCivilAfiliado == 1 || estadoCivilAfiliado == 4)
                 cmbFamiliar.Items.Add("Pareja");
             if (Convert.ToInt32(cantACargoAfiliado) > 0)
                 cmbFamiliar.Items.Add("Familiar a cargo");
@@ -65,39 +68,7 @@ namespace ClinicaFrba.Abm_Afiliado
             }
         }
 
-        private void btnGuardar_Click(object sender, EventArgs e)
-        {
-            if (validacion())
-            {
-                string nombre = txtNombre.Text;
-                string apellido = txtApellido.Text;
-                string sexo = cmbSexo.Text;
-                Int32 idTipoDocumento = Convert.ToInt32(cmbTipoDoc.SelectedValue);
-                string documento = txtNroDoc.Text;
-                string direccion = txtDomicilio.Text;
-                string telefono = txtTelefono.Text;
-                string mail = txtMail.Text;
-                string fechaNacimiento = dtpFechaNac.Value.ToString("yyyy-MM-dd");
-                string nroAfiliadoRaiz = txtNroAf.Text;
-
-                Conexion.executeProcedure("RANDOM.CREAR_FAMILIAR",
-                    Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "NRO_AFILIADO_RAIZ"),
-                    nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento, nroAfiliadoRaiz);
-                if (cmbFamiliar.Text == "Pareja")
-                {
-                    Conexion.executeProcedure("RANDOM.NRO_AFILIADO_CONYUGE",
-                        Conexion.generarArgumentos("NROAFILIADORAIZ"),
-                        nroAfiliadoRaiz);
-                }
-                else
-                {
-                    Conexion.executeProcedure("RANDOM.NRO_AFILIADO_FAMILIARES",
-                        Conexion.generarArgumentos("NROAFILIADORAIZ"),
-                        nroAfiliadoRaiz);
-                }
-            }
-
-        }
+        
 
         private bool validacion()
         {
@@ -134,6 +105,64 @@ namespace ClinicaFrba.Abm_Afiliado
             }
 
         }
+
+        private void btnGuardar_Click_1(object sender, EventArgs e)
+        {
+            if (validacion())
+            {
+                
+                string nombre = txtNombre.Text;
+                string apellido = txtApellido.Text;
+                string sexo = cmbSexo.Text;
+                Int32 idTipoDocumento = Convert.ToInt32(cmbTipoDoc.SelectedValue);
+                string documento = txtNroDoc.Text;
+                string direccion = txtDomicilio.Text;
+                string telefono = txtTelefono.Text;
+                string mail = txtMail.Text;
+                string fechaNacimiento = dtpFechaNac.Value.ToString("yyyy-MM-dd");
+                string nroAfiliadoRaiz = txtNroAf.Text;
+                Int32 idEstadoCivil = estadoCivilAfiliado;
+                Int32 idPlan = planMedico;
+                Int32 cantidadACargo = cantACargoAfiliado;
+
+                Conexion.executeProcedure("RANDOM.CREAR_FAMILIAR",
+                    Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC","IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
+                    nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento,idPlan, idEstadoCivil, nroAfiliadoRaiz);
+                if (cmbFamiliar.Text == "Pareja")
+                {
+                    Conexion.executeProcedure("RANDOM.NRO_AFILIADO_CONYUGE",
+                        Conexion.generarArgumentos("NROAFILIADORAIZ", "DOCUMENTO"),
+                        nroAfiliadoRaiz, documento);
+                    MessageBox.Show("Conyuge creado");
+                }
+                else
+                {
+                    Conexion.executeProcedure("RANDOM.NRO_AFILIADO_FAMILIARES",
+                        Conexion.generarArgumentos("NROAFILIADORAIZ", "DOCUMENTO", "CANTIDAD_A_CARGO"),
+                        nroAfiliadoRaiz, documento, cantidadACargo);
+                    MessageBox.Show("Familiar a cargo creado");
+                }
+            }
+
+        }
+
+        public void LimpiarCampos()
+        {
+            this.cmbSexo.SelectedIndex = -1;
+            this.cmbTipoDoc.SelectedIndex = -1;
+            this.txtApellido.Clear();
+            this.txtNombre.Clear();
+            dtpFechaNac.Checked = false;
+            dtpFechaNac.Format = DateTimePickerFormat.Custom;
+            dtpFechaNac.CustomFormat = " ";
+            this.txtTelefono.Clear();
+            this.txtDomicilio.Clear();
+            this.txtMail.Clear();
+            this.txtNroDoc.Clear();
+            this.cmbFamiliar.SelectedIndex = -1;
+            this.cmbFamiliar.Items.Remove("Pareja");
+            this.cmbFamiliar.Items.Remove("Familiar a cargo");
+         }
 
 
 

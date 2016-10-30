@@ -122,5 +122,25 @@ namespace ClinicaFrba.Abm_Afiliado
                 return false;
             }
         }
+
+        private void btnBajaAf_Click(object sender, EventArgs e)
+        {
+            Int32 selectedRowCount = dgvAfiliados.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            if (selectedRowCount == 1)
+            {
+                DataGridViewRow d = dgvAfiliados.SelectedRows[0];
+                string idAfiliado = d.Cells[0].Value.ToString();
+
+                Conexion.executeProcedure("RANDOM.BAJA_AFILIADO",
+                    Conexion.generarArgumentos("IDPERSONA"),
+                    idAfiliado);
+                MessageBox.Show("Afiliado dado de baja", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("No podés dar de baja si no elegís un afiliado y sólo un afiliado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
     }
 }

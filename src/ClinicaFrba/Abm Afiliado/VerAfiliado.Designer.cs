@@ -135,6 +135,7 @@
             this.btnBajaAf.Text = "Dar de Baja";
             this.btnBajaAf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnBajaAf.UseVisualStyleBackColor = true;
+            this.btnBajaAf.Click += new System.EventHandler(this.btnBajaAf_Click);
             // 
             // btnEditarAf
             // 
