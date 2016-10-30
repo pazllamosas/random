@@ -673,6 +673,17 @@ where M.Turno_Numero IS NOT NULL
 	AND M.Turno_Fecha IS NOT NULL
 	AND M.Bono_Consulta_Fecha_Impresion IS NOT NULL
 	AND P.Documento = M.Paciente_Dni
+	
+/*INSERT INTO RANDOM.TURNO (IdTurno, IdAgenda, FechaYHoraTurno, IdAfiliado)
+SELECT DISTINCT M.Turno_Numero, hd.IdAgenda, M.Turno_Fecha, P.IdPersona
+FROM gd_esquema.Maestra M
+JOIN RANDOM.PERSONA P ON P.Documento = M.Paciente_Dni
+JOIN RANDOM.ESPECIALIDAD E ON E.Codigo = M.Especialidad_Codigo
+JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON DATepart(WEEKDAY, M.Turno_Fecha) = HD.nombreDia AND E.IdEspecialidad = HD.IdEspecialidad
+JOIN RANDOM.PROFESIONAL PR ON PR.IdProfesional = HD.IdProfesional
+where M.Turno_Numero IS NOT NULL 
+	AND M.Turno_Fecha IS NOT NULL
+	AND M.Bono_Consulta_Fecha_Impresion IS NOT NULL*/
 
 /*RESULTADO_TURNO*/
 INSERT INTO RANDOM.RESULTADO_TURNO(IdTurno, IdBono, Sintomas, Enfermedades, Fecha)
