@@ -93,12 +93,5 @@ namespace ClinicaFrba.Registro_Llegada
         {
 
         }
-
-        private void dgvLlegada_CellContentClick_2(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-
     }
 }
