@@ -39,6 +39,7 @@
             // 
             // dgvTurnoProfesional
             // 
+            this.dgvTurnoProfesional.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvTurnoProfesional.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTurnoProfesional.Location = new System.Drawing.Point(22, 80);
             this.dgvTurnoProfesional.Name = "dgvTurnoProfesional";

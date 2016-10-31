@@ -132,10 +132,11 @@
             // 
             // dgvHorariosDisp
             // 
+            this.dgvHorariosDisp.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvHorariosDisp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvHorariosDisp.Location = new System.Drawing.Point(60, 114);
+            this.dgvHorariosDisp.Location = new System.Drawing.Point(89, 114);
             this.dgvHorariosDisp.Name = "dgvHorariosDisp";
-            this.dgvHorariosDisp.Size = new System.Drawing.Size(638, 109);
+            this.dgvHorariosDisp.Size = new System.Drawing.Size(638, 142);
             this.dgvHorariosDisp.TabIndex = 8;
             // 
             // btnSeleccionarTurno
@@ -143,7 +144,7 @@
             this.btnSeleccionarTurno.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSeleccionarTurno.Image = global::ClinicaFrba.Properties.Resources.select;
             this.btnSeleccionarTurno.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSeleccionarTurno.Location = new System.Drawing.Point(289, 435);
+            this.btnSeleccionarTurno.Location = new System.Drawing.Point(313, 493);
             this.btnSeleccionarTurno.Name = "btnSeleccionarTurno";
             this.btnSeleccionarTurno.Size = new System.Drawing.Size(170, 41);
             this.btnSeleccionarTurno.TabIndex = 9;
@@ -158,7 +159,7 @@
             this.btnCancelar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnCancelar.Image = global::ClinicaFrba.Properties.Resources.cancel;
             this.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancelar.Location = new System.Drawing.Point(504, 478);
+            this.btnCancelar.Location = new System.Drawing.Point(529, 545);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(108, 48);
             this.btnCancelar.TabIndex = 12;
@@ -173,7 +174,7 @@
             this.btnGuardar.ForeColor = System.Drawing.Color.Green;
             this.btnGuardar.Image = global::ClinicaFrba.Properties.Resources.save;
             this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardar.Location = new System.Drawing.Point(154, 478);
+            this.btnGuardar.Location = new System.Drawing.Point(143, 545);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(108, 48);
             this.btnGuardar.TabIndex = 11;
@@ -187,7 +188,7 @@
             this.btnSeleccionarProfesional.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSeleccionarProfesional.Image = global::ClinicaFrba.Properties.Resources.select;
             this.btnSeleccionarProfesional.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSeleccionarProfesional.Location = new System.Drawing.Point(289, 229);
+            this.btnSeleccionarProfesional.Location = new System.Drawing.Point(291, 262);
             this.btnSeleccionarProfesional.Name = "btnSeleccionarProfesional";
             this.btnSeleccionarProfesional.Size = new System.Drawing.Size(218, 40);
             this.btnSeleccionarProfesional.TabIndex = 13;
@@ -198,10 +199,11 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(60, 275);
+            this.dataGridView1.Location = new System.Drawing.Point(89, 308);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(638, 154);
+            this.dataGridView1.Size = new System.Drawing.Size(638, 179);
             this.dataGridView1.TabIndex = 14;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -209,7 +211,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(761, 538);
+            this.ClientSize = new System.Drawing.Size(815, 605);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnSeleccionarProfesional);
             this.Controls.Add(this.btnCancelar);
