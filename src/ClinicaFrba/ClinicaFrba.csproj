@@ -173,6 +173,12 @@
     <Compile Include="Listados\ListadoProfporPlan.Designer.cs">
       <DependentUpon>ListadoProfporPlan.cs</DependentUpon>
     </Compile>
+    <Compile Include="Pedir Turno\ProfesionalTurno.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pedir Turno\ProfesionalTurno.Designer.cs">
+      <DependentUpon>ProfesionalTurno.cs</DependentUpon>
+    </Compile>
     <Compile Include="Pedir Turno\Turno.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -263,6 +269,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Listados\ListadoProfporPlan.resx">
       <DependentUpon>ListadoProfporPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pedir Turno\ProfesionalTurno.resx">
+      <DependentUpon>ProfesionalTurno.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pedir Turno\Turno.resx">
       <DependentUpon>Turno.cs</DependentUpon>

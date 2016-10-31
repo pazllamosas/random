@@ -271,6 +271,19 @@ namespace ClinicaFrba
         }
         private static Pedir_Turno.Turno _Turno;
 
+        public static Pedir_Turno.ProfesionalTurno ProfesionalTurno
+        {
+            get
+            {
+                if (_ProfesionalTurno == null)
+                {
+                    _ProfesionalTurno = new Pedir_Turno.ProfesionalTurno();
+                }
+                return _ProfesionalTurno;
+            }
+        }
+        private static Pedir_Turno.ProfesionalTurno _ProfesionalTurno;
+
         public static Registro_Llegada.RegistroLlegada RegistroLlegada
         {
             get

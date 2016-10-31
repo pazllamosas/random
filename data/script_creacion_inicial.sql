@@ -147,6 +147,8 @@ IF OBJECT_ID('RANDOM.RESERVO_FECHA_TURNO') IS NOT NULL
 DROP PROCEDURE RANDOM.RESERVO_FECHA_TURNO
 IF OBJECT_ID('RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES') IS NOT NULL
 DROP PROCEDURE RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES
+IF OBJECT_ID('RANDOM.VALIDAR_AFILIADO') IS NOT NULL
+DROP PROCEDURE RANDOM.VALIDAR_AFILIADO
 
 --11 registro de llegada para atencion medica
 IF OBJECT_ID('RANDOM.GET_ESPECIALIDAD') IS NOT NULL
@@ -1377,21 +1379,21 @@ IF(@Descripcion = '')
     SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad, E.FechaYHoraTurno, D.HoraDesde, D.HoraHasta
 	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D, RANDOM.TURNO E
 	WHERE @Apellido = A.Apellido AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona AND D.IdProfesional = C.IdProfesional 
-	AND @DiaNumero = D.nombreDia AND D.IdAgenda = E.IdAgenda AND CONVERT(char(10), E.FechaYHoraTurno, 103) = CONVERT(char(10), @Fecha, 103)
+--	AND @DiaNumero = D.nombreDia AND D.IdAgenda = E.IdAgenda AND CONVERT(char(10), E.FechaYHoraTurno, 103) = CONVERT(char(10), @Fecha, 103)
   END
 IF(@Apellido = '') 
   BEGIN
     SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad, E.FechaYHoraTurno, D.HoraDesde, D.HoraHasta
 	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D, RANDOM.TURNO E
 	WHERE @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona AND D.IdProfesional = C.IdProfesional 
-	AND @DiaNumero = D.nombreDia AND D.IdAgenda = E.IdAgenda AND CONVERT(char(10), E.FechaYHoraTurno, 103) = CONVERT(char(10), @Fecha, 103)
+--	AND @DiaNumero = D.nombreDia AND D.IdAgenda = E.IdAgenda AND CONVERT(char(10), E.FechaYHoraTurno, 103) = CONVERT(char(10), @Fecha, 103)
   END
 IF(@Descripcion != '' AND @Apellido != '') 
   BEGIN
     SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad, E.FechaYHoraTurno, D.HoraDesde, D.HoraHasta
 	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D, RANDOM.TURNO E
 	WHERE @Apellido = A.Apellido AND @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona 
-	AND D.IdProfesional = C.IdProfesional AND @DiaNumero = D.nombreDia AND D.IdAgenda = E.IdAgenda AND CONVERT(char(10), E.FechaYHoraTurno, 103) = CONVERT(char(10), @Fecha, 103)
+--	AND D.IdProfesional = C.IdProfesional AND @DiaNumero = D.nombreDia AND D.IdAgenda = E.IdAgenda AND CONVERT(char(10), E.FechaYHoraTurno, 103) = CONVERT(char(10), @Fecha, 103)
   END
 END
 GO
@@ -1410,8 +1412,8 @@ BEGIN
 --a las 18 no atiende, asi que llega hastas 17:30
 
 	SELECT DISTINCT A.Turnos
-	FROM TEMPORALTURNOS A, RANDOM.AGENDA_HORARIO_DISPONIBLE B, RANDOM.TURNO C
-	WHERE B.IdProfesional = @IdProfesional AND B.IdAgenda = C.IdAgenda AND C.FechaYHoraTurno != A.Turnos
+	FROM TEMPORALTURNOS A--, RANDOM.AGENDA_HORARIO_DISPONIBLE B, RANDOM.TURNO C
+	--WHERE B.IdProfesional = @IdProfesional AND B.IdAgenda = C.IdAgenda AND C.FechaYHoraTurno != A.Turnos
 
 END
 GO
@@ -1429,6 +1431,22 @@ BEGIN
 END
 GO 
 
+CREATE FUNCTION RANDOM.VALIDAR_AFILIADO(@IdAfiliado int)
+ RETURNS INT
+ AS BEGIN
+    DECLARE @Resultado INT
+ 	IF (EXISTS (SELECT * FROM RANDOM.AFILIADO WHERE (CONCAT (NumeroAfiliadoRaiz, NumeroAfiliadoExt)) = @IdAfiliado))
+ 	   BEGIN
+        SET @Resultado = @IdAfiliado
+ 	   END
+ 	ELSE
+ 	   BEGIN
+    SET @Resultado = -1
+ 	   END
+ 
+ 	RETURN @Resultado
+ END
+GO
 --11 registro de llegada para atencion medica
 GO
 CREATE PROCEDURE RANDOM.GET_ESPECIALIDAD AS
@@ -1520,7 +1538,6 @@ BEGIN
 	     BEGIN
 	       RAISERROR ('El bono fue comprado con otro plan', -10, -10, 'El bono fue comprado con otro plan')
 	     END
-
 END
 GO
 

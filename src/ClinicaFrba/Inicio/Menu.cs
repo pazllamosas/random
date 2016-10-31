@@ -66,7 +66,7 @@ namespace ClinicaFrba.Inicio
 
         private void btnTurno_Click(object sender, EventArgs e)
         {
-            FormProvider.Turno.Show();
+            FormProvider.ProfesionalTurno.Show();
         }
 
         private void btnRegResultado_Click(object sender, EventArgs e)

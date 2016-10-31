@@ -28,130 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblProfesional = new System.Windows.Forms.Label();
-            this.cmbProfesional = new System.Windows.Forms.ComboBox();
-            this.cmbEspecialidad = new System.Windows.Forms.ComboBox();
-            this.lblEspecialidad = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.dtpTurnoPosible = new System.Windows.Forms.DateTimePicker();
-            this.btnBuscar = new System.Windows.Forms.Button();
-            this.btnLimpiar = new System.Windows.Forms.Button();
-            this.dgvHorariosDisp = new System.Windows.Forms.DataGridView();
-            this.btnSeleccionarTurno = new System.Windows.Forms.Button();
-            this.btnCancelar = new System.Windows.Forms.Button();
-            this.btnGuardar = new System.Windows.Forms.Button();
-            this.btnSeleccionarProfesional = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvHorariosDisp)).BeginInit();
+            this.btnCancelar = new System.Windows.Forms.Button();
+            this.btnSeleccionarTurno = new System.Windows.Forms.Button();
+            this.Profesional = new System.Windows.Forms.Label();
+            this.textProfesional = new System.Windows.Forms.TextBox();
+            this.Especialidad = new System.Windows.Forms.Label();
+            this.textEspecialidad = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textAfiliado = new System.Windows.Forms.TextBox();
+            this.Fecha = new System.Windows.Forms.Label();
+            this.textFecha = new System.Windows.Forms.TextBox();
+            this.btnVolver = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // lblProfesional
+            // dataGridView1
             // 
-            this.lblProfesional.AutoSize = true;
-            this.lblProfesional.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProfesional.Location = new System.Drawing.Point(26, 15);
-            this.lblProfesional.Name = "lblProfesional";
-            this.lblProfesional.Size = new System.Drawing.Size(173, 18);
-            this.lblProfesional.TabIndex = 0;
-            this.lblProfesional.Text = "Seleccione el profesional";
-            // 
-            // cmbProfesional
-            // 
-            this.cmbProfesional.FormattingEnabled = true;
-            this.cmbProfesional.Location = new System.Drawing.Point(205, 12);
-            this.cmbProfesional.Name = "cmbProfesional";
-            this.cmbProfesional.Size = new System.Drawing.Size(121, 21);
-            this.cmbProfesional.TabIndex = 1;
-            this.cmbProfesional.SelectedIndexChanged += new System.EventHandler(this.cmbProfesional_SelectedIndexChanged);
-            // 
-            // cmbEspecialidad
-            // 
-            this.cmbEspecialidad.FormattingEnabled = true;
-            this.cmbEspecialidad.Location = new System.Drawing.Point(606, 13);
-            this.cmbEspecialidad.Name = "cmbEspecialidad";
-            this.cmbEspecialidad.Size = new System.Drawing.Size(121, 21);
-            this.cmbEspecialidad.TabIndex = 3;
-            this.cmbEspecialidad.SelectedIndexChanged += new System.EventHandler(this.cmbEspecialidad_SelectedIndexChanged_1);
-            // 
-            // lblEspecialidad
-            // 
-            this.lblEspecialidad.AutoSize = true;
-            this.lblEspecialidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEspecialidad.Location = new System.Drawing.Point(419, 12);
-            this.lblEspecialidad.Name = "lblEspecialidad";
-            this.lblEspecialidad.Size = new System.Drawing.Size(181, 18);
-            this.lblEspecialidad.TabIndex = 2;
-            this.lblEspecialidad.Text = "Seleccione la especialidad";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(166, 52);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(200, 18);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Seleccione una fecha posible";
-            // 
-            // dtpTurnoPosible
-            // 
-            this.dtpTurnoPosible.Location = new System.Drawing.Point(412, 50);
-            this.dtpTurnoPosible.Name = "dtpTurnoPosible";
-            this.dtpTurnoPosible.Size = new System.Drawing.Size(200, 20);
-            this.dtpTurnoPosible.TabIndex = 5;
-            this.dtpTurnoPosible.ValueChanged += new System.EventHandler(this.dtpTurnoPosible_ValueChanged);
-            // 
-            // btnBuscar
-            // 
-            this.btnBuscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuscar.Image = global::ClinicaFrba.Properties.Resources.busqueda;
-            this.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBuscar.Location = new System.Drawing.Point(230, 76);
-            this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(96, 32);
-            this.btnBuscar.TabIndex = 6;
-            this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnBuscar.UseVisualStyleBackColor = true;
-            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
-            // 
-            // btnLimpiar
-            // 
-            this.btnLimpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLimpiar.Image = global::ClinicaFrba.Properties.Resources.delete;
-            this.btnLimpiar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLimpiar.Location = new System.Drawing.Point(475, 76);
-            this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(93, 32);
-            this.btnLimpiar.TabIndex = 7;
-            this.btnLimpiar.Text = "Limpiar";
-            this.btnLimpiar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnLimpiar.UseVisualStyleBackColor = true;
-            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
-            // 
-            // dgvHorariosDisp
-            // 
-            this.dgvHorariosDisp.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvHorariosDisp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvHorariosDisp.Location = new System.Drawing.Point(89, 114);
-            this.dgvHorariosDisp.Name = "dgvHorariosDisp";
-            this.dgvHorariosDisp.Size = new System.Drawing.Size(638, 142);
-            this.dgvHorariosDisp.TabIndex = 8;
-            // 
-            // btnSeleccionarTurno
-            // 
-            this.btnSeleccionarTurno.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSeleccionarTurno.Image = global::ClinicaFrba.Properties.Resources.select;
-            this.btnSeleccionarTurno.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSeleccionarTurno.Location = new System.Drawing.Point(313, 493);
-            this.btnSeleccionarTurno.Name = "btnSeleccionarTurno";
-            this.btnSeleccionarTurno.Size = new System.Drawing.Size(170, 41);
-            this.btnSeleccionarTurno.TabIndex = 9;
-            this.btnSeleccionarTurno.Text = "Seleccionar Turno";
-            this.btnSeleccionarTurno.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSeleccionarTurno.UseVisualStyleBackColor = true;
-            this.btnSeleccionarTurno.Click += new System.EventHandler(this.btnSeleccionarTurno_Click);
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(74, 153);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(645, 284);
+            this.dataGridView1.TabIndex = 14;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // btnCancelar
             // 
@@ -159,7 +59,7 @@
             this.btnCancelar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnCancelar.Image = global::ClinicaFrba.Properties.Resources.cancel;
             this.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancelar.Location = new System.Drawing.Point(529, 545);
+            this.btnCancelar.Location = new System.Drawing.Point(545, 458);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(108, 48);
             this.btnCancelar.TabIndex = 12;
@@ -168,71 +68,133 @@
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
-            // btnGuardar
+            // btnSeleccionarTurno
             // 
-            this.btnGuardar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGuardar.ForeColor = System.Drawing.Color.Green;
-            this.btnGuardar.Image = global::ClinicaFrba.Properties.Resources.save;
-            this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardar.Location = new System.Drawing.Point(143, 545);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(108, 48);
-            this.btnGuardar.TabIndex = 11;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGuardar.UseVisualStyleBackColor = true;
-            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
+            this.btnSeleccionarTurno.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSeleccionarTurno.ForeColor = System.Drawing.Color.Green;
+            this.btnSeleccionarTurno.Image = global::ClinicaFrba.Properties.Resources.save;
+            this.btnSeleccionarTurno.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSeleccionarTurno.Location = new System.Drawing.Point(99, 458);
+            this.btnSeleccionarTurno.Name = "btnSeleccionarTurno";
+            this.btnSeleccionarTurno.Size = new System.Drawing.Size(196, 48);
+            this.btnSeleccionarTurno.TabIndex = 11;
+            this.btnSeleccionarTurno.Text = "Seleccionar Turno";
+            this.btnSeleccionarTurno.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSeleccionarTurno.UseVisualStyleBackColor = true;
+            this.btnSeleccionarTurno.Click += new System.EventHandler(this.btnSeleccionarTurno_Click);
             // 
-            // btnSeleccionarProfesional
+            // Profesional
             // 
-            this.btnSeleccionarProfesional.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSeleccionarProfesional.Image = global::ClinicaFrba.Properties.Resources.select;
-            this.btnSeleccionarProfesional.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSeleccionarProfesional.Location = new System.Drawing.Point(291, 262);
-            this.btnSeleccionarProfesional.Name = "btnSeleccionarProfesional";
-            this.btnSeleccionarProfesional.Size = new System.Drawing.Size(218, 40);
-            this.btnSeleccionarProfesional.TabIndex = 13;
-            this.btnSeleccionarProfesional.Text = "Seleccionar Profesional";
-            this.btnSeleccionarProfesional.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSeleccionarProfesional.UseVisualStyleBackColor = true;
-            this.btnSeleccionarProfesional.Click += new System.EventHandler(this.btnSeleccionarProfesional_Click);
+            this.Profesional.AutoSize = true;
+            this.Profesional.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Profesional.Location = new System.Drawing.Point(96, 52);
+            this.Profesional.Name = "Profesional";
+            this.Profesional.Size = new System.Drawing.Size(83, 18);
+            this.Profesional.TabIndex = 19;
+            this.Profesional.Text = "Profesional";
+            this.Profesional.Click += new System.EventHandler(this.label2_Click_1);
             // 
-            // dataGridView1
+            // textProfesional
             // 
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(89, 308);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(638, 179);
-            this.dataGridView1.TabIndex = 14;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.textProfesional.Location = new System.Drawing.Point(202, 50);
+            this.textProfesional.Name = "textProfesional";
+            this.textProfesional.Size = new System.Drawing.Size(154, 20);
+            this.textProfesional.TabIndex = 20;
+            this.textProfesional.TextChanged += new System.EventHandler(this.textProfesional_TextChanged);
+            // 
+            // Especialidad
+            // 
+            this.Especialidad.AutoSize = true;
+            this.Especialidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Especialidad.Location = new System.Drawing.Point(410, 52);
+            this.Especialidad.Name = "Especialidad";
+            this.Especialidad.Size = new System.Drawing.Size(91, 18);
+            this.Especialidad.TabIndex = 21;
+            this.Especialidad.Text = "Especialidad";
+            this.Especialidad.Click += new System.EventHandler(this.Especialidad_Click);
+            // 
+            // textEspecialidad
+            // 
+            this.textEspecialidad.Location = new System.Drawing.Point(526, 50);
+            this.textEspecialidad.Name = "textEspecialidad";
+            this.textEspecialidad.Size = new System.Drawing.Size(182, 20);
+            this.textEspecialidad.TabIndex = 22;
+            this.textEspecialidad.TextChanged += new System.EventHandler(this.textEspecialidad_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(113, 106);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(55, 18);
+            this.label1.TabIndex = 24;
+            this.label1.Text = "Afiliado";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // textAfiliado
+            // 
+            this.textAfiliado.Location = new System.Drawing.Point(202, 104);
+            this.textAfiliado.Name = "textAfiliado";
+            this.textAfiliado.Size = new System.Drawing.Size(154, 20);
+            this.textAfiliado.TabIndex = 23;
+            this.textAfiliado.TextChanged += new System.EventHandler(this.textAfiliado_TextChanged);
+            // 
+            // Fecha
+            // 
+            this.Fecha.AutoSize = true;
+            this.Fecha.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Fecha.Location = new System.Drawing.Point(452, 104);
+            this.Fecha.Name = "Fecha";
+            this.Fecha.Size = new System.Drawing.Size(49, 18);
+            this.Fecha.TabIndex = 25;
+            this.Fecha.Text = "Fecha";
+            // 
+            // textFecha
+            // 
+            this.textFecha.Location = new System.Drawing.Point(526, 104);
+            this.textFecha.Name = "textFecha";
+            this.textFecha.Size = new System.Drawing.Size(182, 20);
+            this.textFecha.TabIndex = 26;
+            this.textFecha.TextChanged += new System.EventHandler(this.textFecha_TextChanged);
+            // 
+            // btnVolver
+            // 
+            this.btnVolver.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVolver.Image = global::ClinicaFrba.Properties.Resources.back;
+            this.btnVolver.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnVolver.Location = new System.Drawing.Point(12, 12);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(79, 30);
+            this.btnVolver.TabIndex = 31;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // Turno
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(815, 605);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.btnSeleccionarProfesional);
-            this.Controls.Add(this.btnCancelar);
-            this.Controls.Add(this.btnGuardar);
-            this.Controls.Add(this.btnSeleccionarTurno);
-            this.Controls.Add(this.dgvHorariosDisp);
-            this.Controls.Add(this.btnLimpiar);
-            this.Controls.Add(this.btnBuscar);
-            this.Controls.Add(this.dtpTurnoPosible);
+            this.ClientSize = new System.Drawing.Size(774, 518);
+            this.Controls.Add(this.btnVolver);
+            this.Controls.Add(this.textFecha);
+            this.Controls.Add(this.Fecha);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.cmbEspecialidad);
-            this.Controls.Add(this.lblEspecialidad);
-            this.Controls.Add(this.cmbProfesional);
-            this.Controls.Add(this.lblProfesional);
+            this.Controls.Add(this.textAfiliado);
+            this.Controls.Add(this.textEspecialidad);
+            this.Controls.Add(this.Especialidad);
+            this.Controls.Add(this.textProfesional);
+            this.Controls.Add(this.Profesional);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.btnCancelar);
+            this.Controls.Add(this.btnSeleccionarTurno);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Turno";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Turno";
             this.Load += new System.EventHandler(this.Turno_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvHorariosDisp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -241,19 +203,17 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblProfesional;
-        private System.Windows.Forms.ComboBox cmbProfesional;
-        private System.Windows.Forms.ComboBox cmbEspecialidad;
-        private System.Windows.Forms.Label lblEspecialidad;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DateTimePicker dtpTurnoPosible;
-        private System.Windows.Forms.Button btnBuscar;
-        private System.Windows.Forms.Button btnLimpiar;
-        private System.Windows.Forms.DataGridView dgvHorariosDisp;
-        private System.Windows.Forms.Button btnSeleccionarTurno;
         private System.Windows.Forms.Button btnCancelar;
-        private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.Button btnSeleccionarProfesional;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button btnSeleccionarTurno;
+        private System.Windows.Forms.Label Profesional;
+        private System.Windows.Forms.Label Especialidad;
+        private System.Windows.Forms.Label label1;
+        public System.Windows.Forms.DataGridView dataGridView1;
+        public System.Windows.Forms.TextBox textProfesional;
+        public System.Windows.Forms.TextBox textEspecialidad;
+        public System.Windows.Forms.TextBox textAfiliado;
+        private System.Windows.Forms.Label Fecha;
+        public System.Windows.Forms.TextBox textFecha;
+        private System.Windows.Forms.Button btnVolver;
     }
 }
