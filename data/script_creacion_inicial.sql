@@ -1361,27 +1361,29 @@ GO
 GO
 
 --10 pedido de turno
-
 GO
-CREATE PROCEDURE RANDOM.PEDIDO_DE_TURNO(@Descripcion nvarchar(255), @Apellido nvarchar(255), @Fecha DATETIME) AS
+CREATE PROCEDURE RANDOM.PEDIDO_DE_TURNO(@Descripcion nvarchar(255), @Apellido nvarchar(255), @Fecha DATETIME, @DiaNumero INT) AS
 BEGIN
 IF(@Descripcion = '') 
-  BEGIN
-    SELECT DISTINCT A.Apellido, A.IdPersona, B.Descripcion, D.HoraDesde , D.HoraHasta
-	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D
-	WHERE @Apellido = A.Apellido AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona AND D.IdProfesional = C.IdProfesional
+  BEGIN                           
+    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad, E.FechaYHoraTurno, D.HoraDesde, D.HoraHasta
+	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D, RANDOM.TURNO E
+	WHERE @Apellido = A.Apellido AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona AND D.IdProfesional = C.IdProfesional 
+	AND @DiaNumero = D.nombreDia AND D.IdAgenda = E.IdAgenda AND CONVERT(char(10), E.FechaYHoraTurno, 103) = CONVERT(char(10), @Fecha, 103)
   END
 IF(@Apellido = '') 
   BEGIN
-    SELECT DISTINCT A.Apellido, A.IdPersona, B.Descripcion, D.HoraDesde, D.HoraHasta
-	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D
-	WHERE @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona AND D.IdProfesional = C.IdProfesional
+    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad, E.FechaYHoraTurno, D.HoraDesde, D.HoraHasta
+	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D, RANDOM.TURNO E
+	WHERE @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona AND D.IdProfesional = C.IdProfesional 
+	AND @DiaNumero = D.nombreDia AND D.IdAgenda = E.IdAgenda AND CONVERT(char(10), E.FechaYHoraTurno, 103) = CONVERT(char(10), @Fecha, 103)
   END
 IF(@Descripcion != '' AND @Apellido != '') 
   BEGIN
-    SELECT DISTINCT A.Apellido, A.IdPersona, B.Descripcion, D.HoraDesde, D.HoraHasta
-	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D
-	WHERE @Apellido = A.Apellido AND @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona  AND D.IdProfesional = C.IdProfesional
+    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad, E.FechaYHoraTurno, D.HoraDesde, D.HoraHasta
+	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D, RANDOM.TURNO E
+	WHERE @Apellido = A.Apellido AND @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona 
+	AND D.IdProfesional = C.IdProfesional AND @DiaNumero = D.nombreDia AND D.IdAgenda = E.IdAgenda AND CONVERT(char(10), E.FechaYHoraTurno, 103) = CONVERT(char(10), @Fecha, 103)
   END
 END
 GO
@@ -1398,8 +1400,8 @@ BEGIN
 	  WHERE FechaYHoraTurno = @FechaElegida
 
 END
-GO
-*/
+GO*/
+
 --11 registro de llegada para atencion medica
 GO
 CREATE PROCEDURE RANDOM.GET_ESPECIALIDAD AS

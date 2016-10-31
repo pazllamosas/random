@@ -97,6 +97,7 @@
             this.dtpTurnoPosible.Name = "dtpTurnoPosible";
             this.dtpTurnoPosible.Size = new System.Drawing.Size(200, 20);
             this.dtpTurnoPosible.TabIndex = 5;
+            this.dtpTurnoPosible.ValueChanged += new System.EventHandler(this.dtpTurnoPosible_ValueChanged);
             // 
             // btnBuscar
             // 
@@ -124,6 +125,7 @@
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // dgvHorariosDisp
             // 
