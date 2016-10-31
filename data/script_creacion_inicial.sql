@@ -148,7 +148,7 @@ DROP PROCEDURE RANDOM.RESERVO_FECHA_TURNO
 IF OBJECT_ID('RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES') IS NOT NULL
 DROP PROCEDURE RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES
 IF OBJECT_ID('RANDOM.VALIDAR_AFILIADO') IS NOT NULL
-DROP PROCEDURE RANDOM.VALIDAR_AFILIADO
+DROP FUNCTION RANDOM.VALIDAR_AFILIADO
 
 --11 registro de llegada para atencion medica
 IF OBJECT_ID('RANDOM.GET_ESPECIALIDAD') IS NOT NULL
@@ -432,13 +432,13 @@ VALUES (6,'Generar Agenda')
 INSERT INTO RANDOM.FUNCIONALIDADES(IdFuncionalidad,DescripcionFunc)
 VALUES (7,'Comprar Bono')
 INSERT INTO RANDOM.FUNCIONALIDADES(IdFuncionalidad,DescripcionFunc)
-VALUES (8,'Registrar Llegada a la Atención')
+VALUES (8,'Registrar Llegada a la AtenciÃ³n')
 INSERT INTO RANDOM.FUNCIONALIDADES(IdFuncionalidad,DescripcionFunc)
 VALUES (9,'Solicitar Turno')
 INSERT INTO RANDOM.FUNCIONALIDADES(IdFuncionalidad,DescripcionFunc)
 VALUES (10,'Cancelar Turno')
 INSERT INTO RANDOM.FUNCIONALIDADES(IdFuncionalidad,DescripcionFunc)
-VALUES (11,'Registrar Diagnóstico')
+VALUES (11,'Registrar DiagnÃ³stico')
 INSERT INTO RANDOM.FUNCIONALIDADES(IdFuncionalidad,DescripcionFunc)
 VALUES (12,'Consulta TOP 5')
 SET IDENTITY_INSERT RANDOM.FUNCIONALIDADES OFF
@@ -520,7 +520,7 @@ VALUES ('Viaje Programado')
 INSERT INTO RANDOM.TIPO_CANCELACION(Descripcion)
 VALUES ('Fuerza Mayor')
 INSERT INTO RANDOM.TIPO_CANCELACION(Descripcion)
-VALUES ('Superposición de horarios')
+VALUES ('SuperposiciÃ³n de horarios')
 INSERT INTO RANDOM.TIPO_CANCELACION(Descripcion)
 VALUES ('Enfermedad')
 INSERT INTO RANDOM.TIPO_CANCELACION(Descripcion)
@@ -536,7 +536,7 @@ VALUES ('Libreta de enrolamiento')
 INSERT INTO RANDOM.TIPOS_DOCUMENTOS(Descripcion)
 VALUES ('Libreta Civica')
 INSERT INTO RANDOM.TIPOS_DOCUMENTOS(Descripcion)
-VALUES ('Cédula de Identidad')
+VALUES ('CÃ©dula de Identidad')
 INSERT INTO RANDOM.TIPOS_DOCUMENTOS(Descripcion)
 VALUES ('Pasaporte')
 
@@ -1250,7 +1250,7 @@ IF (( NOT EXISTS ( SELECT * FROM RANDOM.AFILIADO WHERE NumeroAfiliadoRaiz = @NRO
 	AND P.Documento = @DOCUMENTO
 	AND P.IdPersona = A.IdPersona
 ELSE
-	 RAISERROR ('Ya hay cónyuge asociado', 16, 217) WITH SETERROR
+	 RAISERROR ('Ya hay cÃ³nyuge asociado', 16, 217) WITH SETERROR
 END
 GO
 
@@ -1562,7 +1562,7 @@ GO
 GO
 CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom datetime, @fechaTo datetime, @IdPlan int)
 AS BEGIN
-select top 5 P.IdProfesional AS 'Matrícula Profesional', count(RT.IdResultadoTurno) AS 'Cantidad'
+select top 5 P.IdProfesional AS 'MatrÃ­cula Profesional', count(RT.IdResultadoTurno) AS 'Cantidad'
 from RANDOM.RESULTADO_TURNO RT 
 JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
@@ -1580,7 +1580,7 @@ GO
 GO
 CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fechaFrom datetime, @fechaTo datetime, @numeroPlan varchar(50), @nombreEspecialidad varchar(50))
 AS BEGIN
-select top 5 P.IdProfesional AS 'Matrícula Profesinal', count(RT.IdResultadoTurno) AS 'Cantidad'
+select top 5 P.IdProfesional AS 'MatrÃ­cula Profesinal', count(RT.IdResultadoTurno) AS 'Cantidad'
 from RANDOM.RESULTADO_TURNO RT
 JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
@@ -1673,12 +1673,12 @@ GO
 en la cancelacion, es un dia solo, o un rango de dias, no se ven fechas cuando el medico cancela  M.Turno_Fecha ES A FECHA QUE SE HACE EL TURNO Y BONO COSULTA FECHA IMPRESION ES LA FECHA EN LA QUE SE CONSUME EL BONO
 1) TEMA TIPO DNI (OK):
 	es necesario utilizar tipo y numero de documento? O se puede usar solo DNI ya que de los medicos y personas cargados solo tenemos dni?
-	En el enunciado se pide Tipo y número de documento
+	En el enunciado se pide Tipo y nÃºmero de documento
 HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
 --> creada
 2) TEMA USUARIO (OK):
 	 Es obligatorio que todas las personas tengan un usuario? Y que un usuario tenga una persona asociada?
-	 Todos los afiliados y profesionales tienen que tener un username y password, queda a criterio de ustedes como se hace la asignación. Los mismos son necesarios para poder acceder al sistema y realizar las acciones correspondientes a su rol como la compra de bonos o pedido de turno  en la caso del afiliado o registrar el resultado de una consulta en el caso del profesional.
+	 Todos los afiliados y profesionales tienen que tener un username y password, queda a criterio de ustedes como se hace la asignaciÃ³n. Los mismos son necesarios para poder acceder al sistema y realizar las acciones correspondientes a su rol como la compra de bonos o pedido de turno  en la caso del afiliado o registrar el resultado de una consulta en el caso del profesional.
 --> CREAMOS SOLO USUARIO DE PRUEBAS - ADMIN Y LOS OTROS SE MIGRAN
 3) AGENDA PROFESIONAL (OK):
 	quien manejaria la agenda profesional? podria ser el administrador?
@@ -1695,8 +1695,8 @@ HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
 	faltan setear cosas
 	--> ESTADO ES BAJA O ACTIVO
 7)TANTOS INDICES HACEN FALTA? (HAY QE BORRAR O COMENTAR)
---> Emm no se, lo habiamos echo asi el año pasado, pero si se pueden sacar alguno mejor!
--> yo el año pasado hice 2 indices cuando los necesite. para mi son muchos al pedo, talvez en tablas qe ni hace falta, hace corra mas lento el script. Paz
+--> Emm no se, lo habiamos echo asi el aÃ±o pasado, pero si se pueden sacar alguno mejor!
+-> yo el aÃ±o pasado hice 2 indices cuando los necesite. para mi son muchos al pedo, talvez en tablas qe ni hace falta, hace corra mas lento el script. Paz
 8)CONSULTA SINTOMAS Y ENFERMEDAD SOLO DAN SINTOMA/ENFERMEDAD 1 Y DESPUES NULL (OK)
 --> eso se tendra que ir completando a medida de que el paciente va poniendo el sintoma y enfermedad creeria.
 9) ESPECIALIDAD POR PROFESIONAL
@@ -1705,23 +1705,23 @@ HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
 -> Pero como joinea? porque pedis la especialidad y el profesional, como sabes que es de ese profesional? Paz
 10) IDEA NRO AFILIADO (OK):
 Para crear el numero de afiliado se me ocurrio crear 2 campos uno que sea el numero de afiliado gral y otro qe sea por familiar, es decir 00, 01 etc. 
-Las fechas en cuestion las tomasmos como pensabamos. tomamos que los campos bono_consulta_fecha_impresión  y compra_bono_fecha son independientes
+Las fechas en cuestion las tomasmos como pensabamos. tomamos que los campos bono_consulta_fecha_impresiÃ³n  y compra_bono_fecha son independientes
 las horas trabajadas son las horas que estuvo atendiendo gente
 TURNO FECHA ES LA FECHA EN LA QUE SE EJECUTA EL TURNO.
 la matricula del profesional va a ser el id profesional
 El peridodo de cancelacion de un profesional se tiene que contar en dias, y no en horas de un solo dia.
 Cuando un turno es dado de baja se va a generar otro turno para suplnatar al que se dio de baja en caso de que sea necesario
-Usamos una grilla para los horarios disponibles y el date box todos los días de lunes a sábados 
-Los síntomas nuevos si bien se cargan una vez, va a ser un gran steing que especifique todos los síntomas que tiene la persona.
-Y el síntoma u enfermedad se carga después de que se vio el médico.
-No hay números de turno repetidos
-Que los nombres de usuarios sean números, 8 numeros. No tienen por qué ser el número de documento de la persona nueva 
-1.Que Compra_Bono_Fecha y Bono_Consulta_Fecha_Impresion tengan la misma fecha y todos los demás campos en nulos (exceptuando los datos del usuario y planes médicos)
-2.Que Compra_Bono_Fecha, Bono_Consulta_Fecha_Impresion, Consulta_Sintoma y Consulta_Enfermedades sean nulos, y todo lo demás contenga datos. 
-3.Que Compra_Bono_Fecha sea nulo y todos los demás campos tengan datos.
-1.Se efectúa la compra del bono.
+Usamos una grilla para los horarios disponibles y el date box todos los dÃ­as de lunes a sÃ¡bados 
+Los sÃ­ntomas nuevos si bien se cargan una vez, va a ser un gran steing que especifique todos los sÃ­ntomas que tiene la persona.
+Y el sÃ­ntoma u enfermedad se carga despuÃ©s de que se vio el mÃ©dico.
+No hay nÃºmeros de turno repetidos
+Que los nombres de usuarios sean nÃºmeros, 8 numeros. No tienen por quÃ© ser el nÃºmero de documento de la persona nueva 
+1.Que Compra_Bono_Fecha y Bono_Consulta_Fecha_Impresion tengan la misma fecha y todos los demÃ¡s campos en nulos (exceptuando los datos del usuario y planes mÃ©dicos)
+2.Que Compra_Bono_Fecha, Bono_Consulta_Fecha_Impresion, Consulta_Sintoma y Consulta_Enfermedades sean nulos, y todo lo demÃ¡s contenga datos. 
+3.Que Compra_Bono_Fecha sea nulo y todos los demÃ¡s campos tengan datos.
+1.Se efectÃºa la compra del bono.
 2 corresponde a la solicitud del turno.
-3.se refiere a que se efectivizó la consulta, registrando la utilización del bono y el diagnóstico del médico.
+3.se refiere a que se efectivizÃ³ la consulta, registrando la utilizaciÃ³n del bono y el diagnÃ³stico del mÃ©dico.
 Compra_Bono_Fecha es a fecha en la que se compra el bono, y Bono_Consulta_Fecha_Impresion es la fecha en la que se usa el bono.
 Hay dos registros de cada persona que tienen numero de turno porque uno es cuando saco el turno, y el otro cuando se concreto el turno, por eso tiene sintomas y enfermedad
 No hya numeros de bonos de consultas en mas de un usuario
@@ -1729,10 +1729,10 @@ Poner tipo de documento porque lo dice el enunciado, aunque sean todos dni
 +++ En la maestra no hay medicos que sean usuarios -  DONDE DICE? YO CREO QE SI Y YA MIGRE ALGUNOS
 Los bonos de farmacia no se compran
 No hay que crear en ningun momentos funcionalidades
-Si el paciente tiene el turno no nulo, pero a la vez los campos Consulta_Sintomas y Consulta_Enfermedades estan en nulo. ¿Significa que la persona cancelo el turno?
-No, ese caso representa la solicitud del turno. Podrian considerar que hubo  una cancelación cuando no hay referencia de Consulta_Sintomas y Consulta_Enfermedades para un cierto número de turno.
-Bono_Consulta_Fecha_Impresión se refiere a la fecha en que se compró el bono utilizado.
-cuando hay un número de bono repetido en la maestra, se describen dos situaciones. Una  cuando se realiza la compra del bono y la otra cuando el paciente fue atendido utilizando el mismo. 
+Si el paciente tiene el turno no nulo, pero a la vez los campos Consulta_Sintomas y Consulta_Enfermedades estan en nulo. Â¿Significa que la persona cancelo el turno?
+No, ese caso representa la solicitud del turno. Podrian considerar que hubo  una cancelaciÃ³n cuando no hay referencia de Consulta_Sintomas y Consulta_Enfermedades para un cierto nÃºmero de turno.
+Bono_Consulta_Fecha_ImpresiÃ³n se refiere a la fecha en que se comprÃ³ el bono utilizado.
+cuando hay un nÃºmero de bono repetido en la maestra, se describen dos situaciones. Una  cuando se realiza la compra del bono y la otra cuando el paciente fue atendido utilizando el mismo. 
 Hay que definir como hacemos el parentezco entre los familiares en la maestra porque no hay algun campo que nos diga que son familiares
 Las 24 hs de cancelacion la podemos tomar como si fuese el dia anterior, no literal 24 hs
 En agenda_horario_disponible ponemos todos los horarios que tengan los doctores (los que carguemos nosotros si es que no estan en la maestra) y si  esta disponible o no.
