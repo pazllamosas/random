@@ -1376,24 +1376,28 @@ CREATE PROCEDURE RANDOM.PEDIDO_DE_TURNO(@Descripcion nvarchar(255), @Apellido nv
 BEGIN
 IF(@Descripcion = '') 
   BEGIN                           
-    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad, E.FechaYHoraTurno, D.HoraDesde, D.HoraHasta
+    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad,	D.HoraDesde, D.HoraHasta
 	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D, RANDOM.TURNO E
-	WHERE @Apellido = A.Apellido AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona AND D.IdProfesional = C.IdProfesional 
---	AND @DiaNumero = D.nombreDia AND D.IdAgenda = E.IdAgenda AND CONVERT(char(10), E.FechaYHoraTurno, 103) = CONVERT(char(10), @Fecha, 103)
+	WHERE @Apellido = A.Apellido AND A.IdPersona = C.IdProfesional AND C.IdEspecialidad = B.IdEspecialidad 
+	AND C.IdProfesional = D.IdProfesional AND @DiaNumero = D.nombreDia
+	--AND D.IdAgenda = E.IdAgenda 
   END
 IF(@Apellido = '') 
   BEGIN
-    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad, E.FechaYHoraTurno, D.HoraDesde, D.HoraHasta
+    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad,	D.HoraDesde, D.HoraHasta
 	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D, RANDOM.TURNO E
 	WHERE @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona AND D.IdProfesional = C.IdProfesional 
---	AND @DiaNumero = D.nombreDia AND D.IdAgenda = E.IdAgenda AND CONVERT(char(10), E.FechaYHoraTurno, 103) = CONVERT(char(10), @Fecha, 103)
+	AND @DiaNumero = D.nombreDia 
+	-- AND D.IdAgenda = E.IdAgenda
   END
 IF(@Descripcion != '' AND @Apellido != '') 
   BEGIN
-    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad, E.FechaYHoraTurno, D.HoraDesde, D.HoraHasta
+    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad,	D.HoraDesde, D.HoraHasta
 	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D, RANDOM.TURNO E
 	WHERE @Apellido = A.Apellido AND @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona 
---	AND D.IdProfesional = C.IdProfesional AND @DiaNumero = D.nombreDia AND D.IdAgenda = E.IdAgenda AND CONVERT(char(10), E.FechaYHoraTurno, 103) = CONVERT(char(10), @Fecha, 103)
+	AND D.IdProfesional = C.IdProfesional AND @DiaNumero = D.nombreDia 
+	--AND D.IdAgenda = E.IdAgenda 
+
   END
 END
 GO
@@ -1412,8 +1416,10 @@ BEGIN
 --a las 18 no atiende, asi que llega hastas 17:30
 
 	SELECT DISTINCT A.Turnos
-	FROM TEMPORALTURNOS A--, RANDOM.AGENDA_HORARIO_DISPONIBLE B, RANDOM.TURNO C
-	--WHERE B.IdProfesional = @IdProfesional AND B.IdAgenda = C.IdAgenda AND C.FechaYHoraTurno != A.Turnos
+	FROM TEMPORALTURNOS A, RANDOM.AGENDA_HORARIO_DISPONIBLE B, RANDOM.TURNO C
+	WHERE B.IdProfesional = @IdProfesional --AND B.IdAgenda = C.IdAgenda AND C.FechaYHoraTurno != A.Turnos
+	--	AND @DiaNumero = D.nombreDia AND datepart(DAY,E.FechaYHoraTurno) = datepart(DAY,@Fecha)
+	--AND datepart(MONTH,E.FechaYHoraTurno) = datepart(MONTH,@Fecha) AND datepart(YEAR,E.FechaYHoraTurno) = datepart(YEAR,@Fecha)
 
 END
 GO

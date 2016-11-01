@@ -82,7 +82,6 @@ namespace ClinicaFrba.Pedir_Turno
                 dgvHorariosDisp.Columns[4].Visible = false;
                 dgvHorariosDisp.Columns[5].Visible = false;
                 dgvHorariosDisp.Columns[6].Visible = false;
-                dgvHorariosDisp.Columns[7].Visible = false;
 
             }
             else
@@ -129,9 +128,9 @@ namespace ClinicaFrba.Pedir_Turno
             if (textAfiliado.Text != "" && afiliadoValidacion != -1)
             {
             DataGridViewRow d = dgvHorariosDisp.SelectedRows[0];
-            string desdeS = d.Cells[6].Value.ToString();
+            string desdeS = d.Cells[5].Value.ToString();
             Int32 desde = Convert.ToInt32(desdeS);
-            string hastaS = d.Cells[7].Value.ToString();
+            string hastaS = d.Cells[6].Value.ToString();
             Int32 hasta = Convert.ToInt32(hastaS);
             string fechaHoraTurnoS = dtpTurnoPosible.Text;
             DateTime fecha = Convert.ToDateTime(fechaHoraTurnoS);
