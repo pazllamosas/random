@@ -80,6 +80,9 @@ IF OBJECT_ID('RANDOM.GET_ID_PERSONA') IS NOT NULL
 DROP FUNCTION RANDOM.GET_ID_PERSONA
 IF OBJECT_ID('RANDOM.EXISTE_AFILIADO') IS NOT NULL
 DROP FUNCTION RANDOM.EXISTE_AFILIADO
+IF OBJECT_ID('RANDOM.ROL_CORRECTO') IS NOT NULL
+DROP FUNCTION RANDOM.ROL_CORRECTO
+
 
 
 
@@ -547,6 +550,16 @@ SELECT DISTINCT M.Medico_Nombre, M.Medico_Apellido, M.Medico_Dni, M.Medico_Direc
 FROM gd_esquema.Maestra M
 join random.USUARIO u on u.Username = cast(M.Medico_Dni as nvarchar)
 
+/*PERSONA*/ -- agregamos los usuarios de prueba
+INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Sexo, IdTipoDocumento, Documento, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario)
+VALUES('admin', 'admin', NULL, 1, 11111111, 'Casa Rosada', 46512356, 'sarasa@sarasa.com',GETDATE(), 1)
+INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Sexo, IdTipoDocumento, Documento, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario)
+VALUES('ana','ana', NULL, 1, 11111111, 'Casa Rosada', 46512356, 'sarasa@sarasa.com',GETDATE(), 1)
+INSERT INTO RANDOM.PERSONA( Nombre, Apellido, Sexo, IdTipoDocumento, Documento, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario)
+VALUES('maria','maria', NULL, 1, 11111111, 'Casa Rosada', 46512356, 'sarasa@sarasa.com',GETDATE(), 1)
+INSERT INTO RANDOM.PERSONA( Nombre, Apellido, Sexo, IdTipoDocumento, Documento, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario)
+VALUES('jose','jose', NULL, 1, 11111111, 'Casa Rosada', 46512356, 'sarasa@sarasa.com',GETDATE(), 1)
+
 /*inserto los roles de los ususarios afiliados y medicos*/
 INSERT INTO RANDOM.USUARIO_POR_ROL(IdUsuario,IdRol)
 SELECT distinct u.IdUsuario, 2
@@ -708,6 +721,21 @@ WHERE M.Bono_Consulta_Numero = B.ConsultaNumero
 ---------------FUNCIONES-----------
 
 /* USUARIO */
+
+GO
+	CREATE FUNCTION RANDOM.ROL_CORRECTO(@USUARIO VARCHAR(255), @ROL VARCHAR(255))
+	RETURNS int
+	AS
+	BEGIN
+		DECLARE @CANTIDAD INT
+		SELECT @CANTIDAD = COUNT (UR.IdUsuario) FROM RANDOM.USUARIO_POR_ROL UR
+		JOIN RANDOM.USUARIO U ON U.Username = @USUARIO
+		JOIN RANDOM.PERSONA P ON P.IdUsuario = U.IdUsuario
+		JOIN RANDOM.ROL R ON R.Descripcion = @ROL
+		WHERE UR.IdUsuario = P.IdUsuario AND UR.IdRol = R.IdRol
+		RETURN @CANTIDAD
+	END
+GO
 
 GO
 	CREATE FUNCTION RANDOM.EXISTE_USUARIO(@USUARIO VARCHAR(255)) 
@@ -1746,4 +1774,6 @@ Todos los ID manejemoslo en INT, y los string NVARCHAR porque acepta unicode
 Hacer todas las validaciones en c#
 BAJA AFILIADO: se decidio dar de baja los afiliados de a uno. Es decir qe aunqe el afiliado principal se da de baja, los demas afiliados siguen activos. BAJA INDIVIDUAL
 en la estrategia aclarar los comentarios que psue en la creacion de la tablas
+
+hay que crear en la tabla personas los usuarios qde prueba que se creen de ahora en mas, los 4 del inicio ya estan
 */

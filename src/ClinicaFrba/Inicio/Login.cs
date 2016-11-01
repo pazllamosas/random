@@ -46,14 +46,17 @@ namespace ClinicaFrba.Inicio
                 if (usuarioValido(usuario))
                 {
                     if (passwordValida(usuario, password))
-                    {
-                        loginCorrecto(usuario);
+                        if (rolValido(usuario, cmbRol.Text))
+                        {
+                            {
+                                loginCorrecto(usuario);
 
-                        this.Hide();
-                        FormProvider.MainMenu.Show();
-                        //habilitar lo siguiente cuando se termine de hacer lo de los menues, con que rol entra cada uno y eso.
-                        //FormProvider.MainMenu.habilitarFuncionalidades(cmbRol.Text);
-                    }
+                                this.Hide();
+                                FormProvider.MainMenu.Show();
+                                //habilitar lo siguiente cuando se termine de hacer lo de los menues, con que rol entra cada uno y eso.
+                                //FormProvider.MainMenu.habilitarFuncionalidades(cmbRol.Text);
+                            }
+                        }
                 }
             }
             else
@@ -62,6 +65,26 @@ namespace ClinicaFrba.Inicio
             }
         }
 
+        public Boolean rolValido(string usuario, string rol)
+        {
+            string query = "SELECT RANDOM.ROL_CORRECTO ('" + usuario + "' , '" + rol + "') AS id";
+
+            SqlDataReader reader = Conexion.ejecutarQuery(query);
+            reader.Read();
+            int respuesta = int.Parse(reader["id"].ToString());
+            reader.Close();
+
+            if (respuesta >= 1)
+            {
+
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("El rol es invalido", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+        }
 
         public Boolean usuarioValido(string usuario)
         {
@@ -136,31 +159,6 @@ namespace ClinicaFrba.Inicio
             {
                 btnIngresar.Enabled = false;
             }
-
-            /*
-            // REVISAR CUBI, no me anda ROles, no me trae las cosas creo
-            // traigo los roles que posee una parsona para que se vean en el combo de roles en login
-            string nombreUsuario = txtUsuario.Text;//fijarse que capaz van comillas dobles en la variable del query
-            SqlDataReader reader = Conexion.ejecutarQuery("select r.Descripcion AS Descripcion from random.USUARIO_POR_ROL ur join random.USUARIO u on u.Username = " + nombreUsuario + " join random.ROL r on r.IdRol = ur.IdRol where u.IdUsuario = ur.IdUsuario");
-            // hago while para agregar al combo lo que me devuelve la query
-            //string rol
-            System.Object[] ItemObject = new System.Object[3];
-            if (Roles.HasRows)
-            {
-                for (int i = 0; Roles.HasRows; i++)
-                {
-                    ItemObject[i] = Roles[i].ToString();
-                }
-                cmbRol.Items.AddRange(ItemObject);
-            }*/
-
-            //otra manera
-            /*string rol;
-            for (int i = 1; Roles.HasRows; i++)
-            {
-                rol = Roles[i].ToString();
-                cmbRol.Items.Add.rol;
-            }*/
 
         }
 
