@@ -335,8 +335,7 @@ CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
 	IdProfesional int,
 	HoraDesde nvarchar(255),
 	HoraHasta nvarchar(255),
-	nombreDia nvarchar (255),
-	IdEspecialidad int,
+	nombreDia nvarchar (255)
 )
 
 CREATE TABLE RANDOM.TURNO(
@@ -391,7 +390,6 @@ ALTER TABLE RANDOM.COMPRA_BONO ADD FOREIGN KEY (IdAfiliado) REFERENCES RANDOM.AF
 ALTER TABLE RANDOM.BONO ADD FOREIGN KEY (IdCompra) REFERENCES RANDOM.COMPRA_BONO
 ALTER TABLE RANDOM.BONO ADD FOREIGN KEY (IdPlan) REFERENCES RANDOM.PlANES
 ALTER TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE ADD FOREIGN KEY (IdProfesional) REFERENCES RANDOM.PROFESIONAL
-ALTER TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE ADD FOREIGN KEY (IdEspecialidad) REFERENCES RANDOM.ESPECIALIDAD
 ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdAgenda) REFERENCES RANDOM.AGENDA_HORARIO_DISPONIBLE
 ALTER TABLE RANDOM.RESULTADO_TURNO ADD FOREIGN KEY (IdBono) REFERENCES RANDOM.BONO
 ALTER TABLE RANDOM.RESULTADO_TURNO ADD FOREIGN KEY (IdTurno) REFERENCES RANDOM.TURNO
@@ -672,12 +670,11 @@ WHERE joinBonoCompra.IdCompra = RANDOM.COMPRA_BONO.IdCompra
 
 /*AGENDA_HORARIO_DISPONIBLE*/
 insert INTO RANDOM.AGENDA_HORARIO_DISPONIBLE 
-SELECT DISTINCT P.IdPersona,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Bono_Consulta_Fecha_Impresion) AS 'DIA DE SEMANA' , EP.IdEspecialidad
+SELECT DISTINCT P.IdPersona,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Bono_Consulta_Fecha_Impresion) AS 'DIA DE SEMANA' 
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Medico_Dni = P.Documento
-JOIN RANDOM.ESPECIALIDAD_POR_PROFESIONAL EP ON  P.IdPersona = EP.IdProfesional
 where M.Bono_Consulta_Fecha_Impresion IS NOT NULL
-group by P.IdPersona, EP.IdEspecialidad, DATepart(weekday, M.Bono_Consulta_Fecha_Impresion)
+group by P.IdPersona, DATepart(weekday, M.Bono_Consulta_Fecha_Impresion)
 
 
 /*TURNO*/
@@ -1495,6 +1492,7 @@ IF(@Descripcion != '' AND @Apellido != '')
 END
 GO
 
+/* ya no existe mas isespecialidad en agenda, buscar por persona y fecha
 GO 
 CREATE PROCEDURE RANDOM.TRAER_TURNOS_MEDICO(@IdMedico INT, @IdEspecialidad INT, @FechaHoy DATETIME) AS
 BEGIN
@@ -1503,6 +1501,7 @@ BEGIN
 	WHERE @IdMedico = B.IdProfesional AND @IdEspecialidad = B.IdEspecialidad AND A.IdAgenda = B.IdAgenda  AND CONVERT(char(10), @FechaHoy, 103) = CONVERT(char(10), A.FechaYHoraTurno, 103)
 END
 GO
+*/
 
 GO
 CREATE FUNCTION RANDOM.BONOS_DISPONIBLES(@IdAfiliado int)
@@ -1548,7 +1547,7 @@ END
 GO
 
 -------------------------------TOP 5------------------------------
-
+/*
 GO
 CREATE PROCEDURE RANDOM.top5EspecialidadesConMasCancelacionesDeTurno (@fechaFrom datetime, @fechaTo datetime)
 AS BEGIN
@@ -1562,9 +1561,9 @@ group by E.Descripcion
 order by 2 desc
 END
 GO
-
+*/
 ---------------------
-
+/* SACAR EL ID PROFESEIONAL DEPEDNDIENDO LA PERSONA Y LA FECHA
 GO
 CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom datetime, @fechaTo datetime, @IdPlan int)
 AS BEGIN
@@ -1580,9 +1579,9 @@ group by P.IdProfesional
 order by 2 desc
 END
 GO
-
+*/
 ---------------------
-
+/* SACAR EL ID PROFESEIONAL DEPEDNDIENDO LA PERSONA Y LA FECHA
 GO
 CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fechaFrom datetime, @fechaTo datetime, @numeroPlan varchar(50), @nombreEspecialidad varchar(50))
 AS BEGIN
@@ -1601,7 +1600,7 @@ group by P.IdProfesional
 order by 2 asc
 END
 GO
-
+*/
 
 ---------------------
 
@@ -1658,6 +1657,7 @@ order by 2 desc
 */
 
 ---------------------
+/* SACAR EL ID PROFESEIONAL DEPEDNDIENDO LA PERSONA Y LA FECHA
 GO
 CREATE PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas(@fechaFrom datetime, @fechaTo datetime)
 AS BEGIN
@@ -1672,7 +1672,7 @@ group by E.Descripcion
 order by 2 desc
 END
 GO
-
+*/
 ---------------DATOS PARA ESTRATEGIA-----------------
 
 /*
