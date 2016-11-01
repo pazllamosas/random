@@ -137,8 +137,6 @@ IF OBJECT_ID('RANDOM.COMPRA_DE_BONO') IS NOT NULL
 DROP PROCEDURE RANDOM.COMPRA_DE_BONO
 IF OBJECT_ID('RANDOM.CALCULO_MONTO') IS NOT NULL
 DROP FUNCTION RANDOM.CALCULO_MONTO
-IF OBJECT_ID('TEMPORALTURNOS') IS NOT NULL
-DROP TABLE TEMPORALTURNOS
 
 --10 pedido de turno
 IF OBJECT_ID('RANDOM.PEDIDO_DE_TURNO') IS NOT NULL
@@ -367,9 +365,6 @@ CREATE TABLE RANDOM.TIPO_CANCELACION(
 	IdTipoCancelacion int PRIMARY KEY IDENTITY(1,1),
 	Descripcion nvarchar(255)
 )
-
-CREATE TABLE TEMPORALTURNOS(
-Turnos DATETIME)
 
 --FOREIGN KEY 
 
@@ -1401,8 +1396,13 @@ GO
 
 CREATE PROCEDURE RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES(@Desde DATETIME, @Hasta DATETIME, @IdProfesional INT) AS
 BEGIN
+   IF OBJECT_ID('TEMPORALTURNOS') IS NOT NULL
+   DROP TABLE TEMPORALTURNOS --sino borrara la tabla cuando invoco, siempre me qeda con datos viejos & si atendia de 10 a 18, aunque el nuevo atienda de 12, sigue contado desde 10
+
+   CREATE TABLE TEMPORALTURNOS(
+   Turnos DATETIME)
                      
-    DECLARE @X DATETIME = @Desde
+   DECLARE @X DATETIME = @Desde
 
 	WHILE(datepart(hour,@Hasta) != datepart(hour,@X))
 	BEGIN
@@ -1492,16 +1492,16 @@ IF(@Descripcion != '' AND @Apellido != '')
 END
 GO
 
-/* ya no existe mas isespecialidad en agenda, buscar por persona y fecha
 GO 
 CREATE PROCEDURE RANDOM.TRAER_TURNOS_MEDICO(@IdMedico INT, @IdEspecialidad INT, @FechaHoy DATETIME) AS
 BEGIN
     SELECT DISTINCT A.IdAfiliado, A.FechaYHoraTurno
-	FROM RANDOM.TURNO A, RANDOM.AGENDA_HORARIO_DISPONIBLE B
-	WHERE @IdMedico = B.IdProfesional AND @IdEspecialidad = B.IdEspecialidad AND A.IdAgenda = B.IdAgenda  AND CONVERT(char(10), @FechaHoy, 103) = CONVERT(char(10), A.FechaYHoraTurno, 103)
+	FROM RANDOM.TURNO A, RANDOM.AGENDA_HORARIO_DISPONIBLE B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C
+	WHERE @IdMedico = B.IdProfesional AND B.IdProfesional = C.IdEspecialidad AND @IdEspecialidad = C.IdEspecialidad AND A.IdAgenda = B.IdAgenda 
+	 AND CONVERT(char(10), @FechaHoy, 103) = CONVERT(char(10), A.FechaYHoraTurno, 103)
 END
-GO
-*/
+GO 
+
 
 GO
 CREATE FUNCTION RANDOM.BONOS_DISPONIBLES(@IdAfiliado int)
