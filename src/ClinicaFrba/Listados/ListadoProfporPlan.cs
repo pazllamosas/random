@@ -62,12 +62,13 @@ namespace ClinicaFrba.Listados
                 List<string> lista = new List<string>();
                 lista.Add("@fechaFrom");
                 lista.Add("@fechaTo");
+                lista.Add("@IdPlan");
 
                 switch (cmbPlan.SelectedIndex)
                 {
                     case 0:
                         DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
-                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), "1");
+                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), 1);
                         if (dt == null)
                         {
                             MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -80,7 +81,7 @@ namespace ClinicaFrba.Listados
                         break;
                     case 1:
                         DataTable dt1 = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
-                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), "5");
+                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), 5);
                         if (dt1 == null)
                         {
                             MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -93,7 +94,7 @@ namespace ClinicaFrba.Listados
                         break;
                     case 2:
                         DataTable dt2 = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
-                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), "3");
+                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), 3);
                         if (dt2 == null)
                         {
                             MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -106,7 +107,7 @@ namespace ClinicaFrba.Listados
                         break;
                     case 3:
                         DataTable dt3 = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
-                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), "4");
+                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), 4);
                         if (dt3 == null)
                         {
                             MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -119,7 +120,7 @@ namespace ClinicaFrba.Listados
                         break;
                     case 4:
                         DataTable dt4 = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
-                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), "2");
+                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), 2);
                         if (dt4 == null)
                         {
                             MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

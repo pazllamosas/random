@@ -344,7 +344,8 @@ CREATE TABLE RANDOM.TURNO(
 	IdAgenda int,
 	IdAfiliado int,
 	FechaYHoraTurno datetime, --es la fecha y hora en la que se HACE el turno
-	Habilitado bit DEFAULT 1
+	Habilitado bit DEFAULT 1,
+	IdEspecialidad int
 )
 
 
@@ -396,6 +397,7 @@ ALTER TABLE RANDOM.CANCELACION ADD FOREIGN KEY (IdTurno) REFERENCES RANDOM.TURNO
 ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (IdTipoDocumento) REFERENCES RANDOM.TIPOS_DOCUMENTOS
 ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (IdUsuario) REFERENCES RANDOM.Usuario
 ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdAfiliado) REFERENCES RANDOM.AFILIADO
+ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdEspecialidad) REFERENCES RANDOM.ESPECIALIDAD
 
 -- CREATE INDIXES
 
@@ -686,8 +688,8 @@ group by P.IdPersona, DATepart(weekday, M.Bono_Consulta_Fecha_Impresion)
 
 
 /*TURNO*/
-INSERT INTO RANDOM.TURNO (IdTurno, IdAgenda, FechaYHoraTurno, IdAfiliado)
-SELECT DISTINCT M.Turno_Numero, hd.IdAgenda, M.Turno_Fecha, P.IdPersona
+INSERT INTO RANDOM.TURNO (IdTurno, IdAgenda, FechaYHoraTurno, IdAfiliado, IdEspecialidad)
+SELECT DISTINCT M.Turno_Numero, hd.IdAgenda, M.Turno_Fecha, P.IdPersona, E.IdEspecialidad
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON P.Documento = M.Paciente_Dni
 JOIN RANDOM.ESPECIALIDAD E ON E.Codigo = M.Especialidad_Codigo
@@ -1568,7 +1570,7 @@ END
 GO
 
 -------------------------------TOP 5------------------------------
-/*
+
 GO
 CREATE PROCEDURE RANDOM.top5EspecialidadesConMasCancelacionesDeTurno (@fechaFrom datetime, @fechaTo datetime)
 AS BEGIN
@@ -1576,15 +1578,15 @@ select top 5 E.Descripcion AS 'Especialidad', count(C.IdCancelacion) AS 'Cantida
 from RANDOM.CANCELACION C
 JOIN RANDOM.TURNO T ON C.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
-JOIN RANDOM.ESPECIALIDAD E ON HD.IdEspecialidad = E.IdEspecialidad
+JOIN RANDOM.ESPECIALIDAD E ON T.IdEspecialidad = E.IdEspecialidad
 WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
 group by E.Descripcion 
 order by 2 desc
 END
 GO
-*/
+
 ---------------------
-/* SACAR EL ID PROFESEIONAL DEPEDNDIENDO LA PERSONA Y LA FECHA
+
 GO
 CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom datetime, @fechaTo datetime, @IdPlan int)
 AS BEGIN
@@ -1593,16 +1595,16 @@ from RANDOM.RESULTADO_TURNO RT
 JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
-JOIN RANDOM.PROFESIONAL P ON HD.IdEspecialidad = P.IdProfesional
+JOIN RANDOM.PROFESIONAL P ON T.IdEspecialidad = P.IdProfesional
 WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
 AND @IdPlan = B.IdPlan
 group by P.IdProfesional
 order by 2 desc
 END
 GO
-*/
+
 ---------------------
-/* SACAR EL ID PROFESEIONAL DEPEDNDIENDO LA PERSONA Y LA FECHA
+
 GO
 CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fechaFrom datetime, @fechaTo datetime, @numeroPlan varchar(50), @nombreEspecialidad varchar(50))
 AS BEGIN
@@ -1611,9 +1613,9 @@ from RANDOM.RESULTADO_TURNO RT
 JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
-JOIN RANDOM.PROFESIONAL P ON HD.IdEspecialidad = P.IdProfesional
+JOIN RANDOM.PROFESIONAL P ON HD.IdProfesional = P.IdProfesional
 JOIN RANDOM.PLANES PL ON PL.IdPlan = B.IdPlan
-JOIN RANDOM.ESPECIALIDAD E ON E.IdEspecialidad = HD.IdEspecialidad
+JOIN RANDOM.ESPECIALIDAD E ON E.IdEspecialidad = T.IdEspecialidad
 WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
 AND E.Descripcion = @nombreEspecialidad
 AND PL.Abono = @numeroPlan
@@ -1621,7 +1623,7 @@ group by P.IdProfesional
 order by 2 asc
 END
 GO
-*/
+
 
 ---------------------
 
@@ -1678,7 +1680,7 @@ order by 2 desc
 */
 
 ---------------------
-/* SACAR EL ID PROFESEIONAL DEPEDNDIENDO LA PERSONA Y LA FECHA
+
 GO
 CREATE PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas(@fechaFrom datetime, @fechaTo datetime)
 AS BEGIN
@@ -1687,13 +1689,13 @@ from RANDOM.RESULTADO_TURNO RT
 JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
-JOIN RANDOM.ESPECIALIDAD E ON HD.IdEspecialidad = E.IdEspecialidad
+JOIN RANDOM.ESPECIALIDAD E ON T.IdEspecialidad = E.IdEspecialidad
 WHERE T.FechaYHoraTurno between  @fechaFrom and @fechaTo
 group by E.Descripcion 
 order by 2 desc
 END
 GO
-*/
+
 ---------------DATOS PARA ESTRATEGIA-----------------
 
 /*
