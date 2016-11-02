@@ -57,6 +57,9 @@ namespace ClinicaFrba.Pedir_Turno
 
             this.cmbEspecialidad.SelectedIndex = -1;
             this.cmbProfesional.SelectedIndex = -1;
+            string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
+            DateTime fechaHoy = Convert.ToDateTime(fecha);
+            dtpTurnoPosible.Value = fechaHoy;
         }
 
         private void dtpTurnoPosible_ValueChanged(object sender, EventArgs e)
@@ -127,6 +130,10 @@ namespace ClinicaFrba.Pedir_Turno
 
             if (textAfiliado.Text != "" && afiliadoValidacion != -1)
             {
+            string fechaHoraTurnoSssss = dtpTurnoPosible.Text;
+            DateTime fechaHora = Convert.ToDateTime(fechaHoraTurnoSssss);
+            String dia = dayOfWeek(fechaHora);
+            Int32 DiaNumero = numeroDiaSemana(dia);
             DataGridViewRow d = dgvHorariosDisp.SelectedRows[0];
             string desdeS = d.Cells[5].Value.ToString();
             Int32 desde = Convert.ToInt32(desdeS);
@@ -138,7 +145,9 @@ namespace ClinicaFrba.Pedir_Turno
             DateTime HoraHasta = new DateTime(fecha.Year, fecha.Month, fecha.Day, hasta, 0, 0);
             string IdProfesionalS = d.Cells[2].Value.ToString();
             Int32 IdProfesional = Convert.ToInt32(IdProfesionalS);
-            FormProvider.Turno.dataGridView1.DataSource = Conexion.obtenerTablaProcedure("RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES", Conexion.generarArgumentos("@Desde", "@Hasta", "@IdProfesional"), HoraDesde, HoraHasta, IdProfesional);
+            string IdEspecialidadS = d.Cells[4].Value.ToString();
+            Int32 IdEspecialidad = Convert.ToInt32(IdEspecialidadS);
+            FormProvider.Turno.dataGridView1.DataSource = Conexion.obtenerTablaProcedure("RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES", Conexion.generarArgumentos("@Desde", "@Hasta", "@IdProfesional", "@Dia", "IdEspecialidad"), HoraDesde, HoraHasta, IdProfesional, DiaNumero, IdEspecialidad);
             string Apellido = d.Cells[0].Value.ToString();
             FormProvider.Turno.textProfesional.Text = Apellido;
             string Especialidad = d.Cells[3].Value.ToString();

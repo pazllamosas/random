@@ -30,6 +30,7 @@ namespace ClinicaFrba.Compra_Bono
             Int32 montoTotal = calculoMontoTotal(afiliado, cantidadBonos);
 
             if (montoTotal != -1)
+
             {
             bool resultado = Conexion.executeProcedure("RANDOM.COMPRA_DE_BONO", Conexion.generarArgumentos("@IdAfiliado", "@Cantidad", "@MontoTotal"), afiliado, cantidadBonos, montoTotal);
             if (resultado)
@@ -97,17 +98,24 @@ namespace ClinicaFrba.Compra_Bono
             {
                 MessageBox.Show("No existe el afiliado");
             }
-            
         }
-
-        private Int32 calculoMontoTotal(Int32 afiliado, Int32 cantidadBonos)
-        {
-            string query = "SELECT RANDOM.CALCULO_MONTO ('" + afiliado + "', '" + cantidadBonos + "' ) AS id";
+            
+  
+        private Int32 calculoMontoTotal(Int32 afiliado, Int32 cantidadBonos){
+            String query = "SELECT RANDOM.VALIDAR_AFILIADO ('" + afiliado + "') AS id";
             SqlDataReader reader = Conexion.ejecutarQuery(query);
             reader.Read();
-            Int32 montoTotal = int.Parse(reader["id"].ToString());
+            Int32 afiliadoValidacion = int.Parse(reader["id"].ToString());
             reader.Close();
-            return montoTotal;
+            if (afiliadoValidacion != -1){
+                string query2 = "SELECT RANDOM.CALCULO_MONTO ('" + afiliado + "', '" + cantidadBonos + "' ) AS id2";
+                SqlDataReader reader2 = Conexion.ejecutarQuery(query2);
+                reader2.Read();
+                Int32 montoTotal = int.Parse(reader2["id2"].ToString());
+                reader2.Close();
+                return montoTotal;
+            }
+            else { return -1; }
         }
 
     }

@@ -45,6 +45,7 @@
             this.dgvTurnoProfesional.Name = "dgvTurnoProfesional";
             this.dgvTurnoProfesional.Size = new System.Drawing.Size(602, 221);
             this.dgvTurnoProfesional.TabIndex = 0;
+            this.dgvTurnoProfesional.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTurnoProfesional_CellContentClick_1);
             // 
             // btnVolver
             // 

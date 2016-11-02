@@ -142,6 +142,7 @@
             this.dgvLlegada.Name = "dgvLlegada";
             this.dgvLlegada.Size = new System.Drawing.Size(647, 171);
             this.dgvLlegada.TabIndex = 16;
+            this.dgvLlegada.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLlegada_CellContentClick);
             // 
             // RegistroLlegada
             // 

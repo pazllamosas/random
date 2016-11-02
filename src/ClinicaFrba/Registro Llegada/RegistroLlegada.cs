@@ -30,7 +30,6 @@ namespace ClinicaFrba.Registro_Llegada
             string descripcion = cmbEspecialidad.Text;
             dgvLlegada.DataSource = Conexion.obtenerTablaProcedure("RANDOM.BUSCAR_MEDICO", Conexion.generarArgumentos("@Descripcion", "@Apellido"), descripcion, Apellido);
             dgvLlegada.Columns[2].Visible = false;
-            dgvLlegada.Columns[4].Visible = false;
         }
 
         private void cmbProfesional_SelectedIndexChanged(object sender, EventArgs e)
@@ -48,11 +47,9 @@ namespace ClinicaFrba.Registro_Llegada
             DataGridViewRow d = dgvLlegada.SelectedRows[0];
             string IdMedicoS = d.Cells[2].Value.ToString();
             Int32 IdMedico = Convert.ToInt32(IdMedicoS);
-            string IdEspecialidadS = d.Cells[4].Value.ToString();
-            Int32 IdEspecialidad = Convert.ToInt32(IdEspecialidadS);
             string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
             DateTime fechaHoy = Convert.ToDateTime(fecha);
-            FormProvider.TurnoProf.dgvTurnoProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_TURNOS_MEDICO", Conexion.generarArgumentos("@IdMedico", "@IdEspecialidad", "@FechaHoy"), IdMedico, IdEspecialidad, fechaHoy);
+            FormProvider.TurnoProf.dgvTurnoProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_TURNOS_MEDICO", Conexion.generarArgumentos("@IdMedico", "@FechaHoy"), IdMedico, fechaHoy);
             FormProvider.TurnoProf.Show();
             this.Hide();
         }

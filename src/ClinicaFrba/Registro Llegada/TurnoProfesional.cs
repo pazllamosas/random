@@ -30,27 +30,26 @@ namespace ClinicaFrba.Registro_Llegada
         {
             DataGridViewRow d = dgvTurnoProfesional.SelectedRows[0];
             
-            string afiliadoS = d.Cells[0].Value.ToString();
+            string afiliadoS = d.Cells[1].Value.ToString();
             Int32 afiliado = Convert.ToInt32(afiliadoS);
             
-            string fechaHoraTurnoS = d.Cells[1].Value.ToString();
+            string fechaHoraTurnoS = d.Cells[0].Value.ToString();
             DateTime fechaHoraTurno = Convert.ToDateTime(fechaHoraTurnoS);
 
             string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
             DateTime fechaHoy = Convert.ToDateTime(fecha);
 
-            string query = "SELECT RANDOM.BONOS_DISPONIBLES ('" + afiliado + "') AS id";
+   /*         string query = "SELECT RANDOM.BONOS_DISPONIBLES ('" + afiliado + "') AS id";
             SqlDataReader reader = Conexion.ejecutarQuery(query);
             reader.Read();
             Int32 CantidadDisponibleBonos = int.Parse(reader["id"].ToString());
             txtBonos.Text = Convert.ToString(CantidadDisponibleBonos);
-            reader.Close();
+            reader.Close();*/
 
-            int comparacion = DateTime.Compare(fechaHoy, fechaHoraTurno);
-
-            if (CantidadDisponibleBonos > 0)
-            {
-                if (comparacion <= 0) //probar!!
+  //          if (CantidadDisponibleBonos > 0)
+          
+  //       {
+            if ((fechaHoraTurno.Hour < fechaHoy.Hour) || ((fechaHoraTurno.Hour == fechaHoy.Hour) && (fechaHoraTurno.Minute >= fechaHoy.Minute)))
                 {
                 bool resultado = Conexion.executeProcedure("RANDOM.REGISTRO_LLEGADA", Conexion.generarArgumentos("@IdAfiliado"), afiliado);
                 if (resultado)
@@ -63,12 +62,12 @@ namespace ClinicaFrba.Registro_Llegada
                 }}else{
                     MessageBox.Show("El turno esta pasado de hora/fecha");}
             }
-            else
-            {
-                MessageBox.Show("El afiliado no tiene bonos disponibles");
-            }
+     //       else
+     //       {
+      //          MessageBox.Show("El afiliado no tiene bonos disponibles");
+      //      }
             
-        }
+      //  }
 
         public void dgvTurnoProfesional_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -92,6 +91,11 @@ namespace ClinicaFrba.Registro_Llegada
             this.Hide();
             FormProvider.RegistroLlegada.Show();
             //dgvTurnoProfesional.DataSource = null;
+        }
+
+        private void dgvTurnoProfesional_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

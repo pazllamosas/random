@@ -1332,13 +1332,10 @@ GO
  	DECLARE @Raiz INT
  	DECLARE @IdCompra INT
  
- 	SET @IdPlan = (SELECT A.IdPlan FROM RANDOM.AFILIADO A WHERE (CONCAT (A.NumeroAfiliadoRaiz, A.NumeroAfiliadoExt)) = @IdAfiliado)
+ 	SET @IdPlan = (SELECT A.IdPlan FROM RANDOM.AFILIADO A WHERE A.NumeroAfiliadoRaiz = @IdAfiliado)
  	SET @Monto = (SELECT B.MontoConsulta FROM RANDOM.PLANES B WHERE B.IdPlan = @IdPlan)
- 	SET @Estado = (SELECT C.Estado FROM RANDOM.AFILIADO C WHERE (CONCAT (C.NumeroAfiliadoRaiz, C.NumeroAfiliadoExt)) = @IdAfiliado)
- 	SET @Raiz = (SELECT D.NumeroAfiliadoRaiz FROM RANDOM.AFILIADO D WHERE (CONCAT (D.NumeroAfiliadoRaiz, D.NumeroAfiliadoExt)) = @IdAfiliado)
- 
- 	IF(@Estado = 1) --si usuario activo
- 	BEGIN
+ 	SET @Estado = (SELECT C.Estado FROM RANDOM.AFILIADO C WHERE C.NumeroAfiliadoRaiz = @IdAfiliado)
+ 	SET @Raiz = (SELECT D.NumeroAfiliadoRaiz FROM RANDOM.AFILIADO D WHERE D.NumeroAfiliadoRaiz = @IdAfiliado)
  
  	INSERT INTO RANDOM.COMPRA_BONO(IdAfiliado, Fecha, MontoTotal, Cantidad)
  	values(@Raiz, GETDATE(), @MontoTotal, @Cantidad)
@@ -1350,12 +1347,7 @@ GO
  	     values(@IdCompra, 0, @Monto, @IdPlan, GETDATE(), NULL, 1) 
  	     SET @CONTADOR = @CONTADOR + 1 
  	 END
- 
- 	 END
- 	ELSE
- 	BEGIN	
- 	RAISERROR ('El usuario esta dado de baja', -1, -1, 'El usuario esta dado de baja')
- 	END
+
  END
  GO
  
@@ -1363,23 +1355,16 @@ GO
  RETURNS INT
  AS BEGIN
  
-     DECLARE @IdPlan int  
+    DECLARE @IdPlan int  
  	DECLARE @Monto int
  	DECLARE @MontoTotal INT
  	DECLARE @Numero INT
  	DECLARE @Resultado INT
  	
- 	IF (EXISTS (SELECT * FROM RANDOM.AFILIADO WHERE (CONCAT (NumeroAfiliadoRaiz, NumeroAfiliadoExt)) = @IdAfiliado))
- 	   BEGIN
-        SET @IdPlan = (SELECT A.IdPlan FROM RANDOM.AFILIADO A WHERE (CONCAT (A.NumeroAfiliadoRaiz, A.NumeroAfiliadoExt)) = @IdAfiliado)
+       SET @IdPlan = (SELECT A.IdPlan FROM RANDOM.AFILIADO A WHERE A.NumeroAfiliadoRaiz = @IdAfiliado)
  	   SET @Monto = (SELECT P.MontoConsulta FROM RANDOM.PLANES P WHERE P.IdPlan = @IdPlan)
  	   SET @MontoTotal = (@Monto * @Cantidad)
  	   SET @Resultado = @MontoTotal
- 	   END
- 	ELSE
- 	   BEGIN
-    SET @Resultado = -1
- 	   END
  
  	RETURN @Resultado
  END
@@ -1395,7 +1380,6 @@ IF(@Descripcion = '')
 	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D, RANDOM.TURNO E
 	WHERE @Apellido = A.Apellido AND A.IdPersona = C.IdProfesional AND C.IdEspecialidad = B.IdEspecialidad 
 	AND C.IdProfesional = D.IdProfesional AND @DiaNumero = D.nombreDia
-	--AND D.IdAgenda = E.IdAgenda 
   END
 IF(@Apellido = '') 
   BEGIN
@@ -1403,7 +1387,6 @@ IF(@Apellido = '')
 	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D, RANDOM.TURNO E
 	WHERE @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona AND D.IdProfesional = C.IdProfesional 
 	AND @DiaNumero = D.nombreDia 
-	-- AND D.IdAgenda = E.IdAgenda
   END
 IF(@Descripcion != '' AND @Apellido != '') 
   BEGIN
@@ -1411,8 +1394,6 @@ IF(@Descripcion != '' AND @Apellido != '')
 	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D, RANDOM.TURNO E
 	WHERE @Apellido = A.Apellido AND @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona 
 	AND D.IdProfesional = C.IdProfesional AND @DiaNumero = D.nombreDia 
-	--AND D.IdAgenda = E.IdAgenda 
-
   END
 END
 GO
@@ -1461,7 +1442,8 @@ CREATE FUNCTION RANDOM.VALIDAR_AFILIADO(@IdAfiliado int)
  RETURNS INT
  AS BEGIN
     DECLARE @Resultado INT
- 	IF (EXISTS (SELECT * FROM RANDOM.AFILIADO WHERE (CONCAT (NumeroAfiliadoRaiz, NumeroAfiliadoExt)) = @IdAfiliado))
+ 	IF (EXISTS (SELECT * FROM RANDOM.AFILIADO WHERE NumeroAfiliadoRaiz = @IdAfiliado) 
+	AND (SELECT Estado FROM RANDOM.AFILIADO WHERE NumeroAfiliadoRaiz= @IdAfiliado) = 1)
  	   BEGIN
         SET @Resultado = @IdAfiliado
  	   END
@@ -1496,19 +1478,19 @@ CREATE PROCEDURE RANDOM.BUSCAR_MEDICO(@Descripcion nvarchar(255), @Apellido nvar
 BEGIN
 IF(@Descripcion = '')
   BEGIN
-    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad
+    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion
 	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C
 	WHERE @Apellido = A.Apellido AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona
   END
 IF(@Apellido = '')
   BEGIN
-    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad
+    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion
 	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C
 	WHERE @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona
   END
 IF(@Descripcion != '' AND @Apellido != '')
   BEGIN
-    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad
+    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion
 	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C
 	WHERE @Apellido = A.Apellido AND @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona
   END
@@ -1516,15 +1498,17 @@ END
 GO
 
 GO 
-CREATE PROCEDURE RANDOM.TRAER_TURNOS_MEDICO(@IdMedico INT, @IdEspecialidad INT, @FechaHoy DATETIME) AS
+CREATE PROCEDURE RANDOM.TRAER_TURNOS_MEDICO(@IdMedico INT, @FechaHoy DATETIME) AS
 BEGIN
-    SELECT DISTINCT A.IdAfiliado, A.FechaYHoraTurno
+    SELECT DISTINCT A.FechaYHoraTurno, A.IdAfiliado
 	FROM RANDOM.TURNO A, RANDOM.AGENDA_HORARIO_DISPONIBLE B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C
-	WHERE @IdMedico = B.IdProfesional AND B.IdProfesional = C.IdEspecialidad AND @IdEspecialidad = C.IdEspecialidad AND A.IdAgenda = B.IdAgenda 
-	 AND CONVERT(char(10), @FechaHoy, 103) = CONVERT(char(10), A.FechaYHoraTurno, 103)
+	WHERE @IdMedico = B.IdProfesional AND B.IdAgenda = A.IdAgenda  
+	--AND @IdEspecialidad = A.IdEspecialidad 
+	AND datepart(YEAR,A.FechaYHoraTurno) = datepart(YEAR,@FechaHoy) AND datepart(MONTH,A.FechaYHoraTurno) = datepart(MONTH,@FechaHoy)
+	AND datepart(DAY,A.FechaYHoraTurno) = datepart(DAY,@FechaHoy)
+	ORDER BY A.FechaYHoraTurno ASC
 END
 GO 
-
 
 GO
 CREATE FUNCTION RANDOM.BONOS_DISPONIBLES(@IdAfiliado int)
@@ -1532,35 +1516,37 @@ RETURNS INT
 AS BEGIN
       DECLARE @IdCompra INT
 	  DECLARE @ConsultaNumero INT
-	  DECLARE @CantidadDisponibleBonos INT
 
 	  SET @IdCompra = (SELECT A.IdCompra FROM RANDOM.COMPRA_BONO A WHERE A.IdAfiliado= @IdAfiliado)
 	  SET @ConsultaNumero = (SELECT COUNT(B.ConsultaNumero) FROM RANDOM.BONO B WHERE B.IdCompra = @IdCompra AND B.ConsultaNumero = NULL)
    	
-      RETURN @CantidadDisponibleBonos
+      RETURN @ConsultaNumero
 END
 GO
 
 GO
 CREATE PROCEDURE RANDOM.REGISTRO_LLEGADA(@IdAfiliado int) AS
 BEGIN
-
 	   DECLARE @IdCompra INT
 	   DECLARE @IdBono INT
 	   DECLARE @PlanActual INT
 
 	   SET @IdCompra = (SELECT A.IdCompra FROM RANDOM.COMPRA_BONO A WHERE A.IdAfiliado = @IdAfiliado)
 	   SET @IdBono = (SELECT B.IdBono FROM RANDOM.BONO B WHERE B.IdCompra = @IdCompra)
-	   SET @PlanActual = (SELECT C.IdPlan FROM RANDOM.AFILIADO C WHERE (CONCAT(C.NumeroAfiliadoRaiz, C.NumeroAfiliadoExt)) = @IdAfiliado)
+	   SET @PlanActual = (SELECT C.IdPlan FROM RANDOM.AFILIADO C WHERE C.IdPersona = @IdAfiliado)
 
 	   IF((SELECT D.IdPlan FROM RANDOM.BONO D WHERE @IdBono = D.IdBono) = @PlanActual) --chequeo plan actual con el que compro el bono
 	     BEGIN
-	       IF((SELECT E.Usado FROM RANDOM.BONO E WHERE @IdBono = E.IdBono) != 1) --como varios idBono para un idCompra, chequear!!!
+	       IF((SELECT E.Usado FROM RANDOM.BONO E WHERE @IdBono = E.IdBono) != 1) --ES DIFERENTE A UNO PERO NO HAY BONOS SIN USAR
 	         BEGIN
 	           UPDATE RANDOM.BONO
-	           SET Usado= 1, ConsultaNumero = SCOPE_IDENTITY() + 1 --NOSE CHEQUEAR CUANDO ESTE MIGRADO!!!!!!!!!!!! capaz ni hace falta ponerlo por identity
+	           SET Usado= 1--, ConsultaNumero = SCOPE_IDENTITY() + 1 
 	           WHERE IdBono = @IdBono
 	         END
+		   ELSE
+		   BEGIN
+		   RAISERROR ('No hay bonos sin usar', -10, -10, 'El bono fue comprado con otro plan')
+		   END
 	     END
 	   ELSE 
 	     BEGIN
