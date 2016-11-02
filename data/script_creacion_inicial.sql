@@ -1398,7 +1398,7 @@ IF(@Descripcion != '' AND @Apellido != '')
 END
 GO
 
-CREATE PROCEDURE RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES(@Desde DATETIME, @Hasta DATETIME, @IdProfesional INT, @Dia INT, @IdEspecialidad INT) AS
+CREATE PROCEDURE RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES(@Desde DATETIME, @Hasta DATETIME, @IdProfesional INT, @Dia INT) AS
 BEGIN
    IF OBJECT_ID('TEMPORALTURNOS') IS NOT NULL
    DROP TABLE TEMPORALTURNOS --sino borrara la tabla cuando invoco, siempre me qeda con datos viejos & si atendia de 10 a 18, aunque el nuevo atienda de 12, sigue contado desde 10
