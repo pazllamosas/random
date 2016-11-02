@@ -93,11 +93,11 @@ namespace ClinicaFrba.Pedir_Turno
             }
         }
 
-        private String dayOfWeek(DateTime? date)
+        public String dayOfWeek(DateTime? date)
         {
             return date.Value.ToString("dddd");
         }
-        private Int32 numeroDiaSemana(string dia)
+        public Int32 numeroDiaSemana(string dia)
         {
             if (dia == "domingo") { return 1; }
             if (dia == "lunes") { return 2; }

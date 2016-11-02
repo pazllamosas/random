@@ -1,7 +1,6 @@
 USE [GD2C2016]
 GO
 
-
 -- DROP TABLAS 
 
 IF OBJECT_ID('RANDOM.CANCELACION') IS NOT NULL
@@ -1434,15 +1433,19 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE RANDOM.RESERVO_FECHA_TURNO(@FechaElegida datetime, @Afiliado INT, @Profesional int) AS
+CREATE PROCEDURE RANDOM.RESERVO_FECHA_TURNO(@FechaElegida datetime, @Afiliado INT, @Profesional int, @Dia INT, @Especialidad varchar(255)) AS
 BEGIN
-     
+    
 	  DECLARE @IdAgenda INT
+	  DECLARE @IdEspecialidad INT
+	  DECLARE @IdTurno INT
 
-	  SET @IdAgenda = (SELECT A.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @Profesional)
-
-	  INSERT INTO RANDOM.TURNO(IdAgenda, FechaYHoraTurno, Habilitado)
-      VALUES (@IdAgenda, @FechaElegida, 0) 
+	  SET @IdAgenda = (SELECT A.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @Profesional AND A.nombreDia = @Dia)
+	  SET @IdEspecialidad = (SELECT B.IdEspecialidad FROM RANDOM.ESPECIALIDAD B WHERE B.Descripcion = @Especialidad)
+	  SET @IdTurno = SCOPE_IDENTITY() 
+	  
+	  INSERT INTO RANDOM.TURNO(IdTurno, IdAgenda, IdAfiliado, FechaYHoraTurno, Habilitado, IdEspecialidad)
+      VALUES (100, @IdAgenda, @Afiliado, @FechaElegida, 1, @IdEspecialidad) 
 
 END
 GO 

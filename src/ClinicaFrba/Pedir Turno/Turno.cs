@@ -106,20 +106,25 @@ namespace ClinicaFrba.Pedir_Turno
         {
             this.Hide();
             FormProvider.ProfesionalTurno.Show();
+            confirmarTurno.Visible = false;
         }
 
         private void confirmarTurno_Click(object sender, EventArgs e)
         {
             DataGridViewRow d = dataGridView1.SelectedRows[0];
             string turnoS = d.Cells[0].Value.ToString();
-            string fechaHoraTurnoS = textFecha.Text;
-            DateTime fechaHoraTurnoElegida = Convert.ToDateTime(fechaHoraTurnoS);
+            DateTime fechaHoraTurnoElegida = Convert.ToDateTime(turnoS);
             string afiliadoS = textAfiliado.Text;
             Int32 afiliado = Convert.ToInt32(afiliadoS);
             DataGridViewRow d2 = FormProvider.ProfesionalTurno.dgvHorariosDisp.SelectedRows[0];
             string ProfesionalS = d2.Cells[2].Value.ToString();
             Int32 profesional = Convert.ToInt32(ProfesionalS);
-            bool resultado = Conexion.executeProcedure("RANDOM.RESERVO_FECHA_TURNO", Conexion.generarArgumentos("@FechaElegida", "@Afiliado", "@Profesional"), fechaHoraTurnoElegida, afiliado, profesional);
+            string especialidad = textEspecialidad.Text;
+
+            String diaS = FormProvider.ProfesionalTurno.dayOfWeek(fechaHoraTurnoElegida);
+            Int32 Dia = FormProvider.ProfesionalTurno.numeroDiaSemana(diaS);
+
+            bool resultado = Conexion.executeProcedure("RANDOM.RESERVO_FECHA_TURNO", Conexion.generarArgumentos("@FechaElegida", "@Afiliado", "@Profesional", "@Dia", "@especialidad"), fechaHoraTurnoElegida, afiliado, profesional, Dia, especialidad);
             if (resultado)
             {
                 MessageBox.Show("Turno asignado con exito");
