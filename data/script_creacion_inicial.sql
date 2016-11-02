@@ -1398,29 +1398,38 @@ IF(@Descripcion != '' AND @Apellido != '')
 END
 GO
 
-CREATE PROCEDURE RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES(@Desde DATETIME, @Hasta DATETIME, @IdProfesional INT) AS
+CREATE PROCEDURE RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES(@Desde DATETIME, @Hasta DATETIME, @IdProfesional INT, @Dia INT, @IdEspecialidad INT) AS
 BEGIN
    IF OBJECT_ID('TEMPORALTURNOS') IS NOT NULL
    DROP TABLE TEMPORALTURNOS --sino borrara la tabla cuando invoco, siempre me qeda con datos viejos & si atendia de 10 a 18, aunque el nuevo atienda de 12, sigue contado desde 10
 
    CREATE TABLE TEMPORALTURNOS(
-   Turnos DATETIME)
+   Turnos DATETIME,
+   DisponibilidadTurno nvarchar(255))
                      
    DECLARE @X DATETIME = @Desde
+   DECLARE @Agenda INT
+
+   SET @Agenda = (SELECT B.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE B WHERE B.IdProfesional = @IdProfesional AND B.nombreDia = @Dia)
 
 	WHILE(datepart(hour,@Hasta) != datepart(hour,@X))
 	BEGIN
-	INSERT INTO TEMPORALTURNOS(Turnos)
-	VALUES(@X)
+	IF( @X = any(SELECT C.FechaYHoraTurno fROM RANDOM.TURNO C WHERE C.IdAgenda = @Agenda))
+	BEGIN
+	INSERT INTO TEMPORALTURNOS(Turnos, DisponibilidadTurno)
+	VALUES(@X, 'Turno Ocupado')
 	SET @X = DATEADD([minute], 30, @X)
 	END
---a las 18 no atiende, asi que llega hastas 17:30
+	ELSE
+	BEGIN
+	INSERT INTO TEMPORALTURNOS(Turnos, DisponibilidadTurno)
+	VALUES(@X, '')
+	SET @X = DATEADD([minute], 30, @X)
+	END
+	END
 
-	SELECT DISTINCT A.Turnos
-	FROM TEMPORALTURNOS A, RANDOM.AGENDA_HORARIO_DISPONIBLE B, RANDOM.TURNO C
-	WHERE B.IdProfesional = @IdProfesional --AND B.IdAgenda = C.IdAgenda AND C.FechaYHoraTurno != A.Turnos
-	--	AND @DiaNumero = D.nombreDia AND datepart(DAY,E.FechaYHoraTurno) = datepart(DAY,@Fecha)
-	--AND datepart(MONTH,E.FechaYHoraTurno) = datepart(MONTH,@Fecha) AND datepart(YEAR,E.FechaYHoraTurno) = datepart(YEAR,@Fecha)
+	SELECT DISTINCT A.Turnos, A.DisponibilidadTurno
+	FROM TEMPORALTURNOS A
 
 END
 GO

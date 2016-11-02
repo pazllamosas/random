@@ -40,6 +40,7 @@
             this.Fecha = new System.Windows.Forms.Label();
             this.textFecha = new System.Windows.Forms.TextBox();
             this.btnVolver = new System.Windows.Forms.Button();
+            this.confirmarTurno = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -172,11 +173,26 @@
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
+            // confirmarTurno
+            // 
+            this.confirmarTurno.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.confirmarTurno.Image = global::ClinicaFrba.Properties.Resources.select;
+            this.confirmarTurno.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.confirmarTurno.Location = new System.Drawing.Point(282, 527);
+            this.confirmarTurno.Name = "confirmarTurno";
+            this.confirmarTurno.Size = new System.Drawing.Size(229, 62);
+            this.confirmarTurno.TabIndex = 32;
+            this.confirmarTurno.Text = "Confirmar Turno";
+            this.confirmarTurno.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.confirmarTurno.UseVisualStyleBackColor = true;
+            this.confirmarTurno.Click += new System.EventHandler(this.confirmarTurno_Click);
+            // 
             // Turno
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(774, 518);
+            this.ClientSize = new System.Drawing.Size(808, 601);
+            this.Controls.Add(this.confirmarTurno);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.textFecha);
             this.Controls.Add(this.Fecha);
@@ -215,5 +231,6 @@
         private System.Windows.Forms.Label Fecha;
         public System.Windows.Forms.TextBox textFecha;
         private System.Windows.Forms.Button btnVolver;
+        private System.Windows.Forms.Button confirmarTurno;
     }
 }

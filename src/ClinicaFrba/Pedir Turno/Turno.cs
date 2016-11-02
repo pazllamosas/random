@@ -20,26 +20,17 @@ namespace ClinicaFrba.Pedir_Turno
         private void btnSeleccionarTurno_Click(object sender, EventArgs e)
         {
             DataGridViewRow d = dataGridView1.SelectedRows[0];
-            string turnoS = d.Cells[0].Value.ToString();
-            string fechaHoraTurnoS = textFecha.Text;
-            DateTime fechaHoraTurnoElegida = Convert.ToDateTime(fechaHoraTurnoS);
-            string afiliadoS = textAfiliado.Text;
-            Int32 afiliado = Convert.ToInt32(afiliadoS);
-            DataGridViewRow d2 = FormProvider.ProfesionalTurno.dgvHorariosDisp.SelectedRows[0];
-            string ProfesionalS = d2.Cells[2].Value.ToString();
-            Int32 profesional = Convert.ToInt32(ProfesionalS);
-            bool resultado = Conexion.executeProcedure("RANDOM.RESERVO_FECHA_TURNO", Conexion.generarArgumentos("@FechaElegida", "@Afiliado", "@Profesional"), fechaHoraTurnoElegida, afiliado, profesional);
-            if (resultado)
+            string ocupado = d.Cells[1].Value.ToString();
+
+            if (ocupado == "")
             {
-                MessageBox.Show("Turno asignado con exito");
+                MessageBox.Show("Confirme el turno");
+                confirmarTurno.Visible = true;
             }
             else
             {
-                MessageBox.Show("El turno no fue asignado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("El turno esta ocupado, seleccionar un turno disponible", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-
-            this.Hide();
-            FormProvider.MainMenu.Show();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -103,7 +94,7 @@ namespace ClinicaFrba.Pedir_Turno
 
         private void Turno_Load(object sender, EventArgs e)
         {
-
+            confirmarTurno.Visible = false;
         }
 
         private void textFecha_TextChanged(object sender, EventArgs e)
@@ -117,6 +108,33 @@ namespace ClinicaFrba.Pedir_Turno
             FormProvider.ProfesionalTurno.Show();
         }
 
+        private void confirmarTurno_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow d = dataGridView1.SelectedRows[0];
+            string turnoS = d.Cells[0].Value.ToString();
+            string fechaHoraTurnoS = textFecha.Text;
+            DateTime fechaHoraTurnoElegida = Convert.ToDateTime(fechaHoraTurnoS);
+            string afiliadoS = textAfiliado.Text;
+            Int32 afiliado = Convert.ToInt32(afiliadoS);
+            DataGridViewRow d2 = FormProvider.ProfesionalTurno.dgvHorariosDisp.SelectedRows[0];
+            string ProfesionalS = d2.Cells[2].Value.ToString();
+            Int32 profesional = Convert.ToInt32(ProfesionalS);
+            bool resultado = Conexion.executeProcedure("RANDOM.RESERVO_FECHA_TURNO", Conexion.generarArgumentos("@FechaElegida", "@Afiliado", "@Profesional"), fechaHoraTurnoElegida, afiliado, profesional);
+            if (resultado)
+            {
+                MessageBox.Show("Turno asignado con exito");
+            }
+            else
+            {
+                MessageBox.Show("El turno no fue asignado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+            this.Hide();
+            FormProvider.MainMenu.Show();
+        }
+
     }
 
 }
+
+            
