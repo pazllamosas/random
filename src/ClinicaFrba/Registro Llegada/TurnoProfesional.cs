@@ -49,7 +49,7 @@ namespace ClinicaFrba.Registro_Llegada
   //          if (CantidadDisponibleBonos > 0)
           
   //       {
-            if ((fechaHoraTurno.Hour < fechaHoy.Hour) || ((fechaHoraTurno.Hour == fechaHoy.Hour) && (fechaHoraTurno.Minute >= fechaHoy.Minute)))
+            if ((fechaHoraTurno.Hour > fechaHoy.Hour) || ((fechaHoraTurno.Hour == fechaHoy.Hour) && (fechaHoraTurno.Minute >= fechaHoy.Minute)))
                 {
                 bool resultado = Conexion.executeProcedure("RANDOM.REGISTRO_LLEGADA", Conexion.generarArgumentos("@IdAfiliado"), afiliado);
                 if (resultado)
