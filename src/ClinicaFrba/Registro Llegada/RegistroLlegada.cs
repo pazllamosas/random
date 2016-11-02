@@ -28,8 +28,15 @@ namespace ClinicaFrba.Registro_Llegada
         {
             string Apellido = cmbProfesional.Text;
             string descripcion = cmbEspecialidad.Text;
-            dgvLlegada.DataSource = Conexion.obtenerTablaProcedure("RANDOM.BUSCAR_MEDICO", Conexion.generarArgumentos("@Descripcion", "@Apellido"), descripcion, Apellido);
+            string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
+            DateTime fechaHoy = Convert.ToDateTime(fecha);
+            String diaS = FormProvider.ProfesionalTurno.dayOfWeek(fechaHoy);
+            Int32 dia = FormProvider.ProfesionalTurno.numeroDiaSemana(diaS);
+            dgvLlegada.DataSource = Conexion.obtenerTablaProcedure("RANDOM.FILTRAR_MEDICO", Conexion.generarArgumentos("@Descripcion", "@Apellido", "@Fecha", "@DiaNumero"), descripcion, Apellido, fechaHoy, dia);
             dgvLlegada.Columns[2].Visible = false;
+            dgvLlegada.Columns[4].Visible = false;
+            dgvLlegada.Columns[5].Visible = false;
+            dgvLlegada.Columns[6].Visible = false;
         }
 
         private void cmbProfesional_SelectedIndexChanged(object sender, EventArgs e)

@@ -80,7 +80,7 @@ namespace ClinicaFrba.Pedir_Turno
                 string Apellido = cmbProfesional.Text;
                 string descripcion = cmbEspecialidad.Text;
                 Int32 DiaNumero = numeroDiaSemana(dia);
-                dgvHorariosDisp.DataSource = Conexion.obtenerTablaProcedure("RANDOM.PEDIDO_DE_TURNO", Conexion.generarArgumentos("@Descripcion", "@Apellido", "@Fecha", "@DiaNumero"), descripcion, Apellido, fechaHora, DiaNumero);
+                dgvHorariosDisp.DataSource = Conexion.obtenerTablaProcedure("RANDOM.FILTRAR_MEDICO", Conexion.generarArgumentos("@Descripcion", "@Apellido", "@Fecha", "@DiaNumero"), descripcion, Apellido, fechaHora, DiaNumero);
                 dgvHorariosDisp.Columns[2].Visible = false;
                 dgvHorariosDisp.Columns[4].Visible = false;
                 dgvHorariosDisp.Columns[5].Visible = false;
