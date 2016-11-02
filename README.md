@@ -1,6 +1,0 @@
-# random
-CURSO:
-NOMBRE DE GRUPO: Random
-NOMBRE Y LEGAJO:
-	Llamosas Maria Paz  1468078
-EMAIL RESPONSABLE:
