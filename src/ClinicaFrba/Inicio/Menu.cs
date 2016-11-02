@@ -31,14 +31,37 @@ namespace ClinicaFrba.Inicio
                     btnVerProfesional.Visible = true;
                     btnVerAfiliado.Visible = true;
                     btnVerRol.Visible = true;
+                    btnTurno.Visible = true;
+                    btnRegResultado.Visible = false;
+                    btnTop5.Visible = true;
                     break;
                 case "Afiliado":
                     btnTop5.Visible = true;
                     btnTurno.Visible = true;
+                    btnCancelarturno.Visible = false;
+                    btnPlan.Visible = false;
+                    btnCompraBonos.Visible = false;
+                    btnRegLlegada.Visible = false;
+                    btnRegAgenda.Visible = false;
+                    btnVerEspec.Visible = false;
+                    btnVerProfesional.Visible = false;
+                    btnVerAfiliado.Visible = false;
+                    btnVerRol.Visible = false;
+                    btnRegResultado.Visible = false;
                     break;
                 case "Profesional":
                     btnTop5.Visible = true;
                     btnRegResultado.Visible = true;
+                    btnTurno.Visible = false;
+                    btnCancelarturno.Visible = false;
+                    btnPlan.Visible = false;
+                    btnCompraBonos.Visible = false;
+                    btnRegLlegada.Visible = false;
+                    btnRegAgenda.Visible = false;
+                    btnVerEspec.Visible = false;
+                    btnVerProfesional.Visible = false;
+                    btnVerAfiliado.Visible = false;
+                    btnVerRol.Visible = false;
                     break;
             }
         }

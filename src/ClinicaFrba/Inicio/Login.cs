@@ -53,8 +53,7 @@ namespace ClinicaFrba.Inicio
 
                                 this.Hide();
                                 FormProvider.MainMenu.Show();
-                                //habilitar lo siguiente cuando se termine de hacer lo de los menues, con que rol entra cada uno y eso.
-                                //FormProvider.MainMenu.habilitarFuncionalidades(cmbRol.Text);
+                                FormProvider.MainMenu.habilitarFuncionalidadesPorRol(cmbRol.Text);
                             }
                         }
                 }
