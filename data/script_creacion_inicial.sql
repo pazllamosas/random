@@ -340,7 +340,7 @@ CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
 )
 
 CREATE TABLE RANDOM.TURNO(
-	IdTurno int PRIMARY KEY IDENTITY (1,1),
+	IdTurno int PRIMARY KEY,
 	IdAgenda int,
 	IdAfiliado int,
 	FechaYHoraTurno datetime, --es la fecha y hora en la que se HACE el turno
@@ -686,36 +686,29 @@ group by P.IdPersona, DATepart(weekday, M.Bono_Consulta_Fecha_Impresion)
 
 
 /*TURNO*/
-SET IDENTITY_INSERT RANDOM.TURNO ON
-INSERT INTO RANDOM.TURNO (IdTurno, FechaYHoraTurno, IdAfiliado)
-SELECT DISTINCT M.Turno_Numero, M.Turno_Fecha, P.IdPersona
-FROM gd_esquema.Maestra M, RANDOM.PERSONA P
-where M.Turno_Numero IS NOT NULL 
-	AND M.Turno_Fecha IS NOT NULL
-	AND M.Bono_Consulta_Fecha_Impresion IS NOT NULL
-	AND P.Documento = M.Paciente_Dni
-
-
-/*INSERT INTO RANDOM.TURNO (IdTurno, IdAgenda, FechaYHoraTurno, IdAfiliado)
+INSERT INTO RANDOM.TURNO (IdTurno, IdAgenda, FechaYHoraTurno, IdAfiliado)
 SELECT DISTINCT M.Turno_Numero, hd.IdAgenda, M.Turno_Fecha, P.IdPersona
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON P.Documento = M.Paciente_Dni
 JOIN RANDOM.ESPECIALIDAD E ON E.Codigo = M.Especialidad_Codigo
-JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON DATepart(WEEKDAY, M.Turno_Fecha) = HD.nombreDia AND E.IdEspecialidad = HD.IdEspecialidad
-JOIN RANDOM.PROFESIONAL PR ON PR.IdProfesional = HD.IdProfesional
+JOIN RANDOM.ESPECIALIDAD_POR_PROFESIONAL EP ON EP.IdEspecialidad = E.IdEspecialidad 
+JOIN RANDOM.PERSONA PE ON EP.IdProfesional = PE.IdPersona AND PE.Documento = M.Medico_Dni
+JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON DATepart(WEEKDAY, M.Turno_Fecha) = HD.nombreDia AND HD.IdProfesional = EP.IdProfesional
 where M.Turno_Numero IS NOT NULL 
 	AND M.Turno_Fecha IS NOT NULL
-	AND M.Bono_Consulta_Fecha_Impresion IS NOT NULL*/
+	AND M.Bono_Consulta_Fecha_Impresion IS NOT NULL
+	AND M.Consulta_Sintomas IS NOT NULL
+
 
 /*RESULTADO_TURNO*/
 INSERT INTO RANDOM.RESULTADO_TURNO(IdTurno, IdBono, Sintomas, Enfermedades, Fecha)
-SELECT DISTINCT M.Turno_Numero, B.IdBono, M.Consulta_Sintomas, M.Consulta_Enfermedades, M.Bono_Consulta_Fecha_Impresion
-FROM RANDOM.BONO B, gd_esquema.Maestra M
+SELECT DISTINCT T.IdTurno, B.IdBono, M.Consulta_Sintomas, M.Consulta_Enfermedades, M.Bono_Consulta_Fecha_Impresion
+FROM RANDOM.BONO B, gd_esquema.Maestra M, RANDOM.TURNO T
 WHERE M.Bono_Consulta_Numero = B.ConsultaNumero
+	AND T.IdTurno = M.Turno_Numero
 	AND M.Turno_Numero IS NOT NULL
 	AND M.Consulta_Sintomas IS NOT NULL
 	AND M.Consulta_Enfermedades IS NOT NULL
-	SET IDENTITY_INSERT RANDOM.TURNO OFF
 	
 
 ---------------FUNCIONES-----------
