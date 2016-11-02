@@ -125,15 +125,18 @@ namespace ClinicaFrba.Abm_Afiliado
                 Int32 idPlan = planMedico;
                 Int32 cantidadACargo = cantACargoAfiliado;
 
-                Conexion.executeProcedure("RANDOM.CREAR_FAMILIAR",
+               if( Conexion.executeProcedure("RANDOM.CREAR_FAMILIAR",
                     Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC","IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
-                    nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento,idPlan, idEstadoCivil, nroAfiliadoRaiz);
-                if (cmbFamiliar.Text == "Pareja")
-                {
-                    Conexion.executeProcedure("RANDOM.NRO_AFILIADO_CONYUGE",
+                    nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento,idPlan, idEstadoCivil, nroAfiliadoRaiz))
+               
+                 if (cmbFamiliar.Text == "Pareja")
+                    {
+                        Conexion.executeProcedure("RANDOM.NRO_AFILIADO_CONYUGE",
                         Conexion.generarArgumentos("NROAFILIADORAIZ", "DOCUMENTO"),
                         nroAfiliadoRaiz, documento);
                     MessageBox.Show("Conyuge creado");
+                        this.LimpiarCampos();
+                    this.Hide();
                 }
                 else
                 {
@@ -141,6 +144,8 @@ namespace ClinicaFrba.Abm_Afiliado
                         Conexion.generarArgumentos("NROAFILIADORAIZ", "DOCUMENTO", "CANTIDAD_A_CARGO"),
                         nroAfiliadoRaiz, documento, cantidadACargo);
                     MessageBox.Show("Familiar a cargo creado");
+                    this.LimpiarCampos();
+                    this.Hide();
                 }
             }
 
@@ -153,8 +158,7 @@ namespace ClinicaFrba.Abm_Afiliado
             this.txtApellido.Clear();
             this.txtNombre.Clear();
             dtpFechaNac.Checked = false;
-            dtpFechaNac.Format = DateTimePickerFormat.Custom;
-            dtpFechaNac.CustomFormat = " ";
+            dtpFechaNac.Value = DateTime.Today;
             this.txtTelefono.Clear();
             this.txtDomicilio.Clear();
             this.txtMail.Clear();

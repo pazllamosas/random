@@ -50,7 +50,6 @@
             this.lblFamiliar = new System.Windows.Forms.Label();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
-            this.btnAgregarFamiliar = new System.Windows.Forms.Button();
             this.txtNroAf = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
@@ -265,21 +264,6 @@
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
-            // btnAgregarFamiliar
-            // 
-            this.btnAgregarFamiliar.Enabled = false;
-            this.btnAgregarFamiliar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAgregarFamiliar.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnAgregarFamiliar.Image = global::ClinicaFrba.Properties.Resources.add;
-            this.btnAgregarFamiliar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAgregarFamiliar.Location = new System.Drawing.Point(422, 427);
-            this.btnAgregarFamiliar.Name = "btnAgregarFamiliar";
-            this.btnAgregarFamiliar.Size = new System.Drawing.Size(140, 37);
-            this.btnAgregarFamiliar.TabIndex = 52;
-            this.btnAgregarFamiliar.Text = "Agregar Familiar";
-            this.btnAgregarFamiliar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnAgregarFamiliar.UseVisualStyleBackColor = true;
-            // 
             // txtNroAf
             // 
             this.txtNroAf.Location = new System.Drawing.Point(515, 12);
@@ -294,7 +278,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
             this.Controls.Add(this.txtNroAf);
-            this.Controls.Add(this.btnAgregarFamiliar);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.lblFamiliar);
@@ -352,7 +335,6 @@
         private System.Windows.Forms.Label lblFamiliar;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnVolver;
-        private System.Windows.Forms.Button btnAgregarFamiliar;
         private System.Windows.Forms.TextBox txtNroAf;
     }
 }

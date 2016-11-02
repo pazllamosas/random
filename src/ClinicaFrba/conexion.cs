@@ -15,7 +15,7 @@ namespace ClinicaFrba
     class Conexion
     {
 
-
+       
         public static SqlConnection conexionMaestra;
         
 
@@ -185,6 +185,7 @@ namespace ClinicaFrba
 
         public static bool executeProcedure(string procedure, List<string> args, params object[] values)
         {
+            bool errorte;
             try
             {
                 SqlDataReader dr;
@@ -198,13 +199,16 @@ namespace ClinicaFrba
                 }
                 dr = cm.ExecuteReader();
                 dr.Close();
-                return true;
+                errorte = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                return false;
+               // return false;
+                errorte = false;
             }
+
+            return errorte;
         }
 
         //quizas no se use 
