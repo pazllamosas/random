@@ -1614,7 +1614,7 @@ JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.PROFESIONAL P ON HD.IdProfesional = P.IdProfesional
 WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
-AND 1 = B.IdPlan
+AND @IdPlan = B.IdPlan
 group by P.IdProfesional
 order by 2 desc
 END
