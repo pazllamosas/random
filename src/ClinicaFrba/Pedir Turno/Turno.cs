@@ -19,17 +19,26 @@ namespace ClinicaFrba.Pedir_Turno
 
         private void btnSeleccionarTurno_Click(object sender, EventArgs e)
         {
-            DataGridViewRow d = dataGridView1.SelectedRows[0];
-            string ocupado = d.Cells[1].Value.ToString();
-
-            if (ocupado == "")
+            Int32 selectedRowCount = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            if (selectedRowCount == 1)
             {
-                MessageBox.Show("Confirme el turno");
-                confirmarTurno.Visible = true;
+                DataGridViewRow d = dataGridView1.SelectedRows[0];
+                string ocupado = d.Cells[1].Value.ToString();
+
+                if (ocupado == "")
+                {
+                    MessageBox.Show("Confirme el turno");
+                    confirmarTurno.Visible = true;
+                }
+                else
+                {
+                    MessageBox.Show("El turno esta ocupado, seleccionar un turno disponible", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
             else
             {
-                MessageBox.Show("El turno esta ocupado, seleccionar un turno disponible", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Elegir un turno", "Atención", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
+
             }
         }
 
@@ -44,6 +53,7 @@ namespace ClinicaFrba.Pedir_Turno
             DateTime fechaHoy = Convert.ToDateTime(fechaLimpiar);
             FormProvider.ProfesionalTurno.dtpTurnoPosible.Value = fechaHoy;
             FormProvider.ProfesionalTurno.textAfiliado.Text = null;
+            confirmarTurno.Visible = false;
         }
 
 
@@ -114,6 +124,7 @@ namespace ClinicaFrba.Pedir_Turno
             //limpieza - eventos
             this.Hide();
             FormProvider.ProfesionalTurno.Show();
+            confirmarTurno.Visible = false;
          
         }
 
@@ -136,6 +147,7 @@ namespace ClinicaFrba.Pedir_Turno
             if (resultado)
             {
                 MessageBox.Show("Turno asignado con exito");
+                confirmarTurno.Visible = false;
             }
             else
             {

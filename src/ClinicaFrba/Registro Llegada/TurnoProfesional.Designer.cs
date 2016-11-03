@@ -34,6 +34,7 @@
             this.BonosDisponibles = new System.Windows.Forms.DataGridView();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.seleccionarBono = new System.Windows.Forms.Button();
+            this.bonosdisp = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTurnoProfesional)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BonosDisponibles)).BeginInit();
             this.SuspendLayout();
@@ -69,7 +70,7 @@
             this.btnSeleccTurno.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSeleccTurno.Image = global::ClinicaFrba.Properties.Resources.select;
             this.btnSeleccTurno.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSeleccTurno.Location = new System.Drawing.Point(301, 242);
+            this.btnSeleccTurno.Location = new System.Drawing.Point(290, 230);
             this.btnSeleccTurno.Name = "btnSeleccTurno";
             this.btnSeleccTurno.Size = new System.Drawing.Size(160, 33);
             this.btnSeleccTurno.TabIndex = 9;
@@ -120,11 +121,22 @@
             this.seleccionarBono.UseVisualStyleBackColor = true;
             this.seleccionarBono.Click += new System.EventHandler(this.seleccionarBono_Click);
             // 
+            // bonosdisp
+            // 
+            this.bonosdisp.AutoSize = true;
+            this.bonosdisp.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bonosdisp.Location = new System.Drawing.Point(22, 278);
+            this.bonosdisp.Name = "bonosdisp";
+            this.bonosdisp.Size = new System.Drawing.Size(130, 18);
+            this.bonosdisp.TabIndex = 20;
+            this.bonosdisp.Text = "Bonos disponibles";
+            // 
             // TurnoProfesional
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 550);
+            this.Controls.Add(this.bonosdisp);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.seleccionarBono);
             this.Controls.Add(this.BonosDisponibles);
@@ -140,6 +152,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvTurnoProfesional)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BonosDisponibles)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -151,5 +164,6 @@
         public System.Windows.Forms.DataGridView BonosDisponibles;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Button seleccionarBono;
+        private System.Windows.Forms.Label bonosdisp;
     }
 }

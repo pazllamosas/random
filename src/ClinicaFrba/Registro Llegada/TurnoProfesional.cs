@@ -23,6 +23,8 @@ namespace ClinicaFrba.Registro_Llegada
         {
             this.Hide();
             FormProvider.RegistroLlegada.Show();
+            seleccionarBono.Visible = false;
+            BonosDisponibles.DataSource = null;
         }
 
         private void TurnoProfesional_Load(object sender, EventArgs e)
@@ -32,24 +34,33 @@ namespace ClinicaFrba.Registro_Llegada
 
         public void btnSeleccTurno_Click(object sender, EventArgs e)
         {
-            DataGridViewRow d = dgvTurnoProfesional.SelectedRows[0];
-            string fechaHoraTurnoS = d.Cells[0].Value.ToString();
-            DateTime fechaHoraTurno = Convert.ToDateTime(fechaHoraTurnoS);
-
-            string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
-            DateTime fechaHoy = Convert.ToDateTime(fecha);
-
-            if ((fechaHoraTurno.Hour > fechaHoy.Hour) || ((fechaHoraTurno.Hour == fechaHoy.Hour) && (fechaHoraTurno.Minute >= fechaHoy.Minute)))
+            
+            Int32 selectedRowCount = dgvTurnoProfesional.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            if (selectedRowCount == 1)
             {
-                string afiliadoS = d.Cells[1].Value.ToString();
-                Int32 afiliado = Convert.ToInt32(afiliadoS);
+                DataGridViewRow d = dgvTurnoProfesional.SelectedRows[0];
+                string fechaHoraTurnoS = d.Cells[0].Value.ToString();
+                DateTime fechaHoraTurno = Convert.ToDateTime(fechaHoraTurnoS);
 
-                BonosDisponibles.DataSource = Conexion.obtenerTablaProcedure("RANDOM.BONOS_DISPONIBLES", Conexion.generarArgumentos("@IdAfiliado"), afiliado);
-                seleccionarBono.Visible = true;
+                string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
+                DateTime fechaHoy = Convert.ToDateTime(fecha);
+
+                if ((fechaHoraTurno.Hour > fechaHoy.Hour) || ((fechaHoraTurno.Hour == fechaHoy.Hour) && (fechaHoraTurno.Minute >= fechaHoy.Minute)))
+                {
+                    string afiliadoS = d.Cells[1].Value.ToString();
+                    Int32 afiliado = Convert.ToInt32(afiliadoS);
+
+                    BonosDisponibles.DataSource = Conexion.obtenerTablaProcedure("RANDOM.BONOS_DISPONIBLES", Conexion.generarArgumentos("@IdAfiliado"), afiliado);
+                    seleccionarBono.Visible = true;
+                }
+                else
+                {
+                    MessageBox.Show("Esta pasada la hora del turno", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
             else
             {
-                MessageBox.Show("Esta pasada la hora del turno", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Elegir un turno", "Atención", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
             }
         }
 
@@ -83,25 +94,36 @@ namespace ClinicaFrba.Registro_Llegada
 
         private void seleccionarBono_Click(object sender, EventArgs e)
         {
-            DataGridViewRow d = BonosDisponibles.SelectedRows[0];
-            string afiliadoS = d.Cells[0].Value.ToString();
-            Int32 afiliado = Convert.ToInt32(afiliadoS);
-            string IdBonoS = d.Cells[1].Value.ToString();
-            Int32 IdBono = Convert.ToInt32(IdBonoS);
-            bool resultado = Conexion.executeProcedure("RANDOM.REGISTRO_LLEGADA", Conexion.generarArgumentos("@IdAfiliado", "IdBono"), afiliado, IdBono);
-            if (resultado)
+            
+            Int32 selectedRowCount = BonosDisponibles.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            if (selectedRowCount == 1)
             {
-                MessageBox.Show("Se registro la llegada con exito");
+                DataGridViewRow d = BonosDisponibles.SelectedRows[0];
+                string afiliadoS = d.Cells[0].Value.ToString();
+                Int32 afiliado = Convert.ToInt32(afiliadoS);
+                string IdBonoS = d.Cells[1].Value.ToString();
+                Int32 IdBono = Convert.ToInt32(IdBonoS);
+                bool resultado = Conexion.executeProcedure("RANDOM.REGISTRO_LLEGADA", Conexion.generarArgumentos("@IdAfiliado", "IdBono"), afiliado, IdBono);
+                if (resultado)
+                {
+                    MessageBox.Show("Se registro la llegada con exito");
+                }
+                else
+                {
+                    MessageBox.Show("No se registro la llegada", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                this.Hide();
+                FormProvider.RegistroLlegada.Show();
+                FormProvider.RegistroLlegada.dgvLlegada.DataSource = null;
+                FormProvider.RegistroLlegada.cmbProfesional.Text = null;
+                FormProvider.RegistroLlegada.Text = null;
+                BonosDisponibles.DataSource = null;
+                seleccionarBono.Visible = false;
             }
             else
             {
-                MessageBox.Show("No se registro la llegada", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Elegir un bono", "Atención", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
             }
-            this.Hide();
-            FormProvider.RegistroLlegada.Show();
-            FormProvider.RegistroLlegada.dgvLlegada.DataSource = null;
-            FormProvider.RegistroLlegada.cmbProfesional.Text = null;
-            FormProvider.RegistroLlegada.Text = null;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -111,6 +133,7 @@ namespace ClinicaFrba.Registro_Llegada
             FormProvider.RegistroLlegada.dgvLlegada.DataSource = null;
             FormProvider.RegistroLlegada.cmbProfesional.Text = null;
             FormProvider.RegistroLlegada.Text = null;
+            BonosDisponibles.DataSource = null;
         }
     }
 }
