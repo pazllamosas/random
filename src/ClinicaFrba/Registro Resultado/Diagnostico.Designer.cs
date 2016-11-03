@@ -43,7 +43,7 @@
             this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Apellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Dni = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Documento = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FechaYHoraTurno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTurnos)).BeginInit();
             this.SuspendLayout();
@@ -164,7 +164,7 @@
             this.Nombre,
             this.Apellido,
             this.Descripcion,
-            this.Dni,
+            this.Documento,
             this.FechaYHoraTurno});
             this.dgvTurnos.Location = new System.Drawing.Point(42, 118);
             this.dgvTurnos.Name = "dgvTurnos";
@@ -197,11 +197,11 @@
             this.Descripcion.Name = "Descripcion";
             this.Descripcion.ReadOnly = true;
             // 
-            // Dni
+            // Documento
             // 
-            this.Dni.HeaderText = "Número";
-            this.Dni.Name = "Dni";
-            this.Dni.ReadOnly = true;
+            this.Documento.HeaderText = "Número";
+            this.Documento.Name = "Documento";
+            this.Documento.ReadOnly = true;
             // 
             // FechaYHoraTurno
             // 
@@ -254,7 +254,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Nombre;
         private System.Windows.Forms.DataGridViewTextBoxColumn Apellido;
         private System.Windows.Forms.DataGridViewTextBoxColumn Descripcion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Dni;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Documento;
         private System.Windows.Forms.DataGridViewTextBoxColumn FechaYHoraTurno;
     }
 }

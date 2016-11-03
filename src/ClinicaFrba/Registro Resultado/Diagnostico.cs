@@ -20,10 +20,15 @@ namespace ClinicaFrba.Registro_Resultado
             CargarTurnosDelDia(DateTime.Today);
         }
 
+        private void dtpFecha_ValueChanged(object sender, EventArgs e)
+        {
+            CargarTurnosDelDia(dtpFecha.Value.Date);
+        }
+
         public void CargarTurnosDelDia(DateTime turnoFecha)
         {
             dgvTurnos.Rows.Clear();
-            string query = "SELECT T.IdTurno, P.Nombre, P.Apellido, D.Descripcion, P.Dni, T.FechaYHoraTurno ";
+            string query = "SELECT T.IdTurno, P.Nombre, P.Apellido, D.Descripcion, P.Documento, T.FechaYHoraTurno ";
             query = query + "FROM RANDOM.TURNO T, RANDOM.AFILIADO A, RANDOM.PERSONA P, RANDOM.TIPOS_DOCUMENTOS D ";
             query = query + "WHERE A.NumeroAfiliadoRaiz = T.IdAfiliado AND P.IdPersona = A.IdPersona AND ";
             query = query + "D.IdTipoDocumento = P.IdTipoDocumento AND DAY(T.FechaYHoraTurno) = " + turnoFecha.Day.ToString();
@@ -34,14 +39,9 @@ namespace ClinicaFrba.Registro_Resultado
 
             while (reader.Read())
             {
-                dgvTurnos.Rows.Add(reader["IdTurno"], reader["Nombre"], reader["Apellido"], reader["Descripcion"], reader["Dni"], reader["FechaYHoraTurno"]);
+                dgvTurnos.Rows.Add(reader["IdTurno"], reader["Nombre"], reader["Apellido"], reader["Descripcion"], reader["Documento"], reader["FechaYHoraTurno"]);
             }
             reader.Close();
-        }
-
-        private void dtpFecha_ValueChanged(object sender, EventArgs e)
-        {
-            CargarTurnosDelDia(dtpFecha.Value.Date);
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -62,8 +62,7 @@ namespace ClinicaFrba.Registro_Resultado
                         {
                             MessageBox.Show("El diagnóstico finalizó correctamente");
                         }
-                        this.Hide();
-                        FormProvider.MainMenu.Show();
+                        CargarTurnosDelDia(dtpFecha.Value.Date);
                     }
                     else
                     {
@@ -95,8 +94,7 @@ namespace ClinicaFrba.Registro_Resultado
                     {
                         MessageBox.Show("El diagnóstico se finalizó sin concretar");
                     }
-                    this.Hide();
-                    FormProvider.MainMenu.Show();
+                    CargarTurnosDelDia(dtpFecha.Value.Date);
                 }
             }
             else
