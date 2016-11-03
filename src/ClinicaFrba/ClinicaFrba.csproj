@@ -192,10 +192,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Registrar Agenda Medico\RegistrarAgenda.cs">
+    <Compile Include="Pedir Turno\Registrar Agenda Medico\RegistrarAgenda.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Registrar Agenda Medico\RegistrarAgenda.Designer.cs">
+    <Compile Include="Pedir Turno\Registrar Agenda Medico\RegistrarAgenda.Designer.cs">
       <DependentUpon>RegistrarAgenda.cs</DependentUpon>
     </Compile>
     <Compile Include="Registro Llegada\RegistroLlegada.cs">
@@ -281,7 +281,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Registrar Agenda Medico\RegistrarAgenda.resx">
+    <EmbeddedResource Include="Pedir Turno\Registrar Agenda Medico\RegistrarAgenda.resx">
       <DependentUpon>RegistrarAgenda.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Registro Llegada\RegistroLlegada.resx">

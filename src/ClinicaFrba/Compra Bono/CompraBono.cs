@@ -30,19 +30,22 @@ namespace ClinicaFrba.Compra_Bono
             Int32 montoTotal = calculoMontoTotal(afiliado, cantidadBonos);
 
             if (montoTotal != -1)
-
             {
-            bool resultado = Conexion.executeProcedure("RANDOM.COMPRA_DE_BONO", Conexion.generarArgumentos("@IdAfiliado", "@Cantidad", "@MontoTotal"), afiliado, cantidadBonos, montoTotal);
-            if (resultado)
-            {
-                MessageBox.Show("Bono comprado con exito");
+                string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
+                DateTime fechaHoy = Convert.ToDateTime(fecha);
+                bool resultado = Conexion.executeProcedure("RANDOM.COMPRA_DE_BONO", Conexion.generarArgumentos("@IdAfiliado", "@Cantidad", "@MontoTotal", "@Fecha"), afiliado, cantidadBonos, montoTotal, fechaHoy);
+                if (resultado)
+                {
+                    MessageBox.Show("Bono comprado con exito");
+                }
+                else
+                {
+                    MessageBox.Show("El bono no fue comprado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
             else
             {
-                MessageBox.Show("El bono no fue comprado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }}
-            else{
-                 MessageBox.Show("No existe el afiliado");
+                MessageBox.Show("No existe el afiliado");
             }
             txtNroAfiliado.Text = null;
             txtCantBonos.Text = null;
@@ -99,15 +102,17 @@ namespace ClinicaFrba.Compra_Bono
                 MessageBox.Show("No existe el afiliado");
             }
         }
-            
-  
-        private Int32 calculoMontoTotal(Int32 afiliado, Int32 cantidadBonos){
+
+
+        private Int32 calculoMontoTotal(Int32 afiliado, Int32 cantidadBonos)
+        {
             String query = "SELECT RANDOM.VALIDAR_AFILIADO ('" + afiliado + "') AS id";
             SqlDataReader reader = Conexion.ejecutarQuery(query);
             reader.Read();
             Int32 afiliadoValidacion = int.Parse(reader["id"].ToString());
             reader.Close();
-            if (afiliadoValidacion != -1){
+            if (afiliadoValidacion != -1)
+            {
                 string query2 = "SELECT RANDOM.CALCULO_MONTO ('" + afiliado + "', '" + cantidadBonos + "' ) AS id2";
                 SqlDataReader reader2 = Conexion.ejecutarQuery(query2);
                 reader2.Read();

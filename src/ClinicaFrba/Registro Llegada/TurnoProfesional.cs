@@ -23,51 +23,36 @@ namespace ClinicaFrba.Registro_Llegada
         {
             this.Hide();
             FormProvider.RegistroLlegada.Show();
-            //      dgvTurnoProfesional.DataSource = null;
+        }
+
+        private void TurnoProfesional_Load(object sender, EventArgs e)
+        {
+            seleccionarBono.Visible = false;
         }
 
         public void btnSeleccTurno_Click(object sender, EventArgs e)
         {
             DataGridViewRow d = dgvTurnoProfesional.SelectedRows[0];
-            
-            string afiliadoS = d.Cells[1].Value.ToString();
-            Int32 afiliado = Convert.ToInt32(afiliadoS);
-            
             string fechaHoraTurnoS = d.Cells[0].Value.ToString();
             DateTime fechaHoraTurno = Convert.ToDateTime(fechaHoraTurnoS);
 
             string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
             DateTime fechaHoy = Convert.ToDateTime(fecha);
 
-   /*         string query = "SELECT RANDOM.BONOS_DISPONIBLES ('" + afiliado + "') AS id";
-            SqlDataReader reader = Conexion.ejecutarQuery(query);
-            reader.Read();
-            Int32 CantidadDisponibleBonos = int.Parse(reader["id"].ToString());
-            txtBonos.Text = Convert.ToString(CantidadDisponibleBonos);
-            reader.Close();*/
-
-  //          if (CantidadDisponibleBonos > 0)
-          
-  //       {
             if ((fechaHoraTurno.Hour > fechaHoy.Hour) || ((fechaHoraTurno.Hour == fechaHoy.Hour) && (fechaHoraTurno.Minute >= fechaHoy.Minute)))
-                {
-                bool resultado = Conexion.executeProcedure("RANDOM.REGISTRO_LLEGADA", Conexion.generarArgumentos("@IdAfiliado"), afiliado);
-                if (resultado)
-                {
-                    MessageBox.Show("Se registro la llegada con exito");
-                }
-                else
-                {
-                    MessageBox.Show("No se registro la llegada", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }}else{
-                    MessageBox.Show("El turno esta pasado de hora/fecha");}
+            {
+                string afiliadoS = d.Cells[1].Value.ToString();
+                Int32 afiliado = Convert.ToInt32(afiliadoS);
+
+                BonosDisponibles.DataSource = Conexion.obtenerTablaProcedure("RANDOM.BONOS_DISPONIBLES", Conexion.generarArgumentos("@IdAfiliado"), afiliado);
+                seleccionarBono.Visible = true;
             }
-     //       else
-     //       {
-      //          MessageBox.Show("El afiliado no tiene bonos disponibles");
-      //      }
-            
-      //  }
+            else
+            {
+                MessageBox.Show("Esta pasada la hora del turno", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
 
         public void dgvTurnoProfesional_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -84,18 +69,42 @@ namespace ClinicaFrba.Registro_Llegada
 
         }
 
-        
+
 
         private void Volver_Click(object sender, EventArgs e)
         {
             this.Hide();
             FormProvider.RegistroLlegada.Show();
-            //dgvTurnoProfesional.DataSource = null;
         }
 
         private void dgvTurnoProfesional_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void BonosDisponibles_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+
+        }
+
+        private void seleccionarBono_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow d = BonosDisponibles.SelectedRows[0];
+            string afiliadoS = d.Cells[0].Value.ToString();
+            Int32 afiliado = Convert.ToInt32(afiliadoS);
+            string IdBonoS = d.Cells[1].Value.ToString();
+            Int32 IdBono = Convert.ToInt32(IdBonoS);
+            bool resultado = Conexion.executeProcedure("RANDOM.REGISTRO_LLEGADA", Conexion.generarArgumentos("@IdAfiliado", "IdBono"), afiliado, IdBono);
+            if (resultado)
+            {
+                MessageBox.Show("Se registro la llegada con exito");
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("No se registro la llegada", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
     }
 }

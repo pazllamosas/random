@@ -31,19 +31,20 @@
             this.dgvTurnoProfesional = new System.Windows.Forms.DataGridView();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnSeleccTurno = new System.Windows.Forms.Button();
-            this.lblBonos = new System.Windows.Forms.Label();
-            this.txtBonos = new System.Windows.Forms.TextBox();
             this.Volver = new System.Windows.Forms.Button();
+            this.BonosDisponibles = new System.Windows.Forms.DataGridView();
+            this.seleccionarBono = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTurnoProfesional)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BonosDisponibles)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvTurnoProfesional
             // 
             this.dgvTurnoProfesional.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvTurnoProfesional.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTurnoProfesional.Location = new System.Drawing.Point(22, 80);
+            this.dgvTurnoProfesional.Location = new System.Drawing.Point(25, 50);
             this.dgvTurnoProfesional.Name = "dgvTurnoProfesional";
-            this.dgvTurnoProfesional.Size = new System.Drawing.Size(602, 221);
+            this.dgvTurnoProfesional.Size = new System.Drawing.Size(667, 174);
             this.dgvTurnoProfesional.TabIndex = 0;
             this.dgvTurnoProfesional.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTurnoProfesional_CellContentClick_1);
             // 
@@ -66,7 +67,7 @@
             this.btnSeleccTurno.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSeleccTurno.Image = global::ClinicaFrba.Properties.Resources.select;
             this.btnSeleccTurno.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSeleccTurno.Location = new System.Drawing.Point(259, 323);
+            this.btnSeleccTurno.Location = new System.Drawing.Point(301, 242);
             this.btnSeleccTurno.Name = "btnSeleccTurno";
             this.btnSeleccTurno.Size = new System.Drawing.Size(160, 33);
             this.btnSeleccTurno.TabIndex = 9;
@@ -75,32 +76,13 @@
             this.btnSeleccTurno.UseVisualStyleBackColor = true;
             this.btnSeleccTurno.Click += new System.EventHandler(this.btnSeleccTurno_Click);
             // 
-            // lblBonos
-            // 
-            this.lblBonos.AutoSize = true;
-            this.lblBonos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBonos.Location = new System.Drawing.Point(41, 383);
-            this.lblBonos.Name = "lblBonos";
-            this.lblBonos.Size = new System.Drawing.Size(308, 18);
-            this.lblBonos.TabIndex = 10;
-            this.lblBonos.Text = "Cantidad de bonos disponibles para el afiliado";
-            this.lblBonos.Click += new System.EventHandler(this.lblBonos_Click);
-            // 
-            // txtBonos
-            // 
-            this.txtBonos.Location = new System.Drawing.Point(408, 381);
-            this.txtBonos.Name = "txtBonos";
-            this.txtBonos.Size = new System.Drawing.Size(107, 20);
-            this.txtBonos.TabIndex = 14;
-            this.txtBonos.TextChanged += new System.EventHandler(this.txtBonos_TextChanged);
-            // 
             // Volver
             // 
             this.Volver.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Volver.ForeColor = System.Drawing.Color.Blue;
             this.Volver.Image = global::ClinicaFrba.Properties.Resources.back;
             this.Volver.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Volver.Location = new System.Drawing.Point(274, 421);
+            this.Volver.Location = new System.Drawing.Point(83, 495);
             this.Volver.Name = "Volver";
             this.Volver.Size = new System.Drawing.Size(122, 43);
             this.Volver.TabIndex = 15;
@@ -109,14 +91,38 @@
             this.Volver.UseVisualStyleBackColor = true;
             this.Volver.Click += new System.EventHandler(this.Volver_Click);
             // 
+            // BonosDisponibles
+            // 
+            this.BonosDisponibles.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.BonosDisponibles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.BonosDisponibles.Location = new System.Drawing.Point(25, 299);
+            this.BonosDisponibles.Name = "BonosDisponibles";
+            this.BonosDisponibles.Size = new System.Drawing.Size(667, 168);
+            this.BonosDisponibles.TabIndex = 16;
+            this.BonosDisponibles.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BonosDisponibles_CellContentClick);
+            // 
+            // seleccionarBono
+            // 
+            this.seleccionarBono.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.seleccionarBono.Image = global::ClinicaFrba.Properties.Resources.select;
+            this.seleccionarBono.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.seleccionarBono.Location = new System.Drawing.Point(411, 486);
+            this.seleccionarBono.Name = "seleccionarBono";
+            this.seleccionarBono.Size = new System.Drawing.Size(176, 43);
+            this.seleccionarBono.TabIndex = 17;
+            this.seleccionarBono.Text = "Seleccionar Bono";
+            this.seleccionarBono.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.seleccionarBono.UseVisualStyleBackColor = true;
+            this.seleccionarBono.Click += new System.EventHandler(this.seleccionarBono_Click);
+            // 
             // TurnoProfesional
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(663, 476);
+            this.ClientSize = new System.Drawing.Size(746, 550);
+            this.Controls.Add(this.seleccionarBono);
+            this.Controls.Add(this.BonosDisponibles);
             this.Controls.Add(this.Volver);
-            this.Controls.Add(this.txtBonos);
-            this.Controls.Add(this.lblBonos);
             this.Controls.Add(this.btnSeleccTurno);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dgvTurnoProfesional);
@@ -125,9 +131,10 @@
             this.Name = "TurnoProfesional";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Turno";
+            this.Load += new System.EventHandler(this.TurnoProfesional_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTurnoProfesional)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BonosDisponibles)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -136,8 +143,8 @@
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnSeleccTurno;
         public System.Windows.Forms.DataGridView dgvTurnoProfesional;
-        private System.Windows.Forms.Label lblBonos;
-        private System.Windows.Forms.TextBox txtBonos;
         private System.Windows.Forms.Button Volver;
+        public System.Windows.Forms.DataGridView BonosDisponibles;
+        private System.Windows.Forms.Button seleccionarBono;
     }
 }

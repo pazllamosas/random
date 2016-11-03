@@ -236,9 +236,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button btnBuscar;
-        private System.Windows.Forms.DateTimePicker dtpTurnoPosible;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cmbEspecialidad;
         private System.Windows.Forms.Label lblEspecialidad;
         private System.Windows.Forms.Label lblProfesional;
         private System.Windows.Forms.Button btnSeleccionarProfesional;
@@ -247,5 +245,7 @@
         public System.Windows.Forms.ComboBox cmbProfesional;
         public System.Windows.Forms.TextBox textAfiliado;
         private System.Windows.Forms.Button btnVolver;
+        public System.Windows.Forms.ComboBox cmbEspecialidad;
+        public System.Windows.Forms.DateTimePicker dtpTurnoPosible;
     }
 }

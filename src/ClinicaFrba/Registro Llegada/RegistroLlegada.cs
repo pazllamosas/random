@@ -22,6 +22,9 @@ namespace ClinicaFrba.Registro_Llegada
         {
             this.Hide();
             FormProvider.MainMenu.Show();
+            dgvLlegada.DataSource = null;
+            cmbProfesional.Text = null;
+            cmbEspecialidad.Text = null;
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -52,13 +55,16 @@ namespace ClinicaFrba.Registro_Llegada
         private void btnRegLlegada_Click(object sender, EventArgs e)
         {
             DataGridViewRow d = dgvLlegada.SelectedRows[0];
-            string IdMedicoS = d.Cells[2].Value.ToString();
-            Int32 IdMedico = Convert.ToInt32(IdMedicoS);
-            string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
-            DateTime fechaHoy = Convert.ToDateTime(fecha);
-            FormProvider.TurnoProf.dgvTurnoProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_TURNOS_MEDICO", Conexion.generarArgumentos("@IdMedico", "@FechaHoy"), IdMedico, fechaHoy);
-            FormProvider.TurnoProf.Show();
+                string IdMedicoS = d.Cells[2].Value.ToString();
+                Int32 IdMedico = Convert.ToInt32(IdMedicoS);
+                string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
+                DateTime fechaHoy = Convert.ToDateTime(fecha);
+                FormProvider.TurnoProf.dgvTurnoProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_TURNOS_MEDICO", Conexion.generarArgumentos("@IdMedico", "@FechaHoy"), IdMedico, fechaHoy);
+                FormProvider.TurnoProf.Show();
             this.Hide();
+            dgvLlegada.DataSource = null;
+            cmbProfesional.Text = null;
+            cmbEspecialidad.Text = null;
         }
 
 

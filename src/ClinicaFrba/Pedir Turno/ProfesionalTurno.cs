@@ -113,6 +113,9 @@ namespace ClinicaFrba.Pedir_Turno
             dgvHorariosDisp.DataSource = null;
             cmbProfesional.Text = null;
             cmbEspecialidad.Text = null;
+            string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
+            DateTime fechaHoy = Convert.ToDateTime(fecha);
+            dtpTurnoPosible.Value = fechaHoy;
         }
 
         private void dgvHorariosDisp_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -130,43 +133,62 @@ namespace ClinicaFrba.Pedir_Turno
 
             if (textAfiliado.Text != "" && afiliadoValidacion != -1)
             {
-            string fechaHoraTurnoSssss = dtpTurnoPosible.Text;
-            DateTime fechaHora = Convert.ToDateTime(fechaHoraTurnoSssss);
-            String dia = dayOfWeek(fechaHora);
-            Int32 DiaNumero = numeroDiaSemana(dia);
-            DataGridViewRow d = dgvHorariosDisp.SelectedRows[0];
-            string desdeS = d.Cells[5].Value.ToString();
-            Int32 desde = Convert.ToInt32(desdeS);
-            string hastaS = d.Cells[6].Value.ToString();
-            Int32 hasta = Convert.ToInt32(hastaS);
-            string fechaHoraTurnoS = dtpTurnoPosible.Text;
-            DateTime fecha = Convert.ToDateTime(fechaHoraTurnoS);
-            DateTime HoraDesde = new DateTime(fecha.Year, fecha.Month, fecha.Day, desde, 0, 0);
-            DateTime HoraHasta = new DateTime(fecha.Year, fecha.Month, fecha.Day, hasta, 0, 0);
-            string IdProfesionalS = d.Cells[2].Value.ToString();
-            Int32 IdProfesional = Convert.ToInt32(IdProfesionalS);
-            FormProvider.Turno.dataGridView1.DataSource = Conexion.obtenerTablaProcedure("RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES", Conexion.generarArgumentos("@Desde", "@Hasta", "@IdProfesional", "@Dia"), HoraDesde, HoraHasta, IdProfesional, DiaNumero);
-            string Apellido = d.Cells[0].Value.ToString();
-            FormProvider.Turno.textProfesional.Text = Apellido;
-            string Especialidad = d.Cells[3].Value.ToString();
-            FormProvider.Turno.textEspecialidad.Text = Especialidad;
-            string Afiliado = textAfiliado.Text;
-            FormProvider.Turno.textAfiliado.Text = Afiliado;
-            string FechaMando = dtpTurnoPosible.Text;
-            FormProvider.Turno.textFecha.Text = FechaMando;
-            FormProvider.Turno.Show();
-            this.Hide();  
-            }else{
-            MessageBox.Show("Ingrese un afiliado valido");}
+                string fechaHoraTurnoSssss = dtpTurnoPosible.Text;
+                DateTime fechaHora = Convert.ToDateTime(fechaHoraTurnoSssss);
+                String dia = dayOfWeek(fechaHora);
+                Int32 DiaNumero = numeroDiaSemana(dia);
+                DataGridViewRow d = dgvHorariosDisp.SelectedRows[0];
+                string desdeS = d.Cells[5].Value.ToString();
+                Int32 desde = Convert.ToInt32(desdeS);
+                string hastaS = d.Cells[6].Value.ToString();
+                Int32 hasta = Convert.ToInt32(hastaS);
+                string fechaHoraTurnoS = dtpTurnoPosible.Text;
+                DateTime fecha = Convert.ToDateTime(fechaHoraTurnoS);
+                DateTime HoraDesde = new DateTime(fecha.Year, fecha.Month, fecha.Day, desde, 0, 0);
+                DateTime HoraHasta = new DateTime(fecha.Year, fecha.Month, fecha.Day, hasta, 0, 0);
+                string IdProfesionalS = d.Cells[2].Value.ToString();
+                Int32 IdProfesional = Convert.ToInt32(IdProfesionalS);
+                FormProvider.Turno.dataGridView1.DataSource = Conexion.obtenerTablaProcedure("RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES", Conexion.generarArgumentos("@Desde", "@Hasta", "@IdProfesional", "@Dia"), HoraDesde, HoraHasta, IdProfesional, DiaNumero);
+                string Apellido = d.Cells[0].Value.ToString();
+                FormProvider.Turno.textProfesional.Text = Apellido;
+                string Especialidad = d.Cells[3].Value.ToString();
+                FormProvider.Turno.textEspecialidad.Text = Especialidad;
+                string Afiliado = textAfiliado.Text;
+                FormProvider.Turno.textAfiliado.Text = Afiliado;
+                string FechaMando = dtpTurnoPosible.Text;
+                FormProvider.Turno.textFecha.Text = FechaMando;
+                //limpieza - eventos
+                FormProvider.Turno.Show();
+                this.Hide();
+                dgvHorariosDisp.DataSource = null;
+                cmbProfesional.Text = null;
+                cmbEspecialidad.Text = null;
+                string fechaLimpiar = System.Configuration.ConfigurationManager.AppSettings["fecha"];
+                DateTime fechaHoy = Convert.ToDateTime(fechaLimpiar);
+                dtpTurnoPosible.Value = fechaHoy;
+                textAfiliado.Text = null;
+            }
+            else
+            {
+                MessageBox.Show("Ingrese un afiliado valido");
+            }
 
         }
 
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
+            
+            //limpieza - eventos
             this.Hide();
             FormProvider.MainMenu.Show();
+            dgvHorariosDisp.DataSource = null;
+            cmbProfesional.Text = null;
+            cmbEspecialidad.Text = null;
+            string fechaLimpiar = System.Configuration.ConfigurationManager.AppSettings["fecha"];
+            DateTime fechaHoy = Convert.ToDateTime(fechaLimpiar);
+            dtpTurnoPosible.Value = fechaHoy;
+            textAfiliado.Text = null;
         }
-        }
-   }
-
+    }
+}

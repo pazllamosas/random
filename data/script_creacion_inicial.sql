@@ -162,7 +162,9 @@ DROP PROCEDURE RANDOM.GET_MEDICOS
 IF OBJECT_ID('RANDOM.TRAER_TURNOS_MEDICO') IS NOT NULL
 DROP PROCEDURE RANDOM.TRAER_TURNOS_MEDICO
 IF OBJECT_ID('RANDOM.BONOS_DISPONIBLES') IS NOT NULL
-DROP FUNCTION RANDOM.BONOS_DISPONIBLES
+DROP PROCEDURE RANDOM.BONOS_DISPONIBLES
+IF OBJECT_ID('RANDOM.BONOS_DISPONIBLES') IS NOT NULL ---------------------------->PARA BORRAR
+DROP FUNCTION RANDOM.BONOS_DISPONIBLES ------------------------------------------>PARA BORRAR
 IF OBJECT_ID('RANDOM.REGISTRO_LLEGADA') IS NOT NULL
 DROP PROCEDURE RANDOM.REGISTRO_LLEGADA
 
@@ -1377,7 +1379,7 @@ END
 GO
 
 --9 compra de bonos
- CREATE PROCEDURE RANDOM.COMPRA_DE_BONO(@IdAfiliado int, @Cantidad int, @MontoTotal INT) AS
+CREATE PROCEDURE RANDOM.COMPRA_DE_BONO(@IdAfiliado int, @Cantidad int, @MontoTotal INT, @Fecha DATETIME) AS
  BEGIN    
  	DECLARE @IdPlan int  
  	DECLARE @Monto int
@@ -1391,21 +1393,21 @@ GO
  	SET @Estado = (SELECT C.Estado FROM RANDOM.AFILIADO C WHERE C.NumeroAfiliadoRaiz = @IdAfiliado)
  	SET @Raiz = (SELECT D.NumeroAfiliadoRaiz FROM RANDOM.AFILIADO D WHERE D.NumeroAfiliadoRaiz = @IdAfiliado)
  
- 	INSERT INTO RANDOM.COMPRA_BONO(IdAfiliado, Fecha, MontoTotal, Cantidad)
- 	values(@Raiz, GETDATE(), @MontoTotal, @Cantidad)
- 	SET @IdCompra = SCOPE_IDENTITY()
+ 	   INSERT INTO RANDOM.COMPRA_BONO(IdAfiliado, Fecha, MontoTotal, Cantidad)
+ 	   values(@Raiz, @Fecha, @MontoTotal, @Cantidad)
+ 	   SET @IdCompra = SCOPE_IDENTITY()
   
  	 WHILE (@CONTADOR < @Cantidad)
  	 BEGIN
  	     INSERT INTO RANDOM.BONO(IdCompra, Usado, Precio, IdPlan, CompraBonoFecha, ConsultaNumero, Habilitado)
- 	     values(@IdCompra, 0, @Monto, @IdPlan, GETDATE(), NULL, 1) 
+ 	     values(@IdCompra, 0, @Monto, @IdPlan, @Fecha, NULL, 1) 
  	     SET @CONTADOR = @CONTADOR + 1 
  	 END
 
  END
  GO
  
- CREATE FUNCTION RANDOM.CALCULO_MONTO(@IdAfiliado int, @Cantidad int)
+CREATE FUNCTION RANDOM.CALCULO_MONTO(@IdAfiliado int, @Cantidad int)
  RETURNS INT
  AS BEGIN
  
@@ -1521,8 +1523,8 @@ CREATE FUNCTION RANDOM.VALIDAR_AFILIADO(@IdAfiliado int)
  	RETURN @Resultado
  END
 GO
+
 --11 registro de llegada para atencion medica
-GO
 CREATE PROCEDURE RANDOM.GET_ESPECIALIDAD AS
 BEGIN
 	SELECT * FROM RANDOM.ESPECIALIDAD
@@ -1530,7 +1532,6 @@ BEGIN
 END
 GO
 
-GO
 CREATE PROCEDURE RANDOM.GET_MEDICOS AS
 BEGIN
 	SELECT DISTINCT * FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B
@@ -1551,50 +1552,23 @@ BEGIN
 END
 GO 
 
-GO
-CREATE FUNCTION RANDOM.BONOS_DISPONIBLES(@IdAfiliado int)
-RETURNS INT
-AS BEGIN
-      DECLARE @IdCompra INT
-	  DECLARE @ConsultaNumero INT
-
-	  SET @IdCompra = (SELECT A.IdCompra FROM RANDOM.COMPRA_BONO A WHERE A.IdAfiliado= @IdAfiliado)
-	  SET @ConsultaNumero = (SELECT COUNT(B.ConsultaNumero) FROM RANDOM.BONO B WHERE B.IdCompra = @IdCompra AND B.ConsultaNumero = NULL)
-   	
-      RETURN @ConsultaNumero
-END
-GO
-
-GO
-CREATE PROCEDURE RANDOM.REGISTRO_LLEGADA(@IdAfiliado int) AS
+CREATE PROCEDURE RANDOM.BONOS_DISPONIBLES(@IdAfiliado INT) AS 
 BEGIN
-	   DECLARE @IdCompra INT
-	   DECLARE @IdBono INT
-	   DECLARE @PlanActual INT
 
-	   SET @IdCompra = (SELECT A.IdCompra FROM RANDOM.COMPRA_BONO A WHERE A.IdAfiliado = @IdAfiliado)
-	   SET @IdBono = (SELECT B.IdBono FROM RANDOM.BONO B WHERE B.IdCompra = @IdCompra)
-	   SET @PlanActual = (SELECT C.IdPlan FROM RANDOM.AFILIADO C WHERE C.IdPersona = @IdAfiliado)
-
-	   IF((SELECT D.IdPlan FROM RANDOM.BONO D WHERE @IdBono = D.IdBono) = @PlanActual) --chequeo plan actual con el que compro el bono
-	     BEGIN
-	       IF((SELECT E.Usado FROM RANDOM.BONO E WHERE @IdBono = E.IdBono) != 1) --ES DIFERENTE A UNO PERO NO HAY BONOS SIN USAR
-	         BEGIN
-	           UPDATE RANDOM.BONO
-	           SET Usado= 1--, ConsultaNumero = SCOPE_IDENTITY() + 1 
-	           WHERE IdBono = @IdBono
-	         END
-		   ELSE
-		   BEGIN
-		   RAISERROR ('No hay bonos sin usar', -10, -10, 'El bono fue comprado con otro plan')
-		   END
-	     END
-	   ELSE 
-	     BEGIN
-	       RAISERROR ('El bono fue comprado con otro plan', -10, -10, 'El bono fue comprado con otro plan')
-	     END
+	SELECT DISTINCT B.IdAfiliado, A.IdBono
+	FROM RANDOM.BONO A, RANDOM.COMPRA_BONO B, RANDOM.AFILIADO C
+	WHERE @IdAfiliado = B.IdAfiliado AND A.IdCompra = B.IdCompra and A.Usado = 0 AND A.Habilitado = 1
+	AND A.Usado = 0 AND A.IdPlan = C.IdPlan AND C.Estado = 1
 END
 GO
+
+CREATE PROCEDURE RANDOM.REGISTRO_LLEGADA(@IdAfiliado int, @IdBono INT) AS
+BEGIN
+        UPDATE RANDOM.BONO
+        SET Usado= 1, ConsultaNumero = (SELECT MAX(ConsultaNumero) FROM RANDOM.BONO) --NO ES ASI!!! CREO QUE ERA POR PACIENTE QUE SUBIA NOSE SI ES LINEAL
+        WHERE IdBono = @IdBono
+END
+GO 
 
 -------------------------------TOP 5------------------------------
 
