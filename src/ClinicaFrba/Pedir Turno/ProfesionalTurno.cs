@@ -160,13 +160,6 @@ namespace ClinicaFrba.Pedir_Turno
                 //limpieza - eventos
                 FormProvider.Turno.Show();
                 this.Hide();
-                dgvHorariosDisp.DataSource = null;
-                cmbProfesional.Text = null;
-                cmbEspecialidad.Text = null;
-                string fechaLimpiar = System.Configuration.ConfigurationManager.AppSettings["fecha"];
-                DateTime fechaHoy = Convert.ToDateTime(fechaLimpiar);
-                dtpTurnoPosible.Value = fechaHoy;
-                textAfiliado.Text = null;
             }
             else
             {

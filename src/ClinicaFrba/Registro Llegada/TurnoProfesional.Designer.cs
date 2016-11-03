@@ -31,8 +31,8 @@
             this.dgvTurnoProfesional = new System.Windows.Forms.DataGridView();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnSeleccTurno = new System.Windows.Forms.Button();
-            this.Volver = new System.Windows.Forms.Button();
             this.BonosDisponibles = new System.Windows.Forms.DataGridView();
+            this.btnCancelar = new System.Windows.Forms.Button();
             this.seleccionarBono = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTurnoProfesional)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BonosDisponibles)).BeginInit();
@@ -76,21 +76,6 @@
             this.btnSeleccTurno.UseVisualStyleBackColor = true;
             this.btnSeleccTurno.Click += new System.EventHandler(this.btnSeleccTurno_Click);
             // 
-            // Volver
-            // 
-            this.Volver.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Volver.ForeColor = System.Drawing.Color.Blue;
-            this.Volver.Image = global::ClinicaFrba.Properties.Resources.back;
-            this.Volver.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Volver.Location = new System.Drawing.Point(83, 495);
-            this.Volver.Name = "Volver";
-            this.Volver.Size = new System.Drawing.Size(122, 43);
-            this.Volver.TabIndex = 15;
-            this.Volver.Text = "Volver";
-            this.Volver.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Volver.UseVisualStyleBackColor = true;
-            this.Volver.Click += new System.EventHandler(this.Volver_Click);
-            // 
             // BonosDisponibles
             // 
             this.BonosDisponibles.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -101,16 +86,32 @@
             this.BonosDisponibles.TabIndex = 16;
             this.BonosDisponibles.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BonosDisponibles_CellContentClick);
             // 
+            // btnCancelar
+            // 
+            this.btnCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnCancelar.Image = global::ClinicaFrba.Properties.Resources.cancel;
+            this.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCancelar.Location = new System.Drawing.Point(456, 490);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(108, 48);
+            this.btnCancelar.TabIndex = 19;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
             // seleccionarBono
             // 
-            this.seleccionarBono.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.seleccionarBono.Image = global::ClinicaFrba.Properties.Resources.select;
+            this.seleccionarBono.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.seleccionarBono.ForeColor = System.Drawing.Color.Green;
+            this.seleccionarBono.Image = global::ClinicaFrba.Properties.Resources.save;
             this.seleccionarBono.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.seleccionarBono.Location = new System.Drawing.Point(411, 486);
+            this.seleccionarBono.Location = new System.Drawing.Point(156, 490);
             this.seleccionarBono.Name = "seleccionarBono";
-            this.seleccionarBono.Size = new System.Drawing.Size(176, 43);
-            this.seleccionarBono.TabIndex = 17;
-            this.seleccionarBono.Text = "Seleccionar Bono";
+            this.seleccionarBono.Size = new System.Drawing.Size(196, 48);
+            this.seleccionarBono.TabIndex = 18;
+            this.seleccionarBono.Text = "Registrar llegada";
             this.seleccionarBono.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.seleccionarBono.UseVisualStyleBackColor = true;
             this.seleccionarBono.Click += new System.EventHandler(this.seleccionarBono_Click);
@@ -120,9 +121,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 550);
+            this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.seleccionarBono);
             this.Controls.Add(this.BonosDisponibles);
-            this.Controls.Add(this.Volver);
             this.Controls.Add(this.btnSeleccTurno);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dgvTurnoProfesional);
@@ -143,8 +144,8 @@
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnSeleccTurno;
         public System.Windows.Forms.DataGridView dgvTurnoProfesional;
-        private System.Windows.Forms.Button Volver;
         public System.Windows.Forms.DataGridView BonosDisponibles;
+        private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Button seleccionarBono;
     }
 }

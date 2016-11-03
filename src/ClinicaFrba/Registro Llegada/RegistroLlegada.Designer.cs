@@ -176,10 +176,10 @@
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.ComboBox cmbEspecialidad;
         private System.Windows.Forms.Label lblEspecialidad;
-        private System.Windows.Forms.ComboBox cmbProfesional;
         private System.Windows.Forms.Label lblProfesional;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnRegLlegada;
         public System.Windows.Forms.DataGridView dgvLlegada;
+        public System.Windows.Forms.ComboBox cmbProfesional;
     }
 }

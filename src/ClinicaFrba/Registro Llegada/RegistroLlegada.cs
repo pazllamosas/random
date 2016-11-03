@@ -62,9 +62,6 @@ namespace ClinicaFrba.Registro_Llegada
                 FormProvider.TurnoProf.dgvTurnoProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_TURNOS_MEDICO", Conexion.generarArgumentos("@IdMedico", "@FechaHoy"), IdMedico, fechaHoy);
                 FormProvider.TurnoProf.Show();
             this.Hide();
-            dgvLlegada.DataSource = null;
-            cmbProfesional.Text = null;
-            cmbEspecialidad.Text = null;
         }
 
 

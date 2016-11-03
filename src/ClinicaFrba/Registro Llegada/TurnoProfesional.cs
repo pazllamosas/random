@@ -69,14 +69,6 @@ namespace ClinicaFrba.Registro_Llegada
 
         }
 
-
-
-        private void Volver_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            FormProvider.RegistroLlegada.Show();
-        }
-
         private void dgvTurnoProfesional_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -87,6 +79,7 @@ namespace ClinicaFrba.Registro_Llegada
 
 
         }
+    
 
         private void seleccionarBono_Click(object sender, EventArgs e)
         {
@@ -99,12 +92,25 @@ namespace ClinicaFrba.Registro_Llegada
             if (resultado)
             {
                 MessageBox.Show("Se registro la llegada con exito");
-                this.Hide();
             }
             else
             {
                 MessageBox.Show("No se registro la llegada", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
+            this.Hide();
+            FormProvider.RegistroLlegada.Show();
+            FormProvider.RegistroLlegada.dgvLlegada.DataSource = null;
+            FormProvider.RegistroLlegada.cmbProfesional.Text = null;
+            FormProvider.RegistroLlegada.Text = null;
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormProvider.MainMenu.Show();
+            FormProvider.RegistroLlegada.dgvLlegada.DataSource = null;
+            FormProvider.RegistroLlegada.cmbProfesional.Text = null;
+            FormProvider.RegistroLlegada.Text = null;
         }
     }
 }

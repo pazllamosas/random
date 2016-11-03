@@ -37,6 +37,13 @@ namespace ClinicaFrba.Pedir_Turno
         {
             this.Hide();
             FormProvider.MainMenu.Show();
+            FormProvider.ProfesionalTurno.dgvHorariosDisp.DataSource = null;
+            FormProvider.ProfesionalTurno.cmbProfesional.Text = null;
+            FormProvider.ProfesionalTurno.cmbEspecialidad.Text = null;
+            string fechaLimpiar = System.Configuration.ConfigurationManager.AppSettings["fecha"];
+            DateTime fechaHoy = Convert.ToDateTime(fechaLimpiar);
+            FormProvider.ProfesionalTurno.dtpTurnoPosible.Value = fechaHoy;
+            FormProvider.ProfesionalTurno.textAfiliado.Text = null;
         }
 
 
@@ -107,6 +114,7 @@ namespace ClinicaFrba.Pedir_Turno
             //limpieza - eventos
             this.Hide();
             FormProvider.ProfesionalTurno.Show();
+         
         }
 
         private void confirmarTurno_Click(object sender, EventArgs e)
@@ -118,7 +126,6 @@ namespace ClinicaFrba.Pedir_Turno
             Int32 afiliado = Convert.ToInt32(afiliadoS);
             DataGridViewRow d2 = FormProvider.ProfesionalTurno.dgvHorariosDisp.SelectedRows[0];
             string ProfesionalS = d2.Cells[2].Value.ToString();
-            //ME ESTA ROMPIENDO ACA NOSE PORQUE!
             Int32 profesional = Convert.ToInt32(ProfesionalS);
             string especialidad = textEspecialidad.Text;
 
@@ -137,6 +144,14 @@ namespace ClinicaFrba.Pedir_Turno
 
             this.Hide();
             FormProvider.MainMenu.Show();
+            FormProvider.ProfesionalTurno.dgvHorariosDisp.DataSource = null;
+            FormProvider.ProfesionalTurno.cmbProfesional.Text = null;
+            FormProvider.ProfesionalTurno.cmbEspecialidad.Text = null;
+            string fechaLimpiar = System.Configuration.ConfigurationManager.AppSettings["fecha"];
+            DateTime fechaHoy = Convert.ToDateTime(fechaLimpiar);
+            FormProvider.ProfesionalTurno.dtpTurnoPosible.Value = fechaHoy;
+            FormProvider.ProfesionalTurno.textAfiliado.Text = null;
+
         }
 
     }
