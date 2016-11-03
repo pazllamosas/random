@@ -185,7 +185,7 @@ namespace ClinicaFrba
 
         public static bool executeProcedure(string procedure, List<string> args, params object[] values)
         {
-            bool errorte;
+            
             try
             {
                 SqlDataReader dr;
@@ -199,16 +199,16 @@ namespace ClinicaFrba
                 }
                 dr = cm.ExecuteReader();
                 dr.Close();
-                errorte = true;
+                return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-               // return false;
-                errorte = false;
+               return false;
+               
             }
 
-            return errorte;
+            
         }
 
         //quizas no se use 

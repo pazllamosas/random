@@ -20,8 +20,10 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void btnCrearAf_Click(object sender, EventArgs e)
         {
-            FormProvider.Agafiliado.Show();
+            FormProvider.Agafiliado.cargaCombos();
             FormProvider.Agafiliado.LimpiarCampos();
+            FormProvider.Agafiliado.Show();
+            
         }
 
         private void btnEditarAf_Click(object sender, EventArgs e)
@@ -48,6 +50,7 @@ namespace ClinicaFrba.Abm_Afiliado
                 
                 FormProvider.Agafiliado.EditarAfiliado(idAfiliado, apellido, nombre, nroDocumento, telefono, direccion, fechaNacimiento, sexo, tipoDocumento, plan, estadoCivil, cantACargo, mail, nroAfiliadoRaiz, nroAfiliadoExt);
                 FormProvider.Agafiliado.Show();
+                this.txtBusqDni.Clear();
                 this.Hide();
             } else
                 {

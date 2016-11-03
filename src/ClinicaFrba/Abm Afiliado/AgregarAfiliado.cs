@@ -21,20 +21,20 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void AgregarAfiliado_Load(object sender, EventArgs e)
         {
-            cmbPlanMedico.ValueMember = "IdPlan";
-            cmbPlanMedico.DisplayMember = "Nombre";
-            cmbPlanMedico.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_PLANES");
+            //cmbPlanMedico.ValueMember = "IdPlan";
+            //cmbPlanMedico.DisplayMember = "Nombre";
+            //cmbPlanMedico.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_PLANES");
 
-            cmbSexo.Items.Add("Femenino");
-            cmbSexo.Items.Add("Masculino");
+            //cmbSexo.Items.Add("Femenino");
+            //cmbSexo.Items.Add("Masculino");
 
-            cmbEstadoCivil.ValueMember = "IdEstadoCivil";
-            cmbEstadoCivil.DisplayMember = "Descripcion";
-            cmbEstadoCivil.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_ESTADO_CIVIL");
+            //cmbEstadoCivil.ValueMember = "IdEstadoCivil";
+            //cmbEstadoCivil.DisplayMember = "Descripcion";
+            //cmbEstadoCivil.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_ESTADO_CIVIL");
 
-            cmbTipoDoc.ValueMember = "IdTipoDocumento";
-            cmbTipoDoc.DisplayMember = "Descripcion";
-            cmbTipoDoc.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_TIPO_DOCUMENTO");
+            //cmbTipoDoc.ValueMember = "IdTipoDocumento";
+            //cmbTipoDoc.DisplayMember = "Descripcion";
+            //cmbTipoDoc.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_TIPO_DOCUMENTO");
 
            
 
@@ -119,6 +119,7 @@ namespace ClinicaFrba.Abm_Afiliado
 
         public void EditarAfiliado(string idAfiliado, string apellido, string nombre, string nroDocumento, string telefono, string direccion, string fechaNacimiento, string sexo, string tipoDocumento, string plan, string estadoCivil, string cantACargo, string mail, string nroAfiliadoRaiz, string nroAfiliadoExt)
         {
+            this.cargaCombos();
             txtApellido.Text = apellido;
             txtNombre.Text = nombre;
             txtNroDoc.Text = nroDocumento;
@@ -129,7 +130,7 @@ namespace ClinicaFrba.Abm_Afiliado
             txtFamACargo.Text = cantACargo;
             txtMail.Text = mail;
             txtNroAf.Text = nroAfiliadoRaiz;
-            cmbEstadoCivil.SelectedValue = estadoCivil;
+            cmbEstadoCivil.SelectedValue= estadoCivil;
             cmbPlanMedico.SelectedValue = plan;
             cmbTipoDoc.SelectedValue = tipoDocumento;
 
@@ -149,8 +150,37 @@ namespace ClinicaFrba.Abm_Afiliado
             this.cmbSexo.SelectedIndex = -1;
             this.cmbEstadoCivil.SelectedIndex = -1;
             this.cmbTipoDoc.SelectedIndex = -1;
+            this.txtApellido.Clear();
+            this.txtDomicilio.Clear();
+            this.txtFamACargo.Clear();
+            this.txtMail.Clear();
+            this.txtNombre.Clear();
+            this.txtNroAf.Clear();
+            this.txtNroDoc.Clear();
+            this.txtTelefono.Clear();
+            dtpFechaNac.Checked = false;
+            dtpFechaNac.Value = DateTime.Today;
+            
         }
 
+        public void cargaCombos()
+        {
+            cmbPlanMedico.ValueMember = "IdPlan";
+            cmbPlanMedico.DisplayMember = "Nombre";
+            cmbPlanMedico.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_PLANES");
+
+            cmbSexo.Items.Add("Femenino");
+            cmbSexo.Items.Add("Masculino");
+
+            cmbEstadoCivil.ValueMember = "IdEstadoCivil";
+            cmbEstadoCivil.DisplayMember = "Descripcion";
+            cmbEstadoCivil.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_ESTADO_CIVIL");
+
+            cmbTipoDoc.ValueMember = "IdTipoDocumento";
+            cmbTipoDoc.DisplayMember = "Descripcion";
+            cmbTipoDoc.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_TIPO_DOCUMENTO");
+
+        }
 
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -261,8 +291,8 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void cargaDeAgregarFamiliar()
         {
-            string EstadoCivil = cmbEstadoCivil.Text;
-            if (EstadoCivil == "Casado" || EstadoCivil == "Concubinato")
+            Int32 EstadoCivil = cmbEstadoCivil.SelectedIndex;
+            if ((EstadoCivil == 1 || EstadoCivil == 4) || (Convert.ToInt32(txtFamACargo.Text) > 0) )
             {
                 btnAgregarFamiliar.Enabled = true;
             }
@@ -270,14 +300,14 @@ namespace ClinicaFrba.Abm_Afiliado
             {
                 btnAgregarFamiliar.Enabled = false;
             }
-            if (Convert.ToInt32(txtFamACargo.Text) > 0)
-            {
-                btnAgregarFamiliar.Enabled = true;
-            }
-            else
-            {
-                btnAgregarFamiliar.Enabled = false;
-            }
+            //if (Convert.ToInt32(txtFamACargo.Text) > 0)
+            //{
+            //    btnAgregarFamiliar.Enabled = true;
+            //}
+            //else
+            //{
+            //    btnAgregarFamiliar.Enabled = false;
+            //}
 
         }
 
