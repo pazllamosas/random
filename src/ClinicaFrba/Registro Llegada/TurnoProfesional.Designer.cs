@@ -43,6 +43,7 @@
             this.dgvTurnoProfesional.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvTurnoProfesional.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTurnoProfesional.Location = new System.Drawing.Point(25, 50);
+            this.dgvTurnoProfesional.MultiSelect = false;
             this.dgvTurnoProfesional.Name = "dgvTurnoProfesional";
             this.dgvTurnoProfesional.Size = new System.Drawing.Size(667, 174);
             this.dgvTurnoProfesional.TabIndex = 0;
@@ -81,6 +82,7 @@
             this.BonosDisponibles.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.BonosDisponibles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.BonosDisponibles.Location = new System.Drawing.Point(25, 299);
+            this.BonosDisponibles.MultiSelect = false;
             this.BonosDisponibles.Name = "BonosDisponibles";
             this.BonosDisponibles.Size = new System.Drawing.Size(667, 168);
             this.BonosDisponibles.TabIndex = 16;

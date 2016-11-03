@@ -139,6 +139,7 @@
             this.dgvLlegada.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvLlegada.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvLlegada.Location = new System.Drawing.Point(12, 225);
+            this.dgvLlegada.MultiSelect = false;
             this.dgvLlegada.Name = "dgvLlegada";
             this.dgvLlegada.Size = new System.Drawing.Size(647, 171);
             this.dgvLlegada.TabIndex = 16;

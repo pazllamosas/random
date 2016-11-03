@@ -69,6 +69,7 @@
             this.dgvHorariosDisp.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvHorariosDisp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvHorariosDisp.Location = new System.Drawing.Point(32, 262);
+            this.dgvHorariosDisp.MultiSelect = false;
             this.dgvHorariosDisp.Name = "dgvHorariosDisp";
             this.dgvHorariosDisp.Size = new System.Drawing.Size(638, 165);
             this.dgvHorariosDisp.TabIndex = 27;

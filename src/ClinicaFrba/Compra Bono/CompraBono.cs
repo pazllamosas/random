@@ -45,7 +45,7 @@ namespace ClinicaFrba.Compra_Bono
             }
             else
             {
-                MessageBox.Show("No existe el afiliado");
+                MessageBox.Show("No existe el afiliado o esta dado de baja", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             txtNroAfiliado.Text = null;
             txtCantBonos.Text = null;
@@ -99,7 +99,7 @@ namespace ClinicaFrba.Compra_Bono
             }
             else
             {
-                MessageBox.Show("No existe el afiliado");
+                MessageBox.Show("No existe el afiliado o esta dado de baja", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 

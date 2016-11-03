@@ -89,7 +89,7 @@ namespace ClinicaFrba.Pedir_Turno
             }
             else
             {
-                MessageBox.Show("Seleccione una fecha valida, posterior a la fecha de hoy");
+                MessageBox.Show("Seleccione una fecha valida, posterior a la fecha de hoy", "Atención", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
             }
         }
 
@@ -163,7 +163,7 @@ namespace ClinicaFrba.Pedir_Turno
             }
             else
             {
-                MessageBox.Show("Ingrese un afiliado valido");
+                MessageBox.Show("Ingrese un afiliado valido", "Atención", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
             }
 
         }
