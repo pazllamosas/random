@@ -1612,9 +1612,9 @@ from RANDOM.RESULTADO_TURNO RT
 JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
-JOIN RANDOM.PROFESIONAL P ON T.IdEspecialidad = P.IdProfesional
+JOIN RANDOM.PROFESIONAL P ON HD.IdProfesional = P.IdProfesional
 WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
-AND @IdPlan = B.IdPlan
+AND 1 = B.IdPlan
 group by P.IdProfesional
 order by 2 desc
 END
@@ -1703,7 +1703,6 @@ CREATE PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas(@fechaFrom d
 AS BEGIN
 select top 5 E.Descripcion AS 'Especialidad', count(RT.IdResultadoTurno) AS 'Cantidad'
 from RANDOM.RESULTADO_TURNO RT 
-JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.ESPECIALIDAD E ON T.IdEspecialidad = E.IdEspecialidad
