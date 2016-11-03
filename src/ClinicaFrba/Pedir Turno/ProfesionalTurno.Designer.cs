@@ -66,6 +66,7 @@
             // 
             // dgvHorariosDisp
             // 
+            this.dgvHorariosDisp.AllowUserToAddRows = false;
             this.dgvHorariosDisp.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvHorariosDisp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvHorariosDisp.Location = new System.Drawing.Point(32, 262);

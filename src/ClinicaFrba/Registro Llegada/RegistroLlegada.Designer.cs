@@ -136,6 +136,7 @@
             // 
             // dgvLlegada
             // 
+            this.dgvLlegada.AllowUserToAddRows = false;
             this.dgvLlegada.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvLlegada.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvLlegada.Location = new System.Drawing.Point(12, 225);

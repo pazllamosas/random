@@ -54,7 +54,7 @@ namespace ClinicaFrba.Registro_Llegada
 
         private void btnRegLlegada_Click(object sender, EventArgs e)
         {
-            DataGridViewRow d = dgvLlegada.SelectedRows[0];
+                DataGridViewRow d = dgvLlegada.SelectedRows[0];
                 string IdMedicoS = d.Cells[2].Value.ToString();
                 Int32 IdMedico = Convert.ToInt32(IdMedicoS);
                 string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];

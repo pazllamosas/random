@@ -40,6 +40,7 @@
             // 
             // dgvTurnoProfesional
             // 
+            this.dgvTurnoProfesional.AllowUserToAddRows = false;
             this.dgvTurnoProfesional.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvTurnoProfesional.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTurnoProfesional.Location = new System.Drawing.Point(25, 50);
@@ -79,6 +80,7 @@
             // 
             // BonosDisponibles
             // 
+            this.BonosDisponibles.AllowUserToAddRows = false;
             this.BonosDisponibles.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.BonosDisponibles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.BonosDisponibles.Location = new System.Drawing.Point(25, 299);
