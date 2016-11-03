@@ -565,7 +565,7 @@ join random.USUARIO u on u.Username = cast(M.Medico_Dni as nvarchar)
 
 /*PERSONA*/ -- agregamos los usuarios de prueba
 INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Sexo, IdTipoDocumento, Documento, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario)
-VALUES('admin', 'admin', NULL, 1, 11111111, 'Casa Rosada', 46512356, 'sarasa@sarasa.com',GETDATE(), 1)
+VALUES('Administrador', 'General', NULL, 1, 11111111, 'Casa Rosada', 46512356, 'sarasa@sarasa.com',GETDATE(), 1)
 INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Sexo, IdTipoDocumento, Documento, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario)
 VALUES('ana','ana', NULL, 1, 11111111, 'Casa Rosada', 46512356, 'sarasa@sarasa.com',GETDATE(), 1)
 INSERT INTO RANDOM.PERSONA( Nombre, Apellido, Sexo, IdTipoDocumento, Documento, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario)
@@ -1631,7 +1631,7 @@ END
 GO
 
 ---------------------
-
+-- ver como sacar la segunda columna que me aparece, la de cantidad, porque no seria necesaria, pero si para hacer el procedure. o ver si puedo dividir esa cantidad por ddos para que me de las horas y mostrar las horas trabajdas.
 GO
 CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fechaFrom datetime, @fechaTo datetime, @numeroPlan varchar(50), @nombreEspecialidad varchar(50))
 AS BEGIN
