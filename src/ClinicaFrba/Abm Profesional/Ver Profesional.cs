@@ -15,12 +15,8 @@ namespace ClinicaFrba.Abm_Profesional
         public Profesional()
         {
             InitializeComponent();
-            dgvProfesionales.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_MEDICOS");
-            dgvProfesionales.Columns[0].Visible = false;
-            dgvProfesionales.Columns[3].Visible = false;
-            dgvProfesionales.Columns[4].Visible = false;
-            dgvProfesionales.Columns[10].Visible = false;
-            dgvProfesionales.Columns[11].Visible = false;
+            dgvProfesionales.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_PROFESIONALES");
+            
         }
 
         private void btnVolver_Click(object sender, EventArgs e)

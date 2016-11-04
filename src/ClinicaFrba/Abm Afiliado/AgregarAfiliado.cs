@@ -140,6 +140,11 @@ namespace ClinicaFrba.Abm_Afiliado
             editando = true;
             btnGuardar.Text = "Guardar";
 
+            txtNombre.ReadOnly = true;
+            txtApellido.ReadOnly = true;
+            txtNroDoc.ReadOnly = true;
+            dtpFechaNac.Enabled = false;
+
             this.cargaDeAgregarFamiliar();
 
         }
@@ -191,14 +196,16 @@ namespace ClinicaFrba.Abm_Afiliado
 
                 if (validacion())
                 {
+                    if(!existeDni(txtNroDoc.Text))
+                    {
                     Conexion.executeProcedure("RANDOM.CREAR_AFILIADO",
                         Conexion.generarArgumentos("@NOMBRE", "@APELLIDO", "@SEXO", "@IDTIPODOC", "@DOCUMENTO", "@DIRECCION", "@TELEFONO", "@MAIL", "@FECHANAC", "@IDESTADOCIVIL", "@FAMILIARESACARGO", "@IDPLAN"),
                             txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value.ToString("yyyy-MM-dd"), Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));
                     MessageBox.Show("Afiliado Principal Creado");
 
-                   
+                        this.cargaDeAgregarFamiliar();
+                    }
 
-                    this.cargaDeAgregarFamiliar();
                 }
                 else
                 {
@@ -332,6 +339,27 @@ namespace ClinicaFrba.Abm_Afiliado
             {
                 MessageBox.Show("Solo se permiten letras", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtNombre.Clear();
+            }
+        }
+
+        public Boolean existeDni(string dni)
+        {
+            string query = "SELECT RANDOM.EXISTE_AFILIADO ('" + dni + "' ) AS id";
+
+            SqlDataReader reader = Conexion.ejecutarQuery(query);
+            reader.Read();
+            int respuesta = int.Parse(reader["id"].ToString());
+            reader.Close();
+
+            if (respuesta >= 1)
+            {
+                MessageBox.Show("El Dni ya esta ingresado en la base", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return true;
+
+             }
+            else
+            {
+                return false;
             }
         }
 
