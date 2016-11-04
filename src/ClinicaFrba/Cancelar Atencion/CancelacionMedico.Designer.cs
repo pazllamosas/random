@@ -38,14 +38,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dtpDesde = new System.Windows.Forms.DateTimePicker();
             this.dtpHasta = new System.Windows.Forms.DateTimePicker();
-            this.dtpDesdeHora = new System.Windows.Forms.DateTimePicker();
-            this.dtpHastaHora = new System.Windows.Forms.DateTimePicker();
+            this.cmbProfesional = new System.Windows.Forms.ComboBox();
+            this.lblProfesional = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtMotivoCancelacion
             // 
             this.txtMotivoCancelacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMotivoCancelacion.Location = new System.Drawing.Point(282, 328);
+            this.txtMotivoCancelacion.Location = new System.Drawing.Point(243, 317);
             this.txtMotivoCancelacion.Name = "txtMotivoCancelacion";
             this.txtMotivoCancelacion.Size = new System.Drawing.Size(354, 21);
             this.txtMotivoCancelacion.TabIndex = 13;
@@ -54,7 +54,7 @@
             // 
             this.lblMotivoCancelacion.AutoSize = true;
             this.lblMotivoCancelacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMotivoCancelacion.Location = new System.Drawing.Point(111, 329);
+            this.lblMotivoCancelacion.Location = new System.Drawing.Point(72, 318);
             this.lblMotivoCancelacion.Name = "lblMotivoCancelacion";
             this.lblMotivoCancelacion.Size = new System.Drawing.Size(165, 20);
             this.lblMotivoCancelacion.TabIndex = 12;
@@ -64,7 +64,7 @@
             // 
             this.cmbTipoCancelacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbTipoCancelacion.FormattingEnabled = true;
-            this.cmbTipoCancelacion.Location = new System.Drawing.Point(282, 242);
+            this.cmbTipoCancelacion.Location = new System.Drawing.Point(366, 241);
             this.cmbTipoCancelacion.Name = "cmbTipoCancelacion";
             this.cmbTipoCancelacion.Size = new System.Drawing.Size(183, 23);
             this.cmbTipoCancelacion.TabIndex = 11;
@@ -73,7 +73,7 @@
             // 
             this.lblTipoCancelacion.AutoSize = true;
             this.lblTipoCancelacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTipoCancelacion.Location = new System.Drawing.Point(27, 242);
+            this.lblTipoCancelacion.Location = new System.Drawing.Point(111, 241);
             this.lblTipoCancelacion.Name = "lblTipoCancelacion";
             this.lblTipoCancelacion.Size = new System.Drawing.Size(249, 20);
             this.lblTipoCancelacion.TabIndex = 10;
@@ -111,7 +111,7 @@
             // 
             this.lblDesde.AutoSize = true;
             this.lblDesde.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDesde.Location = new System.Drawing.Point(36, 104);
+            this.lblDesde.Location = new System.Drawing.Point(40, 141);
             this.lblDesde.Name = "lblDesde";
             this.lblDesde.Size = new System.Drawing.Size(56, 20);
             this.lblDesde.TabIndex = 16;
@@ -121,7 +121,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(341, 104);
+            this.label1.Location = new System.Drawing.Point(362, 141);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(52, 20);
             this.label1.TabIndex = 17;
@@ -129,42 +129,43 @@
             // 
             // dtpDesde
             // 
-            this.dtpDesde.Location = new System.Drawing.Point(108, 103);
+            this.dtpDesde.Location = new System.Drawing.Point(108, 141);
             this.dtpDesde.Name = "dtpDesde";
             this.dtpDesde.Size = new System.Drawing.Size(208, 20);
             this.dtpDesde.TabIndex = 18;
             // 
             // dtpHasta
             // 
-            this.dtpHasta.Location = new System.Drawing.Point(422, 103);
+            this.dtpHasta.Location = new System.Drawing.Point(422, 141);
             this.dtpHasta.Name = "dtpHasta";
             this.dtpHasta.Size = new System.Drawing.Size(200, 20);
             this.dtpHasta.TabIndex = 19;
             // 
-            // dtpDesdeHora
+            // cmbProfesional
             // 
-            this.dtpDesdeHora.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpDesdeHora.Location = new System.Drawing.Point(159, 129);
-            this.dtpDesdeHora.Name = "dtpDesdeHora";
-            this.dtpDesdeHora.Size = new System.Drawing.Size(107, 20);
-            this.dtpDesdeHora.TabIndex = 20;
-            this.dtpDesdeHora.Value = new System.DateTime(2016, 11, 6, 0, 0, 0, 0);
+            this.cmbProfesional.FormattingEnabled = true;
+            this.cmbProfesional.Location = new System.Drawing.Point(368, 69);
+            this.cmbProfesional.Name = "cmbProfesional";
+            this.cmbProfesional.Size = new System.Drawing.Size(121, 21);
+            this.cmbProfesional.TabIndex = 22;
             // 
-            // dtpHastaHora
+            // lblProfesional
             // 
-            this.dtpHastaHora.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpHastaHora.Location = new System.Drawing.Point(460, 129);
-            this.dtpHastaHora.Name = "dtpHastaHora";
-            this.dtpHastaHora.Size = new System.Drawing.Size(107, 20);
-            this.dtpHastaHora.TabIndex = 21;
+            this.lblProfesional.AutoSize = true;
+            this.lblProfesional.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProfesional.Location = new System.Drawing.Point(175, 69);
+            this.lblProfesional.Name = "lblProfesional";
+            this.lblProfesional.Size = new System.Drawing.Size(185, 20);
+            this.lblProfesional.TabIndex = 21;
+            this.lblProfesional.Text = "Seleccione el profesional";
             // 
             // CancelacionMedico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
-            this.Controls.Add(this.dtpHastaHora);
-            this.Controls.Add(this.dtpDesdeHora);
+            this.Controls.Add(this.cmbProfesional);
+            this.Controls.Add(this.lblProfesional);
             this.Controls.Add(this.dtpHasta);
             this.Controls.Add(this.dtpDesde);
             this.Controls.Add(this.label1);
@@ -197,7 +198,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dtpDesde;
         private System.Windows.Forms.DateTimePicker dtpHasta;
-        private System.Windows.Forms.DateTimePicker dtpDesdeHora;
-        private System.Windows.Forms.DateTimePicker dtpHastaHora;
+        public System.Windows.Forms.ComboBox cmbProfesional;
+        private System.Windows.Forms.Label lblProfesional;
     }
 }

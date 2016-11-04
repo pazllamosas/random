@@ -28,18 +28,17 @@ namespace ClinicaFrba.Registro_Resultado
         public void CargarTurnosDelDia(DateTime turnoFecha)
         {
             dgvTurnos.Rows.Clear();
-            string query = "SELECT T.IdTurno, P.Nombre, P.Apellido, D.Descripcion, P.Documento, T.FechaYHoraTurno ";
-            query = query + "FROM RANDOM.TURNO T, RANDOM.AFILIADO A, RANDOM.PERSONA P, RANDOM.TIPOS_DOCUMENTOS D ";
-            query = query + "WHERE A.NumeroAfiliadoRaiz = T.IdAfiliado AND P.IdPersona = A.IdPersona AND ";
-            query = query + "D.IdTipoDocumento = P.IdTipoDocumento AND DAY(T.FechaYHoraTurno) = " + turnoFecha.Day.ToString();
-            query = query + " AND MONTH(T.FechaYHoraTurno) = " + turnoFecha.Month.ToString() + " AND YEAR(T.FechaYHoraTurno) = ";
-            query = query + turnoFecha.Year.ToString() + " AND T.Habilitado = 0";
+            string query = "SELECT T.IdTurno, CONVERT(nvarchar(18), A.NumeroAfiliadoRaiz) + '-' + A.NumeroAfiliadoExt AS 'Afiliado', P.Nombre, P.Apellido, T.FechaYHoraTurno ";
+            query = query + "FROM RANDOM.TURNO T, RANDOM.AFILIADO A, RANDOM.PERSONA P ";
+            query = query + "WHERE A.NumeroAfiliadoRaiz = T.IdAfiliado AND P.IdPersona = A.IdPersona AND DAY(T.FechaYHoraTurno) = ";
+            query = query + turnoFecha.Day.ToString() + " AND MONTH(T.FechaYHoraTurno) = " + turnoFecha.Month.ToString();
+            query = query + " AND YEAR(T.FechaYHoraTurno) = " + turnoFecha.Year.ToString() + " AND T.Habilitado = 0";
             
             SqlDataReader reader = Conexion.ejecutarQuery(query);
 
             while (reader.Read())
             {
-                dgvTurnos.Rows.Add(reader["IdTurno"], reader["Nombre"], reader["Apellido"], reader["Descripcion"], reader["Documento"], reader["FechaYHoraTurno"]);
+                dgvTurnos.Rows.Add(reader["IdTurno"], reader["Afiliado"], reader["Nombre"], reader["Apellido"], reader["FechaYHoraTurno"]);
             }
             reader.Close();
         }
@@ -101,7 +100,7 @@ namespace ClinicaFrba.Registro_Resultado
             {
                 if (selectedRowCount == 0)
                 {
-                    MessageBox.Show("Debe seleccionar un turno antes");
+                    MessageBox.Show("Primero debe seleccionar un turno");
                 }
                 else
                 {

@@ -32,17 +32,23 @@
             this.cmbTipoCancelacion = new System.Windows.Forms.ComboBox();
             this.lblMotivoCancelacion = new System.Windows.Forms.Label();
             this.txtMotivoCancelacion = new System.Windows.Forms.TextBox();
-            this.clbTurnosCancelar = new System.Windows.Forms.CheckedListBox();
             this.lblTurnosACancelar = new System.Windows.Forms.Label();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnGuardarCanc = new System.Windows.Forms.Button();
+            this.txtAfiliado = new System.Windows.Forms.TextBox();
+            this.lblAfiliado = new System.Windows.Forms.Label();
+            this.btnBuscarTurno = new System.Windows.Forms.Button();
+            this.dgvTurnosCancelar = new System.Windows.Forms.DataGridView();
+            this.IdTurno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FechaYHoraTurno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTurnosCancelar)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTipoCancelacion
             // 
             this.lblTipoCancelacion.AutoSize = true;
             this.lblTipoCancelacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTipoCancelacion.Location = new System.Drawing.Point(56, 260);
+            this.lblTipoCancelacion.Location = new System.Drawing.Point(77, 293);
             this.lblTipoCancelacion.Name = "lblTipoCancelacion";
             this.lblTipoCancelacion.Size = new System.Drawing.Size(249, 20);
             this.lblTipoCancelacion.TabIndex = 0;
@@ -52,7 +58,7 @@
             // 
             this.cmbTipoCancelacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbTipoCancelacion.FormattingEnabled = true;
-            this.cmbTipoCancelacion.Location = new System.Drawing.Point(329, 260);
+            this.cmbTipoCancelacion.Location = new System.Drawing.Point(350, 293);
             this.cmbTipoCancelacion.Name = "cmbTipoCancelacion";
             this.cmbTipoCancelacion.Size = new System.Drawing.Size(172, 23);
             this.cmbTipoCancelacion.TabIndex = 1;
@@ -61,7 +67,7 @@
             // 
             this.lblMotivoCancelacion.AutoSize = true;
             this.lblMotivoCancelacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMotivoCancelacion.Location = new System.Drawing.Point(89, 330);
+            this.lblMotivoCancelacion.Location = new System.Drawing.Point(56, 354);
             this.lblMotivoCancelacion.Name = "lblMotivoCancelacion";
             this.lblMotivoCancelacion.Size = new System.Drawing.Size(165, 20);
             this.lblMotivoCancelacion.TabIndex = 2;
@@ -70,25 +76,16 @@
             // txtMotivoCancelacion
             // 
             this.txtMotivoCancelacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMotivoCancelacion.Location = new System.Drawing.Point(260, 330);
+            this.txtMotivoCancelacion.Location = new System.Drawing.Point(227, 354);
             this.txtMotivoCancelacion.Name = "txtMotivoCancelacion";
             this.txtMotivoCancelacion.Size = new System.Drawing.Size(380, 24);
             this.txtMotivoCancelacion.TabIndex = 3;
-            // 
-            // clbTurnosCancelar
-            // 
-            this.clbTurnosCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.clbTurnosCancelar.FormattingEnabled = true;
-            this.clbTurnosCancelar.Location = new System.Drawing.Point(329, 70);
-            this.clbTurnosCancelar.Name = "clbTurnosCancelar";
-            this.clbTurnosCancelar.Size = new System.Drawing.Size(163, 124);
-            this.clbTurnosCancelar.TabIndex = 4;
             // 
             // lblTurnosACancelar
             // 
             this.lblTurnosACancelar.AutoSize = true;
             this.lblTurnosACancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTurnosACancelar.Location = new System.Drawing.Point(77, 70);
+            this.lblTurnosACancelar.Location = new System.Drawing.Point(108, 130);
             this.lblTurnosACancelar.Name = "lblTurnosACancelar";
             this.lblTurnosACancelar.Size = new System.Drawing.Size(217, 20);
             this.lblTurnosACancelar.TabIndex = 5;
@@ -122,15 +119,78 @@
             this.btnGuardarCanc.UseVisualStyleBackColor = true;
             this.btnGuardarCanc.Click += new System.EventHandler(this.btnGuardarCanc_Click);
             // 
+            // txtAfiliado
+            // 
+            this.txtAfiliado.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtAfiliado.Location = new System.Drawing.Point(280, 59);
+            this.txtAfiliado.Name = "txtAfiliado";
+            this.txtAfiliado.Size = new System.Drawing.Size(163, 24);
+            this.txtAfiliado.TabIndex = 11;
+            // 
+            // lblAfiliado
+            // 
+            this.lblAfiliado.AutoSize = true;
+            this.lblAfiliado.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAfiliado.Location = new System.Drawing.Point(77, 61);
+            this.lblAfiliado.Name = "lblAfiliado";
+            this.lblAfiliado.Size = new System.Drawing.Size(197, 20);
+            this.lblAfiliado.TabIndex = 10;
+            this.lblAfiliado.Text = "Ingrese número de afiliado";
+            // 
+            // btnBuscarTurno
+            // 
+            this.btnBuscarTurno.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBuscarTurno.Image = global::ClinicaFrba.Properties.Resources.busqueda;
+            this.btnBuscarTurno.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnBuscarTurno.Location = new System.Drawing.Point(449, 55);
+            this.btnBuscarTurno.Name = "btnBuscarTurno";
+            this.btnBuscarTurno.Size = new System.Drawing.Size(131, 32);
+            this.btnBuscarTurno.TabIndex = 12;
+            this.btnBuscarTurno.Text = "Buscar Turnos";
+            this.btnBuscarTurno.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnBuscarTurno.UseVisualStyleBackColor = true;
+            this.btnBuscarTurno.Click += new System.EventHandler(this.btnBuscarTurno_Click);
+            // 
+            // dgvTurnosCancelar
+            // 
+            this.dgvTurnosCancelar.AllowUserToAddRows = false;
+            this.dgvTurnosCancelar.AllowUserToDeleteRows = false;
+            this.dgvTurnosCancelar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTurnosCancelar.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.IdTurno,
+            this.FechaYHoraTurno});
+            this.dgvTurnosCancelar.Location = new System.Drawing.Point(331, 112);
+            this.dgvTurnosCancelar.Name = "dgvTurnosCancelar";
+            this.dgvTurnosCancelar.ReadOnly = true;
+            this.dgvTurnosCancelar.Size = new System.Drawing.Size(202, 150);
+            this.dgvTurnosCancelar.TabIndex = 13;
+            // 
+            // IdTurno
+            // 
+            this.IdTurno.HeaderText = "Turno";
+            this.IdTurno.Name = "IdTurno";
+            this.IdTurno.ReadOnly = true;
+            this.IdTurno.Visible = false;
+            // 
+            // FechaYHoraTurno
+            // 
+            this.FechaYHoraTurno.HeaderText = "Fecha y Hora del turno";
+            this.FechaYHoraTurno.Name = "FechaYHoraTurno";
+            this.FechaYHoraTurno.ReadOnly = true;
+            this.FechaYHoraTurno.Width = 142;
+            // 
             // CancelacionAfiliado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
+            this.Controls.Add(this.dgvTurnosCancelar);
+            this.Controls.Add(this.btnBuscarTurno);
+            this.Controls.Add(this.txtAfiliado);
+            this.Controls.Add(this.lblAfiliado);
             this.Controls.Add(this.btnGuardarCanc);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.lblTurnosACancelar);
-            this.Controls.Add(this.clbTurnosCancelar);
             this.Controls.Add(this.txtMotivoCancelacion);
             this.Controls.Add(this.lblMotivoCancelacion);
             this.Controls.Add(this.cmbTipoCancelacion);
@@ -140,6 +200,7 @@
             this.Name = "CancelacionAfiliado";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cancelación";
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTurnosCancelar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -151,9 +212,14 @@
         private System.Windows.Forms.ComboBox cmbTipoCancelacion;
         private System.Windows.Forms.Label lblMotivoCancelacion;
         private System.Windows.Forms.TextBox txtMotivoCancelacion;
-        private System.Windows.Forms.CheckedListBox clbTurnosCancelar;
         private System.Windows.Forms.Label lblTurnosACancelar;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnGuardarCanc;
+        private System.Windows.Forms.TextBox txtAfiliado;
+        private System.Windows.Forms.Label lblAfiliado;
+        private System.Windows.Forms.Button btnBuscarTurno;
+        private System.Windows.Forms.DataGridView dgvTurnosCancelar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IdTurno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FechaYHoraTurno;
     }
 }
