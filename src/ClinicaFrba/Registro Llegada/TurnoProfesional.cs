@@ -34,7 +34,7 @@ namespace ClinicaFrba.Registro_Llegada
 
         public void btnSeleccTurno_Click(object sender, EventArgs e)
         {
-            
+
             Int32 selectedRowCount = dgvTurnoProfesional.Rows.GetRowCount(DataGridViewElementStates.Selected);
             if (selectedRowCount == 1)
             {
@@ -42,8 +42,7 @@ namespace ClinicaFrba.Registro_Llegada
                 string fechaHoraTurnoS = d.Cells[0].Value.ToString();
                 DateTime fechaHoraTurno = Convert.ToDateTime(fechaHoraTurnoS);
 
-                string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
-                DateTime fechaHoy = Convert.ToDateTime(fecha);
+                DateTime fechaHoy = funciones.ObtenerFecha();
 
                 if ((fechaHoraTurno.Hour > fechaHoy.Hour) || ((fechaHoraTurno.Hour == fechaHoy.Hour) && (fechaHoraTurno.Minute >= fechaHoy.Minute)))
                 {
@@ -90,11 +89,11 @@ namespace ClinicaFrba.Registro_Llegada
 
 
         }
-    
+
 
         private void seleccionarBono_Click(object sender, EventArgs e)
         {
-            
+
             Int32 selectedRowCount = BonosDisponibles.Rows.GetRowCount(DataGridViewElementStates.Selected);
             if (selectedRowCount == 1)
             {

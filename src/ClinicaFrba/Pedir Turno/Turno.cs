@@ -19,21 +19,53 @@ namespace ClinicaFrba.Pedir_Turno
 
         private void btnSeleccionarTurno_Click(object sender, EventArgs e)
         {
+            DateTime fechaActual = funciones.ObtenerFecha();
             Int32 selectedRowCount = dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
-            if (selectedRowCount == 1)
+            DateTime fechaElegida = Convert.ToDateTime(textFecha.Text);
+            if (selectedRowCount == 1)//primero que si o si elija uno
             {
                 DataGridViewRow d = dataGridView1.SelectedRows[0];
-                string ocupado = d.Cells[1].Value.ToString();
 
-                if (ocupado == "")
+                if (fechaActual.Year == fechaElegida.Year && fechaActual.Month == fechaElegida.Month && fechaActual.Day == fechaElegida.Day)
                 {
-                    MessageBox.Show("Confirme el turno");
-                    confirmarTurno.Visible = true;
+                    //si es en el mismo dia
+
+                    string fechaQueAtiendeS = d.Cells[0].Value.ToString();
+                    DateTime fechaQueAtiende = Convert.ToDateTime(fechaQueAtiendeS);
+
+                    if (fechaActual.Hour < fechaQueAtiende.Hour || fechaActual.Hour == fechaQueAtiende.Hour && fechaActual.Minute < fechaQueAtiende.Minute)
+                    //chequeo no sea antes de hora actual
+                    {
+                        string ocupado = d.Cells[1].Value.ToString();
+                        if (ocupado == "")
+                        {
+                            MessageBox.Show("Confirme el turno");
+                            confirmarTurno.Visible = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("El turno esta ocupado, seleccionar un turno disponible", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No puede elegir para antes de hora actual", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
                 }
-                else
+                if (fechaActual.Day != fechaElegida.Day)
                 {
-                    MessageBox.Show("El turno esta ocupado, seleccionar un turno disponible", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    string ocupado = d.Cells[1].Value.ToString();
+                    if (ocupado == "")
+                    {
+                        MessageBox.Show("Confirme el turno");
+                        confirmarTurno.Visible = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("El turno esta ocupado, seleccionar un turno disponible", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
                 }
+
             }
             else
             {
@@ -49,8 +81,7 @@ namespace ClinicaFrba.Pedir_Turno
             FormProvider.ProfesionalTurno.dgvHorariosDisp.DataSource = null;
             FormProvider.ProfesionalTurno.cmbProfesional.Text = null;
             FormProvider.ProfesionalTurno.cmbEspecialidad.Text = null;
-            string fechaLimpiar = System.Configuration.ConfigurationManager.AppSettings["fecha"];
-            DateTime fechaHoy = Convert.ToDateTime(fechaLimpiar);
+            DateTime fechaHoy = funciones.ObtenerFecha();
             FormProvider.ProfesionalTurno.dtpTurnoPosible.Value = fechaHoy;
             FormProvider.ProfesionalTurno.textAfiliado.Text = null;
             confirmarTurno.Visible = false;
@@ -125,7 +156,7 @@ namespace ClinicaFrba.Pedir_Turno
             this.Hide();
             FormProvider.ProfesionalTurno.Show();
             confirmarTurno.Visible = false;
-         
+
         }
 
         private void confirmarTurno_Click(object sender, EventArgs e)
@@ -159,8 +190,7 @@ namespace ClinicaFrba.Pedir_Turno
             FormProvider.ProfesionalTurno.dgvHorariosDisp.DataSource = null;
             FormProvider.ProfesionalTurno.cmbProfesional.Text = null;
             FormProvider.ProfesionalTurno.cmbEspecialidad.Text = null;
-            string fechaLimpiar = System.Configuration.ConfigurationManager.AppSettings["fecha"];
-            DateTime fechaHoy = Convert.ToDateTime(fechaLimpiar);
+            DateTime fechaHoy = funciones.ObtenerFecha();
             FormProvider.ProfesionalTurno.dtpTurnoPosible.Value = fechaHoy;
             FormProvider.ProfesionalTurno.textAfiliado.Text = null;
 

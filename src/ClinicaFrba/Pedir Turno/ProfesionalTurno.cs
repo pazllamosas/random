@@ -57,8 +57,7 @@ namespace ClinicaFrba.Pedir_Turno
 
             this.cmbEspecialidad.SelectedIndex = -1;
             this.cmbProfesional.SelectedIndex = -1;
-            string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
-            DateTime fechaHoy = Convert.ToDateTime(fecha);
+            DateTime fechaHoy = funciones.ObtenerFecha();
             dtpTurnoPosible.Value = fechaHoy;
         }
 
@@ -69,22 +68,29 @@ namespace ClinicaFrba.Pedir_Turno
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
-            DateTime fechaHoy = Convert.ToDateTime(fecha);
+            DateTime fechaHoy = funciones.ObtenerFecha();
             string fechaHoraTurnoS = dtpTurnoPosible.Text;
             DateTime fechaHora = Convert.ToDateTime(fechaHoraTurnoS);
             int comparacion = DateTime.Compare(fechaHoy, fechaHora);
-            if (comparacion <= 0)
+
+            if (comparacion < 0 || (fechaHoy.Year == fechaHora.Year && fechaHoy.Day == fechaHora.Day && fechaHoy.Month == fechaHora.Month))
             {
                 String dia = dayOfWeek(fechaHora);
                 string Apellido = cmbProfesional.Text;
                 string descripcion = cmbEspecialidad.Text;
                 Int32 DiaNumero = numeroDiaSemana(dia);
-                dgvHorariosDisp.DataSource = Conexion.obtenerTablaProcedure("RANDOM.FILTRAR_MEDICO", Conexion.generarArgumentos("@Descripcion", "@Apellido", "@Fecha", "@DiaNumero"), descripcion, Apellido, fechaHora, DiaNumero);
-                dgvHorariosDisp.Columns[2].Visible = false;
-                dgvHorariosDisp.Columns[4].Visible = false;
-                dgvHorariosDisp.Columns[5].Visible = false;
-                dgvHorariosDisp.Columns[6].Visible = false;
+                if (Apellido == "" && descripcion == "")
+                {
+                    MessageBox.Show("Seleccione un medico y/o una especialidad", "Atención", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    dgvHorariosDisp.DataSource = Conexion.obtenerTablaProcedure("RANDOM.FILTRAR_MEDICO", Conexion.generarArgumentos("@Descripcion", "@Apellido", "@Fecha", "@DiaNumero"), descripcion, Apellido, fechaHora, DiaNumero);
+                    dgvHorariosDisp.Columns[2].Visible = false;
+                    dgvHorariosDisp.Columns[4].Visible = false;
+                    dgvHorariosDisp.Columns[5].Visible = false;
+                    dgvHorariosDisp.Columns[6].Visible = false;
+                }
 
             }
             else
@@ -113,8 +119,7 @@ namespace ClinicaFrba.Pedir_Turno
             dgvHorariosDisp.DataSource = null;
             cmbProfesional.Text = null;
             cmbEspecialidad.Text = null;
-            string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
-            DateTime fechaHoy = Convert.ToDateTime(fecha);
+            DateTime fechaHoy = funciones.ObtenerFecha();
             dtpTurnoPosible.Value = fechaHoy;
         }
 
@@ -131,7 +136,8 @@ namespace ClinicaFrba.Pedir_Turno
             Int32 afiliadoValidacion = int.Parse(reader["id"].ToString());
             reader.Close();
 
-            if (textAfiliado.Text != "" && afiliadoValidacion != -1){
+            if (textAfiliado.Text != "" && afiliadoValidacion != -1)
+            {
 
                 Int32 selectedRowCount = dgvHorariosDisp.Rows.GetRowCount(DataGridViewElementStates.Selected);
                 if (selectedRowCount == 1)
@@ -173,7 +179,7 @@ namespace ClinicaFrba.Pedir_Turno
             else
             {
                 MessageBox.Show("Ingrese un afiliado valido", "Atención", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
-                
+
             }
 
         }
@@ -181,15 +187,14 @@ namespace ClinicaFrba.Pedir_Turno
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            
+
             //limpieza - eventos
             this.Hide();
             FormProvider.MainMenu.Show();
             dgvHorariosDisp.DataSource = null;
             cmbProfesional.Text = null;
             cmbEspecialidad.Text = null;
-            string fechaLimpiar = System.Configuration.ConfigurationManager.AppSettings["fecha"];
-            DateTime fechaHoy = Convert.ToDateTime(fechaLimpiar);
+            DateTime fechaHoy = funciones.ObtenerFecha();
             dtpTurnoPosible.Value = fechaHoy;
             textAfiliado.Text = null;
         }

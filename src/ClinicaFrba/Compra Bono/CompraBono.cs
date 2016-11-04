@@ -31,8 +31,7 @@ namespace ClinicaFrba.Compra_Bono
 
             if (montoTotal != -1)
             {
-                string fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
-                DateTime fechaHoy = Convert.ToDateTime(fecha);
+                DateTime fechaHoy = funciones.ObtenerFecha();
                 bool resultado = Conexion.executeProcedure("RANDOM.COMPRA_DE_BONO", Conexion.generarArgumentos("@IdAfiliado", "@Cantidad", "@MontoTotal", "@Fecha"), afiliado, cantidadBonos, montoTotal, fechaHoy);
                 if (resultado)
                 {
