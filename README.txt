@@ -12,7 +12,7 @@ NUMERO DE GRUPO:
 NOMBRE Y LEGAJO:
 	Cubito, Martín - 1467116
 	Llamosas, Paz - 1468078
-	Mazzeo, Melina - 1464765
+	Mazzeo, Melina - 1464735
 	Salvatelli, Santiago - 1174071
 	
 EMAIL RESPONSABLE: 
