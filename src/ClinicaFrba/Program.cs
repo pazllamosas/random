@@ -336,7 +336,44 @@ namespace ClinicaFrba
         }
        private static Registrar_Agenta_Medico.RegistrarAgenda _Agenda;
 
+       public static Abm_Especialidades_Medicas.Especialidades Especialidades
+       {
+           get
+           {
+               if (_Especialidades == null)
+               {
+                   _Especialidades = new Abm_Especialidades_Medicas.Especialidades();
+               }
+               return _Especialidades;
+           }
+       }
+       private static Abm_Especialidades_Medicas.Especialidades _Especialidades;
 
+       public static Abm_Planes.Planes Planes
+       {
+           get
+           {
+               if (_Planes == null)
+               {
+                   _Planes = new Abm_Planes.Planes();
+               }
+               return _Planes;
+           }
+       }
+       private static Abm_Planes.Planes _Planes;
+
+       public static Abm_Profesional.Profesional Profesional
+       {
+           get
+           {
+               if (_Profesional == null)
+               {
+                   _Profesional = new Abm_Profesional.Profesional();
+               }
+               return _Profesional;
+           }
+       }
+       private static Abm_Profesional.Profesional _Profesional;
 
 
 

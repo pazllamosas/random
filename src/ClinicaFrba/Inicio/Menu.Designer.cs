@@ -78,6 +78,7 @@
             this.btnVerProfesional.TabIndex = 3;
             this.btnVerProfesional.Text = "Ver Profesionales";
             this.btnVerProfesional.UseVisualStyleBackColor = true;
+            this.btnVerProfesional.Click += new System.EventHandler(this.btnVerProfesional_Click);
             // 
             // btnVerEspec
             // 
@@ -88,6 +89,7 @@
             this.btnVerEspec.TabIndex = 4;
             this.btnVerEspec.Text = "Ver Especialidades";
             this.btnVerEspec.UseVisualStyleBackColor = true;
+            this.btnVerEspec.Click += new System.EventHandler(this.btnVerEspec_Click);
             // 
             // btnPlan
             // 
@@ -98,6 +100,7 @@
             this.btnPlan.TabIndex = 5;
             this.btnPlan.Text = "Planes";
             this.btnPlan.UseVisualStyleBackColor = true;
+            this.btnPlan.Click += new System.EventHandler(this.btnPlan_Click);
             // 
             // btnRegAgenda
             // 

@@ -117,5 +117,20 @@ namespace ClinicaFrba.Inicio
         {
             FormProvider.Afiliado.Show();
         }
+
+        private void btnVerProfesional_Click(object sender, EventArgs e)
+        {
+            FormProvider.Profesional.Show();
+        }
+
+        private void btnVerEspec_Click(object sender, EventArgs e)
+        {
+            FormProvider.Especialidades.Show();
+        }
+
+        private void btnPlan_Click(object sender, EventArgs e)
+        {
+            FormProvider.Planes.Show();
+        }
     }
 }

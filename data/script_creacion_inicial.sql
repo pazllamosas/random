@@ -168,6 +168,7 @@ DROP FUNCTION RANDOM.BONOS_DISPONIBLES -----------------------------------------
 IF OBJECT_ID('RANDOM.REGISTRO_LLEGADA') IS NOT NULL
 DROP PROCEDURE RANDOM.REGISTRO_LLEGADA
 
+
 IF OBJECT_ID('RANDOM.antesDelTop') IS NOT NULL
 DROP PROCEDURE RANDOM.antesDelTop 
 IF OBJECT_ID('RANDOM.top5EspecialidadesConMasConsultasUtilizadas') IS NOT NULL
@@ -727,6 +728,8 @@ WHERE M.Bono_Consulta_Numero = B.ConsultaNumero
 	
 
 ---------------FUNCIONES-----------
+
+
 
 /* USUARIO */
 
