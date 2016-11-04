@@ -110,7 +110,7 @@ namespace ClinicaFrba.Abm_Afiliado
         {
             if (validacion())
             {
-                
+
                 string nombre = txtNombre.Text;
                 string apellido = txtApellido.Text;
                 string sexo = cmbSexo.Text;
@@ -125,29 +125,33 @@ namespace ClinicaFrba.Abm_Afiliado
                 Int32 idPlan = planMedico;
                 Int32 cantidadACargo = cantACargoAfiliado;
 
-               if( Conexion.executeProcedure("RANDOM.CREAR_FAMILIAR",
-                    Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC","IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
-                    nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento,idPlan, idEstadoCivil, nroAfiliadoRaiz))
-               
-                 if (cmbFamiliar.Text == "Pareja")
+                if (Conexion.executeProcedure("RANDOM.CREAR_FAMILIAR",
+                     Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
+                     nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento, idPlan, idEstadoCivil, nroAfiliadoRaiz))
+
+                    if (cmbFamiliar.Text == "Pareja")
                     {
                         Conexion.executeProcedure("RANDOM.NRO_AFILIADO_CONYUGE",
                         Conexion.generarArgumentos("NROAFILIADORAIZ", "DOCUMENTO"),
                         nroAfiliadoRaiz, documento);
-                    MessageBox.Show("Conyuge creado");
+                        MessageBox.Show("Conyuge creado");
                         this.LimpiarCampos();
-                    this.Hide();
-                }
-                else
-                {
-                    Conexion.executeProcedure("RANDOM.NRO_AFILIADO_FAMILIARES",
-                        Conexion.generarArgumentos("NROAFILIADORAIZ", "DOCUMENTO", "CANTIDAD_A_CARGO"),
-                        nroAfiliadoRaiz, documento, cantidadACargo);
-                    MessageBox.Show("Familiar a cargo creado");
-                    this.LimpiarCampos();
-                    this.Hide();
-                }
+                        this.Hide();
+                    }
+                    else
+                    {
+                        Conexion.executeProcedure("RANDOM.NRO_AFILIADO_FAMILIARES",
+                            Conexion.generarArgumentos("NROAFILIADORAIZ", "DOCUMENTO", "CANTIDAD_A_CARGO"),
+                            nroAfiliadoRaiz, documento, cantidadACargo);
+                        MessageBox.Show("Familiar a cargo creado");
+                        this.LimpiarCampos();
+                        this.Hide();
+                    }
             }
+            else
+            {
+                MessageBox.Show("Hay campos sin completar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }   
 
         }
 
@@ -167,6 +171,24 @@ namespace ClinicaFrba.Abm_Afiliado
             this.cmbFamiliar.Items.Remove("Pareja");
             this.cmbFamiliar.Items.Remove("Familiar a cargo");
          }
+
+        private void txtApellido_TextChanged(object sender, EventArgs e)
+        {
+            if (!funciones.permiteLetras(txtApellido.Text))
+            {
+                MessageBox.Show("Solo se permiten letras", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtApellido.Clear();
+            }
+        }
+
+        private void txtNombre_TextChanged(object sender, EventArgs e)
+        {
+            if (!funciones.permiteLetras(txtNombre.Text))
+            {
+                MessageBox.Show("Solo se permiten letras", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtNombre.Clear();
+            }
+        }
 
 
 

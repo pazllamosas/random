@@ -316,6 +316,25 @@ namespace ClinicaFrba.Abm_Afiliado
 
         }
 
+        private void txtApellido_TextChanged(object sender, EventArgs e)
+        {
+            if (!funciones.permiteLetras(txtApellido.Text))
+            {
+                MessageBox.Show("Solo se permiten letras", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtApellido.Clear();
+            }
+
+        }
+
+        private void txtNombre_TextChanged(object sender, EventArgs e)
+        {
+            if (!funciones.permiteLetras(txtNombre.Text))
+            {
+                MessageBox.Show("Solo se permiten letras", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtNombre.Clear();
+            }
+        }
+
 
     }
 }

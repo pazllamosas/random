@@ -46,6 +46,13 @@ namespace ClinicaFrba
             }
             return true;
         }
+        internal static DateTime ObtenerFecha()
+        {
+            string fecha;
+            fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
+            DateTime fechaHoy = Convert.ToDateTime(fecha);
+            return fechaHoy;
+        }
 
     }
 }
