@@ -61,7 +61,9 @@ namespace ClinicaFrba.Registro_Llegada
                 string IdMedicoS = d.Cells[2].Value.ToString();
                 Int32 IdMedico = Convert.ToInt32(IdMedicoS);
                 DateTime fechaHoy = funciones.ObtenerFecha();
-                FormProvider.TurnoProf.dgvTurnoProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_TURNOS_MEDICO", Conexion.generarArgumentos("@IdMedico", "@FechaHoy"), IdMedico, fechaHoy);
+                string IdEspecialidadS = d.Cells[4].Value.ToString();
+                Int32 IdEspecialidad = Convert.ToInt32(IdEspecialidadS);
+                FormProvider.TurnoProf.dgvTurnoProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_TURNOS_MEDICO", Conexion.generarArgumentos("@IdMedico", "@FechaHoy", "@IdEspecialidad"), IdMedico, fechaHoy, IdEspecialidad);
                 FormProvider.TurnoProf.Show();
                 this.Hide();
             }

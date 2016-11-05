@@ -29,11 +29,16 @@
         private void InitializeComponent()
         {
             this.btnVolver = new System.Windows.Forms.Button();
-            this.txtMatricula = new System.Windows.Forms.TextBox();
-            this.txtApellido = new System.Windows.Forms.TextBox();
-            this.txtNombre = new System.Windows.Forms.TextBox();
-            this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.cmbProfesional = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmbDias = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnVolver
@@ -50,59 +55,116 @@
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
-            // txtMatricula
+            // cmbProfesional
             // 
-            this.txtMatricula.Location = new System.Drawing.Point(126, 12);
-            this.txtMatricula.Name = "txtMatricula";
-            this.txtMatricula.ReadOnly = true;
-            this.txtMatricula.Size = new System.Drawing.Size(114, 20);
-            this.txtMatricula.TabIndex = 30;
+            this.cmbProfesional.FormattingEnabled = true;
+            this.cmbProfesional.Location = new System.Drawing.Point(343, 51);
+            this.cmbProfesional.Name = "cmbProfesional";
+            this.cmbProfesional.Size = new System.Drawing.Size(227, 21);
+            this.cmbProfesional.TabIndex = 35;
+            this.cmbProfesional.SelectedIndexChanged += new System.EventHandler(this.cmbProfesional_SelectedIndexChanged);
             // 
-            // txtApellido
+            // label1
             // 
-            this.txtApellido.Location = new System.Drawing.Point(281, 12);
-            this.txtApellido.Name = "txtApellido";
-            this.txtApellido.ReadOnly = true;
-            this.txtApellido.Size = new System.Drawing.Size(136, 20);
-            this.txtApellido.TabIndex = 31;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(155, 286);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(111, 18);
+            this.label1.TabIndex = 37;
+            this.label1.Text = "Selecione el dia";
             // 
-            // txtNombre
+            // cmbDias
             // 
-            this.txtNombre.Location = new System.Drawing.Point(446, 12);
-            this.txtNombre.Name = "txtNombre";
-            this.txtNombre.ReadOnly = true;
-            this.txtNombre.Size = new System.Drawing.Size(136, 20);
-            this.txtNombre.TabIndex = 32;
+            this.cmbDias.FormattingEnabled = true;
+            this.cmbDias.Location = new System.Drawing.Point(319, 283);
+            this.cmbDias.Name = "cmbDias";
+            this.cmbDias.Size = new System.Drawing.Size(227, 21);
+            this.cmbDias.TabIndex = 38;
+            this.cmbDias.SelectedIndexChanged += new System.EventHandler(this.cmbDias_SelectedIndexChanged);
             // 
-            // monthCalendar1
+            // label2
             // 
-            this.monthCalendar1.Location = new System.Drawing.Point(369, 139);
-            this.monthCalendar1.Name = "monthCalendar1";
-            this.monthCalendar1.TabIndex = 33;
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(132, 54);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(134, 18);
+            this.label2.TabIndex = 39;
+            this.label2.Text = "Seleccione Medico";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
-            // dateTimePicker1
+            // label4
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(67, 215);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker1.TabIndex = 34;
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(57, 346);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(85, 18);
+            this.label4.TabIndex = 41;
+            this.label4.Text = "Hora desde";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(371, 342);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(81, 18);
+            this.label3.TabIndex = 42;
+            this.label3.Text = "Hora hasta";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(171, 343);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(108, 21);
+            this.comboBox1.TabIndex = 43;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(473, 339);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(108, 21);
+            this.comboBox2.TabIndex = 44;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(47, 111);
+            this.dataGridView1.MultiSelect = false;
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(571, 139);
+            this.dataGridView1.TabIndex = 45;
             // 
             // RegistrarAgenda
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.monthCalendar1);
-            this.Controls.Add(this.txtNombre);
-            this.Controls.Add(this.txtApellido);
-            this.Controls.Add(this.txtMatricula);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.cmbDias);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.cmbProfesional);
             this.Controls.Add(this.btnVolver);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "RegistrarAgenda";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Agenda Profesional";
+            this.Load += new System.EventHandler(this.RegistrarAgenda_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -111,10 +173,14 @@
         #endregion
 
         private System.Windows.Forms.Button btnVolver;
-        private System.Windows.Forms.TextBox txtMatricula;
-        private System.Windows.Forms.TextBox txtApellido;
-        private System.Windows.Forms.TextBox txtNombre;
-        private System.Windows.Forms.MonthCalendar monthCalendar1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        public System.Windows.Forms.ComboBox cmbProfesional;
+        private System.Windows.Forms.Label label1;
+        public System.Windows.Forms.ComboBox cmbDias;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        public System.Windows.Forms.ComboBox comboBox1;
+        public System.Windows.Forms.ComboBox comboBox2;
+        public System.Windows.Forms.DataGridView dataGridView1;
     }
 }
