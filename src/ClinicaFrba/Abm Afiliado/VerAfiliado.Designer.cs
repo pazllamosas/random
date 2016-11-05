@@ -31,6 +31,7 @@
             this.lblDni = new System.Windows.Forms.Label();
             this.txtBusqDni = new System.Windows.Forms.TextBox();
             this.dgvAfiliados = new System.Windows.Forms.DataGridView();
+            this.btnHistorial = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
@@ -61,11 +62,28 @@
             // 
             // dgvAfiliados
             // 
+            this.dgvAfiliados.AllowUserToAddRows = false;
+            this.dgvAfiliados.AllowUserToDeleteRows = false;
             this.dgvAfiliados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAfiliados.Location = new System.Drawing.Point(16, 174);
+            this.dgvAfiliados.MultiSelect = false;
             this.dgvAfiliados.Name = "dgvAfiliados";
             this.dgvAfiliados.Size = new System.Drawing.Size(647, 171);
             this.dgvAfiliados.TabIndex = 3;
+            // 
+            // btnHistorial
+            // 
+            this.btnHistorial.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHistorial.Image = global::ClinicaFrba.Properties.Resources.busqueda;
+            this.btnHistorial.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnHistorial.Location = new System.Drawing.Point(433, 408);
+            this.btnHistorial.Name = "btnHistorial";
+            this.btnHistorial.Size = new System.Drawing.Size(160, 40);
+            this.btnHistorial.TabIndex = 10;
+            this.btnHistorial.Text = "Consultar Historial";
+            this.btnHistorial.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnHistorial.UseVisualStyleBackColor = true;
+            this.btnHistorial.Click += new System.EventHandler(this.btnHistorial_Click);
             // 
             // btnLimpiar
             // 
@@ -114,7 +132,7 @@
             this.btnCrearAf.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCrearAf.Image = global::ClinicaFrba.Properties.Resources.add;
             this.btnCrearAf.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCrearAf.Location = new System.Drawing.Point(151, 408);
+            this.btnCrearAf.Location = new System.Drawing.Point(79, 408);
             this.btnCrearAf.Name = "btnCrearAf";
             this.btnCrearAf.Size = new System.Drawing.Size(130, 40);
             this.btnCrearAf.TabIndex = 6;
@@ -128,7 +146,7 @@
             this.btnBajaAf.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBajaAf.Image = global::ClinicaFrba.Properties.Resources.cancel;
             this.btnBajaAf.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBajaAf.Location = new System.Drawing.Point(302, 408);
+            this.btnBajaAf.Location = new System.Drawing.Point(220, 408);
             this.btnBajaAf.Name = "btnBajaAf";
             this.btnBajaAf.Size = new System.Drawing.Size(116, 40);
             this.btnBajaAf.TabIndex = 5;
@@ -142,7 +160,7 @@
             this.btnEditarAf.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditarAf.Image = global::ClinicaFrba.Properties.Resources.modify;
             this.btnEditarAf.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEditarAf.Location = new System.Drawing.Point(439, 408);
+            this.btnEditarAf.Location = new System.Drawing.Point(345, 408);
             this.btnEditarAf.Name = "btnEditarAf";
             this.btnEditarAf.Size = new System.Drawing.Size(76, 40);
             this.btnEditarAf.TabIndex = 4;
@@ -156,6 +174,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
+            this.Controls.Add(this.btnHistorial);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.btnVolver);
@@ -188,5 +207,6 @@
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button btnBuscar;
+        private System.Windows.Forms.Button btnHistorial;
     }
 }

@@ -77,7 +77,7 @@ namespace ClinicaFrba.Abm_Afiliado
         {
             string PlanViejo = cmbPlanMedico.Text;
             string nroAfiliadoRaiz = txtNroAf.Text;
-            string documento = txtNroDoc.Text;
+            string documento = txtNroAf.Text;
             FormProvider.CambioPlanAfiliado.cargaDatos(PlanViejo, documento);
             FormProvider.CambioPlanAfiliado.Show();
         }

@@ -88,7 +88,8 @@ DROP FUNCTION RANDOM.ROL_CORRECTO
 
 
 
-
+IF OBJECT_ID('RANDOM.GET_HISTORIAL') IS NOT NULL
+DROP PROCEDURE RANDOM.GET_HISTORIAL
 IF OBJECT_ID('RANDOM.CREAR_FAMILIAR') IS NOT NULL
 DROP PROCEDURE RANDOM.CREAR_FAMILIAR
 IF OBJECT_ID('RANDOM.GET_PROFESIONALES') IS NOT NULL
@@ -303,8 +304,9 @@ CREATE TABLE RANDOM.PLANES(
 CREATE TABLE RANDOM.HISTORIAL_PLAN(
 	IdHistorialPlan int PRIMARY KEY IDENTITY(1,1),
 	IdAfiliado int,
+	IdPlan int,
 	Fecha datetime,
-	Motivo nvarchar(255) DEFAULT 'Inscripcion'
+	Motivo nvarchar(255) DEFAULT 'Inscripcion Afiliado Principal'
 )
 
 CREATE TABLE.RANDOM.ESTADO_CIVIL(
@@ -357,6 +359,7 @@ CREATE TABLE RANDOM.BONO(
 CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
 	IdAgenda int PRIMARY KEY IDENTITY (1,1),
 	IdProfesional int,
+	IdEspecialidad int,
 	HoraDesde nvarchar(255),
 	HoraHasta nvarchar(255),
 	nombreDia nvarchar (255)
@@ -421,6 +424,8 @@ ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (IdTipoDocumento) REFERENCES RANDOM.T
 ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (IdUsuario) REFERENCES RANDOM.Usuario
 ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdAfiliado) REFERENCES RANDOM.AFILIADO
 ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdEspecialidad) REFERENCES RANDOM.ESPECIALIDAD
+ALTER TABLE RANDOM.HISTORIAL_PLAN ADD FOREIGN KEY (IdPlan) REFERENCES RANDOM.PLANES
+ALTER TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE ADD FOREIGN KEY (IdEspecialidad) REFERENCES RANDOM.ESPECIALIDAD
 
 -- CREATE INDIXES
 
@@ -577,13 +582,13 @@ join random.USUARIO u on u.Username = cast(M.Medico_Dni as nvarchar)
 
 /*PERSONA*/ -- agregamos los usuarios de prueba
 INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Sexo, IdTipoDocumento, Documento, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario)
-VALUES('Administrador', 'General', NULL, 1, 11111111, 'Casa Rosada', 46512356, 'sarasa@sarasa.com',GETDATE(), 1)
+VALUES('Administrador', 'General', NULL, 1, 11119111, 'Casa Rosada', 46512356, 'sarasa@sarasa.com',GETDATE(), 1)
 INSERT INTO RANDOM.PERSONA(Nombre, Apellido, Sexo, IdTipoDocumento, Documento, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario)
-VALUES('ana','ana', NULL, 1, 11111111, 'Casa Rosada', 46512356, 'sarasa@sarasa.com',GETDATE(), 1)
+VALUES('ana','ana', NULL, 1, 11118111, 'Casa Rosada', 46512956, 'sarasa@sarasa.com',GETDATE(), 2)
 INSERT INTO RANDOM.PERSONA( Nombre, Apellido, Sexo, IdTipoDocumento, Documento, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario)
-VALUES('maria','maria', NULL, 1, 11111111, 'Casa Rosada', 46512356, 'sarasa@sarasa.com',GETDATE(), 1)
+VALUES('maria','maria', NULL, 1, 17111111, 'Casa Rosada', 46512356, 'sarasa@sarasa.com',GETDATE(), 3)
 INSERT INTO RANDOM.PERSONA( Nombre, Apellido, Sexo, IdTipoDocumento, Documento, Direccion, Telefono, Mail, Fecha_Nac, IdUsuario)
-VALUES('jose','jose', NULL, 1, 11111111, 'Casa Rosada', 46512356, 'sarasa@sarasa.com',GETDATE(), 1)
+VALUES('jose','jose', NULL, 1, 11111711, 'Casa Rosada', 46512356, 'sarasa@sarasa.com',GETDATE(), 4)
 
 /*inserto los roles de los ususarios afiliados y medicos*/
 INSERT INTO RANDOM.USUARIO_POR_ROL(IdUsuario,IdRol)
@@ -649,8 +654,8 @@ JOIN RANDOM.PERSONA P ON M.Medico_Nombre =P.Nombre AND M.Medico_Apellido = P.Ape
 
 /*HISTORIAL_PLAN*/ -- inserto el primer plan de todas las personas de la base
 -- y si ponemos la fecha de nacimiento en vez de esa fecha?? 
-INSERT INTO RANDOM.HISTORIAL_PLAN(IdAfiliado, Fecha)
-SELECT DISTINCT A.IdPersona, CONVERT(DATETIME, '1957-10-24 00:00:00.000', 21)
+INSERT INTO RANDOM.HISTORIAL_PLAN(IdAfiliado, Fecha, IdPlan)
+SELECT DISTINCT A.IdPersona, CONVERT(DATETIME, '1957-10-24 00:00:00.000', 21), A.IdPlan
 FROM RANDOM.AFILIADO A
 
 /*ESPECIALIDAD_POR_PROFESIONAL*/
@@ -703,15 +708,16 @@ WHERE joinBonoCompra.IdCompra = RANDOM.COMPRA_BONO.IdCompra
 
 /*AGENDA_HORARIO_DISPONIBLE*/
 insert INTO RANDOM.AGENDA_HORARIO_DISPONIBLE 
-SELECT DISTINCT P.IdPersona,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Bono_Consulta_Fecha_Impresion) AS 'DIA DE SEMANA' 
+SELECT DISTINCT P.IdPersona, ES.IdEspecialidad,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Bono_Consulta_Fecha_Impresion) AS 'DIA DE SEMANA' 
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Medico_Dni = P.Documento
+JOIN RANDOM.ESPECIALIDAD ES ON ES.Codigo = M.Especialidad_Codigo 
 where M.Bono_Consulta_Fecha_Impresion IS NOT NULL
-group by P.IdPersona, DATepart(weekday, M.Bono_Consulta_Fecha_Impresion)
+group by P.IdPersona, ES.IdEspecialidad, DATepart(weekday, M.Bono_Consulta_Fecha_Impresion)
 
 
 /*TURNO*/
-INSERT INTO RANDOM.TURNO (IdTurno, IdAgenda, FechaYHoraTurno, IdAfiliado, IdEspecialidad)
+/*INSERT INTO RANDOM.TURNO (IdTurno, IdAgenda, FechaYHoraTurno, IdAfiliado, IdEspecialidad)
 SELECT DISTINCT M.Turno_Numero, hd.IdAgenda, M.Turno_Fecha, P.IdPersona, E.IdEspecialidad
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON P.Documento = M.Paciente_Dni
@@ -722,7 +728,21 @@ JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON DATepart(WEEKDAY, M.Turno_Fecha) = H
 where M.Turno_Numero IS NOT NULL 
 	AND M.Turno_Fecha IS NOT NULL
 	AND M.Bono_Consulta_Fecha_Impresion IS NOT NULL
+	AND M.Consulta_Sintomas IS NOT NULL*/
+
+INSERT INTO RANDOM.TURNO (IdTurno, IdAgenda, FechaYHoraTurno, IdAfiliado, IdEspecialidad)
+SELECT DISTINCT M.Turno_Numero, hd.IdAgenda, M.Turno_Fecha, P.IdPersona, HD.IdEspecialidad
+FROM gd_esquema.Maestra M
+JOIN RANDOM.PERSONA P ON P.Documento = M.Paciente_Dni
+JOIN RANDOM.ESPECIALIDAD E ON E.Codigo = M.Especialidad_Codigo
+JOIN RANDOM.PERSONA PE ON PE.Documento = M.Medico_Dni
+JOIN RANDOM.ESPECIALIDAD_POR_PROFESIONAL EP ON EP.IdEspecialidad = E.IdEspecialidad and ep.IdProfesional= pe.IdPersona
+JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON DATepart(WEEKDAY, M.Turno_Fecha) = HD.nombreDia AND HD.IdProfesional = pe.IdPersona AND HD.IdEspecialidad = EP.IdEspecialidad
+where M.Turno_Numero IS NOT NULL 
+	AND M.Turno_Fecha IS NOT NULL
+	AND M.Bono_Consulta_Fecha_Impresion IS NOT NULL
 	AND M.Consulta_Sintomas IS NOT NULL
+ORDER BY Turno_Numero
 
 
 /*RESULTADO_TURNO*/
@@ -751,7 +771,7 @@ GO
 		JOIN RANDOM.USUARIO U ON U.Username = @USUARIO
 		JOIN RANDOM.PERSONA P ON P.IdUsuario = U.IdUsuario
 		JOIN RANDOM.ROL R ON R.Descripcion = @ROL
-		WHERE UR.IdUsuario = P.IdUsuario AND UR.IdRol = R.IdRol
+		WHERE UR.IdUsuario = P.IdUsuario AND UR.IdRol = R.IdRol and ur.Habilitada = 1
 		RETURN @CANTIDAD
 	END
 GO
@@ -1290,25 +1310,25 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE RANDOM.CAMBIO_PLAN(@DOCUMENTO numeric(18,0),
+
+CREATE PROCEDURE RANDOM.CAMBIO_PLAN(@NUMERO_AFILIADO_RAIZ int,
 									@IDPLAN int,
 									@MOTIVO nvarchar(255))AS
 BEGIN
 	UPDATE RANDOM.AFILIADO SET
 		IdPlan = @IDPLAN + 1
-	FROM RANDOM.PERSONA P, RANDOM.AFILIADO A
-	WHERE P.Documento  = @DOCUMENTO
-	AND P.IdPersona = A.IdPersona
-	
+	WHERE NumeroAfiliadoRaiz  = @NUMERO_AFILIADO_RAIZ
+		
 	DECLARE @IDPERSONA INT
-	SELECT @IDPERSONA = IdPersona FROM RANDOM.PERSONA
-	WHERE @DOCUMENTO = Documento
+	SELECT @IDPERSONA = MIN(IdPersona) FROM RANDOM.AFILIADO
+	WHERE @NUMERO_AFILIADO_RAIZ = NumeroAfiliadoRaiz
 
-	INSERT INTO RANDOM.HISTORIAL_PLAN(IdAfiliado, Fecha, Motivo)
-	VALUES (@IDPERSONA, GETDATE(), @MOTIVO)
+	INSERT INTO RANDOM.HISTORIAL_PLAN(IdAfiliado, Fecha, Motivo, IdPlan)
+	VALUES (@IDPERSONA, GETDATE(), @MOTIVO, @IDPLAN+1)
 	
 END
 GO
+
 
 
 CREATE FUNCTION RANDOM.SIGUIENTE_AFILIADO ()
@@ -1383,6 +1403,18 @@ BEGIN
 	WHERE P.IdPersona = PR.IdProfesional
 END
 GO
+
+GO
+CREATE PROCEDURE RANDOM.GET_HISTORIAL(@NUMERO_AFILIADO_RAIZ int)  AS
+BEGIN
+SELECT P.Nombre, H.Fecha, H.Motivo 
+FROM RANDOM.HISTORIAL_PLAN H, RANDOM.PLANES P, RANDOM.AFILIADO A
+WHERE P.IdPlan = H.IdPlan
+	AND @NUMERO_AFILIADO_RAIZ = A.NumeroAfiliadoRaiz
+	AND A.IdPersona = H.IdAfiliado
+END
+GO
+
 
 
 

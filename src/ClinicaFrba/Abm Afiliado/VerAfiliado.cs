@@ -145,5 +145,21 @@ namespace ClinicaFrba.Abm_Afiliado
             }
 
         }
+
+        private void btnHistorial_Click(object sender, EventArgs e)
+        {
+            Int32 selectedRowCount = dgvAfiliados.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            if (selectedRowCount == 1)
+            {
+                DataGridViewRow d = dgvAfiliados.SelectedRows[0];
+                string nroAfiliadoRaiz = d.Cells[13].Value.ToString();
+                FormProvider.ConsultaHistorial.cargaDatos(nroAfiliadoRaiz);
+                FormProvider.ConsultaHistorial.Show();
+            }
+            else
+            {
+                MessageBox.Show("No podés consultar si no elegís un afiliado y sólo un afiliado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
