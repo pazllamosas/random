@@ -34,7 +34,7 @@ namespace ClinicaFrba.Listados
 
         private void cmbSemestre_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if ((cmbSemestre.SelectedIndex != -1) & (cmbPlan.SelectedIndex != -1))
+            if (cmbSemestre.SelectedIndex == 0)
             {
                 mesInicio = "1";
                 mesFin = "6";
@@ -62,76 +62,20 @@ namespace ClinicaFrba.Listados
                 List<string> lista = new List<string>();
                 lista.Add("@fechaFrom");
                 lista.Add("@fechaTo");
-                lista.Add("@IdPlan");
+                lista.Add("@numeroPlan");
 
-                switch (cmbPlan.SelectedIndex)
+                DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5ProfesionalesMasConsultadosPorPlan",
+                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), cmbPlan.SelectedValue);
+                if (dt == null)
                 {
-                    case 0:
-                        DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
-                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), "1");
-                        if (dt == null)
-                        {
-                            MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        else
-                        {
-                            this.dgvResultado.DataSource = dt;
-                            dgvResultado.Enabled = false;
-                        }
-                        break;
-                    case 1:
-                        DataTable dt1 = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
-                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), "5");
-                        if (dt1 == null)
-                        {
-                            MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        else
-                        {
-                            this.dgvResultado.DataSource = dt1;
-                            dgvResultado.Enabled = false;
-                        }
-                        break;
-                    case 2:
-                        DataTable dt2 = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
-                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), "3");
-                        if (dt2 == null)
-                        {
-                            MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        else
-                        {
-                            this.dgvResultado.DataSource = dt2;
-                            dgvResultado.Enabled = false;
-                        }
-                        break;
-                    case 3:
-                        DataTable dt3 = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
-                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), "4");
-                        if (dt3 == null)
-                        {
-                            MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        else
-                        {
-                            this.dgvResultado.DataSource = dt3;
-                            dgvResultado.Enabled = false;
-                        }
-                        break;
-                    case 4:
-                        DataTable dt4 = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
-                        lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"), "2");
-                        if (dt4 == null)
-                        {
-                            MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        else
-                        {
-                            this.dgvResultado.DataSource = dt4;
-                            dgvResultado.Enabled = false;
-                        }
-                        break;
+                    MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                else
+                {
+                    this.dgvResultado.DataSource = dt;
+                    dgvResultado.Enabled = false;
+                }
+
             }
             else
             {
@@ -141,7 +85,11 @@ namespace ClinicaFrba.Listados
 
         private void ListadoProfporPlan_Load(object sender, EventArgs e)
         {
+            cmbPlan.ValueMember = "Abono";
+            cmbPlan.DisplayMember = "Abono";
+            cmbPlan.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_PLANES");
             this.cmbSemestre.SelectedIndex = -1;
+            this.cmbPlan.SelectedIndex = -1;
         }
 
         private void txtAnioAConsultar_TextChanged(object sender, EventArgs e)
@@ -150,6 +98,11 @@ namespace ClinicaFrba.Listados
             {
                 MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void cmbPlan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

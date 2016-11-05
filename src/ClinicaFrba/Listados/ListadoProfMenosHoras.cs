@@ -67,6 +67,13 @@ namespace ClinicaFrba.Listados
 
         private void ListadoProfMenosHoras_Load(object sender, EventArgs e)
         {
+            cmbPlan.ValueMember = "Abono";
+            cmbPlan.DisplayMember = "Abono";
+            cmbPlan.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_PLANES");
+            cmbEspecialidad.ValueMember = "Descripcion";
+            cmbEspecialidad.DisplayMember = "Descripcion";
+            cmbEspecialidad.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_ESPECIALIDAD");
+
             this.cmbSemestre.SelectedIndex = -1;
             this.cmbEspecialidad.SelectedIndex = -1;
             this.cmbPlan.SelectedIndex = -1;
@@ -74,7 +81,7 @@ namespace ClinicaFrba.Listados
 
         private void cmbSemestre_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void txtAnioAConsultar_TextChanged(object sender, EventArgs e)
