@@ -1752,42 +1752,43 @@ GO
 GO
 CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom datetime, @fechaTo datetime, @IdPlan nvarchar)
 AS BEGIN
-select top 5 P.IdProfesional AS 'Matrícula Profesional', count(RT.IdResultadoTurno) AS 'Cantidad'
+select top 5 P.IdProfesional AS 'Matrícula Profesional', PE.Nombre, PE.Apellido, count(RT.IdResultadoTurno) AS 'Cantidad'
 from RANDOM.RESULTADO_TURNO RT 
---JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono     --VER -MARTIN- SI SE PUEDE SACAR O JOINEAR DE OTRA FORMA
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.PROFESIONAL P ON HD.IdProfesional = P.IdProfesional
+JOIN RANDOM.PERSONA PE ON PE.IdPersona = P.IdProfesional
+JOIN RANDOM.AFILIADO A ON T.IdAfiliado = a.IdPersona
 WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
---AND cast (@IdPlan as INT) = B.IdPlan     --VER -MARTIN- SI SE PUEDE SACAR O JOINEAR DE OTRA FORMA
-group by P.IdProfesional
-order by 2 desc
+AND cast (@IdPlan as INT) = A.IdPlan     
+group by P.IdProfesional, PE.Nombre, PE.Apellido
+order by 4 desc
 END
 GO
 
+
 ---------------------
--- ver como sacar la segunda columna que me aparece, la de cantidad, porque no seria necesaria, pero si para hacer el procedure. o ver si puedo dividir esa cantidad por ddos para que me de las horas y mostrar las horas trabajdas.
 GO
 CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fechaFrom datetime, @fechaTo datetime, @numeroPlan varchar(50), @nombreEspecialidad varchar(50))
 AS BEGIN
-select top 5 P.IdProfesional AS 'Matrícula Profesinal', count(RT.IdResultadoTurno) AS 'Cantidad'
+select top 5 P.IdProfesional AS 'Matrícula Profesinal',PE.Nombre, PE.Apellido, (count(RT.IdResultadoTurno)) * 0.5 AS 'Cantidad DE HORAS'
 from RANDOM.RESULTADO_TURNO RT
---JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono     --VER -MARTIN- SI SE PUEDE SACAR O JOINEAR DE OTRA FORMA
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.PROFESIONAL P ON HD.IdProfesional = P.IdProfesional
---JOIN RANDOM.PLANES PL ON PL.IdPlan = B.IdPlan     --VER -MARTIN- SI SE PUEDE SACAR O JOINEAR DE OTRA FORMA
+JOIN RANDOM.PERSONA PE ON PE.IdPersona = P.IdProfesional
+JOIN RANDOM.AFILIADO A ON T.IdAfiliado = a.IdPersona
+JOIN RANDOM.PLANES PL ON PL.IdPlan = A.IdPlan     
 JOIN RANDOM.ESPECIALIDAD E ON E.IdEspecialidad = T.IdEspecialidad
 WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
 AND E.Descripcion = @nombreEspecialidad
---AND PL.Abono = @numeroPlan     --VER -MARTIN- SI SE PUEDE SACAR O JOINEAR DE OTRA FORMA
-group by P.IdProfesional
+AND PL.Abono = @numeroPlan    
+group by P.IdProfesional, PE.Nombre, PE.Apellido
 order by 2 asc
 END
 GO
 
-
----------------------
+-------------------------------------------
 
 IF OBJECT_ID('TEMPORAL') IS NOT NULL
 DROP TABLE TEMPORAL
@@ -1841,7 +1842,7 @@ group by P.IdPersona
 order by 2 desc
 */
 
----------------------
+--------------------------------------------------------
 
 GO
 CREATE PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas(@fechaFrom datetime, @fechaTo datetime)
