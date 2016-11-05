@@ -59,50 +59,50 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
         {
             if (x == 6)
             {
-                comboBox1.Items.Add("10:00");
-                comboBox1.Items.Add("11:00");
-                comboBox1.Items.Add("12:00");
-                comboBox1.Items.Add("13:00");
-                comboBox1.Items.Add("14:00");
-                comboBox1.Items.Add("15:00");
+                comboBox1.Items.Add("10");
+                comboBox1.Items.Add("11");
+                comboBox1.Items.Add("12");
+                comboBox1.Items.Add("13");
+                comboBox1.Items.Add("14");
+                comboBox1.Items.Add("15");
 
-                comboBox2.Items.Add("11:00");
-                comboBox2.Items.Add("12:00");
-                comboBox2.Items.Add("13:00");
-                comboBox2.Items.Add("14:00");
-                comboBox2.Items.Add("15:00");
+                comboBox2.Items.Add("11");
+                comboBox2.Items.Add("12");
+                comboBox2.Items.Add("13");
+                comboBox2.Items.Add("14");
+                comboBox2.Items.Add("15");
             }
             else
             {
-                comboBox1.Items.Add("07:00");
-                comboBox1.Items.Add("08:00");
-                comboBox1.Items.Add("09:00");
-                comboBox1.Items.Add("10:00");
-                comboBox1.Items.Add("11:00");
-                comboBox1.Items.Add("12:00");
-                comboBox1.Items.Add("13:00");
-                comboBox1.Items.Add("14:00");
-                comboBox1.Items.Add("15:00");
-                comboBox1.Items.Add("16:00");
-                comboBox1.Items.Add("17:00");
-                comboBox1.Items.Add("18:00");
-                comboBox1.Items.Add("19:00");
+                comboBox1.Items.Add("07");
+                comboBox1.Items.Add("08");
+                comboBox1.Items.Add("09");
+                comboBox1.Items.Add("10");
+                comboBox1.Items.Add("11");
+                comboBox1.Items.Add("12");
+                comboBox1.Items.Add("13");
+                comboBox1.Items.Add("14");
+                comboBox1.Items.Add("15");
+                comboBox1.Items.Add("16");
+                comboBox1.Items.Add("17");
+                comboBox1.Items.Add("18");
+                comboBox1.Items.Add("19");
 
 
-                comboBox2.Items.Add("07:00");
-                comboBox2.Items.Add("08:00");
-                comboBox2.Items.Add("09:00");
-                comboBox2.Items.Add("10:00");
-                comboBox2.Items.Add("11:00");
-                comboBox2.Items.Add("12:00");
-                comboBox2.Items.Add("13:00");
-                comboBox2.Items.Add("14:00");
-                comboBox2.Items.Add("15:00");
-                comboBox2.Items.Add("16:00");
-                comboBox2.Items.Add("17:00");
-                comboBox2.Items.Add("18:00");
-                comboBox2.Items.Add("19:00");
-                comboBox2.Items.Add("20:00");
+                comboBox2.Items.Add("07");
+                comboBox2.Items.Add("08");
+                comboBox2.Items.Add("09");
+                comboBox2.Items.Add("10");
+                comboBox2.Items.Add("11");
+                comboBox2.Items.Add("12");
+                comboBox2.Items.Add("13");
+                comboBox2.Items.Add("14");
+                comboBox2.Items.Add("15");
+                comboBox2.Items.Add("16");
+                comboBox2.Items.Add("17");
+                comboBox2.Items.Add("18");
+                comboBox2.Items.Add("19");
+                comboBox2.Items.Add("20");
 
             }
          
@@ -159,7 +159,8 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             string dniS = txtDNI.Text;
             Int32 dni = Convert.ToInt32(dniS);
             dgvProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_PROFESIONAL_CON_DNI", Conexion.generarArgumentos("@DNI"), dni);
-            
+            dgvProfesional.Columns[2].Visible = false;
+            dgvProfesional.Columns[4].Visible = false;
         }
 
         private void dgvProfesional_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -177,14 +178,3 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
         }
     }
 }
-
-
-
-/*CREATE PROCEDURE RANDOM.TRAER_PROFESIONAL_CON_DNI(@DNI INT) AS
-BEGIN
-	SELECT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad
-	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C
-	WHERE A.Documento = @DNI AND A.IdPersona = C.IdProfesional AND C.IdEspecialidad = B.IdEspecialidad
-	ORDER BY B.Descripcion
-END
-SELECT * FROM RANDOM.PERSONA*/
