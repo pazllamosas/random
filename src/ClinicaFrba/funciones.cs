@@ -55,13 +55,13 @@ namespace ClinicaFrba
         }
         internal static Int32 numeroDiaSemana(string dia)
         {
-            if (dia == "Domingo") { return 0; }
-            if (dia == "Lunes") { return 1; }
-            if (dia == "Martes") { return 2; }
-            if (dia == "Miércoles") { return 3; }
-            if (dia == "Jueves") { return 4; }
-            if (dia == "Viernes") { return 5; }
-            else { return 6; }
+            if (dia == "domingo") { return 1; }
+            if (dia == "lunes") { return 2; }
+            if (dia == "martes") { return 3; }
+            if (dia == "miércoles") { return 4; }
+            if (dia == "jueves") { return 5; }
+            if (dia == "viernes") { return 6; }
+            else { return 7; }
         }
 
     }

@@ -78,7 +78,7 @@ namespace ClinicaFrba.Pedir_Turno
                 String dia = dayOfWeek(fechaHora);
                 string Apellido = cmbProfesional.Text;
                 string descripcion = cmbEspecialidad.Text;
-                Int32 DiaNumero = numeroDiaSemana(dia);
+                Int32 DiaNumero = funciones.numeroDiaSemana(dia);
                 if (Apellido == "" && descripcion == "")
                 {
                     MessageBox.Show("Seleccione un medico y/o una especialidad", "Atención", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
@@ -102,16 +102,6 @@ namespace ClinicaFrba.Pedir_Turno
         public String dayOfWeek(DateTime? date)
         {
             return date.Value.ToString("dddd");
-        }
-        public Int32 numeroDiaSemana(string dia)
-        {
-            if (dia == "domingo") { return 1; }
-            if (dia == "lunes") { return 2; }
-            if (dia == "martes") { return 3; }
-            if (dia == "miércoles") { return 4; }
-            if (dia == "jueves") { return 5; }
-            if (dia == "viernes") { return 6; }
-            else { return 7; }
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -146,7 +136,7 @@ namespace ClinicaFrba.Pedir_Turno
                     string fechaHoraTurnoSssss = dtpTurnoPosible.Text;
                     DateTime fechaHora = Convert.ToDateTime(fechaHoraTurnoSssss);
                     String dia = dayOfWeek(fechaHora);
-                    Int32 DiaNumero = numeroDiaSemana(dia);
+                    Int32 DiaNumero = funciones.numeroDiaSemana(dia);
                     DataGridViewRow d = dgvHorariosDisp.SelectedRows[0];
                     string desdeS = d.Cells[5].Value.ToString();
                     Int32 desde = Convert.ToInt32(desdeS);

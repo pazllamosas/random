@@ -172,7 +172,7 @@ namespace ClinicaFrba.Pedir_Turno
             string especialidad = textEspecialidad.Text;
 
             String diaS = FormProvider.ProfesionalTurno.dayOfWeek(fechaHoraTurnoElegida);
-            Int32 Dia = FormProvider.ProfesionalTurno.numeroDiaSemana(diaS);
+            Int32 Dia = funciones.numeroDiaSemana(diaS);
 
             bool resultado = Conexion.executeProcedure("RANDOM.RESERVO_FECHA_TURNO", Conexion.generarArgumentos("@FechaElegida", "@Afiliado", "@Profesional", "@Dia", "@especialidad"), fechaHoraTurnoElegida, afiliado, profesional, Dia, especialidad);
             if (resultado)

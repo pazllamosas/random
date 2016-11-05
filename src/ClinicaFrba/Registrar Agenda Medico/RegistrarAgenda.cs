@@ -24,6 +24,9 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             cmbDias.Text = null;
             comboBox1.Text = null;
             comboBox2.Text = null;
+            dgvProfesional.DataSource = null;
+            comboBox1.Items.Clear();
+            comboBox2.Items.Clear();
             this.Hide();
             FormProvider.MainMenu.Show();
         }
@@ -35,12 +38,12 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
 
         private void RegistrarAgenda_Load(object sender, EventArgs e)
         {
-            cmbDias.Items.Add("Lunes");
-            cmbDias.Items.Add("Martes");
-            cmbDias.Items.Add("Miercoles");
-            cmbDias.Items.Add("Jueves");
-            cmbDias.Items.Add("Viernes");
-            cmbDias.Items.Add("Sabado");
+            cmbDias.Items.Add("lunes");
+            cmbDias.Items.Add("martes");
+            cmbDias.Items.Add("miércoles");
+            cmbDias.Items.Add("jueves");
+            cmbDias.Items.Add("viernes");
+            cmbDias.Items.Add("sabado");
             this.cmbDias.SelectedIndex = -1;
             this.comboBox1.SelectedIndex = -1;
             this.comboBox2.SelectedIndex = -1;
@@ -50,6 +53,8 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
 
         private void cmbDias_SelectedIndexChanged(object sender, EventArgs e)
         {
+            comboBox1.Items.Clear();
+            comboBox2.Items.Clear();
             string dia = cmbDias.Text;
             Int32 x = funciones.numeroDiaSemana(dia);
             diasDiponibles(x);
@@ -57,7 +62,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
 
         public void diasDiponibles(Int32 x)
         {
-            if (x == 6)
+            if (x == 7) //sabado 7
             {
                 comboBox1.Items.Add("10");
                 comboBox1.Items.Add("11");
@@ -135,32 +140,77 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
         }
 
         private void btnGuardarAgenda_Click(object sender, EventArgs e)
+        
         {
-            DataGridViewRow d = dgvProfesional.SelectedRows[0];
-            string IdProfesionalS = d.Cells[2].Value.ToString();
-            Int32 IdProfesional = Convert.ToInt32(IdProfesionalS);
-            string IdEspecialidadS = d.Cells[4].Value.ToString();
-            Int32 IdEspecialidad = Convert.ToInt32(IdEspecialidadS);
-            string diaS = cmbDias.Text;
-            Int32 Dia = funciones.numeroDiaSemana(diaS);
-            string FechaDesde = comboBox1.Text;
-            Int32 FechaDesdeInt = Convert.ToInt32(FechaDesde);
-            string FechaHasta = comboBox2.Text;
-            Int32 FechaHastaInt = Convert.ToInt32(FechaHasta);
             
-            //if()
-             Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia"), IdProfesional, IdEspecialidad, FechaDesde, FechaHasta, Dia);
-             MessageBox.Show("Agenda asignada correctamente");
-                        
-        }
+                Int32 selectedRowCount = dgvProfesional.Rows.GetRowCount(DataGridViewElementStates.Selected);
+                if (selectedRowCount == 1)
+                {
+                    string FechaDesde = comboBox1.Text;
+                    string FechaHasta = comboBox2.Text;
+                    string dia = cmbDias.Text;
+
+                    if (FechaDesde != "" && FechaHasta != "" && FechaDesde != "")
+                    {
+                    
+                    Int32 FechaDesdeInt = Convert.ToInt32(FechaDesde);
+                    
+                    Int32 FechaHastaInt = Convert.ToInt32(FechaHasta);
+
+                    if (FechaDesdeInt < FechaHastaInt)
+                        {
+
+                        DataGridViewRow d = dgvProfesional.SelectedRows[0];
+                        string IdProfesionalS = d.Cells[2].Value.ToString();
+                        Int32 IdProfesional = Convert.ToInt32(IdProfesionalS);
+                        string IdEspecialidadS = d.Cells[4].Value.ToString();
+                        Int32 IdEspecialidad = Convert.ToInt32(IdEspecialidadS);
+                        string diaS = cmbDias.Text;
+                        Int32 Dia = funciones.numeroDiaSemana(diaS);
+
+                        Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia"), IdProfesional, IdEspecialidad, FechaDesde, FechaHasta, Dia);
+                        MessageBox.Show("Agenda asignada correctamente");
+                        dgvProfesional.DataSource = null;
+                        txtDNI.Text = null;
+                        cmbDias.Text = null;
+                        comboBox1.Items.Clear();
+                        comboBox2.Items.Clear();
+                        comboBox1.Text = null;
+                        comboBox2.Text = null;
+                        }
+                        else
+                        {
+                        MessageBox.Show("No puede ser la Hora Desde menor o igual a la Hora Hasta", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                   }
+                   else
+                   {
+                   MessageBox.Show("Llene todos los campos", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                   }
+                }
+                else
+                {
+                    MessageBox.Show("Seleccione un Profesional", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            
+            }
+
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             string dniS = txtDNI.Text;
+            if (dniS != "")
+            {
+            
             Int32 dni = Convert.ToInt32(dniS);
             dgvProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_PROFESIONAL_CON_DNI", Conexion.generarArgumentos("@DNI"), dni);
             dgvProfesional.Columns[2].Visible = false;
             dgvProfesional.Columns[4].Visible = false;
+            }
+            else
+            {
+          MessageBox.Show("Seleccione un DNI de un Profesional", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
 
         private void dgvProfesional_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -173,6 +223,8 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             dgvProfesional.DataSource = null;
             txtDNI.Text = null;
             cmbDias.Text = null;
+            comboBox1.Items.Clear();
+            comboBox2.Items.Clear();
             comboBox1.Text = null;
             comboBox2.Text = null;
         }
