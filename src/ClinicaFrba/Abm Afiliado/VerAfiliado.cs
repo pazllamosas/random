@@ -137,6 +137,10 @@ namespace ClinicaFrba.Abm_Afiliado
                 Conexion.executeProcedure("RANDOM.BAJA_AFILIADO",
                     Conexion.generarArgumentos("IDPERSONA"),
                     idAfiliado);
+                Conexion.executeProcedure("RANDOM.BAJA_AFILIADO_ASIGNACION",
+                    Conexion.generarArgumentos("IDPERSONA"),
+                    idAfiliado);
+
                 MessageBox.Show("Afiliado dado de baja", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
