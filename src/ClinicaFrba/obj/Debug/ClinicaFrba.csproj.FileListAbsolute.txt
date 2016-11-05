@@ -109,3 +109,4 @@ C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\random\src\ClinicaFrba\obj\Debug
 C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.pdb
 =======
 >>>>>>> f8827f0476d26bd003dd16577fd41ed304737196
+C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.csprojResolveAssemblyReference.cache

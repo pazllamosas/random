@@ -153,6 +153,7 @@
             this.BackgroundImage = global::ClinicaFrba.Properties.Resources.hospital;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(620, 476);
+            this.ControlBox = false;
             this.Controls.Add(this.btnIngresar);
             this.Controls.Add(this.cmbRol);
             this.Controls.Add(this.txtPassword);
