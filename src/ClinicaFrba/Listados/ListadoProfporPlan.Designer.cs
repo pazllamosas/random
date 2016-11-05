@@ -149,12 +149,6 @@
             // cmbPlan
             // 
             this.cmbPlan.FormattingEnabled = true;
-            this.cmbPlan.Items.AddRange(new object[] {
-            "150",
-            "140",
-            "130",
-            "120",
-            "110"});
             this.cmbPlan.Location = new System.Drawing.Point(202, 157);
             this.cmbPlan.Name = "cmbPlan";
             this.cmbPlan.Size = new System.Drawing.Size(121, 21);

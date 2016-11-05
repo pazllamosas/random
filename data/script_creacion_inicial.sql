@@ -1735,6 +1735,7 @@ END
 GO 
 -------------------------------TOP 5------------------------------
 
+
 GO
 CREATE PROCEDURE RANDOM.top5EspecialidadesConMasCancelacionesDeTurno (@fechaFrom datetime, @fechaTo datetime)
 AS BEGIN
@@ -1752,7 +1753,7 @@ GO
 ---------------------
 
 GO
-CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom datetime, @fechaTo datetime, @IdPlan nvarchar)
+CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom datetime, @fechaTo datetime, @numeroPlan int)
 AS BEGIN
 select top 5 P.IdProfesional AS 'Matrícula Profesional', PE.Nombre, PE.Apellido, count(RT.IdResultadoTurno) AS 'Cantidad'
 from RANDOM.RESULTADO_TURNO RT 
@@ -1761,13 +1762,13 @@ JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.PROFESIONAL P ON HD.IdProfesional = P.IdProfesional
 JOIN RANDOM.PERSONA PE ON PE.IdPersona = P.IdProfesional
 JOIN RANDOM.AFILIADO A ON T.IdAfiliado = a.IdPersona
+JOIN RANDOM.PLANES PL ON PL.IdPlan = A.IdPlan 
 WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
-AND cast (@IdPlan as INT) = A.IdPlan     
+AND PL.Abono = @numeroPlan     
 group by P.IdProfesional, PE.Nombre, PE.Apellido
 order by 4 desc
 END
 GO
-
 
 ---------------------
 GO
@@ -1860,10 +1861,11 @@ order by 2 desc
 END
 GO
 
+
 -----AGENDA------
 
 GO
-CREATE PROCEDURE RANDOM.CARGA_AGENDA(@IdProfesional int, @IdEspecialidad int, @HoraDesde nvarchar(255), @HoraHasta nvarchar(255), @Dia int)) AS
+CREATE PROCEDURE RANDOM.CARGA_AGENDA(@IdProfesional int, @IdEspecialidad int, @HoraDesde nvarchar(255), @HoraHasta nvarchar(255), @Dia int) AS
 BEGIN
 
 DECLARE @HorasACargar nvarchar(255)
@@ -1886,6 +1888,8 @@ RAISERROR ('Horas a cargar en la semana mayor a 48hs', 16, 217) WITH SETERROR
 	
 END
 GO
+
+
 
 
 
