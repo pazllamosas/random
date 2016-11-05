@@ -77,11 +77,14 @@
             // 
             // dgvFuncionalidades
             // 
+            this.dgvFuncionalidades.AllowUserToAddRows = false;
+            this.dgvFuncionalidades.AllowUserToDeleteRows = false;
             this.dgvFuncionalidades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFuncionalidades.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.numero,
             this.funcionalidad});
             this.dgvFuncionalidades.Location = new System.Drawing.Point(12, 178);
+            this.dgvFuncionalidades.MultiSelect = false;
             this.dgvFuncionalidades.Name = "dgvFuncionalidades";
             this.dgvFuncionalidades.ReadOnly = true;
             this.dgvFuncionalidades.Size = new System.Drawing.Size(647, 94);
@@ -236,6 +239,7 @@
             this.btnHabilitarRol.Text = "Habilitar Rol";
             this.btnHabilitarRol.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnHabilitarRol.UseVisualStyleBackColor = true;
+            this.btnHabilitarRol.Visible = false;
             this.btnHabilitarRol.Click += new System.EventHandler(this.btnHabilitarRol_Click);
             // 
             // AgregarRol

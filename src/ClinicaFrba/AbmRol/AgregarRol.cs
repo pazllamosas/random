@@ -39,6 +39,14 @@ namespace ClinicaFrba.AbmRol
             this.txtNombre.Clear();
             this.txtIdRol.Clear();
             this.cmbUsuario.SelectedIndex = -1;
+            dgvFuncionalidades.ReadOnly = true;
+            btnAgregarFunc.Enabled = false;
+            btnEliminarFunc.Enabled = false;
+            cmbUsuario.Enabled = false;
+            btnAsignarUsuario.Enabled = false;
+            btnHabilitarRol.Visible = false;
+            
+
             this.Hide();
             FormProvider.Rol.CargarRoles();
             FormProvider.Rol.Show();
@@ -104,6 +112,7 @@ namespace ClinicaFrba.AbmRol
             btnEliminarFunc.Enabled = true;
             cmbUsuario.Enabled = true;
             btnAsignarUsuario.Enabled = true;
+            btnHabilitarRol.Visible = true;
 
         }
 
@@ -256,8 +265,8 @@ namespace ClinicaFrba.AbmRol
             cmbUsuario.ValueMember = "IdUsuario";
             cmbUsuario.DisplayMember = "Username";
             cmbUsuario.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_USUARIOS");
-            this.txtNombre.Clear();
-            this.txtIdRol.Clear();
+            //this.txtNombre.Clear();
+            //this.txtIdRol.Clear();
             this.cmbUsuario.SelectedIndex = -1;
 
         }
