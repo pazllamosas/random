@@ -147,16 +147,11 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             Int32 FechaDesdeInt = Convert.ToInt32(FechaDesde);
             string FechaHasta = comboBox2.Text;
             Int32 FechaHastaInt = Convert.ToInt32(FechaHasta);
-           // if()
-       //     bool resultado = Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia"), IdProfesional, IdEspecialidad, HoraDesde, HoraHasta, Dia);
-      //      if (resultado)
-        //    {
-          //      MessageBox.Show("Agenda asignada correctamente");
-            //}
-            //else
-            //{
-              //  MessageBox.Show("La agenda no se asigno", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-           // }
+            
+            //if()
+             Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia"), IdProfesional, IdEspecialidad, FechaDesde, FechaHasta, Dia);
+             MessageBox.Show("Agenda asignada correctamente");
+                        
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)

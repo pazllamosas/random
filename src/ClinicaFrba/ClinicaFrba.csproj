@@ -87,10 +87,10 @@
     <Compile Include="Abm Planes\Planes.Designer.cs">
       <DependentUpon>Planes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm Profesional\Ver Profesional.cs">
+    <Compile Include="Cancelar Atencion\Abm Profesional\Ver Profesional.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Abm Profesional\Ver Profesional.Designer.cs">
+    <Compile Include="Cancelar Atencion\Abm Profesional\Ver Profesional.Designer.cs">
       <DependentUpon>Ver Profesional.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRol\AgregarRol.cs">
@@ -224,6 +224,7 @@
     </Compile>
     <EmbeddedResource Include="Abm Afiliado\AgregarAfiliado.resx">
       <DependentUpon>AgregarAfiliado.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Afiliado\AgregarFamiliar.resx">
       <DependentUpon>AgregarFamiliar.cs</DependentUpon>
@@ -243,7 +244,7 @@
     <EmbeddedResource Include="Abm Planes\Planes.resx">
       <DependentUpon>Planes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Abm Profesional\Ver Profesional.resx">
+    <EmbeddedResource Include="Cancelar Atencion\Abm Profesional\Ver Profesional.resx">
       <DependentUpon>Ver Profesional.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\AgregarRol.resx">
