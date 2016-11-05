@@ -236,6 +236,7 @@
             // 
             // cmbSexo
             // 
+            this.cmbSexo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSexo.FormattingEnabled = true;
             this.cmbSexo.Location = new System.Drawing.Point(130, 164);
             this.cmbSexo.Name = "cmbSexo";
@@ -245,6 +246,7 @@
             // 
             // cmbTipoDoc
             // 
+            this.cmbTipoDoc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTipoDoc.FormattingEnabled = true;
             this.cmbTipoDoc.Location = new System.Drawing.Point(489, 51);
             this.cmbTipoDoc.Name = "cmbTipoDoc";
@@ -261,6 +263,7 @@
             // 
             // cmbPlanMedico
             // 
+            this.cmbPlanMedico.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPlanMedico.FormattingEnabled = true;
             this.cmbPlanMedico.Location = new System.Drawing.Point(489, 214);
             this.cmbPlanMedico.Name = "cmbPlanMedico";
@@ -269,6 +272,7 @@
             // 
             // cmbEstadoCivil
             // 
+            this.cmbEstadoCivil.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbEstadoCivil.FormattingEnabled = true;
             this.cmbEstadoCivil.Location = new System.Drawing.Point(489, 292);
             this.cmbEstadoCivil.Name = "cmbEstadoCivil";

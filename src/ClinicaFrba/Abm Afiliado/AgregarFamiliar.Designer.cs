@@ -70,6 +70,7 @@
             // 
             // cmbTipoDoc
             // 
+            this.cmbTipoDoc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTipoDoc.FormattingEnabled = true;
             this.cmbTipoDoc.Location = new System.Drawing.Point(473, 223);
             this.cmbTipoDoc.Name = "cmbTipoDoc";
@@ -78,6 +79,7 @@
             // 
             // cmbSexo
             // 
+            this.cmbSexo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSexo.FormattingEnabled = true;
             this.cmbSexo.Location = new System.Drawing.Point(143, 225);
             this.cmbSexo.Name = "cmbSexo";
@@ -222,6 +224,7 @@
             // 
             // cmbFamiliar
             // 
+            this.cmbFamiliar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbFamiliar.FormattingEnabled = true;
             this.cmbFamiliar.Location = new System.Drawing.Point(314, 35);
             this.cmbFamiliar.Name = "cmbFamiliar";

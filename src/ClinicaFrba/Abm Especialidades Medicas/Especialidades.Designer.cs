@@ -35,8 +35,11 @@
             // 
             // dgvEspecialidades
             // 
+            this.dgvEspecialidades.AllowUserToAddRows = false;
+            this.dgvEspecialidades.AllowUserToDeleteRows = false;
             this.dgvEspecialidades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvEspecialidades.Location = new System.Drawing.Point(12, 78);
+            this.dgvEspecialidades.MultiSelect = false;
             this.dgvEspecialidades.Name = "dgvEspecialidades";
             this.dgvEspecialidades.ReadOnly = true;
             this.dgvEspecialidades.Size = new System.Drawing.Size(647, 383);

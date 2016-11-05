@@ -61,11 +61,13 @@
             // 
             this.txtPlanActual.Location = new System.Drawing.Point(108, 42);
             this.txtPlanActual.Name = "txtPlanActual";
+            this.txtPlanActual.ReadOnly = true;
             this.txtPlanActual.Size = new System.Drawing.Size(200, 20);
             this.txtPlanActual.TabIndex = 11;
             // 
             // cmbNuevoPlan
             // 
+            this.cmbNuevoPlan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbNuevoPlan.FormattingEnabled = true;
             this.cmbNuevoPlan.Location = new System.Drawing.Point(110, 150);
             this.cmbNuevoPlan.Name = "cmbNuevoPlan";

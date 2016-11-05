@@ -117,6 +117,7 @@
             // 
             // cmbUsuario
             // 
+            this.cmbUsuario.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbUsuario.Enabled = false;
             this.cmbUsuario.FormattingEnabled = true;
             this.cmbUsuario.Location = new System.Drawing.Point(304, 366);

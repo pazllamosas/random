@@ -29,7 +29,6 @@ namespace ClinicaFrba.Abm_Afiliado
             if (validacion())
             {
 
-                //string documento = txtDocumento.Text;
                 string numeroAfiliado = txtDocumento.Text;
                 Int32 idPlan = cmbNuevoPlan.SelectedIndex;
                 string motivo = txtMotivo.Text;
@@ -50,10 +49,10 @@ namespace ClinicaFrba.Abm_Afiliado
 
        
 
-        public void cargaDatos(string PlanViejo, string documento)
+        public void cargaDatos(string PlanViejo, string nroAfiliado)
         {
             txtPlanActual.Text = PlanViejo;
-            txtDocumento.Text = documento;
+            txtDocumento.Text = nroAfiliado;
         }
 
         private bool validacion()

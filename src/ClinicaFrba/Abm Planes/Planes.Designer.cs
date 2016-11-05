@@ -35,8 +35,11 @@
             // 
             // dgvPlanes
             // 
+            this.dgvPlanes.AllowUserToAddRows = false;
+            this.dgvPlanes.AllowUserToDeleteRows = false;
             this.dgvPlanes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPlanes.Location = new System.Drawing.Point(12, 78);
+            this.dgvPlanes.MultiSelect = false;
             this.dgvPlanes.Name = "dgvPlanes";
             this.dgvPlanes.ReadOnly = true;
             this.dgvPlanes.Size = new System.Drawing.Size(647, 383);
