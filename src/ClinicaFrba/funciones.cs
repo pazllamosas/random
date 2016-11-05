@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -52,6 +52,16 @@ namespace ClinicaFrba
             fecha = System.Configuration.ConfigurationManager.AppSettings["fecha"];
             DateTime fechaHoy = Convert.ToDateTime(fecha);
             return fechaHoy;
+        }
+        internal static Int32 numeroDiaSemana(string dia)
+        {
+            if (dia == "Domingo") { return 0; }
+            if (dia == "Lunes") { return 1; }
+            if (dia == "Martes") { return 2; }
+            if (dia == "Miércoles") { return 3; }
+            if (dia == "Jueves") { return 4; }
+            if (dia == "Viernes") { return 5; }
+            else { return 6; }
         }
 
     }
