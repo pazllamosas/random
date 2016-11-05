@@ -77,7 +77,8 @@ namespace ClinicaFrba.Abm_Afiliado
         {
             string PlanViejo = cmbPlanMedico.Text;
             string nroAfiliadoRaiz = txtNroAf.Text;
-            FormProvider.CambioPlanAfiliado.cargaDatos(PlanViejo, nroAfiliadoRaiz);
+            string documento = txtNroDoc.Text;
+            FormProvider.CambioPlanAfiliado.cargaDatos(PlanViejo, documento);
             FormProvider.CambioPlanAfiliado.Show();
         }
 
@@ -142,12 +143,47 @@ namespace ClinicaFrba.Abm_Afiliado
 
             txtNombre.ReadOnly = true;
             txtApellido.ReadOnly = true;
+            cmbTipoDoc.Enabled = false;
             txtNroDoc.ReadOnly = true;
             dtpFechaNac.Enabled = false;
+            //cmbPlanMedico.Enabled = false;
+            //btnCambiarPlan.Visible = true;
 
             this.cargaDeAgregarFamiliar();
 
+            if (!(nroAfiliadoExt == "01"))
+            {
+                cmbPlanMedico.Enabled = false;
+                btnCambiarPlan.Visible = false;
+                cmbEstadoCivil.Enabled = false;
+                txtFamACargo.Enabled = false;
+
+            }
+            else
+            {
+                cmbPlanMedico.Enabled = false;
+                btnCambiarPlan.Visible = true;
+
+            }
+
         }
+
+        public void agregarNuevoAfiliado()
+        {
+            this.LimpiarCampos();
+            txtNombre.ReadOnly = false;
+            txtApellido.ReadOnly = false;
+            cmbTipoDoc.Enabled = true;
+            txtNroDoc.ReadOnly = false;
+            dtpFechaNac.Enabled = true;
+            cmbPlanMedico.Enabled = true;
+            btnCambiarPlan.Visible = false;
+            cmbEstadoCivil.Enabled = true;
+            txtFamACargo.Enabled = true;
+
+        }
+
+
 
         public void LimpiarCampos()
         {
@@ -264,8 +300,10 @@ namespace ClinicaFrba.Abm_Afiliado
                 return false;
             if (cmbEstadoCivil.SelectedIndex == -1)
                 return false;
-            if (dtpFechaNac.Checked == false)
-                return false;
+            if (dtpFechaNac.Text.Length < 0)
+                 return false;
+
+            
 
             return true;
         }

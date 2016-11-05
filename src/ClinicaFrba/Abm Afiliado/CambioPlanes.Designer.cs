@@ -36,7 +36,7 @@
             this.lblPlanActual = new System.Windows.Forms.Label();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
-            this.txtNroAfiliado = new System.Windows.Forms.TextBox();
+            this.txtDocumento = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtMotivo
@@ -122,19 +122,19 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
-            // txtNroAfiliado
+            // txtDocumento
             // 
-            this.txtNroAfiliado.Location = new System.Drawing.Point(545, 13);
-            this.txtNroAfiliado.Name = "txtNroAfiliado";
-            this.txtNroAfiliado.Size = new System.Drawing.Size(100, 20);
-            this.txtNroAfiliado.TabIndex = 16;
+            this.txtDocumento.Location = new System.Drawing.Point(545, 13);
+            this.txtDocumento.Name = "txtDocumento";
+            this.txtDocumento.Size = new System.Drawing.Size(100, 20);
+            this.txtDocumento.TabIndex = 16;
             // 
             // CambioPlanes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 476);
-            this.Controls.Add(this.txtNroAfiliado);
+            this.Controls.Add(this.txtDocumento);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.txtMotivo);
@@ -164,6 +164,6 @@
         private System.Windows.Forms.ComboBox cmbNuevoPlan;
         private System.Windows.Forms.Label lblNuevoPlan;
         private System.Windows.Forms.Label lblPlanActual;
-        private System.Windows.Forms.TextBox txtNroAfiliado;
+        private System.Windows.Forms.TextBox txtDocumento;
     }
 }

@@ -19,6 +19,7 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
+            this.limpiarCampos();
             this.Hide();
             FormProvider.Agafiliado.Show();
         }
@@ -28,13 +29,13 @@ namespace ClinicaFrba.Abm_Afiliado
             if (validacion())
             {
 
-                string nroAfiliado = txtNroAfiliado.Text;
+                string documento = txtDocumento.Text;
                 Int32 idPlan = cmbNuevoPlan.SelectedIndex;
                 string motivo = txtMotivo.Text;
 
                 Conexion.executeProcedure("RANDOM.CAMBIO_PLAN",
-                    Conexion.generarArgumentos("@NRO_AFILIADO_RAIZ", "@IDPLAN", "@MOTIVO"),
-                        nroAfiliado, idPlan, motivo);
+                    Conexion.generarArgumentos("@DOCUMENTO", "@IDPLAN", "@MOTIVO"),
+                        documento, idPlan, motivo);
                 MessageBox.Show("Plan cambiado");
                 this.Hide();
                 FormProvider.Agafiliado.Show();
@@ -48,10 +49,10 @@ namespace ClinicaFrba.Abm_Afiliado
 
        
 
-        public void cargaDatos(string PlanViejo, string nroAfiliadoRaiz)
+        public void cargaDatos(string PlanViejo, string documento)
         {
             txtPlanActual.Text = PlanViejo;
-            txtNroAfiliado.Text = nroAfiliadoRaiz;
+            txtDocumento.Text = documento;
         }
 
         private bool validacion()
@@ -65,12 +66,20 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void CambioPlanes_Load(object sender, EventArgs e)
         {
-            txtNroAfiliado.Visible = false;
+            txtDocumento.Visible = false;
             cmbNuevoPlan.ValueMember = "IdPlan";
             cmbNuevoPlan.DisplayMember = "Nombre";
             cmbNuevoPlan.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_PLANES");
+            this.cargaDatos(txtPlanActual.Text, txtDocumento.Text);
             cmbNuevoPlan.SelectedIndex = -1;
-            this.cargaDatos(txtPlanActual.Text, txtNroAfiliado.Text);
+
         }
+
+        public void limpiarCampos()
+        {
+            cmbNuevoPlan.SelectedIndex = -1;
+            txtMotivo.Clear();
+        }
+
     }
 }

@@ -125,27 +125,47 @@ namespace ClinicaFrba.Abm_Afiliado
                 Int32 idPlan = planMedico;
                 Int32 cantidadACargo = cantACargoAfiliado;
 
-                if (Conexion.executeProcedure("RANDOM.CREAR_FAMILIAR",
-                     Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
-                     nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento, idPlan, idEstadoCivil, nroAfiliadoRaiz))
+                //if (Conexion.executeProcedure("RANDOM.CREAR_FAMILIAR",
+                //     Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
+                //     nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento, idPlan, idEstadoCivil, nroAfiliadoRaiz))
 
                     if (cmbFamiliar.Text == "Pareja")
                     {
-                        Conexion.executeProcedure("RANDOM.NRO_AFILIADO_CONYUGE",
-                        Conexion.generarArgumentos("NROAFILIADORAIZ", "DOCUMENTO"),
-                        nroAfiliadoRaiz, documento);
-                        MessageBox.Show("Conyuge creado");
-                        this.LimpiarCampos();
-                        this.Hide();
+                        if (Conexion.executeProcedure("RANDOM.CREAR_CONYUGE",
+                    Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
+                    nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento, idPlan, idEstadoCivil, nroAfiliadoRaiz))
+                        {
+                            Conexion.executeProcedure("RANDOM.NRO_AFILIADO_CONYUGE",
+                            Conexion.generarArgumentos("NROAFILIADORAIZ", "DOCUMENTO"),
+                            nroAfiliadoRaiz, documento);
+                            MessageBox.Show("Conyuge creado");
+                            this.LimpiarCampos();
+                            this.Hide();
+                        }
+                        else
+                        {
+                            this.LimpiarCampos();
+                            this.Hide();
+                        }
                     }
                     else
                     {
-                        Conexion.executeProcedure("RANDOM.NRO_AFILIADO_FAMILIARES",
+                        if (Conexion.executeProcedure("RANDOM.CREAR_FAMILIAR",
+                     Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
+                     nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento, idPlan, idEstadoCivil, nroAfiliadoRaiz))
+                        {
+                            Conexion.executeProcedure("RANDOM.NRO_AFILIADO_FAMILIARES",
                             Conexion.generarArgumentos("NROAFILIADORAIZ", "DOCUMENTO", "CANTIDAD_A_CARGO"),
                             nroAfiliadoRaiz, documento, cantidadACargo);
-                        MessageBox.Show("Familiar a cargo creado");
-                        this.LimpiarCampos();
-                        this.Hide();
+                            MessageBox.Show("Familiar a cargo creado");
+                            this.LimpiarCampos();
+                            this.Hide();
+                        }
+                        else
+                        {
+                            this.LimpiarCampos();
+                            this.Hide();
+                        }
                     }
             }
             else

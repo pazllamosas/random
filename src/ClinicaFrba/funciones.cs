@@ -41,7 +41,7 @@ namespace ClinicaFrba
 
             foreach (char c in s)
             {
-                if (!Regex.IsMatch(s, @"^[a-zA-Z]+$"))
+                if (!Regex.IsMatch(s, @"^[a-zA-Záéíóú]+$"))
                     return false;
             }
             return true;
