@@ -706,14 +706,14 @@ FROM (SELECT B.IdCompra , COUNT (B.IdBONO) AS 'CANTIDAD'
 WHERE joinBonoCompra.IdCompra = RANDOM.COMPRA_BONO.IdCompra
 
 
-/*AGENDA_HORARIO_DISPONIBLE*/
+	/*AGENDA_HORARIO_DISPONIBLE*/
 insert INTO RANDOM.AGENDA_HORARIO_DISPONIBLE 
-SELECT DISTINCT P.IdPersona, ES.IdEspecialidad,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Bono_Consulta_Fecha_Impresion) AS 'DIA DE SEMANA' 
+SELECT DISTINCT P.IdPersona, ES.IdEspecialidad,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Turno_Fecha) AS 'DIA DE SEMANA' 
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Medico_Dni = P.Documento
 JOIN RANDOM.ESPECIALIDAD ES ON ES.Codigo = M.Especialidad_Codigo 
-where M.Bono_Consulta_Fecha_Impresion IS NOT NULL
-group by P.IdPersona, ES.IdEspecialidad, DATepart(weekday, M.Bono_Consulta_Fecha_Impresion)
+where M.Turno_Fecha IS NOT NULL
+group by P.IdPersona, ES.IdEspecialidad, DATepart(weekday, M.Turno_Fecha)
 
 
 /*TURNO*/
@@ -747,7 +747,7 @@ ORDER BY Turno_Numero
 
 /*RESULTADO_TURNO*/
 INSERT INTO RANDOM.RESULTADO_TURNO(IdTurno, Sintomas, Enfermedades, Fecha)
-SELECT DISTINCT T.IdTurno, M.Consulta_Sintomas, M.Consulta_Enfermedades, M.Bono_Consulta_Fecha_Impresion
+SELECT DISTINCT T.IdTurno, M.Consulta_Sintomas, M.Consulta_Enfermedades, M.Turno_Fecha
 FROM gd_esquema.Maestra M, RANDOM.TURNO T
 WHERE T.IdTurno = M.Turno_Numero
 	AND M.Turno_Numero IS NOT NULL
