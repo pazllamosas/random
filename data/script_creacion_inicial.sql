@@ -359,6 +359,7 @@ CREATE TABLE RANDOM.BONO(
 CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
 	IdAgenda int PRIMARY KEY IDENTITY (1,1),
 	IdProfesional int,
+	IdEspecialidad int,
 	HoraDesde nvarchar(255),
 	HoraHasta nvarchar(255),
 	nombreDia nvarchar (255)
@@ -424,6 +425,7 @@ ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (IdUsuario) REFERENCES RANDOM.Usuario
 ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdAfiliado) REFERENCES RANDOM.AFILIADO
 ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdEspecialidad) REFERENCES RANDOM.ESPECIALIDAD
 ALTER TABLE RANDOM.HISTORIAL_PLAN ADD FOREIGN KEY (IdPlan) REFERENCES RANDOM.PLANES
+ALTER TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE ADD FOREIGN KEY (IdEspecialidad) REFERENCES RANDOM.ESPECIALIDAD
 
 -- CREATE INDIXES
 
@@ -706,15 +708,16 @@ WHERE joinBonoCompra.IdCompra = RANDOM.COMPRA_BONO.IdCompra
 
 /*AGENDA_HORARIO_DISPONIBLE*/
 insert INTO RANDOM.AGENDA_HORARIO_DISPONIBLE 
-SELECT DISTINCT P.IdPersona,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Bono_Consulta_Fecha_Impresion) AS 'DIA DE SEMANA' 
+SELECT DISTINCT P.IdPersona, ES.IdEspecialidad,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Bono_Consulta_Fecha_Impresion) AS 'DIA DE SEMANA' 
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Medico_Dni = P.Documento
+JOIN RANDOM.ESPECIALIDAD ES ON ES.Codigo = M.Especialidad_Codigo 
 where M.Bono_Consulta_Fecha_Impresion IS NOT NULL
-group by P.IdPersona, DATepart(weekday, M.Bono_Consulta_Fecha_Impresion)
+group by P.IdPersona, ES.IdEspecialidad, DATepart(weekday, M.Bono_Consulta_Fecha_Impresion)
 
 
 /*TURNO*/
-INSERT INTO RANDOM.TURNO (IdTurno, IdAgenda, FechaYHoraTurno, IdAfiliado, IdEspecialidad)
+/*INSERT INTO RANDOM.TURNO (IdTurno, IdAgenda, FechaYHoraTurno, IdAfiliado, IdEspecialidad)
 SELECT DISTINCT M.Turno_Numero, hd.IdAgenda, M.Turno_Fecha, P.IdPersona, E.IdEspecialidad
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON P.Documento = M.Paciente_Dni
@@ -725,7 +728,21 @@ JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON DATepart(WEEKDAY, M.Turno_Fecha) = H
 where M.Turno_Numero IS NOT NULL 
 	AND M.Turno_Fecha IS NOT NULL
 	AND M.Bono_Consulta_Fecha_Impresion IS NOT NULL
+	AND M.Consulta_Sintomas IS NOT NULL*/
+
+INSERT INTO RANDOM.TURNO (IdTurno, IdAgenda, FechaYHoraTurno, IdAfiliado, IdEspecialidad)
+SELECT DISTINCT M.Turno_Numero, hd.IdAgenda, M.Turno_Fecha, P.IdPersona, HD.IdEspecialidad
+FROM gd_esquema.Maestra M
+JOIN RANDOM.PERSONA P ON P.Documento = M.Paciente_Dni
+JOIN RANDOM.ESPECIALIDAD E ON E.Codigo = M.Especialidad_Codigo
+JOIN RANDOM.PERSONA PE ON PE.Documento = M.Medico_Dni
+JOIN RANDOM.ESPECIALIDAD_POR_PROFESIONAL EP ON EP.IdEspecialidad = E.IdEspecialidad and ep.IdProfesional= pe.IdPersona
+JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON DATepart(WEEKDAY, M.Turno_Fecha) = HD.nombreDia AND HD.IdProfesional = pe.IdPersona AND HD.IdEspecialidad = EP.IdEspecialidad
+where M.Turno_Numero IS NOT NULL 
+	AND M.Turno_Fecha IS NOT NULL
+	AND M.Bono_Consulta_Fecha_Impresion IS NOT NULL
 	AND M.Consulta_Sintomas IS NOT NULL
+ORDER BY Turno_Numero
 
 
 /*RESULTADO_TURNO*/
