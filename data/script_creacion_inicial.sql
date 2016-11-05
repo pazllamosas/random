@@ -1614,7 +1614,7 @@ IF(@Descripcion != '' AND @Apellido != '')
 END
 GO
 
-CREATE PROCEDURE RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES(@Desde DATETIME, @Hasta DATETIME, @IdProfesional INT, @Dia INT) AS
+CREATE PROCEDURE RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES(@Desde DATETIME, @Hasta DATETIME, @IdProfesional INT, @Dia INT, @IdEspecialidad INT) AS
 BEGIN
    IF OBJECT_ID('TEMPORALTURNOS') IS NOT NULL
    DROP TABLE TEMPORALTURNOS --sino borrara la tabla cuando invoco, siempre me qeda con datos viejos & si atendia de 10 a 18, aunque el nuevo atienda de 12, sigue contado desde 10
@@ -1626,7 +1626,7 @@ BEGIN
    DECLARE @X DATETIME = @Desde
    DECLARE @Agenda INT
 
-   SET @Agenda = (SELECT B.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE B WHERE B.IdProfesional = @IdProfesional AND B.nombreDia = @Dia)
+   SET @Agenda = (SELECT B.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE B WHERE B.IdProfesional = @IdProfesional AND B.nombreDia = @Dia AND B.IdEspecialidad = @IdEspecialidad)
 
 	WHILE(datepart(hour,@Hasta) != datepart(hour,@X))
 	BEGIN
@@ -1657,8 +1657,8 @@ BEGIN
 	  DECLARE @IdEspecialidad INT
 	  DECLARE @IdTurno INT
 
-	  SET @IdAgenda = (SELECT A.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @Profesional AND A.nombreDia = @Dia)
 	  SET @IdEspecialidad = (SELECT B.IdEspecialidad FROM RANDOM.ESPECIALIDAD B WHERE B.Descripcion = @Especialidad)
+	  SET @IdAgenda = (SELECT A.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @Profesional AND A.nombreDia = @Dia AND A.IdEspecialidad = @IdEspecialidad)
 	  SELECT @IdTurno = (SELECT IdTurno FROM RANDOM.TURNO WHERE IdTurno = (SELECT MAX(IdTurno) FROM RANDOM.TURNO))
 	  
 	  INSERT INTO RANDOM.TURNO(IdTurno, IdAgenda, IdAfiliado, FechaYHoraTurno, Habilitado, IdEspecialidad)
@@ -1695,18 +1695,19 @@ GO
 
 CREATE PROCEDURE RANDOM.GET_MEDICOS AS
 BEGIN
-	SELECT A.IdPersona, A.Apellido + ', ' + A.Nombre AS 'Apellido' FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B
-	WHERE A.IdPersona = B.IdProfesional
-	ORDER BY A.Apellido, A.Nombre ASC
+	SELECT DISTINCT A.Apellido--, A.Apellido + ', ' + A.Nombre AS 'Apellido' 
+	FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B
+	WHERE B.IdProfesional = A.IdPersona
+	ORDER BY A.Apellido ASC--, A.Nombre ASC
 END
 GO
 
-CREATE PROCEDURE RANDOM.TRAER_TURNOS_MEDICO(@IdMedico INT, @FechaHoy DATETIME) AS
+CREATE PROCEDURE RANDOM.TRAER_TURNOS_MEDICO(@IdMedico INT, @FechaHoy DATETIME ,@IdEspecialidad INT) AS
 BEGIN
     SELECT DISTINCT A.FechaYHoraTurno, A.IdAfiliado
 	FROM RANDOM.TURNO A, RANDOM.AGENDA_HORARIO_DISPONIBLE B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C
 	WHERE @IdMedico = B.IdProfesional AND B.IdAgenda = A.IdAgenda  
-	--AND @IdEspecialidad = A.IdEspecialidad 
+	AND @IdEspecialidad = A.IdEspecialidad and @IdEspecialidad = B.IdEspecialidad
 	AND datepart(YEAR,A.FechaYHoraTurno) = datepart(YEAR,@FechaHoy) AND datepart(MONTH,A.FechaYHoraTurno) = datepart(MONTH,@FechaHoy)
 	AND datepart(DAY,A.FechaYHoraTurno) = datepart(DAY,@FechaHoy)
 	ORDER BY A.FechaYHoraTurno ASC
@@ -1726,11 +1727,10 @@ GO
 CREATE PROCEDURE RANDOM.REGISTRO_LLEGADA(@IdAfiliado int, @IdBono INT) AS
 BEGIN
         UPDATE RANDOM.BONO
-        SET Usado= 1, ConsultaNumero = (SELECT MAX(ConsultaNumero) FROM RANDOM.BONO) --NO ES ASI!!! CREO QUE ERA POR PACIENTE QUE SUBIA NOSE SI ES LINEAL
+        SET Usado= 1, ConsultaNumero = (SELECT MAX(ConsultaNumero) FROM RANDOM.BONO) --aclarar en la estrategia esto !
         WHERE IdBono = @IdBono
 END
 GO 
-
 -------------------------------TOP 5------------------------------
 
 GO
@@ -1752,42 +1752,43 @@ GO
 GO
 CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom datetime, @fechaTo datetime, @IdPlan nvarchar)
 AS BEGIN
-select top 5 P.IdProfesional AS 'Matrícula Profesional', count(RT.IdResultadoTurno) AS 'Cantidad'
+select top 5 P.IdProfesional AS 'Matrícula Profesional', PE.Nombre, PE.Apellido, count(RT.IdResultadoTurno) AS 'Cantidad'
 from RANDOM.RESULTADO_TURNO RT 
---JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono     --VER -MARTIN- SI SE PUEDE SACAR O JOINEAR DE OTRA FORMA
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.PROFESIONAL P ON HD.IdProfesional = P.IdProfesional
+JOIN RANDOM.PERSONA PE ON PE.IdPersona = P.IdProfesional
+JOIN RANDOM.AFILIADO A ON T.IdAfiliado = a.IdPersona
 WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
---AND cast (@IdPlan as INT) = B.IdPlan     --VER -MARTIN- SI SE PUEDE SACAR O JOINEAR DE OTRA FORMA
-group by P.IdProfesional
-order by 2 desc
+AND cast (@IdPlan as INT) = A.IdPlan     
+group by P.IdProfesional, PE.Nombre, PE.Apellido
+order by 4 desc
 END
 GO
 
+
 ---------------------
--- ver como sacar la segunda columna que me aparece, la de cantidad, porque no seria necesaria, pero si para hacer el procedure. o ver si puedo dividir esa cantidad por ddos para que me de las horas y mostrar las horas trabajdas.
 GO
 CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fechaFrom datetime, @fechaTo datetime, @numeroPlan varchar(50), @nombreEspecialidad varchar(50))
 AS BEGIN
-select top 5 P.IdProfesional AS 'Matrícula Profesinal', count(RT.IdResultadoTurno) AS 'Cantidad'
+select top 5 P.IdProfesional AS 'Matrícula Profesinal',PE.Nombre, PE.Apellido, (count(RT.IdResultadoTurno)) * 0.5 AS 'Cantidad DE HORAS'
 from RANDOM.RESULTADO_TURNO RT
---JOIN RANDOM.BONO B ON RT.IdBono = B.IdBono     --VER -MARTIN- SI SE PUEDE SACAR O JOINEAR DE OTRA FORMA
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.PROFESIONAL P ON HD.IdProfesional = P.IdProfesional
---JOIN RANDOM.PLANES PL ON PL.IdPlan = B.IdPlan     --VER -MARTIN- SI SE PUEDE SACAR O JOINEAR DE OTRA FORMA
+JOIN RANDOM.PERSONA PE ON PE.IdPersona = P.IdProfesional
+JOIN RANDOM.AFILIADO A ON T.IdAfiliado = a.IdPersona
+JOIN RANDOM.PLANES PL ON PL.IdPlan = A.IdPlan     
 JOIN RANDOM.ESPECIALIDAD E ON E.IdEspecialidad = T.IdEspecialidad
 WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
 AND E.Descripcion = @nombreEspecialidad
---AND PL.Abono = @numeroPlan     --VER -MARTIN- SI SE PUEDE SACAR O JOINEAR DE OTRA FORMA
-group by P.IdProfesional
+AND PL.Abono = @numeroPlan    
+group by P.IdProfesional, PE.Nombre, PE.Apellido
 order by 2 asc
 END
 GO
 
-
----------------------
+-------------------------------------------
 
 IF OBJECT_ID('TEMPORAL') IS NOT NULL
 DROP TABLE TEMPORAL
@@ -1841,7 +1842,7 @@ group by P.IdPersona
 order by 2 desc
 */
 
----------------------
+--------------------------------------------------------
 
 GO
 CREATE PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas(@fechaFrom datetime, @fechaTo datetime)
