@@ -375,6 +375,20 @@ namespace ClinicaFrba
        }
        private static Abm_Profesional.Profesional _Profesional;
 
+       
+        public static Abm_Afiliado.ConsultaHistorial ConsultaHistorial
+       {
+           get
+           {
+               if (_ConsultaHistorial == null)
+               {
+                   _ConsultaHistorial = new Abm_Afiliado.ConsultaHistorial();
+               }
+               return _ConsultaHistorial;
+           }
+       }
+       private static Abm_Afiliado.ConsultaHistorial _ConsultaHistorial;
+
 
 
 

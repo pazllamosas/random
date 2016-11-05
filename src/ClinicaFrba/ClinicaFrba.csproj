@@ -63,6 +63,12 @@
     <Compile Include="Abm Afiliado\CambioPlanes.Designer.cs">
       <DependentUpon>CambioPlanes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm Afiliado\ConsultaHistorial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Afiliado\ConsultaHistorial.Designer.cs">
+      <DependentUpon>ConsultaHistorial.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm Afiliado\VerAfiliado.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -224,6 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Afiliado\CambioPlanes.resx">
       <DependentUpon>CambioPlanes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Afiliado\ConsultaHistorial.resx">
+      <DependentUpon>ConsultaHistorial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Afiliado\VerAfiliado.resx">
       <DependentUpon>VerAfiliado.cs</DependentUpon>

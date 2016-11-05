@@ -29,13 +29,14 @@ namespace ClinicaFrba.Abm_Afiliado
             if (validacion())
             {
 
-                string documento = txtDocumento.Text;
+                //string documento = txtDocumento.Text;
+                string numeroAfiliado = txtDocumento.Text;
                 Int32 idPlan = cmbNuevoPlan.SelectedIndex;
                 string motivo = txtMotivo.Text;
 
                 Conexion.executeProcedure("RANDOM.CAMBIO_PLAN",
-                    Conexion.generarArgumentos("@DOCUMENTO", "@IDPLAN", "@MOTIVO"),
-                        documento, idPlan, motivo);
+                    Conexion.generarArgumentos("@NUMERO_AFILIADO_RAIZ", "@IDPLAN", "@MOTIVO"),
+                        numeroAfiliado, idPlan, motivo);
                 MessageBox.Show("Plan cambiado");
                 this.Hide();
                 FormProvider.Agafiliado.Show();
