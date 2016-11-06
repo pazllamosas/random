@@ -72,7 +72,13 @@ namespace ClinicaFrba.Registro_Llegada
                 DateTime fechaHoy = funciones.ObtenerFecha();
                 string IdEspecialidadS = d.Cells[4].Value.ToString();
                 Int32 IdEspecialidad = Convert.ToInt32(IdEspecialidadS);
-                FormProvider.TurnoProf.dgvTurnoProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_TURNOS_MEDICO", Conexion.generarArgumentos("@IdMedico", "@FechaHoy", "@IdEspecialidad"), IdMedico, fechaHoy, IdEspecialidad);
+                String diaS = FormProvider.ProfesionalTurno.dayOfWeek(fechaHoy);
+                Int32 diasemana = funciones.numeroDiaSemana(diaS);
+                Int32 Anio = fechaHoy.Year;
+                Int32 Mes = fechaHoy.Month;
+                Int32 Dia = fechaHoy.Day;
+                FormProvider.TurnoProf.dgvTurnoProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_TURNOS_MEDICO", 
+                Conexion.generarArgumentos("@IdMedico", "@Anio", "@Mes", "@Dia", "@IdEspecialidad", "@DiaSemana"), IdMedico, Anio, Mes, Dia, IdEspecialidad, diasemana);
                 FormProvider.TurnoProf.Show();
                 this.Hide();
             }

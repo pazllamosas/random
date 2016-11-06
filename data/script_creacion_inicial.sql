@@ -386,7 +386,8 @@ CREATE TABLE RANDOM.TURNO(
 	IdAfiliado int,
 	FechaYHoraTurno datetime, --es la fecha y hora en la que se HACE el turno
 	Habilitado bit DEFAULT 1,
-	IdEspecialidad int
+	IdEspecialidad int,
+	RegistrarLlegada bit DEFAULT 0
 )
 
 
@@ -1628,8 +1629,6 @@ BEGIN
 END 
 GO
 
-
-
 --9 compra de bonos
 CREATE PROCEDURE RANDOM.COMPRA_DE_BONO(@IdAfiliado int, @Cantidad int, @MontoTotal INT, @Fecha DATETIME) AS
  BEGIN    
@@ -1651,8 +1650,8 @@ CREATE PROCEDURE RANDOM.COMPRA_DE_BONO(@IdAfiliado int, @Cantidad int, @MontoTot
   
  	 WHILE (@CONTADOR < @Cantidad)
  	 BEGIN
- 	     INSERT INTO RANDOM.BONO(IdCompra, Usado, Precio, IdPlan, CompraBonoFecha, ConsultaNumero, Habilitado)
- 	     values(@IdCompra, 0, @Monto, @IdPlan, @Fecha, NULL, 1) 
+ 	     INSERT INTO RANDOM.BONO(IdCompra, Usado, Precio, IdPlan, CompraBonoFecha, ConsultaNumero)
+ 	     values(@IdCompra, 0, @Monto, @IdPlan, @Fecha, NULL) 
  	     SET @CONTADOR = @CONTADOR + 1 
  	 END
 
@@ -1753,7 +1752,7 @@ BEGIN
 	  SELECT @IdTurno = (SELECT IdTurno FROM RANDOM.TURNO WHERE IdTurno = (SELECT MAX(IdTurno) FROM RANDOM.TURNO))
 	  
 	  INSERT INTO RANDOM.TURNO(IdTurno, IdAgenda, IdAfiliado, FechaYHoraTurno, Habilitado, IdEspecialidad)
-      VALUES (@IdTurno + 1, @IdAgenda, @Afiliado, @FechaElegida, 1, @IdEspecialidad) 
+      VALUES (@IdTurno + 1, @IdAgenda, @Afiliado, @FechaElegida, 0, @IdEspecialidad) 
 
 END
 GO 
@@ -1793,17 +1792,20 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE RANDOM.TRAER_TURNOS_MEDICO(@IdMedico INT, @FechaHoy DATETIME ,@IdEspecialidad INT) AS
+CREATE PROCEDURE RANDOM.TRAER_TURNOS_MEDICO(@IdMedico INT, @Anio int, @Mes int, @Dia int ,@IdEspecialidad INT, @DiaSemana INT) AS
 BEGIN
-    SELECT DISTINCT A.FechaYHoraTurno, A.IdAfiliado
-	FROM RANDOM.TURNO A, RANDOM.AGENDA_HORARIO_DISPONIBLE B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C
-	WHERE @IdMedico = B.IdProfesional AND B.IdAgenda = A.IdAgenda  
-	AND @IdEspecialidad = A.IdEspecialidad and @IdEspecialidad = B.IdEspecialidad
-	AND datepart(YEAR,A.FechaYHoraTurno) = datepart(YEAR,@FechaHoy) AND datepart(MONTH,A.FechaYHoraTurno) = datepart(MONTH,@FechaHoy)
-	AND datepart(DAY,A.FechaYHoraTurno) = datepart(DAY,@FechaHoy)
-	ORDER BY A.FechaYHoraTurno ASC
+    SELECT DISTINCT B.FechaYHoraTurno, B.IdAfiliado
+	FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A, RANDOM.TURNO B
+	WHERE @IdMedico = A.IdProfesional AND @IdEspecialidad = B.IdEspecialidad AND @DiaSemana = A.Dia
+	AND @IdEspecialidad = A.IdEspecialidad AND B.IdAgenda = A.IdAgenda
+	AND datepart(YEAR,B.FechaYHoraTurno) = @Anio AND datepart(MONTH,B.FechaYHoraTurno) = @Mes
+	AND datepart(DAY,B.FechaYHoraTurno) = @Dia
+	--AND B.Habilitado = 0 --EN 0 ES SIN CANCELAR, ASI QUE MIRO QUE NO ESTE CANCELADO
+    AND B.RegistrarLlegada = 0 
+	AND (0 = (SELECT COUNT(*) FROM RANDOM.RESULTADO_TURNO WHERE IdTurno = B.IdTurno))
+	ORDER BY B.FechaYHoraTurno ASC
 END
-GO 
+GO
 
 CREATE PROCEDURE RANDOM.BONOS_DISPONIBLES(@IdAfiliado INT) AS 
 BEGIN
@@ -1815,13 +1817,26 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE RANDOM.REGISTRO_LLEGADA(@IdAfiliado int, @IdBono INT) AS
+CREATE PROCEDURE RANDOM.REGISTRO_LLEGADA(@IdAfiliado int, @IdBono INT, @FechaHoy DATETIME) AS
 BEGIN
+
+		DECLARE @X INT
+
         UPDATE RANDOM.BONO
         SET Usado= 1, ConsultaNumero = (SELECT MAX(ConsultaNumero) FROM RANDOM.BONO) --aclarar en la estrategia esto !
         WHERE IdBono = @IdBono
+
+		SET @X = (SELECT A.IdTurno FROM RANDOM.TURNO A WHERE A.IdAfiliado = @IdAfiliado 
+		AND datepart(YEAR,FechaYHoraTurno) = datepart(YEAR,@FechaHoy) AND datepart(MONTH,FechaYHoraTurno) = datepart(MONTH,@FechaHoy)
+	    AND datepart(DAY,FechaYHoraTurno) = datepart(DAY,@FechaHoy)
+		AND datepart(HOUR,FechaYHoraTurno) = datepart(HOUR,@FechaHoy) AND datepart(MINUTE,FechaYHoraTurno) = datepart(MINUTE,@FechaHoy))
+
+		UPDATE RANDOM.TURNO
+		SET RegistrarLlegada=1
+		WHERE IdTurno = @X
+		
 END
-GO 
+GO
 -------------------------------TOP 5------------------------------
 
 

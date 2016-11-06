@@ -102,8 +102,10 @@ namespace ClinicaFrba.Registro_Llegada
                 Int32 afiliado = Convert.ToInt32(afiliadoS);
                 string IdBonoS = d.Cells[1].Value.ToString();
                 Int32 IdBono = Convert.ToInt32(IdBonoS);
-                DateTime fecha = funciones.ObtenerFecha();
-                bool resultado = Conexion.executeProcedure("RANDOM.REGISTRO_LLEGADA", Conexion.generarArgumentos("@IdAfiliado", "IdBono", "@Fecha"), afiliado, IdBono, fecha);
+                DataGridViewRow d2 = dgvTurnoProfesional.SelectedRows[0];
+                string fechaS = d2.Cells[0].Value.ToString();
+                DateTime fecha = Convert.ToDateTime(fechaS);
+                bool resultado = Conexion.executeProcedure("RANDOM.REGISTRO_LLEGADA", Conexion.generarArgumentos("@IdAfiliado", "IdBono", "@FechaHoy"), afiliado, IdBono, fecha);
                 if (resultado)
                 {
                     MessageBox.Show("Se registro la llegada con exito");
@@ -113,7 +115,7 @@ namespace ClinicaFrba.Registro_Llegada
                     MessageBox.Show("No se registro la llegada", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
                 this.Hide();
-                FormProvider.RegistroLlegada.Show();
+                FormProvider.MainMenu.Show();
                 FormProvider.RegistroLlegada.dgvLlegada.DataSource = null;
                 FormProvider.RegistroLlegada.cmbProfesional.Text = null;
                 FormProvider.RegistroLlegada.Text = null;
