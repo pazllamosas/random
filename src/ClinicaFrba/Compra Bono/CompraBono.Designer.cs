@@ -56,6 +56,7 @@
             this.txtNroAfiliado.Name = "txtNroAfiliado";
             this.txtNroAfiliado.Size = new System.Drawing.Size(119, 20);
             this.txtNroAfiliado.TabIndex = 13;
+            this.txtNroAfiliado.TextChanged += new System.EventHandler(this.txtNroAfiliado_TextChanged_1);
             // 
             // lblCantBonos
             // 

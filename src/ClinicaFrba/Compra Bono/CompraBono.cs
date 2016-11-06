@@ -25,32 +25,51 @@ namespace ClinicaFrba.Compra_Bono
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            Int32 afiliado = Convert.ToInt32(txtNroAfiliado.Text);
-            Int32 cantidadBonos = Convert.ToInt32(txtCantBonos.Text);
-            Int32 montoTotal = calculoMontoTotal(afiliado, cantidadBonos);
-
-            if (montoTotal != -1)
+            if (txtNroAfiliado.Text != "" && txtCantBonos.Text != "")
             {
-                DateTime fechaHoy = funciones.ObtenerFecha();
-                bool resultado = Conexion.executeProcedure("RANDOM.COMPRA_DE_BONO", Conexion.generarArgumentos("@IdAfiliado", "@Cantidad", "@MontoTotal", "@Fecha"), afiliado, cantidadBonos, montoTotal, fechaHoy);
-                if (resultado)
+
+                bool afiliadoEnNumeros = funciones.permiteNumeros(txtNroAfiliado.Text);
+                bool cantidadBonosEnNumeros = funciones.permiteNumeros(txtCantBonos.Text);
+
+                if (afiliadoEnNumeros == true && cantidadBonosEnNumeros == true)
                 {
-                    MessageBox.Show("Bono comprado con exito");
+
+                    Int32 afiliado = Convert.ToInt32(txtNroAfiliado.Text);
+                    Int32 cantidadBonos = Convert.ToInt32(txtCantBonos.Text);
+                    Int32 montoTotal = calculoMontoTotal(afiliado, cantidadBonos);
+
+                    if (montoTotal != -1)
+                    {
+                        DateTime fechaHoy = funciones.ObtenerFecha();
+                        bool resultado = Conexion.executeProcedure("RANDOM.COMPRA_DE_BONO", Conexion.generarArgumentos("@IdAfiliado", "@Cantidad", "@MontoTotal", "@Fecha"), afiliado, cantidadBonos, montoTotal, fechaHoy);
+                        if (resultado)
+                        {
+                            MessageBox.Show("Bono comprado con exito");
+                        }
+                        else
+                        {
+                            MessageBox.Show("El bono no fue comprado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No existe el afiliado o esta dado de baja", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                    txtNroAfiliado.Text = null;
+                    txtCantBonos.Text = null;
+                    txtMonto.Text = null;
+                    this.Hide();
+                    FormProvider.MainMenu.Show();
                 }
                 else
                 {
-                    MessageBox.Show("El bono no fue comprado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("El afiliado y bono deben ser numeros", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
             else
             {
-                MessageBox.Show("No existe el afiliado o esta dado de baja", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Para comprar bonos, ingrese afiliado y cantidad", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            txtNroAfiliado.Text = null;
-            txtCantBonos.Text = null;
-            txtMonto.Text = null;
-            this.Hide();
-            FormProvider.MainMenu.Show();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -89,16 +108,33 @@ namespace ClinicaFrba.Compra_Bono
 
         private void calculoMonto_Click(object sender, EventArgs e)
         {
-            Int32 afiliado = Convert.ToInt32(txtNroAfiliado.Text);
-            Int32 cantidadBonos = Convert.ToInt32(txtCantBonos.Text);
-            Int32 montoTotal = calculoMontoTotal(afiliado, cantidadBonos);
-            if (montoTotal != -1)
+            if (txtNroAfiliado.Text != "" && txtCantBonos.Text != "")
             {
-                txtMonto.Text = Convert.ToString(montoTotal);
+                bool afiliadoEnNumeros = funciones.permiteNumeros(txtNroAfiliado.Text);
+                bool cantidadBonosEnNumeros = funciones.permiteNumeros(txtCantBonos.Text);
+
+                if (afiliadoEnNumeros == true && cantidadBonosEnNumeros == true)
+                {
+                    Int32 afiliado = Convert.ToInt32(txtNroAfiliado.Text);
+                    Int32 cantidadBonos = Convert.ToInt32(txtCantBonos.Text);
+                    Int32 montoTotal = calculoMontoTotal(afiliado, cantidadBonos);
+                    if (montoTotal != -1)
+                    {
+                        txtMonto.Text = Convert.ToString(montoTotal);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No existe el afiliado o esta dado de baja", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("El afiliado y bono deben ser numeros", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
             else
             {
-                MessageBox.Show("No existe el afiliado o esta dado de baja", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Para saber monto total, ingrese afiliado y cantidad", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -120,6 +156,10 @@ namespace ClinicaFrba.Compra_Bono
                 return montoTotal;
             }
             else { return -1; }
+        }
+
+        private void txtNroAfiliado_TextChanged_1(object sender, EventArgs e)
+        {
         }
 
     }

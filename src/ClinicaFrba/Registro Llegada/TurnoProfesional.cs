@@ -102,7 +102,8 @@ namespace ClinicaFrba.Registro_Llegada
                 Int32 afiliado = Convert.ToInt32(afiliadoS);
                 string IdBonoS = d.Cells[1].Value.ToString();
                 Int32 IdBono = Convert.ToInt32(IdBonoS);
-                bool resultado = Conexion.executeProcedure("RANDOM.REGISTRO_LLEGADA", Conexion.generarArgumentos("@IdAfiliado", "IdBono"), afiliado, IdBono);
+                DateTime fecha = funciones.ObtenerFecha();
+                bool resultado = Conexion.executeProcedure("RANDOM.REGISTRO_LLEGADA", Conexion.generarArgumentos("@IdAfiliado", "IdBono", "@Fecha"), afiliado, IdBono, fecha);
                 if (resultado)
                 {
                     MessageBox.Show("Se registro la llegada con exito");
