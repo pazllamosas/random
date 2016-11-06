@@ -16,8 +16,8 @@ namespace ClinicaFrba.Registro_Resultado
         public Diagnostico()
         {
             InitializeComponent();
-            dtpFecha.Value = DateTime.Today;
-            CargarTurnosDelDia(DateTime.Today);
+            dtpFecha.Value = funciones.ObtenerFecha();
+            CargarTurnosDelDia(dtpFecha.Value.Date);
         }
 
         private void dtpFecha_ValueChanged(object sender, EventArgs e)
@@ -56,7 +56,7 @@ namespace ClinicaFrba.Registro_Resultado
                         string turno = d.Cells[0].Value.ToString();
                         string sintomas = txtSintomas.Text;
                         string enfermedad = txtEnfermedad.Text;
-                        bool resultado = Conexion.executeProcedure("RANDOM.TURNO_CONCRETADO", Conexion.generarArgumentos("@TURNO", "@SINTOMAS", "@ENFERMEDAD"), turno, sintomas, enfermedad);
+                        bool resultado = Conexion.executeProcedure("RANDOM.TURNO_CONCRETADO", Conexion.generarArgumentos("@TURNO", "@FECHA", "@SINTOMAS", "@ENFERMEDAD"), turno, funciones.ObtenerFecha(), sintomas, enfermedad);
                         if (resultado)
                         {
                             MessageBox.Show("El diagnóstico finalizó correctamente");
@@ -88,7 +88,7 @@ namespace ClinicaFrba.Registro_Resultado
                 {
                     DataGridViewRow d = dgvTurnos.SelectedRows[0];
                     string turno = d.Cells[0].Value.ToString();
-                    bool resultado = Conexion.executeProcedure("RANDOM.TURNO_SIN_CONCRETAR", Conexion.generarArgumentos("@TURNO"), turno);
+                    bool resultado = Conexion.executeProcedure("RANDOM.TURNO_SIN_CONCRETAR", Conexion.generarArgumentos("@TURNO", "@FECHA"), turno, funciones.ObtenerFecha());
                     if (resultado)
                     {
                         MessageBox.Show("El diagnóstico se finalizó sin concretar");

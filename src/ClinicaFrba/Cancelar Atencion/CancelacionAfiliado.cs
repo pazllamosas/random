@@ -28,7 +28,7 @@ namespace ClinicaFrba.Cancelar_Atencion
             dgvTurnosCancelar.Rows.Clear();
             string query = "SELECT IdTurno, FechaYHoraTurno ";
             query = query + "FROM RANDOM.TURNO T ";
-            query = query + "WHERE T.IdAfiliado = " + txtAfiliado.Text + " AND T.FechaYHoraTurno > '" + DateTime.Today.ToString() + "' AND T.Habilitado = 0 ";
+            query = query + "WHERE T.IdAfiliado = " + txtAfiliado.Text + " AND T.FechaYHoraTurno > '" + funciones.ObtenerFecha().ToString() + "' AND T.Habilitado = 0 ";
             query = query + "ORDER BY 2";
 
             SqlDataReader reader = Conexion.ejecutarQuery(query);

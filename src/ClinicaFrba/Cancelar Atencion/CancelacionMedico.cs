@@ -17,10 +17,13 @@ namespace ClinicaFrba.Cancelar_Atencion
         {
             InitializeComponent();
             cmbProfesional.ValueMember = "IdPersona";
-            cmbProfesional.DisplayMember = "Apellido";
-            cmbProfesional.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_MEDICOS");
+            cmbProfesional.DisplayMember = "ApellidoNombre";
+            cmbProfesional.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_PROFESIONALES");
             this.cmbProfesional.SelectedIndex = -1;
-            
+
+            dtpDesde.Value = funciones.ObtenerFecha();
+            dtpHasta.Value = funciones.ObtenerFecha();
+
             cmbTipoCancelacion.ValueMember = "IdTipoCancelacion";
             cmbTipoCancelacion.DisplayMember = "Descripcion";
             cmbTipoCancelacion.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_TIPOS_CANCELACION");
@@ -31,13 +34,13 @@ namespace ClinicaFrba.Cancelar_Atencion
         {
             if (cmbProfesional.SelectedIndex >= 0)
             {
-                if (dtpDesde.Value.Date <= dtpHasta.Value.Date)
+                if (dtpDesde.Value.Date > funciones.ObtenerFecha() && dtpHasta.Value.Date > funciones.ObtenerFecha() && dtpDesde.Value.Date <= dtpHasta.Value.Date)
                 {
                     if (cmbTipoCancelacion.SelectedIndex >= 0 && txtMotivoCancelacion.Text.Length > 0)
                     {
                         string profesional = cmbProfesional.SelectedValue.ToString();
-                        string fechaDesde = dtpDesde.Value.Date.ToString();
-                        string fechaHasta = dtpHasta.Value.Date.ToString();
+                        DateTime fechaDesde = dtpDesde.Value.Date;
+                        DateTime fechaHasta = dtpHasta.Value.Date;
                         string tipo = cmbTipoCancelacion.SelectedValue.ToString();
                         string motivo = txtMotivoCancelacion.Text;
                         bool resultado = Conexion.executeProcedure("RANDOM.CANCELAR_TURNO_PROFESIONAL", Conexion.generarArgumentos("@PROFESIONAL", "@FECHADESDE", "@FECHAHASTA", "@TIPO", "@MOTIVO"), profesional, fechaDesde, fechaHasta, tipo, motivo);
@@ -69,7 +72,7 @@ namespace ClinicaFrba.Cancelar_Atencion
                 }
                 else
                 {
-                    MessageBox.Show("Controle el rango de fechas y vuelva a intentarlo");
+                    MessageBox.Show("Controle el rango de fechas y vuelva a intentarlo\nSolo podrá cancelar turnos con fechas posteriores a la actual");
                 }
             }
             else
