@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -19,52 +20,109 @@ namespace ClinicaFrba.Inicio
 
         public void habilitarFuncionalidadesPorRol(string rol)
         {
-            switch (rol)
+            btnTop5.Visible = false;
+            btnTurno.Visible = false;
+            btnCancelarturno.Visible = false;
+            btnPlan.Visible = false;
+            btnCompraBonos.Visible = false;
+            btnRegLlegada.Visible = false;
+            btnRegAgenda.Visible = false;
+            btnVerEspec.Visible = false;
+            btnVerProfesional.Visible = false;
+            btnVerAfiliado.Visible = false;
+            btnVerRol.Visible = false;
+            btnRegResultado.Visible = false;
+
+            string query = "SELECT RF.IdFuncionalidad FROM RANDOM.ROL R JOIN RANDOM.ROL_POR_FUNCIONALIDADES RF ON RF.IdRol = R.IdRol WHERE R.Descripcion = '" + rol + "' and R.Estado = 1 and rf.Habilitada = 1";
+            SqlDataReader reader = Conexion.ejecutarQuery(query);
+
+
+            List<int> listaRoles = new List<int>();
+            while (reader.Read())
             {
-                case "Administrador":
-                    btnCancelarturno.Visible = true;
-                    btnPlan.Visible = true;
-                    btnCompraBonos.Visible = true;
-                    btnRegLlegada.Visible = true;
-                    btnRegAgenda.Visible = true;
-                    btnVerEspec.Visible = true;
-                    btnVerProfesional.Visible = true;
-                    btnVerAfiliado.Visible = true;
-                    btnVerRol.Visible = true;
-                    btnTurno.Visible = true;
-                    btnRegResultado.Visible = false;
-                    btnTop5.Visible = true;
-                    break;
-                case "Afiliado":
-                    btnTop5.Visible = true;
-                    btnTurno.Visible = true;
-                    btnCancelarturno.Visible = false;
-                    btnPlan.Visible = false;
-                    btnCompraBonos.Visible = false;
-                    btnRegLlegada.Visible = false;
-                    btnRegAgenda.Visible = false;
-                    btnVerEspec.Visible = false;
-                    btnVerProfesional.Visible = false;
-                    btnVerAfiliado.Visible = false;
-                    btnVerRol.Visible = false;
-                    btnRegResultado.Visible = false;
-                    break;
-                case "Profesional":
-                    btnTop5.Visible = true;
-                    btnRegResultado.Visible = true;
-                    btnTurno.Visible = false;
-                    btnCancelarturno.Visible = false;
-                    btnPlan.Visible = false;
-                    btnCompraBonos.Visible = false;
-                    btnRegLlegada.Visible = false;
-                    btnRegAgenda.Visible = false;
-                    btnVerEspec.Visible = false;
-                    btnVerProfesional.Visible = false;
-                    btnVerAfiliado.Visible = false;
-                    btnVerRol.Visible = false;
-                    break;
+                int I = 0;
+                listaRoles.Add(Convert.ToInt32(reader[I]));
+                I = I + 1;
+            }
+            reader.Close();
+
+            for (int i = 0; i < listaRoles.Count; i++)
+            {
+                habilitarFuncionalidad(listaRoles[i]);
             }
         }
+
+        public void habilitarFuncionalidad(int funcionalidad)
+        {
+            if (funcionalidad == 0)
+            {
+                btnVerAfiliado.Visible = true;
+            }
+            if (funcionalidad == 1)
+            {
+                btnVerAfiliado.Visible = true;
+            }
+            if (funcionalidad == 2)
+            {
+                btnVerAfiliado.Visible = true;
+            }
+            if (funcionalidad == 3)
+            {
+                btnVerProfesional.Visible = true;
+            }
+            if (funcionalidad == 4)
+            {
+                btnVerProfesional.Visible = true;
+            }
+            if (funcionalidad == 5)
+            {
+                btnVerProfesional.Visible = true;
+            }
+            if (funcionalidad == 6)
+            {
+                btnRegAgenda.Visible = true;
+            }
+            if (funcionalidad == 7)
+            {
+                btnCompraBonos.Visible = true;
+            }
+            if (funcionalidad == 8)
+            {
+                btnRegLlegada.Visible = true;
+            }
+            if (funcionalidad == 9)
+            {
+                btnTurno.Visible = true;
+            }
+            if (funcionalidad == 10)
+            {
+                btnCancelarturno.Visible = true;
+            }
+            if (funcionalidad == 11)
+            {
+                btnRegLlegada.Visible = true;
+            }
+            if (funcionalidad == 12)
+            {
+                btnTop5.Visible = true;
+            }
+            if (funcionalidad == 13)
+            {
+                btnVerRol.Visible = true;
+            }
+            if (funcionalidad == 14)
+            {
+                btnVerEspec.Visible = true;
+            }
+            if (funcionalidad == 15)
+            {
+                btnPlan.Visible = true;
+            }
+
+        }
+
+
+
 
         private void btnCompraBonos_Click(object sender, EventArgs e)
         {

@@ -104,5 +104,13 @@ namespace ClinicaFrba.Listados
         {
 
         }
+
+        private void txtAnioAConsultar_TextChanged_1(object sender, EventArgs e)
+        {
+            if (!funciones.permiteNumeros(txtAnioAConsultar.Text))
+            {
+                MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
