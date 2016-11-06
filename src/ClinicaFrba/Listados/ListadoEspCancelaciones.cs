@@ -40,6 +40,9 @@ namespace ClinicaFrba.Listados
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
+            dgvResultado.Columns.Clear();
+            txtAnioAConsultar.Clear();
+            this.cmbSemestre.SelectedIndex = -1; 
             this.Hide();
             FormProvider.ListadoEstadistico.Show();
         }
