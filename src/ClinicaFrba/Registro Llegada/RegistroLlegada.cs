@@ -29,6 +29,10 @@ namespace ClinicaFrba.Registro_Llegada
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
+            string profesional = cmbProfesional.Text;
+            string especialidad = cmbEspecialidad.Text;
+            if(profesional != "" || especialidad != "" || profesional != "" && especialidad != "")
+            {
             string Apellido = cmbProfesional.Text;
             string descripcion = cmbEspecialidad.Text;
             DateTime fechaHoy = funciones.ObtenerFecha();
@@ -39,6 +43,11 @@ namespace ClinicaFrba.Registro_Llegada
             dgvLlegada.Columns[4].Visible = false;
             dgvLlegada.Columns[5].Visible = false;
             dgvLlegada.Columns[6].Visible = false;
+            }
+            else
+            {
+                MessageBox.Show("Elegir un profesional y/o especialidad", "Atención", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
+            }
         }
 
         private void cmbProfesional_SelectedIndexChanged(object sender, EventArgs e)
