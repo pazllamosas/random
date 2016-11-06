@@ -79,6 +79,7 @@
             // 
             this.dgvFuncionalidades.AllowUserToAddRows = false;
             this.dgvFuncionalidades.AllowUserToDeleteRows = false;
+            this.dgvFuncionalidades.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvFuncionalidades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFuncionalidades.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.numero,
@@ -103,7 +104,6 @@
             this.funcionalidad.HeaderText = "Funcionalidad";
             this.funcionalidad.Name = "funcionalidad";
             this.funcionalidad.ReadOnly = true;
-            this.funcionalidad.Width = 300;
             // 
             // lblFuncionalidades
             // 

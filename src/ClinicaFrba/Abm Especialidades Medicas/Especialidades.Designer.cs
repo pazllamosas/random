@@ -37,6 +37,7 @@
             // 
             this.dgvEspecialidades.AllowUserToAddRows = false;
             this.dgvEspecialidades.AllowUserToDeleteRows = false;
+            this.dgvEspecialidades.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvEspecialidades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvEspecialidades.Location = new System.Drawing.Point(12, 78);
             this.dgvEspecialidades.MultiSelect = false;
@@ -80,7 +81,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dgvEspecialidades;
         private System.Windows.Forms.Button btnVolver;
+        public System.Windows.Forms.DataGridView dgvEspecialidades;
     }
 }

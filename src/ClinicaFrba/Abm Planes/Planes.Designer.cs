@@ -37,6 +37,7 @@
             // 
             this.dgvPlanes.AllowUserToAddRows = false;
             this.dgvPlanes.AllowUserToDeleteRows = false;
+            this.dgvPlanes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvPlanes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPlanes.Location = new System.Drawing.Point(12, 78);
             this.dgvPlanes.MultiSelect = false;
@@ -79,7 +80,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dgvPlanes;
         private System.Windows.Forms.Button btnVolver;
+        public System.Windows.Forms.DataGridView dgvPlanes;
     }
 }

@@ -30,13 +30,13 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvRol = new System.Windows.Forms.DataGridView();
+            this.IdRol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RolDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EstadoRol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnEditar = new System.Windows.Forms.Button();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnBajaRol = new System.Windows.Forms.Button();
-            this.IdRol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RolDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EstadoRol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRol)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,6 +44,7 @@
             // 
             this.dgvRol.AllowUserToAddRows = false;
             this.dgvRol.AllowUserToDeleteRows = false;
+            this.dgvRol.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -63,6 +64,22 @@
             this.dgvRol.Size = new System.Drawing.Size(647, 211);
             this.dgvRol.TabIndex = 0;
             this.dgvRol.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRol_CellContentClick);
+            // 
+            // IdRol
+            // 
+            this.IdRol.HeaderText = "Número Rol";
+            this.IdRol.Name = "IdRol";
+            // 
+            // RolDesc
+            // 
+            this.RolDesc.HeaderText = "Descripción Rol";
+            this.RolDesc.Name = "RolDesc";
+            // 
+            // EstadoRol
+            // 
+            this.EstadoRol.HeaderText = "Activo";
+            this.EstadoRol.Name = "EstadoRol";
+            this.EstadoRol.ReadOnly = true;
             // 
             // btnEditar
             // 
@@ -122,23 +139,6 @@
             this.btnBajaRol.UseVisualStyleBackColor = true;
             this.btnBajaRol.Click += new System.EventHandler(this.btnBajaRol_Click);
             // 
-            // IdRol
-            // 
-            this.IdRol.HeaderText = "Número Rol";
-            this.IdRol.Name = "IdRol";
-            // 
-            // RolDesc
-            // 
-            this.RolDesc.HeaderText = "Descripción Rol";
-            this.RolDesc.Name = "RolDesc";
-            this.RolDesc.Width = 200;
-            // 
-            // EstadoRol
-            // 
-            this.EstadoRol.HeaderText = "Activo";
-            this.EstadoRol.Name = "EstadoRol";
-            this.EstadoRol.ReadOnly = true;
-            // 
             // verRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -163,7 +163,6 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dgvRol;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnAgregar;
         private System.Windows.Forms.Button btnEditar;
@@ -171,5 +170,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn IdRol;
         private System.Windows.Forms.DataGridViewTextBoxColumn RolDesc;
         private System.Windows.Forms.DataGridViewTextBoxColumn EstadoRol;
+        public System.Windows.Forms.DataGridView dgvRol;
     }
 }

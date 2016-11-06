@@ -64,6 +64,7 @@
             // 
             this.dgvAfiliados.AllowUserToAddRows = false;
             this.dgvAfiliados.AllowUserToDeleteRows = false;
+            this.dgvAfiliados.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvAfiliados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAfiliados.Location = new System.Drawing.Point(16, 174);
             this.dgvAfiliados.MultiSelect = false;
@@ -201,7 +202,6 @@
 
         private System.Windows.Forms.Label lblDni;
         internal System.Windows.Forms.TextBox txtBusqDni;
-        private System.Windows.Forms.DataGridView dgvAfiliados;
         private System.Windows.Forms.Button btnEditarAf;
         private System.Windows.Forms.Button btnBajaAf;
         private System.Windows.Forms.Button btnCrearAf;
@@ -209,5 +209,6 @@
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Button btnHistorial;
+        public System.Windows.Forms.DataGridView dgvAfiliados;
     }
 }
