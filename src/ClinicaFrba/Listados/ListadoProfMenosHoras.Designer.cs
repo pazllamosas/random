@@ -179,6 +179,7 @@
             this.txtAnioAConsultar.Name = "txtAnioAConsultar";
             this.txtAnioAConsultar.Size = new System.Drawing.Size(120, 20);
             this.txtAnioAConsultar.TabIndex = 68;
+            this.txtAnioAConsultar.TextChanged += new System.EventHandler(this.txtAnioAConsultar_TextChanged_1);
             // 
             // ListadoProfMenosHoras
             // 

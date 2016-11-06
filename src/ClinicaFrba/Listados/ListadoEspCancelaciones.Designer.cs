@@ -139,6 +139,7 @@
             this.txtAnioAConsultar.Name = "txtAnioAConsultar";
             this.txtAnioAConsultar.Size = new System.Drawing.Size(100, 20);
             this.txtAnioAConsultar.TabIndex = 55;
+            this.txtAnioAConsultar.TextChanged += new System.EventHandler(this.txtAnioAConsultar_TextChanged_1);
             // 
             // ListadoEspCancelaciones
             // 
