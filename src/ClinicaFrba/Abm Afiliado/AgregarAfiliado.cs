@@ -240,6 +240,14 @@ namespace ClinicaFrba.Abm_Afiliado
                     MessageBox.Show("Afiliado Principal Creado");
 
                         this.cargaDeAgregarFamiliar();
+
+                        string query = "SELECT RANDOM.GET_NRO_AFILIADO_RAIZ ('" + txtNroDoc.Text + "') AS id";
+                        SqlDataReader reader = Conexion.ejecutarQuery(query);
+                        reader.Read();
+                        string respuesta = (reader["id"].ToString());
+                        reader.Close();
+                        txtNroAf.Text =  respuesta;
+
                     }
 
                 }

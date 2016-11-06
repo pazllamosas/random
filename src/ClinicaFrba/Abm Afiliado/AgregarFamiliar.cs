@@ -53,6 +53,8 @@ namespace ClinicaFrba.Abm_Afiliado
             cmbTipoDoc.DisplayMember = "Descripcion";
             cmbTipoDoc.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_TIPO_DOCUMENTO");
 
+            this.cmbTipoDoc.SelectedIndex = -1;
+
             //if (estadoCivilAfiliado == "Casado" || estadoCivilAfiliado == "Concubinato")
             //    cmbFamiliar.Items.Add("Pareja");
             //if (Convert.ToInt32(cantACargoAfiliado) > 0)
@@ -115,7 +117,7 @@ namespace ClinicaFrba.Abm_Afiliado
                 string apellido = txtApellido.Text;
                 string sexo = cmbSexo.Text;
                 Int32 idTipoDocumento = Convert.ToInt32(cmbTipoDoc.SelectedValue);
-                string documento = txtNroDoc.Text;
+                Int32 documento = Convert.ToInt32(txtNroDoc.Text);
                 string direccion = txtDomicilio.Text;
                 string telefono = txtTelefono.Text;
                 string mail = txtMail.Text;

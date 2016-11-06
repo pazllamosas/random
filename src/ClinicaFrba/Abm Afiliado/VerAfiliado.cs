@@ -61,6 +61,9 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
+            txtBusqDni.Clear();
+            dgvAfiliados.Columns.Clear();
+            
             this.Hide();
             FormProvider.MainMenu.Show();
         }
