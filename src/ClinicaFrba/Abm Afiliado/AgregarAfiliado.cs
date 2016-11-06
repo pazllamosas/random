@@ -401,8 +401,9 @@ namespace ClinicaFrba.Abm_Afiliado
             }
         }
 
-        private void AgregarAfiliado_FormClosing(Object sender, FormClosingEventArgs e)
+        public void cargaNuevoPlan(string nuevoPlan)
         {
+            cmbPlanMedico.Text = nuevoPlan;
 
         }
 

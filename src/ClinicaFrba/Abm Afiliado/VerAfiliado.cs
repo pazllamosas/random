@@ -75,18 +75,25 @@ namespace ClinicaFrba.Abm_Afiliado
         {
             string dni = txtBusqDni.Text;
 
-            if (afiliadoValido(dni))
+            if (!(dni == ""))
             {
-                dgvAfiliados.DataSource = Conexion.obtenerTablaProcedure("RANDOM.GET_AFILIADOS", Conexion.generarArgumentos("@DNI"), dni);
-                dgvAfiliados.Columns[0].Visible = false;
-                dgvAfiliados.Columns[7].Visible = false;
-                dgvAfiliados.Columns[8].Visible = false;
-                dgvAfiliados.Columns[9].Visible = false;
-                dgvAfiliados.Columns[10].Visible = false;
-                dgvAfiliados.Columns[11].Visible = false;
-                dgvAfiliados.Columns[12].Visible = false;
-                dgvAfiliados.Columns[13].Visible = false;
-                dgvAfiliados.Columns[14].Visible = false;
+                if (afiliadoValido(dni))
+                {
+                    dgvAfiliados.DataSource = Conexion.obtenerTablaProcedure("RANDOM.GET_AFILIADOS", Conexion.generarArgumentos("@DNI"), dni);
+                    dgvAfiliados.Columns[0].Visible = false;
+                    dgvAfiliados.Columns[7].Visible = false;
+                    dgvAfiliados.Columns[8].Visible = false;
+                    dgvAfiliados.Columns[9].Visible = false;
+                    dgvAfiliados.Columns[10].Visible = false;
+                    dgvAfiliados.Columns[11].Visible = false;
+                    dgvAfiliados.Columns[12].Visible = false;
+                    dgvAfiliados.Columns[13].Visible = false;
+                    dgvAfiliados.Columns[14].Visible = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor ingrese un Número de Documento", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
