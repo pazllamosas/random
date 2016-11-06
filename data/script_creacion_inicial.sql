@@ -1592,28 +1592,28 @@ CREATE FUNCTION RANDOM.CALCULO_MONTO(@IdAfiliado int, @Cantidad int)
 GO
 
 --10 pedido de turno
-CREATE PROCEDURE RANDOM.FILTRAR_MEDICO(@Descripcion nvarchar(255), @Apellido nvarchar(255), @Fecha DATETIME, @DiaNumero INT) AS
+CREATE PROCEDURE RANDOM.FILTRAR_MEDICO(@Descripcion nvarchar(255), @Apellido nvarchar(255), @DiaNumero INT) AS
 BEGIN
 IF(@Descripcion = '') 
   BEGIN                           
-    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad,	D.HoraDesde, D.HoraHasta
-	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D, RANDOM.TURNO E
-	WHERE @Apellido = A.Apellido AND A.IdPersona = C.IdProfesional AND C.IdEspecialidad = B.IdEspecialidad 
-	AND C.IdProfesional = D.IdProfesional AND @DiaNumero = D.Dia
-  END
+    SELECT DISTINCT	A.Apellido, A.Nombre, A.IdPersona, E.Descripcion, C.IdEspecialidad, C.HoraDesde, C.HoraHasta
+	FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B, RANDOM.AGENDA_HORARIO_DISPONIBLE C, RANDOM.ESPECIALIDAD_POR_PROFESIONAL D, RANDOM.ESPECIALIDAD E
+	WHERE @Apellido = A.Apellido AND A.IdPersona = B.IdProfesional AND C.Dia = @DiaNumero
+	AND D.IdProfesional = A.IdPersona AND C.IdEspecialidad = D.IdEspecialidad AND D.IdEspecialidad = E.IdEspecialidad
+   END
 IF(@Apellido = '') 
-  BEGIN
-    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad,	D.HoraDesde, D.HoraHasta
-	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D, RANDOM.TURNO E
-	WHERE @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona AND D.IdProfesional = C.IdProfesional 
-	AND @DiaNumero = D.Dia 
+  BEGIN                           
+    SELECT DISTINCT	A.Apellido, A.Nombre, A.IdPersona, E.Descripcion, C.IdEspecialidad, C.HoraDesde, C.HoraHasta
+	FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B, RANDOM.AGENDA_HORARIO_DISPONIBLE C, RANDOM.ESPECIALIDAD_POR_PROFESIONAL D, RANDOM.ESPECIALIDAD E
+	WHERE @Descripcion = E.Descripcion AND E.IdEspecialidad = D.IdEspecialidad AND D.IdEspecialidad = C.IdEspecialidad AND @DiaNumero = C.Dia
+	AND A.IdPersona = B.IdProfesional AND C.IdProfesional = A.IdPersona
   END
 IF(@Descripcion != '' AND @Apellido != '') 
   BEGIN
-    SELECT DISTINCT A.Apellido, A.Nombre, A.IdPersona, B.Descripcion, B.IdEspecialidad,	D.HoraDesde, D.HoraHasta
-	FROM RANDOM.PERSONA A, RANDOM.ESPECIALIDAD B, RANDOM.ESPECIALIDAD_POR_PROFESIONAL C, RANDOM.AGENDA_HORARIO_DISPONIBLE D, RANDOM.TURNO E
-	WHERE @Apellido = A.Apellido AND @Descripcion = B.Descripcion AND B.IdEspecialidad = C.IdEspecialidad AND C.IdProfesional = A.IdPersona 
-	AND D.IdProfesional = C.IdProfesional AND @DiaNumero = D.Dia 
+    SELECT DISTINCT	A.Apellido, A.Nombre, A.IdPersona, E.Descripcion, C.IdEspecialidad, C.HoraDesde, C.HoraHasta
+	FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B, RANDOM.AGENDA_HORARIO_DISPONIBLE C, RANDOM.ESPECIALIDAD_POR_PROFESIONAL D, RANDOM.ESPECIALIDAD E
+	WHERE @Descripcion = E.Descripcion AND @Apellido = A.Apellido AND E.IdEspecialidad = D.IdEspecialidad AND D.IdEspecialidad = C.IdEspecialidad
+	AND @DiaNumero = C.Dia 	AND A.IdPersona = B.IdProfesional AND C.IdProfesional = A.IdPersona
   END
 END
 GO

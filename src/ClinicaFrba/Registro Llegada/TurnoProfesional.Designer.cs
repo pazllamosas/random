@@ -42,11 +42,13 @@
             // dgvTurnoProfesional
             // 
             this.dgvTurnoProfesional.AllowUserToAddRows = false;
+            this.dgvTurnoProfesional.AllowUserToDeleteRows = false;
             this.dgvTurnoProfesional.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvTurnoProfesional.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTurnoProfesional.Location = new System.Drawing.Point(25, 50);
             this.dgvTurnoProfesional.MultiSelect = false;
             this.dgvTurnoProfesional.Name = "dgvTurnoProfesional";
+            this.dgvTurnoProfesional.ReadOnly = true;
             this.dgvTurnoProfesional.Size = new System.Drawing.Size(667, 174);
             this.dgvTurnoProfesional.TabIndex = 0;
             this.dgvTurnoProfesional.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTurnoProfesional_CellContentClick_1);
@@ -82,11 +84,13 @@
             // BonosDisponibles
             // 
             this.BonosDisponibles.AllowUserToAddRows = false;
+            this.BonosDisponibles.AllowUserToDeleteRows = false;
             this.BonosDisponibles.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.BonosDisponibles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.BonosDisponibles.Location = new System.Drawing.Point(25, 299);
             this.BonosDisponibles.MultiSelect = false;
             this.BonosDisponibles.Name = "BonosDisponibles";
+            this.BonosDisponibles.ReadOnly = true;
             this.BonosDisponibles.Size = new System.Drawing.Size(667, 168);
             this.BonosDisponibles.TabIndex = 16;
             this.BonosDisponibles.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BonosDisponibles_CellContentClick);

@@ -117,7 +117,7 @@ namespace ClinicaFrba.Pedir_Turno
 
         public void textProfesional_TextChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         private void textEspecialidad_TextChanged(object sender, EventArgs e)
@@ -143,6 +143,10 @@ namespace ClinicaFrba.Pedir_Turno
         private void Turno_Load(object sender, EventArgs e)
         {
             confirmarTurno.Visible = false;
+            textProfesional.ReadOnly = true;
+            textEspecialidad.ReadOnly = true;
+            textAfiliado.ReadOnly = true;
+            textFecha.ReadOnly = true;
         }
 
         private void textFecha_TextChanged(object sender, EventArgs e)
