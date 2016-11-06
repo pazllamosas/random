@@ -1800,9 +1800,9 @@ BEGIN
 	AND @IdEspecialidad = A.IdEspecialidad AND B.IdAgenda = A.IdAgenda
 	AND datepart(YEAR,B.FechaYHoraTurno) = @Anio AND datepart(MONTH,B.FechaYHoraTurno) = @Mes
 	AND datepart(DAY,B.FechaYHoraTurno) = @Dia
-	--AND B.Habilitado = 0 --EN 0 ES SIN CANCELAR, ASI QUE MIRO QUE NO ESTE CANCELADO
+	AND B.Habilitado = 0 --EN 0 ES SIN CANCELAR O SIN EFECTUAR, ASI QUE MIRO QUE NO ESTE CANCELADO O QUE YA SE ATENDIO(PARA LOS DE LA MAESTRA)
     AND B.RegistrarLlegada = 0 
-	AND (0 = (SELECT COUNT(*) FROM RANDOM.RESULTADO_TURNO WHERE IdTurno = B.IdTurno))
+	--AND (0 = (SELECT COUNT(*) FROM RANDOM.RESULTADO_TURNO WHERE IdTurno = B.IdTurno))
 	ORDER BY B.FechaYHoraTurno ASC
 END
 GO
