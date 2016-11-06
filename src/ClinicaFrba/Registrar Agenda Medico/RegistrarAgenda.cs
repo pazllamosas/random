@@ -25,7 +25,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             cmbDias.Text = null;
             comboBox1.Text = null;
             comboBox2.Text = null;
-            dgvProfesional.DataSource = null;
+            dgvNuevaAgenda.DataSource = null;
             comboBox1.Items.Clear();
             comboBox2.Items.Clear();
             this.Hide();
@@ -70,7 +70,6 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                 comboBox1.Items.Add("12");
                 comboBox1.Items.Add("13");
                 comboBox1.Items.Add("14");
-                comboBox1.Items.Add("15");
 
                 comboBox2.Items.Add("11");
                 comboBox2.Items.Add("12");
@@ -94,8 +93,6 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                 comboBox1.Items.Add("18");
                 comboBox1.Items.Add("19");
 
-
-                comboBox2.Items.Add("07");
                 comboBox2.Items.Add("08");
                 comboBox2.Items.Add("09");
                 comboBox2.Items.Add("10");

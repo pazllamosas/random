@@ -51,6 +51,8 @@ IF OBJECT_ID('dbo.TEMPORAL') IS NOT NULL
 DROP TABLE dbo.TEMPORAL
 IF OBJECT_ID('dbo.TEMPORALTURNOS') IS NOT NULL
 DROP TABLE dbo.TEMPORALTURNOS
+IF OBJECT_ID('TABLA_DE_DIAS_NUMERO') IS NOT NULL
+DROP TABLE TABLA_DE_DIAS_NUMERO
 
 
 -- DROP PROCEDURES Y FUNCTIONS 
@@ -410,6 +412,11 @@ CREATE TABLE RANDOM.CANCELACION(
 CREATE TABLE RANDOM.TIPO_CANCELACION(
 	IdTipoCancelacion int PRIMARY KEY IDENTITY(1,1),
 	Descripcion nvarchar(255)
+)
+
+CREATE TABLE TABLA_DE_DIAS_NUMERO (
+    DiaNumero INT,
+	DiaLetra nvarchar(255)
 )
 
 --FOREIGN KEY 
@@ -796,6 +803,22 @@ WHERE T.IdTurno = M.Turno_Numero
 	AND M.Consulta_Sintomas IS NOT NULL
 	AND M.Consulta_Enfermedades IS NOT NULL
 	
+
+
+INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+VALUES ('domingo', 1)
+INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+VALUES ('lunes', 2)
+INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+VALUES ('martes', 3)
+INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+VALUES ('miércoles', 4)
+INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+VALUES ('jueves', 5)
+INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+VALUES ('viernes', 6)
+INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+VALUES ('sábado', 7)
 
 ---------------FUNCIONES-----------
 
@@ -1657,7 +1680,7 @@ CREATE PROCEDURE RANDOM.COMPRA_DE_BONO(@IdAfiliado int, @Cantidad int, @MontoTot
 
  END
  GO
- 
+
 CREATE FUNCTION RANDOM.CALCULO_MONTO(@IdAfiliado int, @Cantidad int)
  RETURNS INT
  AS BEGIN
@@ -2027,20 +2050,19 @@ BEGIN
 END
 
 
-
-GO
+GO 
 CREATE PROCEDURE RANDOM.GET_AGENDA(@IdProfesional int)  AS
 BEGIN
 	
 	--DECLARE @DIA int
 	--SELECT @DIA =Dia FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
 	
-	SELECT Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
-END
+	SELECT B.DiaLetra, A.HoraDesde, A.HoraHasta 
+	FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A, TABLA_DE_DIAS_NUMERO B
+	WHERE A.IdProfesional = @IdProfesional AND A.Activa = 1
+	AND A.Dia = B.DiaNumero
+END 
 GO
-
-
-
 
 --GO
 --CREATE PROCEDURE RANDOM.GET_AGENDA(@IdProfesional int)  AS
