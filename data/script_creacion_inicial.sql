@@ -85,8 +85,12 @@ IF OBJECT_ID('RANDOM.EXISTE_AFILIADO') IS NOT NULL
 DROP FUNCTION RANDOM.EXISTE_AFILIADO
 IF OBJECT_ID('RANDOM.ROL_CORRECTO') IS NOT NULL
 DROP FUNCTION RANDOM.ROL_CORRECTO
+IF OBJECT_ID('RANDOM.VERIFICACION_DIA') IS NOT NULL
+DROP FUNCTION RANDOM.VERIFICACION_DIA
 
 
+IF OBJECT_ID('RANDOM.GET_AGENDA') IS NOT NULL
+DROP PROCEDURE RANDOM.GET_AGENDA
 IF OBJECT_ID('RANDOM.TRAER_PROFESIONAL_CON_DNI') IS NOT NULL
 DROP PROCEDURE RANDOM.TRAER_PROFESIONAL_CON_DNI
 IF OBJECT_ID('RANDOM.CARGA_AGENDA') IS NOT NULL
@@ -368,7 +372,8 @@ CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
 	IdEspecialidad int,
 	HoraDesde nvarchar(255),
 	HoraHasta nvarchar(255),
-	Dia int
+	Dia int,
+	Activa bit -- 0 inactiva 1 activa
 )
 
 CREATE TABLE RANDOM.TURNO(
@@ -714,7 +719,7 @@ WHERE joinBonoCompra.IdCompra = RANDOM.COMPRA_BONO.IdCompra
 
 	/*AGENDA_HORARIO_DISPONIBLE*/
 insert INTO RANDOM.AGENDA_HORARIO_DISPONIBLE 
-SELECT DISTINCT P.IdPersona, ES.IdEspecialidad,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Turno_Fecha) AS 'DIA DE SEMANA' 
+SELECT DISTINCT P.IdPersona, ES.IdEspecialidad,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Turno_Fecha) AS 'DIA DE SEMANA', 0 
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Medico_Dni = P.Documento
 JOIN RANDOM.ESPECIALIDAD ES ON ES.Codigo = M.Especialidad_Codigo 
@@ -1867,6 +1872,31 @@ GO
 -----AGENDA------
 
 GO
+CREATE FUNCTION RANDOM.VERIFICACION_DIA(@IdProfesional int, @Dia int)
+RETURNS nvarchar(255)
+AS BEGIN
+	
+	DECLARE @DiaCargado int
+	SELECT @DiaCargado = Dia FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
+	DECLARE @Resultado int
+	
+	IF (@Dia = @DiaCargado)
+		BEGIN
+		SELECT @Resultado = 1
+		END
+	ELSE 
+		BEGIN
+		SELECT @Resultado = 0
+		END
+
+RETURN @Resultado
+
+END
+GO
+
+
+
+GO
 CREATE PROCEDURE RANDOM.CARGA_AGENDA(@IdProfesional int, @IdEspecialidad int, @HoraDesde nvarchar(255), @HoraHasta nvarchar(255), @Dia int) AS
 BEGIN
 
@@ -1877,7 +1907,7 @@ SELECT @HorasCargadas = HorasAcumuladas FROM RANDOM.PROFESIONAL WHERE IdProfesio
 IF ( (@HorasCargadas + @HorasACargar) < 48)
 	BEGIN
 		INSERT INTO RANDOM.AGENDA_HORARIO_DISPONIBLE
-		VALUES(@IdProfesional, @IdEspecialidad, @HoraDesde, @HoraHasta, @Dia)
+		VALUES(@IdProfesional, @IdEspecialidad, @HoraDesde, @HoraHasta, @Dia, 1)
 
 		UPDATE RANDOM.PROFESIONAL SET
 		HorasAcumuladas = (HorasAcumuladas + @HorasACargar)
@@ -1898,7 +1928,89 @@ BEGIN
 	WHERE A.Documento = @DNI AND A.IdPersona = C.IdProfesional AND C.IdEspecialidad = B.IdEspecialidad
 	ORDER BY B.Descripcion
 END
-SELECT * FROM RANDOM.PERSONA
+
+
+
+GO
+CREATE PROCEDURE RANDOM.GET_AGENDA(@IdProfesional int)  AS
+BEGIN
+	
+	--DECLARE @DIA int
+	--SELECT @DIA =Dia FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
+	
+	SELECT Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
+END
+GO
+
+
+
+
+--GO
+--CREATE PROCEDURE RANDOM.GET_AGENDA(@IdProfesional int)  AS
+--BEGIN
+	
+--	DECLARE @DIA int
+--	SELECT @Dia FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
+--	DECLARE @DiaNombre nvarchar(255)
+
+	
+--	IF (@Dia = 1)
+--		BEGIN
+--			SELECT @DiaNombre = 'Domingo'
+--			SELECT @DiaNombre AS Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
+--		END
+--	ELSE
+--		BEGIN
+--			IF (@DIA = 2)
+--				BEGIN
+--				SELECT @DiaNombre = 'Lunes'
+--				SELECT @DiaNombre AS Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
+--				END
+
+--			ELSE 
+--				BEGIN
+--					IF (@DIA = 3)
+--						BEGIN
+--						SELECT @DiaNombre = 'Martes'
+--						SELECT @DiaNombre AS Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
+--						END
+--					ELSE
+--						BEGIN
+--							IF (@DIA = 4)
+--								BEGIN
+--								SELECT @DiaNombre = 'Miércoles'
+--								SELECT @DiaNombre AS Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
+--								END
+--							ELSE
+--								BEGIN
+--									IF (@DIA = 5)
+--										BEGIN
+--										SELECT @DiaNombre = 'Jueves'
+--										SELECT @DiaNombre AS Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
+--										END
+--									ELSE
+--										BEGIN
+--											IF (@DIA = 6)
+--												BEGIN
+--												SELECT @DiaNombre = 'Viernes'
+--												SELECT @DiaNombre AS Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
+--												END
+--											ELSE
+--												BEGIN
+--												SELECT @DiaNombre = 'Sábado'
+--												SELECT @DiaNombre AS Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
+--												END
+--										END
+--									END
+--							END
+--					END
+--			END
+
+
+--END
+--GO
+
+
 
 
 
