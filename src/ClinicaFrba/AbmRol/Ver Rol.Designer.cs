@@ -30,12 +30,13 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvRol = new System.Windows.Forms.DataGridView();
-            this.Rol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnEditar = new System.Windows.Forms.Button();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnBajaRol = new System.Windows.Forms.Button();
+            this.IdRol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RolDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EstadoRol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRol)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,26 +54,15 @@
             this.dgvRol.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvRol.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRol.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Rol,
-            this.Descripcion});
+            this.IdRol,
+            this.RolDesc,
+            this.EstadoRol});
             this.dgvRol.Location = new System.Drawing.Point(12, 85);
             this.dgvRol.MultiSelect = false;
             this.dgvRol.Name = "dgvRol";
             this.dgvRol.Size = new System.Drawing.Size(647, 211);
             this.dgvRol.TabIndex = 0;
             this.dgvRol.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRol_CellContentClick);
-            // 
-            // Rol
-            // 
-            this.Rol.HeaderText = "Rol";
-            this.Rol.Name = "Rol";
-            this.Rol.ReadOnly = true;
-            // 
-            // Descripcion
-            // 
-            this.Descripcion.HeaderText = "Descripción";
-            this.Descripcion.Name = "Descripcion";
-            this.Descripcion.ReadOnly = true;
             // 
             // btnEditar
             // 
@@ -132,6 +122,23 @@
             this.btnBajaRol.UseVisualStyleBackColor = true;
             this.btnBajaRol.Click += new System.EventHandler(this.btnBajaRol_Click);
             // 
+            // IdRol
+            // 
+            this.IdRol.HeaderText = "Número Rol";
+            this.IdRol.Name = "IdRol";
+            // 
+            // RolDesc
+            // 
+            this.RolDesc.HeaderText = "Descripción Rol";
+            this.RolDesc.Name = "RolDesc";
+            this.RolDesc.Width = 200;
+            // 
+            // EstadoRol
+            // 
+            this.EstadoRol.HeaderText = "Activo";
+            this.EstadoRol.Name = "EstadoRol";
+            this.EstadoRol.ReadOnly = true;
+            // 
             // verRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -160,8 +167,9 @@
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnAgregar;
         private System.Windows.Forms.Button btnEditar;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Rol;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Descripcion;
         private System.Windows.Forms.Button btnBajaRol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IdRol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RolDesc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EstadoRol;
     }
 }

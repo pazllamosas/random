@@ -21,13 +21,16 @@ namespace ClinicaFrba.AbmRol
 
         public void CargarRoles()
         {
+            //dgvRol.Columns.Clear();
+            //dgvRol.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_ROLES");
+
             dgvRol.Rows.Clear();
-            string query = "SELECT IdRol, Descripcion FROM RANDOM.ROL order by IdRol";
+            string query = "SELECT IdRol, Descripcion, Estado FROM RANDOM.ROL order by IdRol";
             SqlDataReader reader = Conexion.ejecutarQuery(query);
 
             while (reader.Read())
             {
-                dgvRol.Rows.Add(reader["IdRol"], reader["Descripcion"]);
+                dgvRol.Rows.Add(reader["IdRol"], reader["Descripcion"], reader["Estado"]);
             }
             reader.Close();
         }
@@ -117,6 +120,8 @@ namespace ClinicaFrba.AbmRol
         {
 
         }
+
+       
 
     }
 }

@@ -36,15 +36,7 @@ namespace ClinicaFrba.AbmRol
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             string nombre = txtNombre.Text;
-            this.txtNombre.Clear();
-            this.txtIdRol.Clear();
-            this.cmbUsuario.SelectedIndex = -1;
-            dgvFuncionalidades.ReadOnly = true;
-            btnAgregarFunc.Enabled = false;
-            btnEliminarFunc.Enabled = false;
-            cmbUsuario.Enabled = false;
-            btnAsignarUsuario.Enabled = false;
-            btnHabilitarRol.Visible = false;
+            this.limpiarCampos();
             
 
             this.Hide();
@@ -81,8 +73,7 @@ namespace ClinicaFrba.AbmRol
 
             } else
             {
-                if (editando)
-                {
+                
                     string nombre = txtNombre.Text;
                     string idRol = txtIdRol.Text;
                     bool resultado = Conexion.executeProcedure("RANDOM.MODIFICAR_NOMBRE_ROL", Conexion.generarArgumentos("@NOMBRE", "@ROL "), nombre, idRol);
@@ -90,7 +81,7 @@ namespace ClinicaFrba.AbmRol
                     {
                         MessageBox.Show("Rol modificado");
                     }
-                }
+                
             }
         }
 
@@ -131,7 +122,7 @@ namespace ClinicaFrba.AbmRol
                     bool resultado = Conexion.executeProcedure("RANDOM.ASIGNAR_FUNCIONALIDAD", Conexion.generarArgumentos("@FUNCIONALIDAD", "@ROL"), funcionalidad, idRol);
                     if (resultado)
                     {
-                        MessageBox.Show("Funcionalidad Asignada");
+                        MessageBox.Show("Funcionalidad Asignada - Para ver los campos por favor vuelva a iniciar sesión");
                     }
                 } else
                     {
@@ -202,7 +193,7 @@ namespace ClinicaFrba.AbmRol
                     bool resultado = Conexion.executeProcedure("RANDOM.ELIMINAR_FUNCIONALIDAD_DEL_ROL", Conexion.generarArgumentos("@FUNCIONALIDAD", "@ROL"), funcionalidad, idRol);
                     if (resultado)
                         {
-                        MessageBox.Show("Funcionalidad Eliminada");
+                            MessageBox.Show("Funcionalidad Eliminada - Para ver los campos por favor vuelva a iniciar sesión");
                         }
                 } else
                     {
@@ -236,7 +227,7 @@ namespace ClinicaFrba.AbmRol
                         }
                  } else
                     {
-                     MessageBox.Show("El usuario ya esta asignado al rol", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("El usuario ya esta asignado al rol - Para ver los campos por favor vuelva a iniciar sesión", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
            } else
                 {
@@ -312,6 +303,21 @@ namespace ClinicaFrba.AbmRol
         private void cmbUsuario_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        public void limpiarCampos()
+        {
+           
+            this.txtNombre.Clear();
+            this.txtIdRol.Clear();
+            this.cmbUsuario.SelectedIndex = -1;
+            dgvFuncionalidades.ReadOnly = true;
+            btnAgregarFunc.Enabled = false;
+            btnEliminarFunc.Enabled = false;
+            cmbUsuario.Enabled = false;
+            btnAsignarUsuario.Enabled = false;
+            btnHabilitarRol.Visible = false;
+            editando = false;
         }
 
 
