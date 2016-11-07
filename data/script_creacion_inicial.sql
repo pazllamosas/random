@@ -2071,8 +2071,12 @@ BEGIN
 	SELECT A.IdTurno, A.FechaYHoraTurno
 	FROM RANDOM.TURNO A
 	WHERE @Afiliado = A.IdAfiliado 
-	AND datepart(YEAR,@Fecha) = datepart(YEAR,A.FechaYHoraTurno) AND datepart(MONTH,@Fecha) = datepart(MONTH,A.FechaYHoraTurno)
-	AND datepart(DAY,@Fecha) < datepart(DAY,A.FechaYHoraTurno)
+	AND (
+	(datepart(YEAR,@Fecha) = datepart(YEAR,A.FechaYHoraTurno) AND datepart(MONTH,@Fecha) = datepart(MONTH,A.FechaYHoraTurno)
+	AND datepart(DAY,@Fecha) < datepart(DAY,A.FechaYHoraTurno)) OR --SI AÑO Y MES IGUAL, DIA MENOR
+	(datepart(YEAR,@Fecha) = datepart(YEAR,A.FechaYHoraTurno) AND datepart(MONTH,@Fecha) < datepart(MONTH,A.FechaYHoraTurno)) OR --SI AÑO IGUAL, MES MENOR
+	(datepart(YEAR,@Fecha) < datepart(YEAR,A.FechaYHoraTurno))
+	)
 END
          
 
