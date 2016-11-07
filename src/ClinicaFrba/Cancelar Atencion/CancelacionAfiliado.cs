@@ -25,9 +25,6 @@ namespace ClinicaFrba.Cancelar_Atencion
 
         private void CargarTurnos()
         {
-            
-
-           
           /*  dgvTurnosCancelar.Rows.Clear();
             string query = "SELECT IdTurno, FechaYHoraTurno ";
             query = query + "FROM RANDOM.TURNO T ";
@@ -45,7 +42,6 @@ namespace ClinicaFrba.Cancelar_Atencion
 
         private void btnBuscarTurno_Click(object sender, EventArgs e)
         {
-
             string query = "SELECT RANDOM.VALIDAR_AFILIADO ('" + txtAfiliado.Text + "') AS id";
             SqlDataReader reader = Conexion.ejecutarQuery(query);
             reader.Read();
@@ -61,7 +57,6 @@ namespace ClinicaFrba.Cancelar_Atencion
 
                 dgvTurnosCancelar.DataSource = Conexion.obtenerTablaProcedure("RANDOM.CANCELACION_TURNO_AFILIADO", Conexion.generarArgumentos("@Afiliado", "Fecha"), Afiliado, fechaHoy);
                 dgvTurnosCancelar.Columns[0].Visible = false;
-            
             }
             else
             {
@@ -89,7 +84,9 @@ namespace ClinicaFrba.Cancelar_Atencion
                     {
                         MessageBox.Show("Turno(s) cancelado(s) satisfactoriamente");
                     }
-                    CargarTurnos();
+                    //CargarTurnos();
+					this.Hide();
+					FormProvider.Cancelacion.Show();
                 }
                 else
                 {
@@ -128,11 +125,6 @@ namespace ClinicaFrba.Cancelar_Atencion
         {
             this.Hide();
             FormProvider.Cancelacion.Show();
-        }
-
-        private void txtAfiliado_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
