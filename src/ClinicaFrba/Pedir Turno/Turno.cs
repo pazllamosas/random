@@ -36,16 +36,8 @@ namespace ClinicaFrba.Pedir_Turno
                     if (fechaActual.Hour < fechaQueAtiende.Hour || fechaActual.Hour == fechaQueAtiende.Hour && fechaActual.Minute < fechaQueAtiende.Minute)
                     //chequeo no sea antes de hora actual
                     {
-                        string ocupado = d.Cells[1].Value.ToString();
-                        if (ocupado == "")
-                        {
                             MessageBox.Show("Confirme el turno");
                             confirmarTurno.Visible = true;
-                        }
-                        else
-                        {
-                            MessageBox.Show("El turno esta ocupado, seleccionar un turno disponible", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        }
                     }
                     else
                     {

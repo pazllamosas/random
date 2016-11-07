@@ -1734,7 +1734,7 @@ BEGIN
 
    CREATE TABLE TEMPORALTURNOS(
    Turnos DATETIME,
-   DisponibilidadTurno nvarchar(255))
+   DisponibilidadTurno bit) --1 cuando este ocupado, 0 cuando este libre
                      
    DECLARE @X DATETIME = @Desde
    DECLARE @Agenda INT
@@ -1746,19 +1746,20 @@ BEGIN
 	IF( @X = any(SELECT C.FechaYHoraTurno fROM RANDOM.TURNO C WHERE C.IdAgenda = @Agenda))
 	BEGIN
 	INSERT INTO TEMPORALTURNOS(Turnos, DisponibilidadTurno)
-	VALUES(@X, 'Turno Ocupado')
+	VALUES(@X, 1) --ocupado 1
 	SET @X = DATEADD([minute], 30, @X)
 	END
 	ELSE
 	BEGIN
 	INSERT INTO TEMPORALTURNOS(Turnos, DisponibilidadTurno)
-	VALUES(@X, '')
+	VALUES(@X, 0) -- disponible es 0
 	SET @X = DATEADD([minute], 30, @X)
 	END
 	END
 
-	SELECT DISTINCT A.Turnos, A.DisponibilidadTurno
+	SELECT DISTINCT A.Turnos
 	FROM TEMPORALTURNOS A
+	WHERE A.DisponibilidadTurno = 0 --EL O ES VACIO
 
 END
 GO
