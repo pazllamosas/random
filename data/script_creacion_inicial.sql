@@ -1708,21 +1708,21 @@ IF(@Descripcion = '')
     SELECT DISTINCT	A.Apellido, A.Nombre, A.IdPersona, E.Descripcion, C.IdEspecialidad, C.HoraDesde, C.HoraHasta
 	FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B, RANDOM.AGENDA_HORARIO_DISPONIBLE C, RANDOM.ESPECIALIDAD_POR_PROFESIONAL D, RANDOM.ESPECIALIDAD E
 	WHERE @Apellido = A.Apellido AND A.IdPersona = B.IdProfesional AND C.Dia = @DiaNumero
-	AND D.IdProfesional = A.IdPersona AND C.IdEspecialidad = D.IdEspecialidad AND D.IdEspecialidad = E.IdEspecialidad
+	AND D.IdProfesional = A.IdPersona AND C.IdEspecialidad = D.IdEspecialidad AND D.IdEspecialidad = E.IdEspecialidad AND C.Activa = 1
    END
 IF(@Apellido = '') 
   BEGIN                           
     SELECT DISTINCT	A.Apellido, A.Nombre, A.IdPersona, E.Descripcion, C.IdEspecialidad, C.HoraDesde, C.HoraHasta
 	FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B, RANDOM.AGENDA_HORARIO_DISPONIBLE C, RANDOM.ESPECIALIDAD_POR_PROFESIONAL D, RANDOM.ESPECIALIDAD E
 	WHERE @Descripcion = E.Descripcion AND E.IdEspecialidad = D.IdEspecialidad AND D.IdEspecialidad = C.IdEspecialidad AND @DiaNumero = C.Dia
-	AND A.IdPersona = B.IdProfesional AND C.IdProfesional = A.IdPersona
+	AND A.IdPersona = B.IdProfesional AND C.IdProfesional = A.IdPersona AND C.Activa = 1
   END
 IF(@Descripcion != '' AND @Apellido != '') 
   BEGIN
     SELECT DISTINCT	A.Apellido, A.Nombre, A.IdPersona, E.Descripcion, C.IdEspecialidad, C.HoraDesde, C.HoraHasta
 	FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B, RANDOM.AGENDA_HORARIO_DISPONIBLE C, RANDOM.ESPECIALIDAD_POR_PROFESIONAL D, RANDOM.ESPECIALIDAD E
 	WHERE @Descripcion = E.Descripcion AND @Apellido = A.Apellido AND E.IdEspecialidad = D.IdEspecialidad AND D.IdEspecialidad = C.IdEspecialidad
-	AND @DiaNumero = C.Dia 	AND A.IdPersona = B.IdProfesional AND C.IdProfesional = A.IdPersona
+	AND @DiaNumero = C.Dia 	AND A.IdPersona = B.IdProfesional AND C.IdProfesional = A.IdPersona AND C.Activa = 1
   END
 END
 GO
@@ -1734,31 +1734,32 @@ BEGIN
 
    CREATE TABLE TEMPORALTURNOS(
    Turnos DATETIME,
-   DisponibilidadTurno nvarchar(255))
+   DisponibilidadTurno bit) --1 cuando este ocupado, 0 cuando este libre
                      
    DECLARE @X DATETIME = @Desde
    DECLARE @Agenda INT
 
-   SET @Agenda = (SELECT B.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE B WHERE B.IdProfesional = @IdProfesional AND B.Dia = @Dia AND B.IdEspecialidad = @IdEspecialidad)
+   SET @Agenda = (SELECT B.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE B WHERE B.IdProfesional = @IdProfesional AND B.Dia = @Dia AND B.IdEspecialidad = @IdEspecialidad AND B.Activa = 1)
 
 	WHILE(datepart(hour,@Hasta) != datepart(hour,@X))
 	BEGIN
 	IF( @X = any(SELECT C.FechaYHoraTurno fROM RANDOM.TURNO C WHERE C.IdAgenda = @Agenda))
 	BEGIN
 	INSERT INTO TEMPORALTURNOS(Turnos, DisponibilidadTurno)
-	VALUES(@X, 'Turno Ocupado')
+	VALUES(@X, 1) --ocupado 1
 	SET @X = DATEADD([minute], 30, @X)
 	END
 	ELSE
 	BEGIN
 	INSERT INTO TEMPORALTURNOS(Turnos, DisponibilidadTurno)
-	VALUES(@X, '')
+	VALUES(@X, 0) -- disponible es 0
 	SET @X = DATEADD([minute], 30, @X)
 	END
 	END
 
-	SELECT DISTINCT A.Turnos, A.DisponibilidadTurno
+	SELECT DISTINCT A.Turnos
 	FROM TEMPORALTURNOS A
+	WHERE A.DisponibilidadTurno = 0 --EL O ES VACIO
 
 END
 GO
@@ -1771,7 +1772,7 @@ BEGIN
 	  DECLARE @IdTurno INT
 
 	  SET @IdEspecialidad = (SELECT B.IdEspecialidad FROM RANDOM.ESPECIALIDAD B WHERE B.Descripcion = @Especialidad)
-	  SET @IdAgenda = (SELECT A.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @Profesional AND A.Dia = @Dia AND A.IdEspecialidad = @IdEspecialidad)
+	  SET @IdAgenda = (SELECT A.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @Profesional AND A.Dia = @Dia AND A.IdEspecialidad = @IdEspecialidad AND A.Activa = 1)
 	  SELECT @IdTurno = (SELECT IdTurno FROM RANDOM.TURNO WHERE IdTurno = (SELECT MAX(IdTurno) FROM RANDOM.TURNO))
 	  
 	  INSERT INTO RANDOM.TURNO(IdTurno, IdAgenda, IdAfiliado, FechaYHoraTurno, Habilitado, IdEspecialidad)
@@ -1824,7 +1825,7 @@ BEGIN
 	AND datepart(YEAR,B.FechaYHoraTurno) = @Anio AND datepart(MONTH,B.FechaYHoraTurno) = @Mes
 	AND datepart(DAY,B.FechaYHoraTurno) = @Dia
 	AND B.Habilitado = 0 --EN 0 ES SIN CANCELAR O SIN EFECTUAR, ASI QUE MIRO QUE NO ESTE CANCELADO O QUE YA SE ATENDIO(PARA LOS DE LA MAESTRA)
-    AND B.RegistrarLlegada = 0 
+    AND B.RegistrarLlegada = 0 AND A.Activa = 1
 	--AND (0 = (SELECT COUNT(*) FROM RANDOM.RESULTADO_TURNO WHERE IdTurno = B.IdTurno))
 	ORDER BY B.FechaYHoraTurno ASC
 END
