@@ -45,20 +45,11 @@ namespace ClinicaFrba.Pedir_Turno
                     }
                 }
                 if (fechaActual.Day != fechaElegida.Day)
-                {
-                    string ocupado = d.Cells[1].Value.ToString();
-                    if (ocupado == "")
-                    {
+                   {
                         MessageBox.Show("Confirme el turno");
                         confirmarTurno.Visible = true;
                     }
-                    else
-                    {
-                        MessageBox.Show("El turno esta ocupado, seleccionar un turno disponible", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
-                }
-
-            }
+                   }
             else
             {
                 MessageBox.Show("Elegir un turno", "Atención", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
