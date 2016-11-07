@@ -183,8 +183,7 @@ IF OBJECT_ID('RANDOM.TRAER_TURNOS_MEDICO') IS NOT NULL
 DROP PROCEDURE RANDOM.TRAER_TURNOS_MEDICO
 IF OBJECT_ID('RANDOM.BONOS_DISPONIBLES') IS NOT NULL
 DROP PROCEDURE RANDOM.BONOS_DISPONIBLES
---IF OBJECT_ID('RANDOM.BONOS_DISPONIBLES') IS NOT NULL ---------------------------->PARA BORRAR
---DROP FUNCTION RANDOM.BONOS_DISPONIBLES ------------------------------------------>PARA BORRAR
+
 IF OBJECT_ID('RANDOM.REGISTRO_LLEGADA') IS NOT NULL
 DROP PROCEDURE RANDOM.REGISTRO_LLEGADA
 
@@ -246,7 +245,7 @@ GO
 -- CREATE TABLAS
 CREATE TABLE RANDOM.ROL(
 	IdRol int PRIMARY KEY IDENTITY(1,1),
-	Estado bit DEFAULT 1, -- 1 activo
+	Estado bit DEFAULT 1, 
 	Descripcion nvarchar(255) UNIQUE
 	)
 
@@ -258,7 +257,7 @@ CREATE TABLE RANDOM.FUNCIONALIDADES(
 CREATE TABLE RANDOM.ROL_POR_FUNCIONALIDADES(
 	IdFuncionalidad int,
 	IdRol int,
-	Habilitada bit DEFAULT 1	--para que en el menu se vean las de cada rol
+	Habilitada bit DEFAULT 1	
 	)
 
 CREATE TABLE RANDOM.USUARIO(
@@ -268,13 +267,13 @@ CREATE TABLE RANDOM.USUARIO(
 	FechaCreacion datetime,
 	UltimaModificacion datetime,
 	IntentosFallidos int NOT NULL DEFAULT 0,
-	Acceso bit, --1 ACCESO CORRECTO
+	Acceso bit, 
 	Habilitada bit DEFAULT 1
 )
 CREATE TABLE RANDOM.USUARIO_POR_ROL(
 	IdUsuario int,
 	IdRol int,
-	Habilitada bit DEFAULT 1 --para dar de baja un usuario por rol
+	Habilitada bit DEFAULT 1 
 )
 
 CREATE TABLE RANDOM.PERSONA(
@@ -305,7 +304,6 @@ CREATE TABLE RANDOM.AFILIADO(
 	NumeroAfiliadoRaiz int DEFAULT 0,
 	NumeroAfiliadoExt nvarchar(255) DEFAULT '01',
 	Estado bit DEFAULT 1--, 1 ACTIVO 0 BAJA
-	--NumeroUltimoBono int
 )
 
 CREATE TABLE RANDOM.PLANES(
@@ -349,7 +347,7 @@ CREATE TABLE RANDOM.ESPECIALIDAD(
 )
 
 CREATE TABLE RANDOM.ESPECIALIDAD_POR_PROFESIONAL(
-	IdProfesional int, -- puse persona en vez de profesional porque me acortaba mucho en un query, igual no cambia en nada por suerte
+	IdProfesional int,
 	IdEspecialidad int,
 	PRIMARY KEY(IdProfesional, IdEspecialidad)
 )
@@ -363,14 +361,14 @@ CREATE TABLE RANDOM.COMPRA_BONO(
 )
 
 CREATE TABLE RANDOM.BONO(
-	IdBono int PRIMARY KEY IDENTITY (1,1), -- No es el numero de bono porque sino tendria que cambiar el tipo de datos en muchos lugares
+	IdBono int PRIMARY KEY IDENTITY (1,1), 
 	IdCompra int,
-	Usado bit default 1, -- 1 si esta usado
+	Usado bit default 1, 
 	Precio int,
 	IdPlan int,
 	CompraBonoFecha datetime,
-	ConsultaNumero numeric(18), --numero de bono
-	Habilitado bit DEFAULT 1 -- para el cambio de plan
+	ConsultaNumero numeric(18), 
+	Habilitado bit DEFAULT 1 
 )
 
 CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
@@ -387,7 +385,7 @@ CREATE TABLE RANDOM.TURNO(
 	IdTurno int PRIMARY KEY,
 	IdAgenda int,
 	IdAfiliado int,
-	FechaYHoraTurno datetime, --es la fecha y hora en la que se HACE el turno
+	FechaYHoraTurno datetime, 
 	Habilitado bit DEFAULT 1,
 	IdEspecialidad int,
 	RegistrarLlegada bit DEFAULT 0
@@ -400,7 +398,7 @@ CREATE TABLE RANDOM.RESULTADO_TURNO(
 	--IdBono int,
 	Sintomas nvarchar(255),
 	Enfermedades nvarchar(255),
-	Fecha datetime -- es la fecha y hora en la que se hace la consulta dado un turno que sacaste antes
+	Fecha datetime 
 )
 
 CREATE TABLE RANDOM.CANCELACION(
@@ -422,7 +420,6 @@ CREATE TABLE TABLA_DE_DIAS_NUMERO (
 
 --FOREIGN KEY 
 
---ALTER TABLE RANDOM.PERSONA ADD FOREIGN KEY (IdUsuario) REFERENCES RANDOM.USUARIO
 ALTER TABLE RANDOM.ROL_POR_FUNCIONALIDADES ADD FOREIGN KEY (IdFuncionalidad) REFERENCES RANDOM.FUNCIONALIDADES
 ALTER TABLE RANDOM.ROL_POR_FUNCIONALIDADES ADD FOREIGN KEY (IdRol) REFERENCES RANDOM.ROL
 ALTER TABLE RANDOM.USUARIO_POR_ROL ADD FOREIGN KEY (IdUsuario) REFERENCES RANDOM.USUARIO
@@ -440,7 +437,6 @@ ALTER TABLE RANDOM.BONO ADD FOREIGN KEY (IdCompra) REFERENCES RANDOM.COMPRA_BONO
 ALTER TABLE RANDOM.BONO ADD FOREIGN KEY (IdPlan) REFERENCES RANDOM.PlANES
 ALTER TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE ADD FOREIGN KEY (IdProfesional) REFERENCES RANDOM.PROFESIONAL
 ALTER TABLE RANDOM.TURNO ADD FOREIGN KEY (IdAgenda) REFERENCES RANDOM.AGENDA_HORARIO_DISPONIBLE
---ALTER TABLE RANDOM.RESULTADO_TURNO ADD FOREIGN KEY (IdBono) REFERENCES RANDOM.BONO
 ALTER TABLE RANDOM.RESULTADO_TURNO ADD FOREIGN KEY (IdTurno) REFERENCES RANDOM.TURNO
 ALTER TABLE RANDOM.CANCELACION ADD FOREIGN KEY (IdTipoCancelacion) REFERENCES RANDOM.TIPO_CANCELACION
 ALTER TABLE RANDOM.CANCELACION ADD FOREIGN KEY (IdTurno) REFERENCES RANDOM.TURNO
@@ -682,7 +678,6 @@ FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Paciente_Nombre = P.Nombre AND M.Paciente_Apellido = P.Apellido AND M.Paciente_Dni = P.Documento
 JOIN RANDOM.PLANES PL ON M.Plan_Med_Codigo = PL.Codigo
 
---FALTAN numero ultimo bono que no me acuerdo de nuevo para que era. Cubi.  /  seteo de estado civil?
 
 /*TIPO_ESPECIALIDAD*/
 INSERT INTO RANDOM.TIPO_ESPECIALIDAD(Codigo,Descripcion)
@@ -702,8 +697,7 @@ SELECT DISTINCT P.IdPersona
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Medico_Nombre =P.Nombre AND M.Medico_Apellido = P.Apellido AND M.Medico_Dni = P.Documento
 
-/*HISTORIAL_PLAN*/ -- inserto el primer plan de todas las personas de la base
--- y si ponemos la fecha de nacimiento en vez de esa fecha?? 
+/*HISTORIAL_PLAN*/ 
 INSERT INTO RANDOM.HISTORIAL_PLAN(IdAfiliado, Fecha, IdPlan)
 SELECT DISTINCT A.IdPersona, CONVERT(DATETIME, '1957-10-24 00:00:00.000', 21), A.IdPlan
 FROM RANDOM.AFILIADO A
@@ -756,7 +750,7 @@ FROM (SELECT B.IdCompra , COUNT (B.IdBONO) AS 'CANTIDAD'
 WHERE joinBonoCompra.IdCompra = RANDOM.COMPRA_BONO.IdCompra
 
 
-	/*AGENDA_HORARIO_DISPONIBLE*/
+/*AGENDA_HORARIO_DISPONIBLE*/
 insert INTO RANDOM.AGENDA_HORARIO_DISPONIBLE 
 SELECT DISTINCT P.IdPersona, ES.IdEspecialidad,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Turno_Fecha) AS 'DIA DE SEMANA', 0 
 FROM gd_esquema.Maestra M
@@ -767,18 +761,6 @@ group by P.IdPersona, ES.IdEspecialidad, DATepart(weekday, M.Turno_Fecha)
 
 
 /*TURNO*/
-/*INSERT INTO RANDOM.TURNO (IdTurno, IdAgenda, FechaYHoraTurno, IdAfiliado, IdEspecialidad)
-SELECT DISTINCT M.Turno_Numero, hd.IdAgenda, M.Turno_Fecha, P.IdPersona, E.IdEspecialidad
-FROM gd_esquema.Maestra M
-JOIN RANDOM.PERSONA P ON P.Documento = M.Paciente_Dni
-JOIN RANDOM.ESPECIALIDAD E ON E.Codigo = M.Especialidad_Codigo
-JOIN RANDOM.ESPECIALIDAD_POR_PROFESIONAL EP ON EP.IdEspecialidad = E.IdEspecialidad 
-JOIN RANDOM.PERSONA PE ON EP.IdProfesional = PE.IdPersona AND PE.Documento = M.Medico_Dni
-JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON DATepart(WEEKDAY, M.Turno_Fecha) = HD.nombreDia AND HD.IdProfesional = EP.IdProfesional
-where M.Turno_Numero IS NOT NULL 
-	AND M.Turno_Fecha IS NOT NULL
-	AND M.Bono_Consulta_Fecha_Impresion IS NOT NULL
-	AND M.Consulta_Sintomas IS NOT NULL*/
 
 INSERT INTO RANDOM.TURNO (IdTurno, IdAgenda, FechaYHoraTurno, IdAfiliado, IdEspecialidad)
 SELECT DISTINCT M.Turno_Numero, hd.IdAgenda, M.Turno_Fecha, P.IdPersona, HD.IdEspecialidad
@@ -1079,15 +1061,7 @@ GO
 GO
 CREATE PROCEDURE RANDOM.GET_ROLES_ESTADO AS
 BEGIN
-	--DECLARE @ESTADO int
-	--SELECT @ESTADO = Estado FROM RANDOM.ROL
 
-	--IF (@ESTADO = 1)
-	--	SELECT IdRol, Descripcion, 'Activo' AS Estado  FROM RANDOM.ROL
-	--	Order by IdRol
-	--ELSE
-	--	SELECT IdRol, Descripcion, 'Inactivo' AS Estado  FROM RANDOM.ROL
-	--	order by IdRol
 	SELECT IdRol, Descripcion, Estado FROM RANDOM.ROL
 		Order by IdRol
 
@@ -1250,18 +1224,6 @@ BEGIN
 	VALUES((SELECT A.IdPersona FROM RANDOM.AFILIADO A, RANDOM.PERSONA P WHERE A.IdPersona = P.IdPersona AND P.Documento = @DOCUMENTO), @IDPLAN, GETDATE(), 'Inscripcion Afiliado Principal')
 END 
 GO
-
---GO
---CREATE PROCEDURE RANDOM_NUMERO_AFILIADO_RAIZ (@IDPERSONA INT)AS
---BEGIN
---DECLARE @NRO_AFILIADO INT
---SELECT @NRO_AFILIADO= MAX(NumeroAfiliadoRaiz) +1 FROM RANDOM.AFILIADO
-	
---	UPDATE RANDOM.AFILIADO SET
---	NumeroAfiliadoRaiz = @NRO_AFILIADO
---	WHERE IdPersona = @IDPERSONA 
---END
---GO
 
 
 GO 
@@ -1608,9 +1570,7 @@ CREATE PROCEDURE RANDOM.CANCELAR_TURNO_AFILIADO(@TURNO int, @TIPO int, @MOTIVO n
 BEGIN
 	IF ( EXISTS ( SELECT * FROM RANDOM.TURNO WHERE IdTurno = @TURNO ))
 	BEGIN
-		-- UPDATE RANDOM.TURNO SET
-			-- habilitado = 1
-		-- WHERE IdTurno = @TURNO
+
 		
 		INSERT INTO RANDOM.CANCELACION (IdTipoCancelacion, IdTurno, Motivo)
 		VALUES (@TIPO, @TURNO, @MOTIVO)
@@ -1633,14 +1593,7 @@ BEGIN
 		  T.IdAgenda = A.IdAgenda AND
 		  T.habilitado = 0 AND
 		  T.FechaYHoraTurno BETWEEN @FECHADESDE AND @FECHAHASTA
-	
-	-- UPDATE RANDOM.TURNO SET
-		-- habilitado = 1
-	-- FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A, RANDOM.TURNO T
-	-- WHERE A.IdProfesional = @PROFESIONAL AND
-		  -- T.IdAgenda = A.IdAgenda AND
-		  -- T.habilitado = 0 AND
-		  -- T.FechaYHoraTurno BETWEEN @FECHADESDE AND @FECHAHASTA
+
 END
 GO
 
@@ -1731,11 +1684,11 @@ GO
 CREATE PROCEDURE RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES(@Desde DATETIME, @Hasta DATETIME, @IdProfesional INT, @Dia INT, @IdEspecialidad INT) AS
 BEGIN
    IF OBJECT_ID('TEMPORALTURNOS') IS NOT NULL
-   DROP TABLE TEMPORALTURNOS --sino borrara la tabla cuando invoco, siempre me qeda con datos viejos & si atendia de 10 a 18, aunque el nuevo atienda de 12, sigue contado desde 10
+   DROP TABLE TEMPORALTURNOS 
 
    CREATE TABLE TEMPORALTURNOS(
    Turnos DATETIME,
-   DisponibilidadTurno bit) --1 cuando este ocupado, 0 cuando este libre
+   DisponibilidadTurno bit) 
                      
    DECLARE @X DATETIME = @Desde
    DECLARE @Agenda INT
@@ -1747,20 +1700,20 @@ BEGIN
 	IF( @X = any(SELECT C.FechaYHoraTurno fROM RANDOM.TURNO C WHERE C.IdAgenda = @Agenda))
 	BEGIN
 	INSERT INTO TEMPORALTURNOS(Turnos, DisponibilidadTurno)
-	VALUES(@X, 1) --ocupado 1
+	VALUES(@X, 1) 
 	SET @X = DATEADD([minute], 30, @X)
 	END
 	ELSE
 	BEGIN
 	INSERT INTO TEMPORALTURNOS(Turnos, DisponibilidadTurno)
-	VALUES(@X, 0) -- disponible es 0
+	VALUES(@X, 0) 
 	SET @X = DATEADD([minute], 30, @X)
 	END
 	END
 
 	SELECT DISTINCT A.Turnos
 	FROM TEMPORALTURNOS A
-	WHERE A.DisponibilidadTurno = 0 --EL O ES VACIO
+	WHERE A.DisponibilidadTurno = 0 
 
 END
 GO
@@ -1810,10 +1763,10 @@ GO
 
 CREATE PROCEDURE RANDOM.GET_MEDICOS AS
 BEGIN
-	SELECT DISTINCT A.Apellido--, A.Apellido + ', ' + A.Nombre AS 'Apellido' 
+	SELECT DISTINCT A.Apellido
 	FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B
 	WHERE B.IdProfesional = A.IdPersona
-	ORDER BY A.Apellido ASC--, A.Nombre ASC
+	ORDER BY A.Apellido ASC
 END
 GO
 
@@ -1825,9 +1778,8 @@ BEGIN
 	AND @IdEspecialidad = A.IdEspecialidad AND B.IdAgenda = A.IdAgenda
 	AND datepart(YEAR,B.FechaYHoraTurno) = @Anio AND datepart(MONTH,B.FechaYHoraTurno) = @Mes
 	AND datepart(DAY,B.FechaYHoraTurno) = @Dia
-	AND B.Habilitado = 0 --EN 0 ES SIN CANCELAR O SIN EFECTUAR, ASI QUE MIRO QUE NO ESTE CANCELADO O QUE YA SE ATENDIO(PARA LOS DE LA MAESTRA)
+	AND B.Habilitado = 0
     AND B.RegistrarLlegada = 0 AND A.Activa = 1
-	--AND (0 = (SELECT COUNT(*) FROM RANDOM.RESULTADO_TURNO WHERE IdTurno = B.IdTurno))
 	ORDER BY B.FechaYHoraTurno ASC
 END
 GO
@@ -1929,7 +1881,7 @@ create table TEMPORAL(
 IdPersona int,
 Cantidad int
 )
---Primero aca busco el id de la persona, y en el procedure que le sigue busco el numero raiz y extension, para mostrar eso
+
 GO
 CREATE PROCEDURE RANDOM.antesDelTop(@fechaFrom datetime, @fechaTo datetime)
 as
@@ -1959,20 +1911,6 @@ JOIN RANDOM.AFILIADO A ON A.IdPersona = T.IdPersona
 order by 2 desc
 END
 GO
-
-
-/*para probar
-select * from temporal
-EXEC RANDOM.antesDelTop '2014/12/28 18:00:00' , '2015/12/30 18:00:00'
-
-select P.IdPersona AS 'Persona', sum(CB.Cantidad) AS 'Cantidad'
-from RANDOM.COMPRA_BONO CB
-JOIN RANDOM.AFILIADO A ON A.IdPersona = CB.IdAfiliado
-JOIN RANDOM.PERSONA P ON P.IdPersona = A.IdPersona
-WHERE CB.Fecha between '20141228 18:00:00' and '20151230 18:00:00'
-group by P.IdPersona 
-order by 2 desc
-*/
 
 --------------------------------------------------------
 
@@ -2055,9 +1993,7 @@ END
 GO 
 CREATE PROCEDURE RANDOM.GET_AGENDA(@IdProfesional int)  AS
 BEGIN
-	
-	--DECLARE @DIA int
-	--SELECT @DIA =Dia FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
+
 	
 	SELECT B.DiaLetra, A.HoraDesde, A.HoraHasta 
 	FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A, TABLA_DE_DIAS_NUMERO B
@@ -2076,152 +2012,8 @@ BEGIN
 	AND datepart(DAY,@Fecha) < datepart(DAY,A.FechaYHoraTurno)) OR --SI AÑO Y MES IGUAL, DIA MENOR
 	(datepart(YEAR,@Fecha) = datepart(YEAR,A.FechaYHoraTurno) AND datepart(MONTH,@Fecha) < datepart(MONTH,A.FechaYHoraTurno)) OR --SI AÑO IGUAL, MES MENOR
 	(datepart(YEAR,@Fecha) < datepart(YEAR,A.FechaYHoraTurno))
-	)
+	) 
+	AND A.habilitado = 0
+	ORDER BY 2
 END
          
-
---GO
---CREATE PROCEDURE RANDOM.GET_AGENDA(@IdProfesional int)  AS
---BEGIN
-	
---	DECLARE @DIA int
---	SELECT @Dia FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
---	DECLARE @DiaNombre nvarchar(255)
-
-	
---	IF (@Dia = 1)
---		BEGIN
---			SELECT @DiaNombre = 'Domingo'
---			SELECT @DiaNombre AS Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
---		END
---	ELSE
---		BEGIN
---			IF (@DIA = 2)
---				BEGIN
---				SELECT @DiaNombre = 'Lunes'
---				SELECT @DiaNombre AS Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
---				END
-
---			ELSE 
---				BEGIN
---					IF (@DIA = 3)
---						BEGIN
---						SELECT @DiaNombre = 'Martes'
---						SELECT @DiaNombre AS Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
---						END
---					ELSE
---						BEGIN
---							IF (@DIA = 4)
---								BEGIN
---								SELECT @DiaNombre = 'Miércoles'
---								SELECT @DiaNombre AS Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
---								END
---							ELSE
---								BEGIN
---									IF (@DIA = 5)
---										BEGIN
---										SELECT @DiaNombre = 'Jueves'
---										SELECT @DiaNombre AS Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
---										END
---									ELSE
---										BEGIN
---											IF (@DIA = 6)
---												BEGIN
---												SELECT @DiaNombre = 'Viernes'
---												SELECT @DiaNombre AS Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
---												END
---											ELSE
---												BEGIN
---												SELECT @DiaNombre = 'Sábado'
---												SELECT @DiaNombre AS Dia, HoraDesde, HoraHasta FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
---												END
---										END
---									END
---							END
---					END
---			END
-
-
---END
---GO
-
-
-
-
-
----------------DATOS PARA ESTRATEGIA-----------------
-
-/*
-en la cancelacion, es un dia solo, o un rango de dias, no se ven fechas cuando el medico cancela  M.Turno_Fecha ES A FECHA QUE SE HACE EL TURNO Y BONO COSULTA FECHA IMPRESION ES LA FECHA EN LA QUE SE CONSUME EL BONO
-1) TEMA TIPO DNI (OK):
-	es necesario utilizar tipo y numero de documento? O se puede usar solo DNI ya que de los medicos y personas cargados solo tenemos dni?
-	En el enunciado se pide Tipo y número de documento
-HABRIA QUE CREAR LA TABLA Y PONER LOS TIPOS DE DOCUMENTOS
---> creada
-2) TEMA USUARIO (OK):
-	 Es obligatorio que todas las personas tengan un usuario? Y que un usuario tenga una persona asociada?
-	 Todos los afiliados y profesionales tienen que tener un username y password, queda a criterio de ustedes como se hace la asignación. Los mismos son necesarios para poder acceder al sistema y realizar las acciones correspondientes a su rol como la compra de bonos o pedido de turno  en la caso del afiliado o registrar el resultado de una consulta en el caso del profesional.
---> CREAMOS SOLO USUARIO DE PRUEBAS - ADMIN Y LOS OTROS SE MIGRAN
-3) AGENDA PROFESIONAL (OK):
-	quien manejaria la agenda profesional? podria ser el administrador?
-	si podrian considerarlo de ese modo.
---> creo que seria la mejor forma
--> LA MANEJA EL ADMIN
-4) No hay bonos de farmacia ni compra de medicamentos. 
--->ok
-5) TABLA MAESTRA (OK):
-	donde ponemos TURNO NUMERO, TURNO FECHA en la AGENDA O TURNO?
-	--> ESTO VA EN TURNO, EL NUMERO DE TURNO ES UNICO POR LO TANTO VA A SER LE ID DE LA TABLA 
-6) AFILIADO (OK):
-	 Estado ??
-	faltan setear cosas
-	--> ESTADO ES BAJA O ACTIVO
-7)TANTOS INDICES HACEN FALTA? (HAY QE BORRAR O COMENTAR)
---> Emm no se, lo habiamos echo asi el año pasado, pero si se pueden sacar alguno mejor!
--> yo el año pasado hice 2 indices cuando los necesite. para mi son muchos al pedo, talvez en tablas qe ni hace falta, hace corra mas lento el script. Paz
-8)CONSULTA SINTOMAS Y ENFERMEDAD SOLO DAN SINTOMA/ENFERMEDAD 1 Y DESPUES NULL (OK)
---> eso se tendra que ir completando a medida de que el paciente va poniendo el sintoma y enfermedad creeria.
-9) ESPECIALIDAD POR PROFESIONAL
-	el profesional no deberia tener el id de especialidad? no hay forma de joinear?
---> como puede tener muchas especialidades, va a estar en la tabla especialidad por profesional aclarada que especialidad tienen cada profesional.
--> Pero como joinea? porque pedis la especialidad y el profesional, como sabes que es de ese profesional? Paz
-10) IDEA NRO AFILIADO (OK):
-Para crear el numero de afiliado se me ocurrio crear 2 campos uno que sea el numero de afiliado gral y otro qe sea por familiar, es decir 00, 01 etc. 
-Las fechas en cuestion las tomasmos como pensabamos. tomamos que los campos bono_consulta_fecha_impresión  y compra_bono_fecha son independientes
-las horas trabajadas son las horas que estuvo atendiendo gente
-TURNO FECHA ES LA FECHA EN LA QUE SE EJECUTA EL TURNO.
-la matricula del profesional va a ser el id profesional
-El peridodo de cancelacion de un profesional se tiene que contar en dias, y no en horas de un solo dia.
-Cuando un turno es dado de baja se va a generar otro turno para suplnatar al que se dio de baja en caso de que sea necesario
-Usamos una grilla para los horarios disponibles y el date box todos los días de lunes a sábados 
-Los síntomas nuevos si bien se cargan una vez, va a ser un gran steing que especifique todos los síntomas que tiene la persona.
-Y el síntoma u enfermedad se carga después de que se vio el médico.
-No hay números de turno repetidos
-Que los nombres de usuarios sean números, 8 numeros. No tienen por qué ser el número de documento de la persona nueva 
-1.Que Compra_Bono_Fecha y Bono_Consulta_Fecha_Impresion tengan la misma fecha y todos los demás campos en nulos (exceptuando los datos del usuario y planes médicos)
-2.Que Compra_Bono_Fecha, Bono_Consulta_Fecha_Impresion, Consulta_Sintoma y Consulta_Enfermedades sean nulos, y todo lo demás contenga datos. 
-3.Que Compra_Bono_Fecha sea nulo y todos los demás campos tengan datos.
-1.Se efectúa la compra del bono.
-2 corresponde a la solicitud del turno.
-3.se refiere a que se efectivizó la consulta, registrando la utilización del bono y el diagnóstico del médico.
-Compra_Bono_Fecha es a fecha en la que se compra el bono, y Bono_Consulta_Fecha_Impresion es la fecha en la que se usa el bono.
-Hay dos registros de cada persona que tienen numero de turno porque uno es cuando saco el turno, y el otro cuando se concreto el turno, por eso tiene sintomas y enfermedad
-No hya numeros de bonos de consultas en mas de un usuario
-Poner tipo de documento porque lo dice el enunciado, aunque sean todos dni
-+++ En la maestra no hay medicos que sean usuarios -  DONDE DICE? YO CREO QE SI Y YA MIGRE ALGUNOS
-Los bonos de farmacia no se compran
-No hay que crear en ningun momentos funcionalidades
-Si el paciente tiene el turno no nulo, pero a la vez los campos Consulta_Sintomas y Consulta_Enfermedades estan en nulo. ¿Significa que la persona cancelo el turno?
-No, ese caso representa la solicitud del turno. Podrian considerar que hubo  una cancelación cuando no hay referencia de Consulta_Sintomas y Consulta_Enfermedades para un cierto número de turno.
-Bono_Consulta_Fecha_Impresión se refiere a la fecha en que se compró el bono utilizado.
-cuando hay un número de bono repetido en la maestra, se describen dos situaciones. Una  cuando se realiza la compra del bono y la otra cuando el paciente fue atendido utilizando el mismo. 
-Hay que definir como hacemos el parentezco entre los familiares en la maestra porque no hay algun campo que nos diga que son familiares
-Las 24 hs de cancelacion la podemos tomar como si fuese el dia anterior, no literal 24 hs
-En agenda_horario_disponible ponemos todos los horarios que tengan los doctores (los que carguemos nosotros si es que no estan en la maestra) y si  esta disponible o no.
-Todos los ID manejemoslo en INT, y los string NVARCHAR porque acepta unicode
-Hacer todas las validaciones en c#
-BAJA AFILIADO: se decidio dar de baja los afiliados de a uno. Es decir qe aunqe el afiliado principal se da de baja, los demas afiliados siguen activos. BAJA INDIVIDUAL
-en la estrategia aclarar los comentarios que psue en la creacion de la tablas
-
-hay que crear en la tabla personas los usuarios qde prueba que se creen de ahora en mas, los 4 del inicio ya estan
-*/

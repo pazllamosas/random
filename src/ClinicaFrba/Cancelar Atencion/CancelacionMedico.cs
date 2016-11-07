@@ -83,6 +83,12 @@ namespace ClinicaFrba.Cancelar_Atencion
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
+            DateTime fechaHoy = funciones.ObtenerFecha();
+            dtpDesde.Value = fechaHoy;
+            dtpHasta.Value = fechaHoy;
+            cmbTipoCancelacion.Text = null;
+            txtMotivoCancelacion.Text = null;
+            cmbProfesional.SelectedIndex = -1;
             this.Hide();
             FormProvider.Cancelacion.Show();
         }

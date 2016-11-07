@@ -85,6 +85,11 @@ namespace ClinicaFrba.Cancelar_Atencion
                         MessageBox.Show("Turno(s) cancelado(s) satisfactoriamente");
                     }
                     //CargarTurnos();
+                    txtAfiliado.Text = null;
+                    dgvTurnosCancelar.DataSource = null;
+                    cmbTipoCancelacion.Text = null;
+                    txtMotivoCancelacion.Text = null;
+                    txtAfiliado.Text = null;
 					this.Hide();
 					FormProvider.Cancelacion.Show();
                 }
@@ -125,6 +130,13 @@ namespace ClinicaFrba.Cancelar_Atencion
         {
             this.Hide();
             FormProvider.Cancelacion.Show();
+        }
+        private void txtAfiliado_TextChanged(object sender, EventArgs e)
+        {
+            if (!funciones.permiteNumeros(txtAfiliado.Text))
+            {
+                MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

@@ -55,17 +55,37 @@ namespace ClinicaFrba.Listados
                 lista.Add("@fechaFrom");
                 lista.Add("@fechaTo");
 
-                DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
-                lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"));
-                // hacer un if para ver si eligio anio correcto
-                if (dt == null)
+                if (mesFin == "12")
                 {
-                    MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                } else
-                {
-                    this.dgvResultado.DataSource = dt;
-                    dgvResultado.Enabled = false;
+                    DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
+                    lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"));
+                    if (dt == null)
+                    {
+                        MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        this.dgvResultado.DataSource = dt;
+                        dgvResultado.Enabled = false;
+                    }
                 }
+                else
+
+                {
+                    DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
+                    lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/30"));
+                    if (dt == null)
+                    {
+                        MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        this.dgvResultado.DataSource = dt;
+                        dgvResultado.Enabled = false;
+                    }
+                }
+                // hacer un if para ver si eligio anio correcto
+                
             }
             else
             {

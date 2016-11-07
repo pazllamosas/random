@@ -63,17 +63,35 @@ namespace ClinicaFrba.Listados
                 lista.Add("@fechaFrom");
                 lista.Add("@fechaTo");
 
-                DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5EspecialidadesConMasCancelacionesDeTurno",
-                lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"));
-                if (dt == null)
+                if (mesFin == "12")
                 {
-                    MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5EspecialidadesConMasCancelacionesDeTurno",
+                    lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"));
+                    if (dt == null)
+                    {
+                        MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        this.dgvResultado.DataSource = dt;
+                        dgvResultado.Enabled = false;
+                    }
                 }
                 else
                 {
-                    this.dgvResultado.DataSource = dt;
-                    dgvResultado.Enabled = false;
+                    DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5EspecialidadesConMasCancelacionesDeTurno",
+                    lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/30"));
+                    if (dt == null)
+                    {
+                        MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        this.dgvResultado.DataSource = dt;
+                        dgvResultado.Enabled = false;
+                    }
                 }
+                
             }
             else
             {
