@@ -36,8 +36,8 @@ namespace ClinicaFrba.Pedir_Turno
                     if (fechaActual.Hour < fechaQueAtiende.Hour || fechaActual.Hour == fechaQueAtiende.Hour && fechaActual.Minute < fechaQueAtiende.Minute)
                     //chequeo no sea antes de hora actual
                     {
-                            MessageBox.Show("Confirme el turno");
-                            confirmarTurno.Visible = true;
+                        MessageBox.Show("Confirme el turno");
+                        confirmarTurno.Visible = true;
                     }
                     else
                     {
@@ -45,11 +45,11 @@ namespace ClinicaFrba.Pedir_Turno
                     }
                 }
                 if (fechaActual.Day != fechaElegida.Day)
-                   {
-                        MessageBox.Show("Confirme el turno");
-                        confirmarTurno.Visible = true;
-                    }
-                   }
+                {
+                    MessageBox.Show("Confirme el turno");
+                    confirmarTurno.Visible = true;
+                }
+            }
             else
             {
                 MessageBox.Show("Elegir un turno", "Atención", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);

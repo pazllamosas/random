@@ -25,7 +25,10 @@ namespace ClinicaFrba.Cancelar_Atencion
 
         private void CargarTurnos()
         {
-            dgvTurnosCancelar.Rows.Clear();
+            
+
+           
+          /*  dgvTurnosCancelar.Rows.Clear();
             string query = "SELECT IdTurno, FechaYHoraTurno ";
             query = query + "FROM RANDOM.TURNO T ";
             query = query + "WHERE T.IdAfiliado = " + txtAfiliado.Text + " AND T.FechaYHoraTurno > '" + funciones.ObtenerFecha().ToString() + "' AND T.Habilitado = 0 ";
@@ -37,14 +40,28 @@ namespace ClinicaFrba.Cancelar_Atencion
             {
                 dgvTurnosCancelar.Rows.Add(reader["IdTurno"], reader["FechaYHoraTurno"]);
             }
-            reader.Close();
+            reader.Close();*/
         }
 
         private void btnBuscarTurno_Click(object sender, EventArgs e)
         {
-            if (txtAfiliado.Text.Length > 0 && IsNumber(txtAfiliado.Text))
+
+            string query = "SELECT RANDOM.VALIDAR_AFILIADO ('" + txtAfiliado.Text + "') AS id";
+            SqlDataReader reader = Conexion.ejecutarQuery(query);
+            reader.Read();
+            Int32 afiliadoValidacion = int.Parse(reader["id"].ToString());
+            reader.Close();
+
+            if (txtAfiliado.Text.Length > 0 && IsNumber(txtAfiliado.Text) && afiliadoValidacion != -1)
             {
-                CargarTurnos();
+                string fecha = funciones.ObtenerFecha().ToString();
+                DateTime fechaHoy = Convert.ToDateTime(fecha);
+                string afiliadoS = txtAfiliado.Text;
+                Int32 Afiliado = Convert.ToInt32(afiliadoS);
+
+                dgvTurnosCancelar.DataSource = Conexion.obtenerTablaProcedure("RANDOM.CANCELACION_TURNO_AFILIADO", Conexion.generarArgumentos("@Afiliado", "Fecha"), Afiliado, fechaHoy);
+                dgvTurnosCancelar.Columns[0].Visible = false;
+            
             }
             else
             {
@@ -111,6 +128,11 @@ namespace ClinicaFrba.Cancelar_Atencion
         {
             this.Hide();
             FormProvider.Cancelacion.Show();
+        }
+
+        private void txtAfiliado_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

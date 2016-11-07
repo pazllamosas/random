@@ -39,8 +39,6 @@
             this.lblAfiliado = new System.Windows.Forms.Label();
             this.btnBuscarTurno = new System.Windows.Forms.Button();
             this.dgvTurnosCancelar = new System.Windows.Forms.DataGridView();
-            this.IdTurno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FechaYHoraTurno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTurnosCancelar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -126,6 +124,7 @@
             this.txtAfiliado.Name = "txtAfiliado";
             this.txtAfiliado.Size = new System.Drawing.Size(163, 24);
             this.txtAfiliado.TabIndex = 11;
+            this.txtAfiliado.TextChanged += new System.EventHandler(this.txtAfiliado_TextChanged);
             // 
             // lblAfiliado
             // 
@@ -155,29 +154,13 @@
             // 
             this.dgvTurnosCancelar.AllowUserToAddRows = false;
             this.dgvTurnosCancelar.AllowUserToDeleteRows = false;
+            this.dgvTurnosCancelar.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvTurnosCancelar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTurnosCancelar.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.IdTurno,
-            this.FechaYHoraTurno});
-            this.dgvTurnosCancelar.Location = new System.Drawing.Point(331, 112);
+            this.dgvTurnosCancelar.Location = new System.Drawing.Point(331, 93);
             this.dgvTurnosCancelar.Name = "dgvTurnosCancelar";
             this.dgvTurnosCancelar.ReadOnly = true;
-            this.dgvTurnosCancelar.Size = new System.Drawing.Size(202, 150);
-            this.dgvTurnosCancelar.TabIndex = 13;
-            // 
-            // IdTurno
-            // 
-            this.IdTurno.HeaderText = "Turno";
-            this.IdTurno.Name = "IdTurno";
-            this.IdTurno.ReadOnly = true;
-            this.IdTurno.Visible = false;
-            // 
-            // FechaYHoraTurno
-            // 
-            this.FechaYHoraTurno.HeaderText = "Fecha y Hora del turno";
-            this.FechaYHoraTurno.Name = "FechaYHoraTurno";
-            this.FechaYHoraTurno.ReadOnly = true;
-            this.FechaYHoraTurno.Width = 142;
+            this.dgvTurnosCancelar.Size = new System.Drawing.Size(288, 164);
+            this.dgvTurnosCancelar.TabIndex = 28;
             // 
             // CancelacionAfiliado
             // 
@@ -219,8 +202,6 @@
         private System.Windows.Forms.TextBox txtAfiliado;
         private System.Windows.Forms.Label lblAfiliado;
         private System.Windows.Forms.Button btnBuscarTurno;
-        private System.Windows.Forms.DataGridView dgvTurnosCancelar;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IdTurno;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FechaYHoraTurno;
+        public System.Windows.Forms.DataGridView dgvTurnosCancelar;
     }
 }
