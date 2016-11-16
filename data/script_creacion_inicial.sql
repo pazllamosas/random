@@ -51,8 +51,7 @@ IF OBJECT_ID('dbo.TEMPORAL') IS NOT NULL
 DROP TABLE dbo.TEMPORAL
 IF OBJECT_ID('dbo.TEMPORALTURNOS') IS NOT NULL
 DROP TABLE dbo.TEMPORALTURNOS
-IF OBJECT_ID('TABLA_DE_DIAS_NUMERO') IS NOT NULL
-DROP TABLE TABLA_DE_DIAS_NUMERO
+
 
 
 -- DROP PROCEDURES Y FUNCTIONS 
@@ -413,10 +412,6 @@ CREATE TABLE RANDOM.TIPO_CANCELACION(
 	Descripcion nvarchar(255)
 )
 
-CREATE TABLE TABLA_DE_DIAS_NUMERO (
-    DiaNumero INT,
-	DiaLetra nvarchar(255)
-)
 
 --FOREIGN KEY 
 
@@ -786,22 +781,6 @@ WHERE T.IdTurno = M.Turno_Numero
 	AND M.Consulta_Sintomas IS NOT NULL
 	AND M.Consulta_Enfermedades IS NOT NULL
 	
-
-
-INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
-VALUES ('domingo', 1)
-INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
-VALUES ('lunes', 2)
-INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
-VALUES ('martes', 3)
-INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
-VALUES ('miércoles', 4)
-INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
-VALUES ('jueves', 5)
-INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
-VALUES ('viernes', 6)
-INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
-VALUES ('sábado', 7)
 
 ---------------FUNCIONES-----------
 
@@ -1874,19 +1853,16 @@ GO
 
 -------------------------------------------
 
-IF OBJECT_ID('TEMPORAL') IS NOT NULL
-DROP TABLE TEMPORAL
+GO
+CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados(@fechaFrom datetime, @fechaTo datetime)
+AS BEGIN
 
-create table TEMPORAL(
+create table #TEMPORAL(
 IdPersona int,
 Cantidad int
 )
 
-GO
-CREATE PROCEDURE RANDOM.antesDelTop(@fechaFrom datetime, @fechaTo datetime)
-as
-begin
-INSERT TEMPORAL(IdPersona,Cantidad)
+INSERT #TEMPORAL(IdPersona,Cantidad)
 select P.IdPersona AS 'Persona', sum(CB.Cantidad) AS 'Cantidad'
 from RANDOM.COMPRA_BONO CB
 JOIN RANDOM.AFILIADO A ON A.IdPersona = CB.IdAfiliado
@@ -1894,21 +1870,19 @@ JOIN RANDOM.PERSONA P ON P.IdPersona = A.IdPersona
 WHERE CB.Fecha between @fechaFrom and @fechaTo
 group by P.IdPersona 
 order by 2 desc
-end
-GO
 
-GO
-CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados(@fechaFrom datetime, @fechaTo datetime)
-AS BEGIN
-EXEC RANDOM.antesDelTop @fechaFrom , @fechaTo
 SELECT distinct top 5  CAST (A.NumeroAfiliadoRaiz AS VARCHAR) + CAST (a.NumeroAfiliadoExt AS VARCHAR) AS 'Afiliado', T.Cantidad, 
 				CASE WHEN a.NumeroAfiliadoExt != '00' THEN 'Si'
                    WHEN a.CantidadACargo > 0 THEN 'Si'
                    ELSE 'No'
 				END AS "Pertenece a grupo familiar"
-FROM TEMPORAL T
+FROM #TEMPORAL T
 JOIN RANDOM.AFILIADO A ON A.IdPersona = T.IdPersona
 order by 2 desc
+
+IF OBJECT_ID('#TEMPORAL') IS NOT NULL
+DROP TABLE #TEMPORAL
+
 END
 GO
 
@@ -1927,6 +1901,7 @@ group by E.Descripcion
 order by 2 desc
 END
 GO
+
 
 
 -----AGENDA------
@@ -1994,11 +1969,34 @@ GO
 CREATE PROCEDURE RANDOM.GET_AGENDA(@IdProfesional int)  AS
 BEGIN
 
+	CREATE TABLE #TABLA_DE_DIAS_NUMERO (
+		DiaNumero INT,
+		DiaLetra nvarchar(255)
+	)
+	
+	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+	VALUES ('domingo', 1)
+	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+	VALUES ('lunes', 2)
+	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+	VALUES ('martes', 3)
+	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+	VALUES ('miércoles', 4)
+	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+	VALUES ('jueves', 5)
+	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+	VALUES ('viernes', 6)
+	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+	VALUES ('sábado', 7)
+	
 	
 	SELECT B.DiaLetra, A.HoraDesde, A.HoraHasta 
-	FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A, TABLA_DE_DIAS_NUMERO B
+	FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A, #TABLA_DE_DIAS_NUMERO B
 	WHERE A.IdProfesional = @IdProfesional AND A.Activa = 1
 	AND A.Dia = B.DiaNumero
+	
+	IF OBJECT_ID('#TABLA_DE_DIAS_NUMERO') IS NOT NULL
+	DROP TABLE #TABLA_DE_DIAS_NUMERO
 END 
 GO
 
