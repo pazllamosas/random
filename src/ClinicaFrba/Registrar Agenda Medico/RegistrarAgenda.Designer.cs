@@ -42,6 +42,10 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             this.dgvProfesional = new System.Windows.Forms.DataGridView();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.dgvNuevaAgenda = new System.Windows.Forms.DataGridView();
+            this.dtpFechaDesde = new System.Windows.Forms.DateTimePicker();
+            this.label5 = new System.Windows.Forms.Label();
+            this.dtpFechaHasta = new System.Windows.Forms.DateTimePicker();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProfesional)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvNuevaAgenda)).BeginInit();
             this.SuspendLayout();
@@ -64,7 +68,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(154, 220);
+            this.label1.Location = new System.Drawing.Point(201, 216);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(111, 18);
             this.label1.TabIndex = 37;
@@ -73,7 +77,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             // cmbDias
             // 
             this.cmbDias.FormattingEnabled = true;
-            this.cmbDias.Location = new System.Drawing.Point(294, 217);
+            this.cmbDias.Location = new System.Drawing.Point(332, 217);
             this.cmbDias.Name = "cmbDias";
             this.cmbDias.Size = new System.Drawing.Size(206, 21);
             this.cmbDias.TabIndex = 38;
@@ -83,7 +87,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(33, 57);
+            this.label2.Location = new System.Drawing.Point(78, 60);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(187, 18);
             this.label2.TabIndex = 39;
@@ -104,7 +108,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(352, 261);
+            this.label3.Location = new System.Drawing.Point(419, 261);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(81, 18);
             this.label3.TabIndex = 42;
@@ -122,7 +126,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(439, 262);
+            this.comboBox2.Location = new System.Drawing.Point(526, 262);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(108, 21);
             this.comboBox2.TabIndex = 44;
@@ -134,7 +138,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             this.btnGuardarAgenda.ForeColor = System.Drawing.Color.Black;
             this.btnGuardarAgenda.Image = global::ClinicaFrba.Properties.Resources.save;
             this.btnGuardarAgenda.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardarAgenda.Location = new System.Drawing.Point(174, 301);
+            this.btnGuardarAgenda.Location = new System.Drawing.Point(179, 389);
             this.btnGuardarAgenda.Name = "btnGuardarAgenda";
             this.btnGuardarAgenda.Size = new System.Drawing.Size(149, 34);
             this.btnGuardarAgenda.TabIndex = 48;
@@ -145,7 +149,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             // 
             // txtDNI
             // 
-            this.txtDNI.Location = new System.Drawing.Point(235, 58);
+            this.txtDNI.Location = new System.Drawing.Point(294, 58);
             this.txtDNI.Name = "txtDNI";
             this.txtDNI.Size = new System.Drawing.Size(151, 20);
             this.txtDNI.TabIndex = 49;
@@ -156,7 +160,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             this.btnBuscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBuscar.Image = global::ClinicaFrba.Properties.Resources.busqueda;
             this.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBuscar.Location = new System.Drawing.Point(439, 50);
+            this.btnBuscar.Location = new System.Drawing.Point(517, 53);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(96, 32);
             this.btnBuscar.TabIndex = 51;
@@ -170,10 +174,10 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             this.dgvProfesional.AllowUserToAddRows = false;
             this.dgvProfesional.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvProfesional.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProfesional.Location = new System.Drawing.Point(36, 95);
+            this.dgvProfesional.Location = new System.Drawing.Point(50, 95);
             this.dgvProfesional.MultiSelect = false;
             this.dgvProfesional.Name = "dgvProfesional";
-            this.dgvProfesional.Size = new System.Drawing.Size(611, 107);
+            this.dgvProfesional.Size = new System.Drawing.Size(643, 105);
             this.dgvProfesional.TabIndex = 52;
             this.dgvProfesional.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProfesional_CellContentClick);
             // 
@@ -183,7 +187,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             this.btnLimpiar.ForeColor = System.Drawing.Color.Black;
             this.btnLimpiar.Image = global::ClinicaFrba.Properties.Resources.delete;
             this.btnLimpiar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLimpiar.Location = new System.Drawing.Point(341, 301);
+            this.btnLimpiar.Location = new System.Drawing.Point(432, 389);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(92, 34);
             this.btnLimpiar.TabIndex = 53;
@@ -198,19 +202,59 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             this.dgvNuevaAgenda.AllowUserToDeleteRows = false;
             this.dgvNuevaAgenda.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvNuevaAgenda.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvNuevaAgenda.Location = new System.Drawing.Point(12, 357);
+            this.dgvNuevaAgenda.Location = new System.Drawing.Point(46, 429);
             this.dgvNuevaAgenda.MultiSelect = false;
             this.dgvNuevaAgenda.Name = "dgvNuevaAgenda";
             this.dgvNuevaAgenda.ReadOnly = true;
             this.dgvNuevaAgenda.Size = new System.Drawing.Size(647, 107);
             this.dgvNuevaAgenda.TabIndex = 54;
             // 
+            // dtpFechaDesde
+            // 
+            this.dtpFechaDesde.Location = new System.Drawing.Point(357, 308);
+            this.dtpFechaDesde.Name = "dtpFechaDesde";
+            this.dtpFechaDesde.Size = new System.Drawing.Size(200, 20);
+            this.dtpFechaDesde.TabIndex = 56;
+            this.dtpFechaDesde.ValueChanged += new System.EventHandler(this.dtpFechaDesde_ValueChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(165, 308);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(163, 18);
+            this.label5.TabIndex = 55;
+            this.label5.Text = "Fecha disponible desde";
+            // 
+            // dtpFechaHasta
+            // 
+            this.dtpFechaHasta.Location = new System.Drawing.Point(357, 345);
+            this.dtpFechaHasta.Name = "dtpFechaHasta";
+            this.dtpFechaHasta.Size = new System.Drawing.Size(200, 20);
+            this.dtpFechaHasta.TabIndex = 58;
+            this.dtpFechaHasta.ValueChanged += new System.EventHandler(this.dtpFechaHasta_ValueChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(165, 347);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(159, 18);
+            this.label6.TabIndex = 57;
+            this.label6.Text = "Fecha disponible hasta";
+            // 
             // RegistrarAgenda
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 476);
+            this.ClientSize = new System.Drawing.Size(746, 548);
             this.ControlBox = false;
+            this.Controls.Add(this.dtpFechaHasta);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.dtpFechaDesde);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.dgvNuevaAgenda);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.dgvProfesional);
@@ -254,5 +298,9 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
         public System.Windows.Forms.DataGridView dgvProfesional;
         private System.Windows.Forms.Button btnLimpiar;
         public System.Windows.Forms.DataGridView dgvNuevaAgenda;
+        public System.Windows.Forms.DateTimePicker dtpFechaDesde;
+        private System.Windows.Forms.Label label5;
+        public System.Windows.Forms.DateTimePicker dtpFechaHasta;
+        private System.Windows.Forms.Label label6;
     }
 }

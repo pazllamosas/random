@@ -48,6 +48,9 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             this.cmbDias.SelectedIndex = -1;
             this.comboBox1.SelectedIndex = -1;
             this.comboBox2.SelectedIndex = -1;
+            DateTime fechaHoy = funciones.ObtenerFecha();
+            dtpFechaDesde.Value = fechaHoy;
+            dtpFechaHasta.Value = fechaHoy;
 
         }
 
@@ -140,19 +143,31 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
         private void btnGuardarAgenda_Click(object sender, EventArgs e)
         {
 
+            string fechaDesdeS = dtpFechaDesde.Text;
+            DateTime FechaDesde = Convert.ToDateTime(fechaDesdeS);
+            string fechaHastaS = dtpFechaHasta.Text;
+            DateTime fechaHasta = Convert.ToDateTime(fechaHastaS);
+            DateTime fechaHoy = funciones.ObtenerFecha(); 
+            int comparacion = DateTime.Compare(fechaHoy, FechaDesde);
+            int comparacion2 = DateTime.Compare(FechaDesde, fechaHasta);
+
+            if ((comparacion < 0 || (fechaHoy.Year == FechaDesde.Year && fechaHoy.Day == FechaDesde.Day && fechaHoy.Month == FechaDesde.Month))
+                && (comparacion2 < 0))
+            {
+
             Int32 selectedRowCount = dgvProfesional.Rows.GetRowCount(DataGridViewElementStates.Selected);
             if (selectedRowCount == 1)
             {
-                string FechaDesde = comboBox1.Text;
-                string FechaHasta = comboBox2.Text;
+                string HoraDesde = comboBox1.Text;
+                string HoraHasta = comboBox2.Text;
                 string dia = cmbDias.Text;
 
-                if (FechaDesde != "" && FechaHasta != "" && FechaDesde != "")
+                if (HoraDesde != "" && HoraHasta != "" && HoraDesde != "")
                 {
 
-                    Int32 FechaDesdeInt = Convert.ToInt32(FechaDesde);
+                    Int32 FechaDesdeInt = Convert.ToInt32(HoraDesde);
 
-                    Int32 FechaHastaInt = Convert.ToInt32(FechaHasta);
+                    Int32 FechaHastaInt = Convert.ToInt32(HoraHasta);
 
                     if (FechaDesdeInt < FechaHastaInt)
                     {
@@ -167,7 +182,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
 
                         if (verificarDiaCargado())
                         {
-                            if (Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia"), IdProfesional, IdEspecialidad, FechaDesde, FechaHasta, Dia))
+                            if (Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia", "@FechaDesde", "@FechaHasta"), IdProfesional, IdEspecialidad, HoraDesde, HoraHasta, Dia, FechaDesde, fechaHasta))
                             {
                                 MessageBox.Show("Agenda asignada correctamente");
                                 this.cargaAgenda();
@@ -197,6 +212,11 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             else
             {
                 MessageBox.Show("Seleccione un Profesional", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            }
+            else
+            {
+                MessageBox.Show("Ingrese fechas validas, 'Fecha disponible desde' igual o posterior o el dia de hoy y 'Fecha disponible hasta' mayor a la fecha desde", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
 
         }
@@ -233,6 +253,9 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             comboBox2.Items.Clear();
             comboBox1.Text = null;
             comboBox2.Text = null;
+            DateTime fechaHoy = funciones.ObtenerFecha();
+            dtpFechaDesde.Value = fechaHoy;
+            dtpFechaHasta.Value = fechaHoy;
         }
 
         public bool verificarDiaCargado()
@@ -274,6 +297,16 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
 
             dgvNuevaAgenda.DataSource = Conexion.obtenerTablaProcedure("RANDOM.GET_AGENDA",
                 Conexion.generarArgumentos("@IdProfesional"), IdProfesional);
+        }
+
+        private void dtpFechaDesde_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtpFechaHasta_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

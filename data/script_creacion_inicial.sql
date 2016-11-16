@@ -377,7 +377,9 @@ CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
 	HoraDesde nvarchar(255),
 	HoraHasta nvarchar(255),
 	Dia int,
-	Activa bit -- 0 inactiva 1 activa
+	Activa bit, -- 0 inactiva 1 activa
+	FechaDesde DATETIME,
+	FechaHasta DATETIME
 )
 
 CREATE TABLE RANDOM.TURNO(
@@ -747,7 +749,7 @@ WHERE joinBonoCompra.IdCompra = RANDOM.COMPRA_BONO.IdCompra
 
 /*AGENDA_HORARIO_DISPONIBLE*/
 insert INTO RANDOM.AGENDA_HORARIO_DISPONIBLE 
-SELECT DISTINCT P.IdPersona, ES.IdEspecialidad,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Turno_Fecha) AS 'DIA DE SEMANA', 0 
+SELECT DISTINCT P.IdPersona, ES.IdEspecialidad,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Turno_Fecha) AS 'DIA DE SEMANA', 0, null, null
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Medico_Dni = P.Documento
 JOIN RANDOM.ESPECIALIDAD ES ON ES.Codigo = M.Especialidad_Codigo 
@@ -1634,7 +1636,7 @@ CREATE FUNCTION RANDOM.CALCULO_MONTO(@IdAfiliado int, @Cantidad int)
 GO
 
 --10 pedido de turno
-CREATE PROCEDURE RANDOM.FILTRAR_MEDICO(@Descripcion nvarchar(255), @Apellido nvarchar(255), @DiaNumero INT) AS
+CREATE PROCEDURE RANDOM.FILTRAR_MEDICO(@Descripcion nvarchar(255), @Apellido nvarchar(255), @DiaNumero INT, @Fecha DATETIME) AS
 BEGIN
 IF(@Descripcion = '') 
   BEGIN                           
@@ -1642,6 +1644,7 @@ IF(@Descripcion = '')
 	FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B, RANDOM.AGENDA_HORARIO_DISPONIBLE C, RANDOM.ESPECIALIDAD_POR_PROFESIONAL D, RANDOM.ESPECIALIDAD E
 	WHERE @Apellido = A.Apellido AND A.IdPersona = B.IdProfesional AND C.Dia = @DiaNumero
 	AND D.IdProfesional = A.IdPersona AND C.IdEspecialidad = D.IdEspecialidad AND D.IdEspecialidad = E.IdEspecialidad AND C.Activa = 1
+	AND @Fecha BETWEEN C.FechaDesde AND C.FechaHasta
    END
 IF(@Apellido = '') 
   BEGIN                           
@@ -1649,6 +1652,7 @@ IF(@Apellido = '')
 	FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B, RANDOM.AGENDA_HORARIO_DISPONIBLE C, RANDOM.ESPECIALIDAD_POR_PROFESIONAL D, RANDOM.ESPECIALIDAD E
 	WHERE @Descripcion = E.Descripcion AND E.IdEspecialidad = D.IdEspecialidad AND D.IdEspecialidad = C.IdEspecialidad AND @DiaNumero = C.Dia
 	AND A.IdPersona = B.IdProfesional AND C.IdProfesional = A.IdPersona AND C.Activa = 1
+	AND @Fecha BETWEEN C.FechaDesde AND C.FechaHasta
   END
 IF(@Descripcion != '' AND @Apellido != '') 
   BEGIN
@@ -1656,6 +1660,7 @@ IF(@Descripcion != '' AND @Apellido != '')
 	FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B, RANDOM.AGENDA_HORARIO_DISPONIBLE C, RANDOM.ESPECIALIDAD_POR_PROFESIONAL D, RANDOM.ESPECIALIDAD E
 	WHERE @Descripcion = E.Descripcion AND @Apellido = A.Apellido AND E.IdEspecialidad = D.IdEspecialidad AND D.IdEspecialidad = C.IdEspecialidad
 	AND @DiaNumero = C.Dia 	AND A.IdPersona = B.IdProfesional AND C.IdProfesional = A.IdPersona AND C.Activa = 1
+	AND @Fecha BETWEEN C.FechaDesde AND C.FechaHasta
   END
 END
 GO
@@ -1932,7 +1937,8 @@ GO
 
 
 GO
-CREATE PROCEDURE RANDOM.CARGA_AGENDA(@IdProfesional int, @IdEspecialidad int, @HoraDesde nvarchar(255), @HoraHasta nvarchar(255), @Dia int) AS
+CREATE PROCEDURE RANDOM.CARGA_AGENDA(@IdProfesional int, @IdEspecialidad int, @HoraDesde nvarchar(255), @HoraHasta nvarchar(255), @Dia int,
+@FechaDesde DATETIME, @FechaHasta DATETIME) AS
 BEGIN
 
 DECLARE @HorasACargar nvarchar(255)
@@ -1942,7 +1948,7 @@ SELECT @HorasCargadas = HorasAcumuladas FROM RANDOM.PROFESIONAL WHERE IdProfesio
 IF ( (@HorasCargadas + @HorasACargar) < 48)
 	BEGIN
 		INSERT INTO RANDOM.AGENDA_HORARIO_DISPONIBLE
-		VALUES(@IdProfesional, @IdEspecialidad, @HoraDesde, @HoraHasta, @Dia, 1)
+		VALUES(@IdProfesional, @IdEspecialidad, @HoraDesde, @HoraHasta, @Dia, 1, @FechaDesde, @FechaHasta)
 
 		UPDATE RANDOM.PROFESIONAL SET
 		HorasAcumuladas = (HorasAcumuladas + @HorasACargar)
@@ -1964,7 +1970,7 @@ BEGIN
 	ORDER BY B.Descripcion
 END
 
-
+/*
 GO 
 CREATE PROCEDURE RANDOM.GET_AGENDA(@IdProfesional int)  AS
 BEGIN
@@ -1998,6 +2004,28 @@ BEGIN
 	IF OBJECT_ID('#TABLA_DE_DIAS_NUMERO') IS NOT NULL
 	DROP TABLE #TABLA_DE_DIAS_NUMERO
 END 
+GO*/
+GO  
+CREATE PROCEDURE RANDOM.GET_AGENDA(@IdProfesional int)  AS
+BEGIN
+
+	DECLARE @TABLA_DE_DIAS TABLE (
+	        DiaLetra nvarchar(255),
+			DiaNumero INT			
+	)					
+
+	INSERT INTO @TABLA_DE_DIAS VALUES ('domingo', 1)
+	INSERT INTO @TABLA_DE_DIAS VALUES ('lunes', 2)
+	INSERT INTO @TABLA_DE_DIAS VALUES ('martes', 3)
+	INSERT INTO @TABLA_DE_DIAS VALUES ('miércoles', 4)
+	INSERT INTO @TABLA_DE_DIAS VALUES ('jueves', 5)
+	INSERT INTO @TABLA_DE_DIAS VALUES ('sábado', 7)
+
+	SELECT B.DiaLetra, A.HoraDesde, A.HoraHasta 
+	FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A, @TABLA_DE_DIAS B
+	WHERE A.IdProfesional = @IdProfesional AND A.Activa = 1
+	AND A.Dia = B.DiaNumero
+END 
 GO
 
 CREATE PROCEDURE RANDOM.CANCELACION_TURNO_AFILIADO(@Afiliado INT, @Fecha DATETIME) AS
@@ -2015,3 +2043,8 @@ BEGIN
 	ORDER BY 2
 END
          
+	/* PARA PROBAR LO DE LA AGENDA !!!	 
+	SELECT * FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = 5578
+
+
+		dni =  96743144     id 5578  apellido arias*/

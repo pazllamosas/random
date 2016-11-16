@@ -38,7 +38,7 @@ namespace ClinicaFrba.Registro_Llegada
             DateTime fechaHoy = funciones.ObtenerFecha();
             String diaS = FormProvider.ProfesionalTurno.dayOfWeek(fechaHoy);
             Int32 dia = funciones.numeroDiaSemana(diaS);
-            dgvLlegada.DataSource = Conexion.obtenerTablaProcedure("RANDOM.FILTRAR_MEDICO", Conexion.generarArgumentos("@Descripcion", "@Apellido", "@DiaNumero"), descripcion, Apellido, dia);
+            dgvLlegada.DataSource = Conexion.obtenerTablaProcedure("RANDOM.FILTRAR_MEDICO", Conexion.generarArgumentos("@Descripcion", "@Apellido", "@DiaNumero", "@Fecha"), descripcion, Apellido, dia, fechaHoy);
             dgvLlegada.Columns[2].Visible = false;
             dgvLlegada.Columns[4].Visible = false;
             dgvLlegada.Columns[5].Visible = false;

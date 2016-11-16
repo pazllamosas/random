@@ -85,7 +85,7 @@ namespace ClinicaFrba.Pedir_Turno
                 }
                 else
                 {
-                    dgvHorariosDisp.DataSource = Conexion.obtenerTablaProcedure("RANDOM.FILTRAR_MEDICO", Conexion.generarArgumentos("@Descripcion", "@Apellido", "@DiaNumero"), descripcion, Apellido, DiaNumero);
+                    dgvHorariosDisp.DataSource = Conexion.obtenerTablaProcedure("RANDOM.FILTRAR_MEDICO", Conexion.generarArgumentos("@Descripcion", "@Apellido", "@DiaNumero", "@Fecha"), descripcion, Apellido, DiaNumero, fechaHora);
                     dgvHorariosDisp.Columns[2].Visible = false;
                     dgvHorariosDisp.Columns[4].Visible = false;
                     dgvHorariosDisp.Columns[5].Visible = false;
