@@ -48,6 +48,7 @@ namespace ClinicaFrba.Listados
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
+            dgvResultado.Columns.Clear();
             anio = txtAnioAConsultar.Text;
             if (cmbSemestre.SelectedIndex != -1 && anio !="" )
             {

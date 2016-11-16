@@ -60,6 +60,7 @@ namespace ClinicaFrba.Listados
 
         private void button1_Click(object sender, EventArgs e)
         {
+            dgvResultado.Columns.Clear();
             anio = txtAnioAConsultar.Text;
             if (cmbSemestre.SelectedIndex != -1 && anio != "" && cmbPlan.SelectedIndex != -1)
             {
