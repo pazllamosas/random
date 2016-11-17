@@ -186,9 +186,8 @@ DROP PROCEDURE RANDOM.BONOS_DISPONIBLES
 IF OBJECT_ID('RANDOM.REGISTRO_LLEGADA') IS NOT NULL
 DROP PROCEDURE RANDOM.REGISTRO_LLEGADA
 
-
 IF OBJECT_ID('RANDOM.antesDelTop') IS NOT NULL
-DROP PROCEDURE RANDOM.antesDelTop 
+DROP PROCEDURE RANDOM.antesDelTop
 IF OBJECT_ID('RANDOM.top5EspecialidadesConMasConsultasUtilizadas') IS NOT NULL
 DROP PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas
 IF OBJECT_ID('RANDOM.top5AfiliadosConMayorCantBonosComprados') IS NOT NULL
@@ -1802,45 +1801,51 @@ GO
 
 
 GO
-CREATE PROCEDURE RANDOM.top5EspecialidadesConMasCancelacionesDeTurno (@fechaFrom datetime, @fechaTo datetime)
+CREATE PROCEDURE RANDOM.top5EspecialidadesConMasCancelacionesDeTurno (@fecDesde varchar(10), @fecHasta varchar(10))
 AS BEGIN
-select top 5 E.Descripcion AS 'Especialidad', count(C.IdCancelacion) AS 'Cantidad'
-from RANDOM.CANCELACION C
+DECLARE @fechaFrom datetime = CONVERT(datetime, @fecDesde, 111)
+DECLARE @fechaTo datetime = CONVERT(datetime, @fecHasta, 111)
+SELECT top 5 E.Descripcion AS 'Especialidad', COUNT(C.IdCancelacion) AS 'Cantidad'
+FROM RANDOM.CANCELACION C
 JOIN RANDOM.TURNO T ON C.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.ESPECIALIDAD E ON T.IdEspecialidad = E.IdEspecialidad
-WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
-group by E.Descripcion 
-order by 2 desc
+WHERE T.FechaYHoraTurno BETWEEN @fechaFrom AND @fechaTo
+GROUP BY E.Descripcion 
+ORDER BY 2 DESC
 END
 GO
 
 ---------------------
 
 GO
-CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom datetime, @fechaTo datetime, @numeroPlan int)
+CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fecDesde varchar(10), @fecHasta varchar(10), @numeroPlan int)
 AS BEGIN
-select top 5 P.IdProfesional AS 'Matrícula Profesional', PE.Nombre, PE.Apellido, count(RT.IdResultadoTurno) AS 'Cantidad'
-from RANDOM.RESULTADO_TURNO RT 
+DECLARE @fechaFrom datetime = CONVERT(datetime, @fecDesde, 111)
+DECLARE @fechaTo datetime = CONVERT(datetime, @fecHasta, 111)
+SELECT top 5 P.IdProfesional AS 'Matrícula Profesional', PE.Nombre, PE.Apellido, COUNT(RT.IdResultadoTurno) AS 'Cantidad'
+FROM RANDOM.RESULTADO_TURNO RT 
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.PROFESIONAL P ON HD.IdProfesional = P.IdProfesional
 JOIN RANDOM.PERSONA PE ON PE.IdPersona = P.IdProfesional
 JOIN RANDOM.AFILIADO A ON T.IdAfiliado = a.IdPersona
 JOIN RANDOM.PLANES PL ON PL.IdPlan = A.IdPlan 
-WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
+WHERE T.FechaYHoraTurno BETWEEN @fechaFrom AND @fechaTo
 AND PL.Abono = @numeroPlan     
-group by P.IdProfesional, PE.Nombre, PE.Apellido
-order by 4 desc
+GROUP BY P.IdProfesional, PE.Nombre, PE.Apellido
+ORDER BY 4 DESC
 END
 GO
 
 ---------------------
 GO
-CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fechaFrom datetime, @fechaTo datetime, @numeroPlan varchar(50), @nombreEspecialidad varchar(50))
+CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fecDesde varchar(10), @fecHasta varchar(10), @numeroPlan varchar(50), @nombreEspecialidad varchar(50))
 AS BEGIN
-select top 5 P.IdProfesional AS 'Matrícula Profesinal',PE.Nombre, PE.Apellido, (count(RT.IdResultadoTurno)) * 0.5 AS 'Cantidad DE HORAS'
-from RANDOM.RESULTADO_TURNO RT
+DECLARE @fechaFrom datetime = CONVERT(datetime, @fecDesde, 111)
+DECLARE @fechaTo datetime = CONVERT(datetime, @fecHasta, 111)
+SELECT top 5 P.IdProfesional AS 'Matrícula Profesinal',PE.Nombre, PE.Apellido, (COUNT(RT.IdResultadoTurno)) * 0.5 AS 'Cantidad DE HORAS'
+FROM RANDOM.RESULTADO_TURNO RT
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.PROFESIONAL P ON HD.IdProfesional = P.IdProfesional
@@ -1848,19 +1853,22 @@ JOIN RANDOM.PERSONA PE ON PE.IdPersona = P.IdProfesional
 JOIN RANDOM.AFILIADO A ON T.IdAfiliado = a.IdPersona
 JOIN RANDOM.PLANES PL ON PL.IdPlan = A.IdPlan     
 JOIN RANDOM.ESPECIALIDAD E ON E.IdEspecialidad = T.IdEspecialidad
-WHERE T.FechaYHoraTurno between @fechaFrom and @fechaTo
+WHERE T.FechaYHoraTurno BETWEEN @fechaFrom AND @fechaTo
 AND E.Descripcion = @nombreEspecialidad
 AND PL.Abono = @numeroPlan    
-group by P.IdProfesional, PE.Nombre, PE.Apellido
-order by 2 asc
+GROUP BY P.IdProfesional, PE.Nombre, PE.Apellido
+ORDER BY 2 ASC
 END
 GO
 
 -------------------------------------------
 
 GO
-CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados(@fechaFrom datetime, @fechaTo datetime)
+CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados(@fecDesde varchar(10), @fecHasta varchar(10))
 AS BEGIN
+
+DECLARE @fechaFrom datetime = CONVERT(datetime, @fecDesde, 111)
+DECLARE @fechaTo datetime = CONVERT(datetime, @fecHasta, 111)
 
 create table #TEMPORAL(
 IdPersona int,
@@ -1868,22 +1876,22 @@ Cantidad int
 )
 
 INSERT #TEMPORAL(IdPersona,Cantidad)
-select P.IdPersona AS 'Persona', sum(CB.Cantidad) AS 'Cantidad'
-from RANDOM.COMPRA_BONO CB
+SELECT P.IdPersona AS 'Persona', SUM(CB.Cantidad) AS 'Cantidad'
+FROM RANDOM.COMPRA_BONO CB
 JOIN RANDOM.AFILIADO A ON A.IdPersona = CB.IdAfiliado
 JOIN RANDOM.PERSONA P ON P.IdPersona = A.IdPersona
-WHERE CB.Fecha between @fechaFrom and @fechaTo
-group by P.IdPersona 
-order by 2 desc
+WHERE CB.Fecha BETWEEN @fechaFrom AND @fechaTo
+GROUP BY P.IdPersona 
+ORDER BY 2 DESC
 
-SELECT distinct top 5  CAST (A.NumeroAfiliadoRaiz AS VARCHAR) + CAST (a.NumeroAfiliadoExt AS VARCHAR) AS 'Afiliado', T.Cantidad, 
+SELECT DISTINCT top 5 CAST (A.NumeroAfiliadoRaiz AS varchar) + CAST (a.NumeroAfiliadoExt AS varchar) AS 'Afiliado', T.Cantidad, 
 				CASE WHEN a.NumeroAfiliadoExt != '00' THEN 'Si'
                    WHEN a.CantidadACargo > 0 THEN 'Si'
                    ELSE 'No'
 				END AS "Pertenece a grupo familiar"
 FROM #TEMPORAL T
 JOIN RANDOM.AFILIADO A ON A.IdPersona = T.IdPersona
-order by 2 desc
+ORDER BY 2 DESC
 
 IF OBJECT_ID('#TEMPORAL') IS NOT NULL
 DROP TABLE #TEMPORAL
@@ -1894,16 +1902,18 @@ GO
 --------------------------------------------------------
 
 GO
-CREATE PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas(@fechaFrom datetime, @fechaTo datetime)
+CREATE PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas(@fecDesde varchar(10), @fecHasta varchar(10))
 AS BEGIN
-select top 5 E.Descripcion AS 'Especialidad', count(RT.IdResultadoTurno) AS 'Cantidad'
-from RANDOM.RESULTADO_TURNO RT 
+DECLARE @fechaFrom datetime = CONVERT(datetime, @fecDesde, 111)
+DECLARE @fechaTo datetime = CONVERT(datetime, @fecHasta, 111)
+SELECT top 5 E.Descripcion AS 'Especialidad', COUNT(RT.IdResultadoTurno) AS 'Cantidad'
+FROM RANDOM.RESULTADO_TURNO RT 
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
 JOIN RANDOM.AGENDA_HORARIO_DISPONIBLE HD ON T.IdAgenda = HD.IdAgenda
 JOIN RANDOM.ESPECIALIDAD E ON T.IdEspecialidad = E.IdEspecialidad
-WHERE T.FechaYHoraTurno between  @fechaFrom and @fechaTo
-group by E.Descripcion 
-order by 2 desc
+WHERE T.FechaYHoraTurno BETWEEN  @fechaFrom AND @fechaTo
+GROUP BY E.Descripcion 
+ORDER BY 2 DESC
 END
 GO
 
