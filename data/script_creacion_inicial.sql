@@ -377,8 +377,8 @@ CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
 	HoraHasta nvarchar(255),
 	Dia int,
 	Activa bit, -- 0 inactiva 1 activa
-	FechaDesde DATETIME,
-	FechaHasta DATETIME
+	FechaDesde datetime,
+	FechaHasta datetime
 )
 
 CREATE TABLE RANDOM.TURNO(
@@ -748,7 +748,7 @@ WHERE joinBonoCompra.IdCompra = RANDOM.COMPRA_BONO.IdCompra
 
 /*AGENDA_HORARIO_DISPONIBLE*/
 insert INTO RANDOM.AGENDA_HORARIO_DISPONIBLE 
-SELECT DISTINCT P.IdPersona, ES.IdEspecialidad,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Turno_Fecha) AS 'DIA DE SEMANA', 0, null, null
+SELECT DISTINCT P.IdPersona, ES.IdEspecialidad,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Turno_Fecha) AS 'DIA DE SEMANA', 0, '2015-01-01 00:00:00.000', '2015-12-31 00:00:00.000'
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Medico_Dni = P.Documento
 JOIN RANDOM.ESPECIALIDAD ES ON ES.Codigo = M.Especialidad_Codigo 
@@ -1911,12 +1911,16 @@ GO
 -----AGENDA------
 
 GO
-CREATE FUNCTION RANDOM.VERIFICACION_DIA(@IdProfesional int, @Dia int)
+CREATE FUNCTION RANDOM.VERIFICACION_DIA(@IdProfesional int, @Dia int,@FechaDesde datetime, @FechaHasta datetime)
 RETURNS nvarchar(255)
 AS BEGIN
 	
 	DECLARE @DiaCargado int
-	SELECT @DiaCargado = Dia FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = @IdProfesional AND Activa = 1
+	SELECT @DiaCargado = Dia FROM RANDOM.AGENDA_HORARIO_DISPONIBLE 
+		WHERE IdProfesional = @IdProfesional 
+			AND Activa = 1 
+			AND @FechaDesde =FechaDesde 
+			AND @FechaHasta = FechaHasta
 	DECLARE @Resultado int
 	
 	IF (@Dia = @DiaCargado)
@@ -1969,41 +1973,41 @@ BEGIN
 	ORDER BY B.Descripcion
 END
 
-/*
-GO 
-CREATE PROCEDURE RANDOM.GET_AGENDA(@IdProfesional int)  AS
-BEGIN
 
-	CREATE TABLE #TABLA_DE_DIAS_NUMERO (
-		DiaNumero INT,
-		DiaLetra nvarchar(255)
-	)
+--GO 
+--CREATE PROCEDURE RANDOM.GET_AGENDA(@IdProfesional int)  AS
+--BEGIN
+
+--	CREATE TABLE #TABLA_DE_DIAS_NUMERO (
+--		DiaNumero INT,
+--		DiaLetra nvarchar(255)
+--	)
 	
-	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
-	VALUES ('domingo', 1)
-	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
-	VALUES ('lunes', 2)
-	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
-	VALUES ('martes', 3)
-	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
-	VALUES ('miércoles', 4)
-	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
-	VALUES ('jueves', 5)
-	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
-	VALUES ('viernes', 6)
-	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
-	VALUES ('sábado', 7)
+--	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+--	VALUES ('domingo', 1)
+--	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+--	VALUES ('lunes', 2)
+--	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+--	VALUES ('martes', 3)
+--	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+--	VALUES ('miércoles', 4)
+--	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+--	VALUES ('jueves', 5)
+--	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+--	VALUES ('viernes', 6)
+--	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
+--	VALUES ('sábado', 7)
 	
 	
-	SELECT B.DiaLetra, A.HoraDesde, A.HoraHasta 
-	FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A, #TABLA_DE_DIAS_NUMERO B
-	WHERE A.IdProfesional = @IdProfesional AND A.Activa = 1
-	AND A.Dia = B.DiaNumero
+--	SELECT B.DiaLetra, A.HoraDesde, A.HoraHasta 
+--	FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A, #TABLA_DE_DIAS_NUMERO B
+--	WHERE A.IdProfesional = @IdProfesional AND A.Activa = 1
+--	AND A.Dia = B.DiaNumero
 	
-	IF OBJECT_ID('#TABLA_DE_DIAS_NUMERO') IS NOT NULL
-	DROP TABLE #TABLA_DE_DIAS_NUMERO
-END 
-GO*/
+--	IF OBJECT_ID('#TABLA_DE_DIAS_NUMERO') IS NOT NULL
+--	DROP TABLE #TABLA_DE_DIAS_NUMERO
+--END 
+--GO
 GO  
 CREATE PROCEDURE RANDOM.GET_AGENDA(@IdProfesional int)  AS
 BEGIN

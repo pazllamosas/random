@@ -256,6 +256,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             DateTime fechaHoy = funciones.ObtenerFecha();
             dtpFechaDesde.Value = fechaHoy;
             dtpFechaHasta.Value = fechaHoy;
+            dgvNuevaAgenda.DataSource = null;
         }
 
         public bool verificarDiaCargado()
@@ -263,8 +264,11 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             DataGridViewRow d = dgvProfesional.SelectedRows[0];
             Int32 IdProfesional = Convert.ToInt32(d.Cells[2].Value);
             Int32 Dia = funciones.numeroDiaSemana(cmbDias.Text);
+            string FechaDesde = dtpFechaDesde.Value.ToString("yyyy-MM-dd");
+            string FechaHasta = dtpFechaHasta.Value.ToString("yyyy-MM-dd");
+                       
 
-            String query = "SELECT RANDOM.VERIFICACION_DIA ('" + IdProfesional + "','" + Dia + "' ) AS id";
+            String query = "SELECT RANDOM.VERIFICACION_DIA ('" + IdProfesional + "','" + Dia + "','" + FechaDesde + "','" + FechaHasta + "' ) AS id";
             SqlDataReader reader = Conexion.ejecutarQuery(query);
             reader.Read();
             int respuesta = int.Parse(reader["id"].ToString());
