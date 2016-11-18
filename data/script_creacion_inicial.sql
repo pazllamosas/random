@@ -1919,8 +1919,10 @@ AS BEGIN
 	SELECT @DiaCargado = Dia FROM RANDOM.AGENDA_HORARIO_DISPONIBLE 
 		WHERE IdProfesional = @IdProfesional 
 			AND Activa = 1 
-			AND @FechaDesde =FechaDesde 
-			AND @FechaHasta = FechaHasta
+			AND (@FechaDesde BETWEEN FechaDesde AND FechaHasta) 
+			AND (@FechaHasta BETWEEN FechaDesde AND FechaHasta)
+			--AND @FechaDesde =FechaDesde 
+			--AND @FechaHasta = FechaHasta
 	DECLARE @Resultado int
 	
 	IF (@Dia = @DiaCargado)
