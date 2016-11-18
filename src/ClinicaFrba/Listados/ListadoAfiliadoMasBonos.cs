@@ -56,36 +56,32 @@ namespace ClinicaFrba.Listados
                 lista.Add("@fechaFrom");
                 lista.Add("@fechaTo");
 
+                DataTable dt = null;
+
                 if (mesFin == "12")
                 {
-                    DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
-                    lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/31"));
-                    if (dt == null)
-                    {
-                        MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        this.dgvResultado.DataSource = dt;
-                        dgvResultado.Enabled = false;
-                    }
+                    dt = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
+                    lista, (anio + mesInicio + "01"), (anio + mesFin + "31"));
                 }
                 else
-
                 {
-                    DataTable dt = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
-                    lista, (anio + "/" + mesInicio + "/01"), (anio + "/" + mesFin + "/30"));
-                    if (dt == null)
-                    {
-                        MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        this.dgvResultado.DataSource = dt;
-                        dgvResultado.Enabled = false;
-                    }
+                    dt = Conexion.obtenerTablaProcedure("RANDOM.top5AfiliadosConMayorCantBonosComprados",
+                    lista, (anio + mesInicio + "01"), (anio + mesFin + "30"));
                 }
-                // hacer un if para ver si eligio anio correcto
+
+                if (dt == null)
+                {
+                    MessageBox.Show("Se produjo un error durante la ejecución de la consulta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("No se han encontrado registros para ese peridodo de fecha", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    this.dgvResultado.DataSource = dt;
+                    dgvResultado.Enabled = false;
+                }
                 
             }
             else
@@ -119,12 +115,12 @@ namespace ClinicaFrba.Listados
         {
             if (cmbSemestre.SelectedIndex == 0)
             {
-                mesInicio = "1";
-                mesFin = "6";
+                mesInicio = "01";
+                mesFin = "06";
             }
             else if (cmbSemestre.SelectedIndex == 1)
             {
-                mesInicio = "7";
+                mesInicio = "07";
                 mesFin = "12";
             }
         }
