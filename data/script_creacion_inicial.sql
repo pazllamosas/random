@@ -1801,10 +1801,8 @@ GO
 
 
 GO
-CREATE PROCEDURE RANDOM.top5EspecialidadesConMasCancelacionesDeTurno (@fecDesde varchar(10), @fecHasta varchar(10))
+CREATE PROCEDURE RANDOM.top5EspecialidadesConMasCancelacionesDeTurno (@fechaFrom datetime, @fechaTo datetime)
 AS BEGIN
-DECLARE @fechaFrom datetime = CONVERT(datetime, @fecDesde, 111)
-DECLARE @fechaTo datetime = CONVERT(datetime, @fecHasta, 111)
 SELECT top 5 E.Descripcion AS 'Especialidad', COUNT(C.IdCancelacion) AS 'Cantidad'
 FROM RANDOM.CANCELACION C
 JOIN RANDOM.TURNO T ON C.IdTurno = T.IdTurno
@@ -1819,10 +1817,8 @@ GO
 ---------------------
 
 GO
-CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fecDesde varchar(10), @fecHasta varchar(10), @numeroPlan int)
+CREATE PROCEDURE RANDOM.top5ProfesionalesMasConsultadosPorPlan(@fechaFrom datetime, @fechaTo datetime, @numeroPlan int)
 AS BEGIN
-DECLARE @fechaFrom datetime = CONVERT(datetime, @fecDesde, 111)
-DECLARE @fechaTo datetime = CONVERT(datetime, @fecHasta, 111)
 SELECT top 5 P.IdProfesional AS 'Matrícula Profesional', PE.Nombre, PE.Apellido, COUNT(RT.IdResultadoTurno) AS 'Cantidad'
 FROM RANDOM.RESULTADO_TURNO RT 
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
@@ -1840,10 +1836,8 @@ GO
 
 ---------------------
 GO
-CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fecDesde varchar(10), @fecHasta varchar(10), @numeroPlan varchar(50), @nombreEspecialidad varchar(50))
+CREATE PROCEDURE RANDOM.top5ProfesionalesMenosHorasTrabajadas(@fechaFrom datetime, @fechaTo datetime, @numeroPlan varchar(50), @nombreEspecialidad varchar(50))
 AS BEGIN
-DECLARE @fechaFrom datetime = CONVERT(datetime, @fecDesde, 111)
-DECLARE @fechaTo datetime = CONVERT(datetime, @fecHasta, 111)
 SELECT top 5 P.IdProfesional AS 'Matrícula Profesinal',PE.Nombre, PE.Apellido, (COUNT(RT.IdResultadoTurno)) * 0.5 AS 'Cantidad DE HORAS'
 FROM RANDOM.RESULTADO_TURNO RT
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
@@ -1864,11 +1858,8 @@ GO
 -------------------------------------------
 
 GO
-CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados(@fecDesde varchar(10), @fecHasta varchar(10))
+CREATE PROCEDURE RANDOM.top5AfiliadosConMayorCantBonosComprados(@fechaFrom datetime, @fechaTo datetime)
 AS BEGIN
-
-DECLARE @fechaFrom datetime = CONVERT(datetime, @fecDesde, 111)
-DECLARE @fechaTo datetime = CONVERT(datetime, @fecHasta, 111)
 
 create table #TEMPORAL(
 IdPersona int,
@@ -1902,10 +1893,8 @@ GO
 --------------------------------------------------------
 
 GO
-CREATE PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas(@fecDesde varchar(10), @fecHasta varchar(10))
+CREATE PROCEDURE RANDOM.top5EspecialidadesConMasConsultasUtilizadas(@fechaFrom datetime, @fechaTo datetime)
 AS BEGIN
-DECLARE @fechaFrom datetime = CONVERT(datetime, @fecDesde, 111)
-DECLARE @fechaTo datetime = CONVERT(datetime, @fecHasta, 111)
 SELECT top 5 E.Descripcion AS 'Especialidad', COUNT(RT.IdResultadoTurno) AS 'Cantidad'
 FROM RANDOM.RESULTADO_TURNO RT 
 JOIN RANDOM.TURNO T ON RT.IdTurno = T.IdTurno
