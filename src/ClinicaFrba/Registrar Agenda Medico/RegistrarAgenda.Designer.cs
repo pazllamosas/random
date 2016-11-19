@@ -42,10 +42,10 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             this.dgvProfesional = new System.Windows.Forms.DataGridView();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.dgvNuevaAgenda = new System.Windows.Forms.DataGridView();
-            this.dtpFechaDesde = new System.Windows.Forms.DateTimePicker();
-            this.label5 = new System.Windows.Forms.Label();
-            this.dtpFechaHasta = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
+            this.cmbMes = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtAnio = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProfesional)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvNuevaAgenda)).BeginInit();
             this.SuspendLayout();
@@ -209,41 +209,42 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             this.dgvNuevaAgenda.Size = new System.Drawing.Size(647, 107);
             this.dgvNuevaAgenda.TabIndex = 54;
             // 
-            // dtpFechaDesde
+            // label6
             // 
-            this.dtpFechaDesde.Location = new System.Drawing.Point(357, 308);
-            this.dtpFechaDesde.Name = "dtpFechaDesde";
-            this.dtpFechaDesde.Size = new System.Drawing.Size(200, 20);
-            this.dtpFechaDesde.TabIndex = 56;
-            this.dtpFechaDesde.ValueChanged += new System.EventHandler(this.dtpFechaDesde_ValueChanged);
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(84, 322);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(114, 18);
+            this.label6.TabIndex = 57;
+            this.label6.Text = "Seleccione mes";
+            // 
+            // cmbMes
+            // 
+            this.cmbMes.FormattingEnabled = true;
+            this.cmbMes.Location = new System.Drawing.Point(243, 319);
+            this.cmbMes.Name = "cmbMes";
+            this.cmbMes.Size = new System.Drawing.Size(151, 21);
+            this.cmbMes.TabIndex = 58;
+            this.cmbMes.SelectedIndexChanged += new System.EventHandler(this.cmbMes_SelectedIndexChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(165, 308);
+            this.label5.Location = new System.Drawing.Point(419, 318);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(163, 18);
-            this.label5.TabIndex = 55;
-            this.label5.Text = "Fecha disponible desde";
+            this.label5.Size = new System.Drawing.Size(87, 18);
+            this.label5.TabIndex = 59;
+            this.label5.Text = "Escriba año";
             // 
-            // dtpFechaHasta
+            // txtAnio
             // 
-            this.dtpFechaHasta.Location = new System.Drawing.Point(357, 345);
-            this.dtpFechaHasta.Name = "dtpFechaHasta";
-            this.dtpFechaHasta.Size = new System.Drawing.Size(200, 20);
-            this.dtpFechaHasta.TabIndex = 58;
-            this.dtpFechaHasta.ValueChanged += new System.EventHandler(this.dtpFechaHasta_ValueChanged);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(165, 347);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(159, 18);
-            this.label6.TabIndex = 57;
-            this.label6.Text = "Fecha disponible hasta";
+            this.txtAnio.Location = new System.Drawing.Point(526, 316);
+            this.txtAnio.Name = "txtAnio";
+            this.txtAnio.Size = new System.Drawing.Size(87, 20);
+            this.txtAnio.TabIndex = 60;
+            this.txtAnio.TextChanged += new System.EventHandler(this.txtAnio_TextChanged);
             // 
             // RegistrarAgenda
             // 
@@ -251,10 +252,10 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 548);
             this.ControlBox = false;
-            this.Controls.Add(this.dtpFechaHasta);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.dtpFechaDesde);
+            this.Controls.Add(this.txtAnio);
             this.Controls.Add(this.label5);
+            this.Controls.Add(this.cmbMes);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.dgvNuevaAgenda);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.dgvProfesional);
@@ -298,9 +299,9 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
         public System.Windows.Forms.DataGridView dgvProfesional;
         private System.Windows.Forms.Button btnLimpiar;
         public System.Windows.Forms.DataGridView dgvNuevaAgenda;
-        public System.Windows.Forms.DateTimePicker dtpFechaDesde;
-        private System.Windows.Forms.Label label5;
-        public System.Windows.Forms.DateTimePicker dtpFechaHasta;
         private System.Windows.Forms.Label label6;
+        public System.Windows.Forms.ComboBox cmbMes;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtAnio;
     }
 }

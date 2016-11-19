@@ -49,8 +49,22 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             this.comboBox1.SelectedIndex = -1;
             this.comboBox2.SelectedIndex = -1;
             DateTime fechaHoy = funciones.ObtenerFecha();
-            dtpFechaDesde.Value = fechaHoy;
-            dtpFechaHasta.Value = fechaHoy;
+
+            cmbMes.Items.Add("Enero");
+            cmbMes.Items.Add("Febrero");
+            cmbMes.Items.Add("Marzo");
+            cmbMes.Items.Add("Abril");
+            cmbMes.Items.Add("Mayo");
+            cmbMes.Items.Add("Junio");
+            cmbMes.Items.Add("julio");
+            cmbMes.Items.Add("Agosto");
+            cmbMes.Items.Add("Septiembre");
+            cmbMes.Items.Add("Octubre");
+            cmbMes.Items.Add("Noviembre");
+            cmbMes.Items.Add("Diciembre");
+            this.cmbMes.SelectedIndex = -1;
+
+
 
         }
 
@@ -143,7 +157,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
         private void btnGuardarAgenda_Click(object sender, EventArgs e)
         {
 
-            string fechaDesdeS = dtpFechaDesde.Text;
+          /*  string fechaDesdeS = dtpFechaDesde.Text;
             DateTime FechaDesde = Convert.ToDateTime(fechaDesdeS);
             string fechaHastaS = dtpFechaHasta.Text;
             DateTime fechaHasta = Convert.ToDateTime(fechaHastaS);
@@ -153,7 +167,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
 
             if ((comparacion < 0 || (fechaHoy.Year == FechaDesde.Year && fechaHoy.Day == FechaDesde.Day && fechaHoy.Month == FechaDesde.Month))
                 && (comparacion2 < 0))
-            {
+            {*/
 
             Int32 selectedRowCount = dgvProfesional.Rows.GetRowCount(DataGridViewElementStates.Selected);
             if (selectedRowCount == 1)
@@ -161,8 +175,15 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                 string HoraDesde = comboBox1.Text;
                 string HoraHasta = comboBox2.Text;
                 string dia = cmbDias.Text;
+                string mes = cmbMes.Text;
+                string Anio = txtAnio.Text;
+                Int32 anio = Convert.ToInt32(Anio);
+                Int32 DiaFinal = UltimoDiaMes(anio, mes);
+                Int32 Mes = mesEnInt(mes);
+                DateTime FechaDesde = new DateTime(anio, Mes, 1, 0, 0, 0);
+                DateTime fechaHasta = new DateTime(anio, Mes, DiaFinal, 0, 0, 0);
 
-                if (HoraDesde != "" && HoraHasta != "" && HoraDesde != "")
+                if (HoraDesde != "" && HoraHasta != "" && HoraDesde != "" && mes != "")
                 {
 
                     Int32 FechaDesdeInt = Convert.ToInt32(HoraDesde);
@@ -180,19 +201,28 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                         string diaS = cmbDias.Text;
                         Int32 Dia = funciones.numeroDiaSemana(diaS);
 
-                        if (verificarDiaCargado())
-                        {
-                            if (Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia", "@FechaDesde", "@FechaHasta"), IdProfesional, IdEspecialidad, HoraDesde, HoraHasta, Dia, FechaDesde, fechaHasta))
-                            {
-                                MessageBox.Show("Agenda asignada correctamente");
-                                this.cargaAgenda();
-                                this.limpiarCampos();
-                            }
-                            else
-                            {
-                                this.limpiarCampos();
-                            }
-                        }
+    //                    if (verificarDiaCargado())
+     //                   {
+
+                        String query = "SELECT RANDOM.CHEQUEAR_AGENDA ('" + IdProfesional + "', '" + IdEspecialidad + "', '" + Dia + "', '" + FechaDesde.Year + "', '" + FechaDesde.Month + "', '" + fechaHasta.Year + "', '" + fechaHasta.Month + "') AS id";
+                        SqlDataReader reader = Conexion.ejecutarQuery(query);
+                        reader.Read();
+                        Int32 resultado = int.Parse(reader["id"].ToString());
+                        reader.Close();
+                        if (resultado == 1)
+                      {
+
+                          if (Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia", "@FechaDesde", "@FechaHasta"), IdProfesional, IdEspecialidad, HoraDesde, HoraHasta, Dia, FechaDesde, fechaHasta))
+                          {
+                              MessageBox.Show("Agenda asignada correctamente");
+                              this.cargaAgenda();
+                              this.limpiarCampos();
+                          }
+                          else
+                          {
+                              this.limpiarCampos();
+                          }
+                      }
                         else
                         {
                             MessageBox.Show("Ese día ya fue cargado", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
@@ -214,13 +244,138 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                 MessageBox.Show("Seleccione un Profesional", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             }
-            else
+           /* else
             {
                 MessageBox.Show("Ingrese fechas validas, 'Fecha disponible desde' igual o posterior o el dia de hoy y 'Fecha disponible hasta' mayor a la fecha desde", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }*/
+
+        
+        public Int32 UltimoDiaMes(Int32 Anio, string Mes)
+        {
+            if (Mes == "Enero")
+            {
+                Int32 dia = System.DateTime.DaysInMonth(Anio, 1);
+                return dia;
+            }
+            if (Mes == "Febrero")
+            {
+                Int32 dia = System.DateTime.DaysInMonth(Anio, 2);
+                return dia;
+            }
+            if (Mes == "Marzo")
+            {
+                Int32 dia = System.DateTime.DaysInMonth(Anio, 3);
+                return dia;
+            }
+            if (Mes == "Abril")
+            {
+                Int32 dia = System.DateTime.DaysInMonth(Anio, 4);
+                return dia;
+            }
+            if (Mes == "mayo")
+            {
+                Int32 dia = System.DateTime.DaysInMonth(Anio, 5);
+                return dia;
+            }
+            if (Mes == "Junio")
+            {
+                Int32 dia = System.DateTime.DaysInMonth(Anio, 6);
+                return dia;
+            }
+            if (Mes == "Julio")
+            {
+                Int32 dia = System.DateTime.DaysInMonth(Anio, 7);
+                return dia;
+            }
+            if (Mes == "Agosto")
+            {
+                Int32 dia = System.DateTime.DaysInMonth(Anio, 8);
+                return dia;
+            }
+            if (Mes == "Septiembre")
+            {
+                Int32 dia = System.DateTime.DaysInMonth(Anio, 9);
+                return dia;
+            }
+            if (Mes == "octubre")
+            {
+                Int32 dia = System.DateTime.DaysInMonth(Anio, 10);
+                return dia;
+            }
+            if (Mes == "Noviembre")
+            {
+                Int32 dia = System.DateTime.DaysInMonth(Anio, 11);
+                return dia;
+            }
+            else 
+            {
+                Int32 dia = System.DateTime.DaysInMonth(Anio, 12);
+                return dia;
             }
 
         }
 
+        public Int32 mesEnInt(string Mes)
+        {
+            if (Mes == "Enero")
+            {
+                Int32 Numero = 1;
+                return Numero;
+            }
+            if (Mes == "Febrero")
+            {
+                Int32 Numero = 2;
+                return Numero;
+            }
+            if (Mes == "Marzo")
+            {
+                Int32 Numero = 3;
+                return Numero;
+            }
+            if (Mes == "Abril")
+            {
+                Int32 Numero = 4;
+                return Numero;
+            }
+            if (Mes == "Mayo")
+            {
+                Int32 Numero = 5;
+                return Numero;
+            }
+            if (Mes == "Junio")
+            {
+                Int32 Numero = 6;
+                return Numero;
+            }
+            if (Mes == "Julio")
+            {
+                Int32 Numero = 7;
+                return Numero;
+            }
+            if (Mes == "Agosto")
+            {
+                Int32 Numero = 8;
+                return Numero;
+            }
+            if (Mes == "Septiembre")
+            {
+                Int32 Numero = 9;
+                return Numero;
+            }
+            if (Mes == "Noviembre")
+            {
+                Int32 Numero = 10;
+                return Numero;
+            }
+            else
+            {
+                Int32 Numero = 12;
+                return Numero;
+            }
+
+
+
+        }
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
@@ -254,12 +409,14 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             comboBox1.Text = null;
             comboBox2.Text = null;
             DateTime fechaHoy = funciones.ObtenerFecha();
-            dtpFechaDesde.Value = fechaHoy;
-            dtpFechaHasta.Value = fechaHoy;
+            //dtpFechaDesde.Value = fechaHoy;
+            //dtpFechaHasta.Value = fechaHoy;
+            cmbMes.Text = null;
+            txtAnio.Text = null;
             dgvNuevaAgenda.DataSource = null;
         }
 
-        public bool verificarDiaCargado()
+    /*    public bool verificarDiaCargado()
         {
             DataGridViewRow d = dgvProfesional.SelectedRows[0];
             Int32 IdProfesional = Convert.ToInt32(d.Cells[2].Value);
@@ -281,7 +438,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             {
                 return false;
             }
-        }
+        }*/
 
         public void limpiarCampos()
         {
@@ -309,6 +466,16 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
         }
 
         private void dtpFechaHasta_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbMes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtAnio_TextChanged(object sender, EventArgs e)
         {
 
         }

@@ -215,6 +215,8 @@ IF OBJECT_ID('RANDOM.ACTIVAR_ROL') IS NOT NULL
  DROP PROCEDURE RANDOM.ACTIVAR_ROL
 IF OBJECT_ID('RANDOM.PEDIDO_DE_TURNO') IS NOT NULL
  DROP PROCEDURE RANDOM.PEDIDO_DE_TURNO
+IF OBJECT_ID('RANDOM.CHEQUEAR_AGENDA') IS NOT NULL
+ DROP FUNCTION RANDOM.CHEQUEAR_AGENDA
 
 
 -- DROP TRIGGERS
@@ -1909,7 +1911,7 @@ GO
 
 
 -----AGENDA------
-
+/*
 GO
 CREATE FUNCTION RANDOM.VERIFICACION_DIA(@IdProfesional int, @Dia int,@FechaDesde datetime, @FechaHasta datetime)
 RETURNS nvarchar(255)
@@ -1937,9 +1939,7 @@ AS BEGIN
 RETURN @Resultado
 
 END
-GO
-
-
+GO*/
 
 GO
 CREATE PROCEDURE RANDOM.CARGA_AGENDA(@IdProfesional int, @IdEspecialidad int, @HoraDesde nvarchar(255), @HoraHasta nvarchar(255), @Dia int,
@@ -1947,25 +1947,66 @@ CREATE PROCEDURE RANDOM.CARGA_AGENDA(@IdProfesional int, @IdEspecialidad int, @H
 BEGIN
 
 DECLARE @HorasACargar nvarchar(255)
-SELECT @HorasACargar = ((CAST(@HoraHasta AS INT)) -(CAST(@HoraDesde AS INT))) 
 DECLARE @HorasCargadas int
+SELECT @HorasACargar = ((CAST(@HoraHasta AS INT)) -(CAST(@HoraDesde AS INT))) 
+
+
+/*
+set @HorasCargadas = (SELECT SUM(((CAST(A.HoraHasta AS INT)) -(CAST(A.HoraDesde AS INT))))
+ FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @IdProfesional AND --A.IdEspecialidad = @IdEspecialidad AND
+	datepart(year, A.FechaDesde) = datepart(year, @FechaDesde) AND datepart(MONTH, A.FechaDesde) = datepart(MONTH, @FechaDesde)  AND
+	datepart(year, A.FechaHasta) = datepart(year, @FechaHasta) AND datepart(MONTH, A.FechaHasta) = datepart(MONTH, @FechaHasta))
+
+
+*/
+
 SELECT @HorasCargadas = HorasAcumuladas FROM RANDOM.PROFESIONAL WHERE IdProfesional = @IdProfesional
-IF ( (@HorasCargadas + @HorasACargar) < 48)
-	BEGIN
-		INSERT INTO RANDOM.AGENDA_HORARIO_DISPONIBLE
-		VALUES(@IdProfesional, @IdEspecialidad, @HoraDesde, @HoraHasta, @Dia, 1, @FechaDesde, @FechaHasta)
 
-		UPDATE RANDOM.PROFESIONAL SET
-		HorasAcumuladas = (HorasAcumuladas + @HorasACargar)
-		WHERE IdProfesional = @IdProfesional
 
-	END
+				IF ( (@HorasCargadas + @HorasACargar) < 48)
+				BEGIN
+				INSERT INTO RANDOM.AGENDA_HORARIO_DISPONIBLE
+				VALUES(@IdProfesional, @IdEspecialidad, @HoraDesde, @HoraHasta, @Dia, 1, @FechaDesde, @FechaHasta)
 
-ELSE 
-RAISERROR ('Horas a cargar en la semana mayor a 48hs', 16, 217) WITH SETERROR
-	
+				UPDATE RANDOM.PROFESIONAL SET
+				HorasAcumuladas = (HorasAcumuladas + @HorasACargar)
+				WHERE IdProfesional = @IdProfesional
+				END
+
+				ELSE
+
+				BEGIN 
+				RAISERROR ('Horas a cargar en la semana mayor a 48hs', 16, 217) WITH SETERROR
+				END
 END
 GO
+
+
+CREATE FUNCTION RANDOM.CHEQUEAR_AGENDA(@IdProfesional int, @IdEspecialidad int, @Dia int, @FechaDesdeAnio INT,
+@FechaDesdeMes int, @FechaHastaAnio INT, @FechaHastaMes int)
+RETURNS INT
+AS BEGIN
+
+	DECLARE @Resultado int  
+
+	IF((SELECT count (*) FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @IdProfesional AND A.IdEspecialidad = @IdEspecialidad AND
+	@Dia = A.Dia AND
+	datepart(year, A.FechaDesde) = @FechaDesdeAnio AND datepart(MONTH, A.FechaDesde) = @FechaDesdeMes AND
+	datepart(year, A.FechaHasta) = @FechaHastaAnio AND datepart(MONTH, A.FechaHasta) = @FechaHastaMes)
+	 = 0)
+	BEGIN
+	SET @Resultado = 1
+	END
+	
+	ELSE
+	BEGIN
+	SET @Resultado = -1
+	END
+	 
+ RETURN @Resultado
+ END
+GO
+
 
 CREATE PROCEDURE RANDOM.TRAER_PROFESIONAL_CON_DNI(@DNI INT) AS
 BEGIN
@@ -2026,10 +2067,12 @@ BEGIN
 	INSERT INTO @TABLA_DE_DIAS VALUES ('jueves', 5)
 	INSERT INTO @TABLA_DE_DIAS VALUES ('sábado', 7)
 
-	SELECT B.DiaLetra, A.HoraDesde, A.HoraHasta 
+	BEGIN
+	SELECT B.DiaLetra, A.HoraDesde, A.HoraHasta, A.FechaDesde, A.FechaHasta
 	FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A, @TABLA_DE_DIAS B
 	WHERE A.IdProfesional = @IdProfesional AND A.Activa = 1
 	AND A.Dia = B.DiaNumero
+	END
 END 
 GO
 
