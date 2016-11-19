@@ -28,6 +28,9 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             dgvNuevaAgenda.DataSource = null;
             comboBox1.Items.Clear();
             comboBox2.Items.Clear();
+            cmbMes.Text = null;
+            cmbMes.Items.Clear();
+            txtAnio.Text = null;
             this.Hide();
             FormProvider.MainMenu.Show();
         }
@@ -172,70 +175,84 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             Int32 selectedRowCount = dgvProfesional.Rows.GetRowCount(DataGridViewElementStates.Selected);
             if (selectedRowCount == 1)
             {
-                string HoraDesde = comboBox1.Text;
-                string HoraHasta = comboBox2.Text;
-                string dia = cmbDias.Text;
-                string mes = cmbMes.Text;
-                string Anio = txtAnio.Text;
-                Int32 anio = Convert.ToInt32(Anio);
-                Int32 DiaFinal = UltimoDiaMes(anio, mes);
-                Int32 Mes = mesEnInt(mes);
-                DateTime FechaDesde = new DateTime(anio, Mes, 1, 0, 0, 0);
-                DateTime fechaHasta = new DateTime(anio, Mes, DiaFinal, 0, 0, 0);
-               
-
-                string fechaDesde = FechaDesde.ToString("yyyy-MM-dd 00:00:00.000");
-                string FechaHasta = fechaHasta.ToString("yyyy-MM-dd 00:00:00.000");
-
-                if (HoraDesde != "" && HoraHasta != "" && HoraDesde != "" && mes != "")
+                if (txtAnio.Text != "" && cmbMes.Text != "")
                 {
+                    string HoraDesde = comboBox1.Text;
+                    string HoraHasta = comboBox2.Text;
+                    string dia = cmbDias.Text;
+                    string mes = cmbMes.Text;
+                    string Anio = txtAnio.Text;
+                    Int32 anio = Convert.ToInt32(Anio);
+                    Int32 DiaFinal = UltimoDiaMes(anio, mes);
+                    Int32 Mes = mesEnInt(mes);
+                    DateTime FechaDesde = new DateTime(anio, Mes, 1, 0, 0, 0);
+                    DateTime fechaHasta = new DateTime(anio, Mes, DiaFinal, 0, 0, 0);
 
-                    Int32 FechaDesdeInt = Convert.ToInt32(HoraDesde);
 
-                    Int32 FechaHastaInt = Convert.ToInt32(HoraHasta);
+                    string fechaDesde = FechaDesde.ToString("yyyy-MM-dd 00:00:00.000");
+                    string FechaHasta = fechaHasta.ToString("yyyy-MM-dd 00:00:00.000");
 
-                    if (FechaDesdeInt < FechaHastaInt)
+                    if (HoraDesde != "" && HoraHasta != "" && Anio != "" && mes != "")
                     {
 
-                        DataGridViewRow d = dgvProfesional.SelectedRows[0];
-                        string IdProfesionalS = d.Cells[2].Value.ToString();
-                        Int32 IdProfesional = Convert.ToInt32(IdProfesionalS);
-                        string IdEspecialidadS = d.Cells[4].Value.ToString();
-                        Int32 IdEspecialidad = Convert.ToInt32(IdEspecialidadS);
-                        string diaS = cmbDias.Text;
-                        Int32 Dia = funciones.numeroDiaSemana(diaS);
+                        Int32 FechaDesdeInt = Convert.ToInt32(HoraDesde);
 
-    //                    if (verificarDiaCargado())
-     //                   {
+                        Int32 FechaHastaInt = Convert.ToInt32(HoraHasta);
 
-                        String query = "SELECT RANDOM.CHEQUEAR_AGENDA ('" + IdProfesional + "', '" + IdEspecialidad + "', '" + Dia + "', '" + FechaDesde.Year + "', '" + FechaDesde.Month + "', '" + fechaHasta.Year + "', '" + fechaHasta.Month + "') AS id";
-                        SqlDataReader reader = Conexion.ejecutarQuery(query);
-                        reader.Read();
-                        Int32 resultado = int.Parse(reader["id"].ToString());
-                        reader.Close();
-                        if (resultado == 1)
-                      {
-                          if (Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia", "@FechaDesde", "@FechaHasta"), IdProfesional, IdEspecialidad, HoraDesde, HoraHasta, Dia, FechaDesde, fechaHasta))
-                          //if (Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia", "@FechaDesde", "@FechaHasta"), IdProfesional, IdEspecialidad, HoraDesde, HoraHasta, Dia, (FechaDesde.Year + FechaDesde.Month + FechaDesde.Day), (fechaHasta.Year + fechaHasta.Month + fechaHasta.Day)))
-                          {
-                              MessageBox.Show("Agenda asignada correctamente");
-                              this.cargaAgenda();
-                              this.limpiarCampos();
-                          }
-                          else
-                          {
-                              this.limpiarCampos();
-                          }
-                      }
+                        if (FechaDesdeInt < FechaHastaInt)
+                        {
+                            if (Convert.ToInt32(txtAnio.Text) >= 2016)
+                            {
+                                DataGridViewRow d = dgvProfesional.SelectedRows[0];
+                                string IdProfesionalS = d.Cells[2].Value.ToString();
+                                Int32 IdProfesional = Convert.ToInt32(IdProfesionalS);
+                                string IdEspecialidadS = d.Cells[4].Value.ToString();
+                                Int32 IdEspecialidad = Convert.ToInt32(IdEspecialidadS);
+                                string diaS = cmbDias.Text;
+                                Int32 Dia = funciones.numeroDiaSemana(diaS);
+
+                                //                    if (verificarDiaCargado())
+                                //                   {
+
+                                String query = "SELECT RANDOM.CHEQUEAR_AGENDA ('" + IdProfesional + "', '" + IdEspecialidad + "', '" + Dia + "', '" + FechaDesde.Year + "', '" + FechaDesde.Month + "', '" + fechaHasta.Year + "', '" + fechaHasta.Month + "') AS id";
+                                SqlDataReader reader = Conexion.ejecutarQuery(query);
+                                reader.Read();
+                                Int32 resultado = int.Parse(reader["id"].ToString());
+                                reader.Close();
+                                if (resultado == 1)
+                                {
+                                    if (Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia", "@FechaDesde", "@FechaHasta"), IdProfesional, IdEspecialidad, HoraDesde, HoraHasta, Dia, FechaDesde, fechaHasta))
+                                    //if (Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia", "@FechaDesde", "@FechaHasta"), IdProfesional, IdEspecialidad, HoraDesde, HoraHasta, Dia, (FechaDesde.Year + FechaDesde.Month + FechaDesde.Day), (fechaHasta.Year + fechaHasta.Month + fechaHasta.Day)))
+                                    {
+                                        MessageBox.Show("Agenda asignada correctamente");
+                                        this.cargaAgenda();
+                                        this.limpiarCampos();
+                                    }
+                                    else
+                                    {
+                                        this.limpiarCampos();
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Ese día ya fue cargado", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("El año ingresado no puede ser menor al actual", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                txtAnio.Clear();
+                            }
+
+                        }
                         else
                         {
-                            MessageBox.Show("Ese día ya fue cargado", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                            MessageBox.Show("No puede ser la Hora Desde menor o igual a la Hora Hasta", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         }
-
                     }
                     else
                     {
-                        MessageBox.Show("No puede ser la Hora Desde menor o igual a la Hora Hasta", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("Llene todos los campos", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                 }
                 else
@@ -453,6 +470,9 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             comboBox2.Items.Clear();
             comboBox1.Text = null;
             comboBox2.Text = null;
+            cmbMes.Text = null;
+            txtAnio.Text = null;
+            //dgvNuevaAgenda.DataSource = null;
         }
 
         public void cargaAgenda()
@@ -481,6 +501,11 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
 
         private void txtAnio_TextChanged(object sender, EventArgs e)
         {
+            if (!funciones.permiteNumeros(txtAnio.Text))
+            {
+                MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtAnio.Clear();
+            }
 
         }
     }
