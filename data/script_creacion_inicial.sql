@@ -329,8 +329,8 @@ CREATE TABLE.RANDOM.ESTADO_CIVIL(
 )
 
 CREATE TABLE RANDOM.PROFESIONAL(
-	IdProfesional int PRIMARY KEY, --es la matricula del profesional
-	HorasAcumuladas int DEFAULT 0
+	IdProfesional int PRIMARY KEY --es la matricula del profesional
+	
 	
 )
 CREATE TABLE RANDOM.TIPO_ESPECIALIDAD(
@@ -380,7 +380,8 @@ CREATE TABLE RANDOM.AGENDA_HORARIO_DISPONIBLE(
 	Dia int,
 	Activa bit, -- 0 inactiva 1 activa
 	FechaDesde datetime,
-	FechaHasta datetime
+	FechaHasta datetime,
+	HorasAcumuladas int DEFAULT 0
 )
 
 CREATE TABLE RANDOM.TURNO(
@@ -750,7 +751,7 @@ WHERE joinBonoCompra.IdCompra = RANDOM.COMPRA_BONO.IdCompra
 
 /*AGENDA_HORARIO_DISPONIBLE*/
 insert INTO RANDOM.AGENDA_HORARIO_DISPONIBLE 
-SELECT DISTINCT P.IdPersona, ES.IdEspecialidad,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Turno_Fecha) AS 'DIA DE SEMANA', 0, '2015-01-01 00:00:00.000', '2015-12-31 00:00:00.000'
+SELECT DISTINCT P.IdPersona, ES.IdEspecialidad,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Turno_Fecha) AS 'DIA DE SEMANA', 0, '2015-01-01 00:00:00.000', '2015-12-31 00:00:00.000',1
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Medico_Dni = P.Documento
 JOIN RANDOM.ESPECIALIDAD ES ON ES.Codigo = M.Especialidad_Codigo 
@@ -1878,7 +1879,7 @@ GROUP BY P.IdPersona
 ORDER BY 2 DESC
 
 SELECT DISTINCT top 5 CAST (A.NumeroAfiliadoRaiz AS varchar) + CAST (a.NumeroAfiliadoExt AS varchar) AS 'Afiliado', T.Cantidad, 
-				CASE WHEN a.NumeroAfiliadoExt != '00' THEN 'Si'
+				CASE WHEN a.NumeroAfiliadoExt != '01' THEN 'Si'
                    WHEN a.CantidadACargo > 0 THEN 'Si'
                    ELSE 'No'
 				END AS "Pertenece a grupo familiar"
@@ -1948,29 +1949,34 @@ BEGIN
 
 DECLARE @HorasACargar nvarchar(255)
 DECLARE @HorasCargadas int
---SELECT @HorasACargar = ((CAST(@HoraHasta AS INT)) -(CAST(@HoraDesde AS INT))) 
+SELECT @HorasACargar = ((CAST(@HoraHasta AS INT)) -(CAST(@HoraDesde AS INT))) 
 
+	IF (( NOT EXISTS ( SELECT * FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A 
+			WHERE A.IdProfesional = @IdProfesional 
+			AND datepart(year, A.FechaDesde) = datepart(year, @FechaDesde) 
+			AND datepart(MONTH, A.FechaDesde) = datepart(MONTH, @FechaDesde)
+			AND datepart(year, A.FechaHasta) = datepart(year, @FechaHasta) 
+			AND datepart(MONTH, A.FechaHasta) = datepart(MONTH, @FechaHasta))))
 
-
-set @HorasCargadas = (SELECT ((CAST(A.HoraHasta AS INT)) -(CAST(A.HoraDesde AS INT)))
- FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @IdProfesional AND --A.IdEspecialidad = @IdEspecialidad AND
-	datepart(year, A.FechaDesde) = datepart(year, @FechaDesde) AND datepart(MONTH, A.FechaDesde) = datepart(MONTH, @FechaDesde)  AND
-	datepart(year, A.FechaHasta) = datepart(year, @FechaHasta) AND datepart(MONTH, A.FechaHasta) = datepart(MONTH, @FechaHasta))
-
-
-
+	BEGIN
+--set @HorasCargadas = (SELECT ((CAST(A.HoraHasta AS INT)) -(CAST(A.HoraDesde AS INT)))
+-- FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @IdProfesional AND --A.IdEspecialidad = @IdEspecialidad AND
+--	datepart(year, A.FechaDesde) = datepart(year, @FechaDesde) AND datepart(MONTH, A.FechaDesde) = datepart(MONTH, @FechaDesde)  AND
+--	datepart(year, A.FechaHasta) = datepart(year, @FechaHasta) AND datepart(MONTH, A.FechaHasta) = datepart(MONTH, @FechaHasta))
 
 --SELECT @HorasCargadas = HorasAcumuladas FROM RANDOM.PROFESIONAL WHERE IdProfesional = @IdProfesional
-
-
-				IF ( (@HorasCargadas ) < 48)
+				IF (@HorasACargar < 48)
 				BEGIN
 				INSERT INTO RANDOM.AGENDA_HORARIO_DISPONIBLE
-				VALUES(@IdProfesional, @IdEspecialidad, @HoraDesde, @HoraHasta, @Dia, 1, @FechaDesde, @FechaHasta)
+				VALUES(@IdProfesional, @IdEspecialidad, @HoraDesde, @HoraHasta, @Dia, 1, @FechaDesde, @FechaHasta, 0)
 
-				--UPDATE RANDOM.PROFESIONAL SET
-				--HorasAcumuladas = (HorasAcumuladas + @HorasACargar)
-				--WHERE IdProfesional = @IdProfesional
+				UPDATE RANDOM.AGENDA_HORARIO_DISPONIBLE SET
+				HorasAcumuladas = (HorasAcumuladas + @HorasACargar)
+				WHERE IdProfesional = @IdProfesional
+					AND datepart(year, FechaDesde) = datepart(year, @FechaDesde) 
+					AND datepart(MONTH, FechaDesde) = datepart(MONTH, @FechaDesde)
+					AND datepart(year, FechaHasta) = datepart(year, @FechaHasta) 
+					AND datepart(MONTH, FechaHasta) = datepart(MONTH, @FechaHasta)
 				END
 
 				ELSE
@@ -1978,6 +1984,40 @@ set @HorasCargadas = (SELECT ((CAST(A.HoraHasta AS INT)) -(CAST(A.HoraDesde AS I
 				BEGIN 
 				RAISERROR ('Horas a cargar en la semana mayor a 48hs', 16, 217) WITH SETERROR
 				END
+		END
+
+		ELSE
+
+		BEGIN
+
+		SET @HorasCargadas = (SELECT MAX (HorasAcumuladas) FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A 
+				WHERE A.IdProfesional = @IdProfesional 
+				AND datepart(year, A.FechaDesde) = datepart(year, @FechaDesde) 
+				AND datepart(MONTH, A.FechaDesde) = datepart(MONTH, @FechaDesde)
+				AND datepart(year, A.FechaHasta) = datepart(year, @FechaHasta) 
+				AND datepart(MONTH, A.FechaHasta) = datepart(MONTH, @FechaHasta))
+		
+		IF (@HorasACargar + @HorasCargadas < 48)
+				BEGIN
+				INSERT INTO RANDOM.AGENDA_HORARIO_DISPONIBLE
+				VALUES(@IdProfesional, @IdEspecialidad, @HoraDesde, @HoraHasta, @Dia, 1, @FechaDesde, @FechaHasta, 0)
+
+				UPDATE RANDOM.AGENDA_HORARIO_DISPONIBLE SET
+				HorasAcumuladas = (HorasAcumuladas + @HorasACargar)
+				WHERE IdProfesional = @IdProfesional
+					AND datepart(year, FechaDesde) = datepart(year, @FechaDesde) 
+					AND datepart(MONTH, FechaDesde) = datepart(MONTH, @FechaDesde)
+					AND datepart(year, FechaHasta) = datepart(year, @FechaHasta) 
+					AND datepart(MONTH, FechaHasta) = datepart(MONTH, @FechaHasta)
+				END
+
+				ELSE
+
+				BEGIN 
+				RAISERROR ('Horas a cargar en la semana mayor a 48hs', 16, 217) WITH SETERROR
+				END
+		END
+
 END
 GO
 
