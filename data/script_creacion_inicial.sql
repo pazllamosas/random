@@ -1879,8 +1879,7 @@ GROUP BY P.IdPersona
 ORDER BY 2 DESC
 
 SELECT DISTINCT top 5 CAST (A.NumeroAfiliadoRaiz AS varchar) + CAST (a.NumeroAfiliadoExt AS varchar) AS 'Afiliado', T.Cantidad, 
-				CASE WHEN a.NumeroAfiliadoExt != '01' THEN 'Si'
-                   WHEN a.CantidadACargo > 0 THEN 'Si'
+				CASE WHEN (select count(af.NumeroAfiliadoRaiz) from RANDOM.AFILIADO af where af.NumeroAfiliadoRaiz = a.NumeroAfiliadoRaiz ) > 1 THEN 'Si'
                    ELSE 'No'
 				END AS "Pertenece a grupo familiar"
 FROM #TEMPORAL T
