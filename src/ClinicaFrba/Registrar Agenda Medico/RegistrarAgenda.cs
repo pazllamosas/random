@@ -182,6 +182,10 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                 Int32 Mes = mesEnInt(mes);
                 DateTime FechaDesde = new DateTime(anio, Mes, 1, 0, 0, 0);
                 DateTime fechaHasta = new DateTime(anio, Mes, DiaFinal, 0, 0, 0);
+               
+
+                string fechaDesde = FechaDesde.ToString("yyyy-MM-dd 00:00:00.000");
+                string FechaHasta = fechaHasta.ToString("yyyy-MM-dd 00:00:00.000");
 
                 if (HoraDesde != "" && HoraHasta != "" && HoraDesde != "" && mes != "")
                 {
@@ -211,8 +215,8 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                         reader.Close();
                         if (resultado == 1)
                       {
-
                           if (Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia", "@FechaDesde", "@FechaHasta"), IdProfesional, IdEspecialidad, HoraDesde, HoraHasta, Dia, FechaDesde, fechaHasta))
+                          //if (Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia", "@FechaDesde", "@FechaHasta"), IdProfesional, IdEspecialidad, HoraDesde, HoraHasta, Dia, (FechaDesde.Year + FechaDesde.Month + FechaDesde.Day), (fechaHasta.Year + fechaHasta.Month + fechaHasta.Day)))
                           {
                               MessageBox.Show("Agenda asignada correctamente");
                               this.cargaAgenda();

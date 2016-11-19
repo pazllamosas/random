@@ -80,3 +80,4 @@ C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\random\src\ClinicaFrba\obj\Debug
 C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.csproj.GenerateResource.Cache
 C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.exe
 C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.pdb
+C:\Users\pazll\Documents\Paz\UTN\gestion\2c2016\random\src\ClinicaFrba\obj\Debug\ClinicaFrba.csprojResolveAssemblyReference.cache

@@ -1948,29 +1948,29 @@ BEGIN
 
 DECLARE @HorasACargar nvarchar(255)
 DECLARE @HorasCargadas int
-SELECT @HorasACargar = ((CAST(@HoraHasta AS INT)) -(CAST(@HoraDesde AS INT))) 
+--SELECT @HorasACargar = ((CAST(@HoraHasta AS INT)) -(CAST(@HoraDesde AS INT))) 
 
 
-/*
-set @HorasCargadas = (SELECT SUM(((CAST(A.HoraHasta AS INT)) -(CAST(A.HoraDesde AS INT))))
+
+set @HorasCargadas = (SELECT ((CAST(A.HoraHasta AS INT)) -(CAST(A.HoraDesde AS INT)))
  FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @IdProfesional AND --A.IdEspecialidad = @IdEspecialidad AND
 	datepart(year, A.FechaDesde) = datepart(year, @FechaDesde) AND datepart(MONTH, A.FechaDesde) = datepart(MONTH, @FechaDesde)  AND
 	datepart(year, A.FechaHasta) = datepart(year, @FechaHasta) AND datepart(MONTH, A.FechaHasta) = datepart(MONTH, @FechaHasta))
 
 
-*/
-
-SELECT @HorasCargadas = HorasAcumuladas FROM RANDOM.PROFESIONAL WHERE IdProfesional = @IdProfesional
 
 
-				IF ( (@HorasCargadas + @HorasACargar) < 48)
+--SELECT @HorasCargadas = HorasAcumuladas FROM RANDOM.PROFESIONAL WHERE IdProfesional = @IdProfesional
+
+
+				IF ( (@HorasCargadas ) < 48)
 				BEGIN
 				INSERT INTO RANDOM.AGENDA_HORARIO_DISPONIBLE
 				VALUES(@IdProfesional, @IdEspecialidad, @HoraDesde, @HoraHasta, @Dia, 1, @FechaDesde, @FechaHasta)
 
-				UPDATE RANDOM.PROFESIONAL SET
-				HorasAcumuladas = (HorasAcumuladas + @HorasACargar)
-				WHERE IdProfesional = @IdProfesional
+				--UPDATE RANDOM.PROFESIONAL SET
+				--HorasAcumuladas = (HorasAcumuladas + @HorasACargar)
+				--WHERE IdProfesional = @IdProfesional
 				END
 
 				ELSE
