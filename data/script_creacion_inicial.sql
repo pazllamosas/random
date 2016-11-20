@@ -2028,10 +2028,12 @@ AS BEGIN
 
 	DECLARE @Resultado int  
 
-	IF((SELECT count (*) FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @IdProfesional AND A.IdEspecialidad = @IdEspecialidad AND
-	@Dia = A.Dia AND
-	datepart(year, A.FechaDesde) = @FechaDesdeAnio AND datepart(MONTH, A.FechaDesde) = @FechaDesdeMes AND
-	datepart(year, A.FechaHasta) = @FechaHastaAnio AND datepart(MONTH, A.FechaHasta) = @FechaHastaMes)
+	IF((SELECT count (*) FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A 
+		WHERE A.IdProfesional = @IdProfesional 
+		--AND A.IdEspecialidad = @IdEspecialidad 
+		AND @Dia = A.Dia 
+		AND datepart(year, A.FechaDesde) = @FechaDesdeAnio AND datepart(MONTH, A.FechaDesde) = @FechaDesdeMes 
+		AND datepart(year, A.FechaHasta) = @FechaHastaAnio AND datepart(MONTH, A.FechaHasta) = @FechaHastaMes)
 	 = 0)
 	BEGIN
 	SET @Resultado = 1
@@ -2135,4 +2137,6 @@ END
 	SELECT * FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = 5578
 
 
-		dni =  96743144     id 5578  apellido arias*/
+		dni =  96743144     id 5578  apellido arias
+		dni 2 = 10675835
+		*/

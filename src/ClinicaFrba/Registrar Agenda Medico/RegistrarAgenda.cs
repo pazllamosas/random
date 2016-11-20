@@ -154,7 +154,11 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
 
         private void txtDNI_TextChanged(object sender, EventArgs e)
         {
-
+            if (!funciones.permiteNumeros(txtDNI.Text))
+            {
+                MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtDNI.Clear();
+            }
         }
 
         private void btnGuardarAgenda_Click(object sender, EventArgs e)
@@ -187,7 +191,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                     Int32 Mes = mesEnInt(mes);
                     DateTime FechaDesde = new DateTime(anio, Mes, 1, 0, 0, 0);
                     DateTime fechaHasta = new DateTime(anio, Mes, DiaFinal, 0, 0, 0);
-
+                    DateTime fechaHoy = funciones.ObtenerFecha();
 
                     string fechaDesde = FechaDesde.ToString("yyyy-MM-dd 00:00:00.000");
                     string FechaHasta = fechaHasta.ToString("yyyy-MM-dd 00:00:00.000");
@@ -201,7 +205,8 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
 
                         if (FechaDesdeInt < FechaHastaInt)
                         {
-                            if (Convert.ToInt32(txtAnio.Text) >= 2016)
+                            if (FechaDesde >= fechaHoy)
+                            //if (Convert.ToInt32(txtAnio.Text) >= 2016)
                             {
                                 DataGridViewRow d = dgvProfesional.SelectedRows[0];
                                 string IdProfesionalS = d.Cells[2].Value.ToString();
@@ -222,7 +227,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                                 if (resultado == 1)
                                 {
                                     if (Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia", "@FechaDesde", "@FechaHasta"), IdProfesional, IdEspecialidad, HoraDesde, HoraHasta, Dia, FechaDesde, fechaHasta))
-                                    //if (Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia", "@FechaDesde", "@FechaHasta"), IdProfesional, IdEspecialidad, HoraDesde, HoraHasta, Dia, (FechaDesde.Year + FechaDesde.Month + FechaDesde.Day), (fechaHasta.Year + fechaHasta.Month + fechaHasta.Day)))
+                                    
                                     {
                                         MessageBox.Show("Agenda asignada correctamente");
                                         this.cargaAgenda();
@@ -400,6 +405,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
+            dgvNuevaAgenda.DataSource = null;
             string dniS = txtDNI.Text;
             if (dniS != "")
             {
