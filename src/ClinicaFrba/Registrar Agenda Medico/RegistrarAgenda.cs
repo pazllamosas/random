@@ -167,7 +167,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             Int32 selectedRowCount = dgvProfesional.Rows.GetRowCount(DataGridViewElementStates.Selected);
             if (selectedRowCount == 1)
             {
-                if (txtAnio.Text != "" && cmbMes.Text != "")
+                if (txtAnio.Text != "" && cmbMes.Text != "" && txtAnio.Text.Length < 5)
                 {
                     string HoraDesde = comboBox1.Text;
                     string HoraHasta = comboBox2.Text;
@@ -184,7 +184,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                     string fechaDesde = FechaDesde.ToString("yyyy-MM-dd 00:00:00.000");
                     string FechaHasta = fechaHasta.ToString("yyyy-MM-dd 00:00:00.000");
 
-                    if (HoraDesde != "" && HoraHasta != "" && Anio != "" && Anio.Length < 5 && mes != "")
+                    if (HoraDesde != "" && HoraHasta != "" && Anio != "" && mes != "")
                     {
 
                         Int32 FechaDesdeInt = Convert.ToInt32(HoraDesde);

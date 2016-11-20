@@ -42,7 +42,7 @@ namespace ClinicaFrba.Cancelar_Atencion
 
         private void btnBuscarTurno_Click(object sender, EventArgs e)
         {
-            if (txtAfiliado.Text.Length > 0 && IsNumber(txtAfiliado.Text) && txtAfiliado.Text.Length <= 18)
+            if (txtAfiliado.Text.Length > 0 && IsNumber(txtAfiliado.Text) && txtAfiliado.Text.Length <= 10)
             {
                 string query = "SELECT RANDOM.VALIDAR_AFILIADO ('" + txtAfiliado.Text + "') AS id";
                 SqlDataReader reader = Conexion.ejecutarQuery(query);
@@ -67,7 +67,7 @@ namespace ClinicaFrba.Cancelar_Atencion
             }
             else
             {
-                MessageBox.Show("Debe ingresar un número de longitud menor a 18");
+                MessageBox.Show("Debe ingresar un número de longitud valida");
             }
         }
 

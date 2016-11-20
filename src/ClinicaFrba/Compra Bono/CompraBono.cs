@@ -25,7 +25,7 @@ namespace ClinicaFrba.Compra_Bono
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (txtNroAfiliado.Text != "" && txtNroAfiliado.Text.Length < 18 && txtCantBonos.Text != "" && txtCantBonos.Text.Length < 18)
+            if (txtNroAfiliado.Text != "" && txtNroAfiliado.Text.Length < 10 && txtCantBonos.Text != "" && txtCantBonos.Text.Length < 10)
             {
 
                 bool afiliadoEnNumeros = funciones.permiteNumeros(txtNroAfiliado.Text);
@@ -108,7 +108,7 @@ namespace ClinicaFrba.Compra_Bono
 
         private void calculoMonto_Click(object sender, EventArgs e)
         {
-            if (txtNroAfiliado.Text != "" && txtCantBonos.Text != "")
+            if (txtNroAfiliado.Text != "" && txtNroAfiliado.Text.Length < 10 && txtCantBonos.Text != "" && txtCantBonos.Text.Length < 10)
             {
                 bool afiliadoEnNumeros = funciones.permiteNumeros(txtNroAfiliado.Text);
                 bool cantidadBonosEnNumeros = funciones.permiteNumeros(txtCantBonos.Text);

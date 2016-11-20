@@ -123,7 +123,7 @@ namespace ClinicaFrba.Pedir_Turno
 
             bool afiliadoEnNumeros = funciones.permiteNumeros(textAfiliado.Text);
 
-            if (afiliadoEnNumeros == true && textAfiliado.Text != "" && textAfiliado.Text.Length <= 18)
+            if (afiliadoEnNumeros == true && textAfiliado.Text != "" && textAfiliado.Text.Length <= 10)
                 {
                     string query = "SELECT RANDOM.VALIDAR_AFILIADO ('" + textAfiliado.Text + "') AS id";
                     SqlDataReader reader = Conexion.ejecutarQuery(query);
@@ -184,7 +184,7 @@ namespace ClinicaFrba.Pedir_Turno
 
                 else
                 {
-                MessageBox.Show("El afiliado deben ser numeros y una longitud menor a 18", "Atención", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
+                MessageBox.Show("El afiliado deben ser numeros y una longitud valida", "Atención", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
             }
 
         }
