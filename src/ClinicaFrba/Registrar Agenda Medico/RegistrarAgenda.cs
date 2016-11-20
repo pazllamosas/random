@@ -164,18 +164,6 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
         private void btnGuardarAgenda_Click(object sender, EventArgs e)
         {
 
-          /*  string fechaDesdeS = dtpFechaDesde.Text;
-            DateTime FechaDesde = Convert.ToDateTime(fechaDesdeS);
-            string fechaHastaS = dtpFechaHasta.Text;
-            DateTime fechaHasta = Convert.ToDateTime(fechaHastaS);
-            DateTime fechaHoy = funciones.ObtenerFecha(); 
-            int comparacion = DateTime.Compare(fechaHoy, FechaDesde);
-            int comparacion2 = DateTime.Compare(FechaDesde, fechaHasta);
-
-            if ((comparacion < 0 || (fechaHoy.Year == FechaDesde.Year && fechaHoy.Day == FechaDesde.Day && fechaHoy.Month == FechaDesde.Month))
-                && (comparacion2 < 0))
-            {*/
-
             Int32 selectedRowCount = dgvProfesional.Rows.GetRowCount(DataGridViewElementStates.Selected);
             if (selectedRowCount == 1)
             {
@@ -196,7 +184,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                     string fechaDesde = FechaDesde.ToString("yyyy-MM-dd 00:00:00.000");
                     string FechaHasta = fechaHasta.ToString("yyyy-MM-dd 00:00:00.000");
 
-                    if (HoraDesde != "" && HoraHasta != "" && Anio != "" && mes != "")
+                    if (HoraDesde != "" && HoraHasta != "" && Anio != "" && Anio.Length < 5 && mes != "")
                     {
 
                         Int32 FechaDesdeInt = Convert.ToInt32(HoraDesde);
@@ -206,7 +194,6 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                         if (FechaDesdeInt < FechaHastaInt)
                         {
                             if (FechaDesde >= fechaHoy)
-                            //if (Convert.ToInt32(txtAnio.Text) >= 2016)
                             {
                                 DataGridViewRow d = dgvProfesional.SelectedRows[0];
                                 string IdProfesionalS = d.Cells[2].Value.ToString();
@@ -215,9 +202,6 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                                 Int32 IdEspecialidad = Convert.ToInt32(IdEspecialidadS);
                                 string diaS = cmbDias.Text;
                                 Int32 Dia = funciones.numeroDiaSemana(diaS);
-
-                                //                    if (verificarDiaCargado())
-                                //                   {
 
                                 String query = "SELECT RANDOM.CHEQUEAR_AGENDA ('" + IdProfesional + "', '" + IdEspecialidad + "', '" + Dia + "', '" + FechaDesde.Year + "', '" + FechaDesde.Month + "', '" + fechaHasta.Year + "', '" + fechaHasta.Month + "') AS id";
                                 SqlDataReader reader = Conexion.ejecutarQuery(query);
@@ -270,10 +254,6 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                 MessageBox.Show("Seleccione un Profesional", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             }
-           /* else
-            {
-                MessageBox.Show("Ingrese fechas validas, 'Fecha disponible desde' igual o posterior o el dia de hoy y 'Fecha disponible hasta' mayor a la fecha desde", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }*/
 
         
         public Int32 UltimoDiaMes(Int32 Anio, string Mes)
@@ -407,12 +387,12 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
         {
             dgvNuevaAgenda.DataSource = null;
             string dniS = txtDNI.Text;
-            if (dniS != "")
+            if (dniS != "" && dniS.Length <= 18)
             {
 
                 Int32 dni = Convert.ToInt32(dniS);
                 Int32 rta = validarDNI(dni);
-                if (rta == 1)
+                if (rta == 1) 
                 {
                     dgvProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_PROFESIONAL_CON_DNI", Conexion.generarArgumentos("@DNI"), dni);
                     dgvProfesional.Columns[2].Visible = false;
@@ -444,36 +424,10 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             comboBox1.Text = null;
             comboBox2.Text = null;
             DateTime fechaHoy = funciones.ObtenerFecha();
-            //dtpFechaDesde.Value = fechaHoy;
-            //dtpFechaHasta.Value = fechaHoy;
             cmbMes.Text = null;
             txtAnio.Text = null;
             dgvNuevaAgenda.DataSource = null;
         }
-
-    /*    public bool verificarDiaCargado()
-        {
-            DataGridViewRow d = dgvProfesional.SelectedRows[0];
-            Int32 IdProfesional = Convert.ToInt32(d.Cells[2].Value);
-            Int32 Dia = funciones.numeroDiaSemana(cmbDias.Text);
-            string FechaDesde = dtpFechaDesde.Value.ToString("yyyy-MM-dd");
-            string FechaHasta = dtpFechaHasta.Value.ToString("yyyy-MM-dd");
-                       
-
-            String query = "SELECT RANDOM.VERIFICACION_DIA ('" + IdProfesional + "','" + Dia + "','" + FechaDesde + "','" + FechaHasta + "' ) AS id";
-            SqlDataReader reader = Conexion.ejecutarQuery(query);
-            reader.Read();
-            int respuesta = int.Parse(reader["id"].ToString());
-            reader.Close();
-            if (respuesta == 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }*/
 
         public Int32 validarDNI(Int32 dni)
         {
@@ -494,8 +448,6 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
 
         public void limpiarCampos()
         {
-            //dgvProfesional.DataSource = null;
-            //txtDNI.Text = null;
             cmbDias.Text = null;
             comboBox1.Items.Clear();
             comboBox2.Items.Clear();
@@ -503,7 +455,6 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             comboBox2.Text = null;
             cmbMes.Text = null;
             txtAnio.Text = null;
-            //dgvNuevaAgenda.DataSource = null;
         }
 
         public void cargaAgenda()

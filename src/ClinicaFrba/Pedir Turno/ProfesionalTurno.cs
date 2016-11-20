@@ -132,9 +132,9 @@ namespace ClinicaFrba.Pedir_Turno
             Int32 afiliadoValidacion = int.Parse(reader["id"].ToString());
             reader.Close();
 
-            
 
-                if (textAfiliado.Text != "" && afiliadoValidacion != -1)
+
+            if (textAfiliado.Text != "" && textAfiliado.Text.Length <= 18 && afiliadoValidacion != -1)
                 {
 
                     Int32 selectedRowCount = dgvHorariosDisp.Rows.GetRowCount(DataGridViewElementStates.Selected);

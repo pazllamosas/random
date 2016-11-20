@@ -286,19 +286,19 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private bool validacion()
         {
-            if (this.txtNombre.Text.Trim() == "")
+            if (this.txtNombre.Text.Trim() == "" && txtNombre.Text.Length <= 18)
                 return false;
-            if (this.txtApellido.Text.Trim() == "")
+            if (this.txtApellido.Text.Trim() == "" && txtApellido.Text.Length <= 18)
                 return false;
-            if (this.txtTelefono.Text.Trim() == "")
+            if (this.txtTelefono.Text.Trim() == "" && txtTelefono.Text.Length <= 18)
                 return false;
-            if (this.txtDomicilio.Text.Trim() == "")
+            if (this.txtDomicilio.Text.Trim() == "" && txtDomicilio.Text.Length <= 18)
                 return false;
-            if (this.txtNroDoc.Text.Trim() == "")
+            if (this.txtNroDoc.Text.Trim() == "" && txtNroDoc.Text.Length <= 18)
                 return false;
-            if (this.txtFamACargo.Text.Trim() == "")
+            if (this.txtFamACargo.Text.Trim() == "" && txtFamACargo.Text.Length <= 18)
                 return false;
-            if (this.txtMail.Text.Trim() == "")
+            if (this.txtMail.Text.Trim() == "" && txtMail.Text.Length <= 18)
                 return false;
             if (cmbSexo.Text.Trim() == "")
                 return false;
