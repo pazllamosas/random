@@ -42,25 +42,32 @@ namespace ClinicaFrba.Cancelar_Atencion
 
         private void btnBuscarTurno_Click(object sender, EventArgs e)
         {
-            string query = "SELECT RANDOM.VALIDAR_AFILIADO ('" + txtAfiliado.Text + "') AS id";
-            SqlDataReader reader = Conexion.ejecutarQuery(query);
-            reader.Read();
-            Int32 afiliadoValidacion = int.Parse(reader["id"].ToString());
-            reader.Close();
-
-            if (txtAfiliado.Text.Length > 0 && IsNumber(txtAfiliado.Text) && afiliadoValidacion != -1)
+            if (txtAfiliado.Text.Length > 0 && IsNumber(txtAfiliado.Text) && txtAfiliado.Text.Length <= 18)
             {
-                string fecha = funciones.ObtenerFecha().ToString();
-                DateTime fechaHoy = Convert.ToDateTime(fecha);
-                string afiliadoS = txtAfiliado.Text;
-                Int32 Afiliado = Convert.ToInt32(afiliadoS);
+                string query = "SELECT RANDOM.VALIDAR_AFILIADO ('" + txtAfiliado.Text + "') AS id";
+                SqlDataReader reader = Conexion.ejecutarQuery(query);
+                reader.Read();
+                Int32 afiliadoValidacion = int.Parse(reader["id"].ToString());
+                reader.Close();
 
-                dgvTurnosCancelar.DataSource = Conexion.obtenerTablaProcedure("RANDOM.CANCELACION_TURNO_AFILIADO", Conexion.generarArgumentos("@Afiliado", "Fecha"), Afiliado, fechaHoy);
-                dgvTurnosCancelar.Columns[0].Visible = false;
+                if (afiliadoValidacion != -1)
+                {
+                    string fecha = funciones.ObtenerFecha().ToString();
+                    DateTime fechaHoy = Convert.ToDateTime(fecha);
+                    string afiliadoS = txtAfiliado.Text;
+                    Int32 Afiliado = Convert.ToInt32(afiliadoS);
+
+                    dgvTurnosCancelar.DataSource = Conexion.obtenerTablaProcedure("RANDOM.CANCELACION_TURNO_AFILIADO", Conexion.generarArgumentos("@Afiliado", "Fecha"), Afiliado, fechaHoy);
+                    dgvTurnosCancelar.Columns[0].Visible = false;
+                }
+                else
+                {
+                    MessageBox.Show("Debe ingresar un número de afiliado válido");
+                }
             }
             else
             {
-                MessageBox.Show("Debe ingresar un número de afiliado válido");
+                MessageBox.Show("Debe ingresar un número de longitud menor a 18");
             }
         }
 
