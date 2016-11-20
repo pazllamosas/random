@@ -296,7 +296,7 @@ namespace ClinicaFrba.Abm_Afiliado
                 return false;
             if (this.txtNroDoc.Text.Trim() == "" && txtNroDoc.Text.Length <= 18)
                 return false;
-            if (this.txtFamACargo.Text.Trim() == "" && txtFamACargo.Text.Length <= 18)
+            if (this.txtFamACargo.Text.Trim() == "" && txtFamACargo.Text.Length <= 10)
                 return false;
             if (this.txtMail.Text.Trim() == "" && txtMail.Text.Length <= 18)
                 return false;
