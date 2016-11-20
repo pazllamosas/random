@@ -76,6 +76,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             // 
             // cmbDias
             // 
+            this.cmbDias.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbDias.FormattingEnabled = true;
             this.cmbDias.Location = new System.Drawing.Point(332, 217);
             this.cmbDias.Name = "cmbDias";
@@ -116,6 +117,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(204, 261);
             this.comboBox1.Name = "comboBox1";
@@ -125,6 +127,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             // 
             // comboBox2
             // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Location = new System.Drawing.Point(526, 262);
             this.comboBox2.Name = "comboBox2";
@@ -221,6 +224,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             // 
             // cmbMes
             // 
+            this.cmbMes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbMes.FormattingEnabled = true;
             this.cmbMes.Location = new System.Drawing.Point(243, 319);
             this.cmbMes.Name = "cmbMes";

@@ -85,6 +85,7 @@
             // 
             // cmbSemestre
             // 
+            this.cmbSemestre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSemestre.FormattingEnabled = true;
             this.cmbSemestre.Items.AddRange(new object[] {
             "Primer semestre",

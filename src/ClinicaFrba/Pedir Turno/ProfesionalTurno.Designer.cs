@@ -98,6 +98,7 @@
             // 
             // cmbEspecialidad
             // 
+            this.cmbEspecialidad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbEspecialidad.FormattingEnabled = true;
             this.cmbEspecialidad.Location = new System.Drawing.Point(559, 133);
             this.cmbEspecialidad.Name = "cmbEspecialidad";
@@ -117,6 +118,7 @@
             // 
             // cmbProfesional
             // 
+            this.cmbProfesional.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbProfesional.FormattingEnabled = true;
             this.cmbProfesional.Location = new System.Drawing.Point(205, 133);
             this.cmbProfesional.Name = "cmbProfesional";

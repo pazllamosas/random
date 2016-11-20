@@ -62,6 +62,7 @@
             // 
             // cmbTipoCancelacion
             // 
+            this.cmbTipoCancelacion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTipoCancelacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbTipoCancelacion.FormattingEnabled = true;
             this.cmbTipoCancelacion.Location = new System.Drawing.Point(366, 241);
@@ -143,6 +144,7 @@
             // 
             // cmbProfesional
             // 
+            this.cmbProfesional.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbProfesional.FormattingEnabled = true;
             this.cmbProfesional.Location = new System.Drawing.Point(368, 69);
             this.cmbProfesional.Name = "cmbProfesional";

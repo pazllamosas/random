@@ -54,6 +54,7 @@
             // 
             // cmbSemestre
             // 
+            this.cmbSemestre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSemestre.Items.AddRange(new object[] {
             "Primer semestre",
             "Segundo semestre"});
