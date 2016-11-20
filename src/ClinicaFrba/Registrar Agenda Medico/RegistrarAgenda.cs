@@ -411,9 +411,17 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             {
 
                 Int32 dni = Convert.ToInt32(dniS);
-                dgvProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_PROFESIONAL_CON_DNI", Conexion.generarArgumentos("@DNI"), dni);
-                dgvProfesional.Columns[2].Visible = false;
-                dgvProfesional.Columns[4].Visible = false;
+                Int32 rta = validarDNI(dni);
+                if (rta == 1)
+                {
+                    dgvProfesional.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TRAER_PROFESIONAL_CON_DNI", Conexion.generarArgumentos("@DNI"), dni);
+                    dgvProfesional.Columns[2].Visible = false;
+                    dgvProfesional.Columns[4].Visible = false;
+                }
+                else
+                {
+                    MessageBox.Show("Seleccione un DNI valido", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
             else
             {
@@ -466,6 +474,23 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                 return false;
             }
         }*/
+
+        public Int32 validarDNI(Int32 dni)
+        {
+            String query = "SELECT RANDOM.VALIDAR_DNI ('" + dni + "') AS id";
+            SqlDataReader reader = Conexion.ejecutarQuery(query);
+            reader.Read();
+            int respuesta = int.Parse(reader["id"].ToString());
+            reader.Close();
+            if (respuesta == 1)
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
 
         public void limpiarCampos()
         {

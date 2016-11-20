@@ -217,7 +217,9 @@ IF OBJECT_ID('RANDOM.PEDIDO_DE_TURNO') IS NOT NULL
  DROP PROCEDURE RANDOM.PEDIDO_DE_TURNO
 IF OBJECT_ID('RANDOM.CHEQUEAR_AGENDA') IS NOT NULL
  DROP FUNCTION RANDOM.CHEQUEAR_AGENDA
-
+IF OBJECT_ID('RANDOM.VALIDAR_DNI') IS NOT NULL
+ DROP FUNCTION RANDOM.VALIDAR_DNI
+  
 
 -- DROP TRIGGERS
 
@@ -1786,7 +1788,7 @@ BEGIN
 		DECLARE @X INT
 
         UPDATE RANDOM.BONO
-        SET Usado= 1, ConsultaNumero = (SELECT MAX(ConsultaNumero) FROM RANDOM.BONO) --aclarar en la estrategia esto !
+        SET Usado= 1, ConsultaNumero = (SELECT MAX(ConsultaNumero) FROM RANDOM.BONO)
         WHERE IdBono = @IdBono
 
 		SET @X = (SELECT A.IdTurno FROM RANDOM.TURNO A WHERE A.IdAfiliado = @IdAfiliado 
@@ -1911,36 +1913,6 @@ GO
 
 
 -----AGENDA------
-/*
-GO
-CREATE FUNCTION RANDOM.VERIFICACION_DIA(@IdProfesional int, @Dia int,@FechaDesde datetime, @FechaHasta datetime)
-RETURNS nvarchar(255)
-AS BEGIN
-	
-	DECLARE @DiaCargado int
-	SELECT @DiaCargado = Dia FROM RANDOM.AGENDA_HORARIO_DISPONIBLE 
-		WHERE IdProfesional = @IdProfesional 
-			AND Activa = 1 
-			AND (@FechaDesde BETWEEN FechaDesde AND FechaHasta) 
-			AND (@FechaHasta BETWEEN FechaDesde AND FechaHasta)
-			--AND @FechaDesde =FechaDesde 
-			--AND @FechaHasta = FechaHasta
-	DECLARE @Resultado int
-	
-	IF (@Dia = @DiaCargado)
-		BEGIN
-		SELECT @Resultado = 1
-		END
-	ELSE 
-		BEGIN
-		SELECT @Resultado = 0
-		END
-
-RETURN @Resultado
-
-END
-GO*/
-
 GO
 CREATE PROCEDURE RANDOM.CARGA_AGENDA(@IdProfesional int, @IdEspecialidad int, @HoraDesde nvarchar(255), @HoraHasta nvarchar(255), @Dia int,
 @FechaDesde DATETIME, @FechaHasta DATETIME) AS
@@ -1958,12 +1930,7 @@ SELECT @HorasACargar = ((CAST(@HoraHasta AS INT)) -(CAST(@HoraDesde AS INT)))
 			AND datepart(MONTH, A.FechaHasta) = datepart(MONTH, @FechaHasta))))
 
 	BEGIN
---set @HorasCargadas = (SELECT ((CAST(A.HoraHasta AS INT)) -(CAST(A.HoraDesde AS INT)))
--- FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @IdProfesional AND --A.IdEspecialidad = @IdEspecialidad AND
---	datepart(year, A.FechaDesde) = datepart(year, @FechaDesde) AND datepart(MONTH, A.FechaDesde) = datepart(MONTH, @FechaDesde)  AND
---	datepart(year, A.FechaHasta) = datepart(year, @FechaHasta) AND datepart(MONTH, A.FechaHasta) = datepart(MONTH, @FechaHasta))
 
---SELECT @HorasCargadas = HorasAcumuladas FROM RANDOM.PROFESIONAL WHERE IdProfesional = @IdProfesional
 				IF (@HorasACargar < 48)
 				BEGIN
 				INSERT INTO RANDOM.AGENDA_HORARIO_DISPONIBLE
@@ -2030,7 +1997,6 @@ AS BEGIN
 
 	IF((SELECT count (*) FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A 
 		WHERE A.IdProfesional = @IdProfesional 
-		--AND A.IdEspecialidad = @IdEspecialidad 
 		AND @Dia = A.Dia 
 		AND datepart(year, A.FechaDesde) = @FechaDesdeAnio AND datepart(MONTH, A.FechaDesde) = @FechaDesdeMes 
 		AND datepart(year, A.FechaHasta) = @FechaHastaAnio AND datepart(MONTH, A.FechaHasta) = @FechaHastaMes)
@@ -2056,42 +2022,25 @@ BEGIN
 	WHERE A.Documento = @DNI AND A.IdPersona = C.IdProfesional AND C.IdEspecialidad = B.IdEspecialidad
 	ORDER BY B.Descripcion
 END
+go
+
+CREATE FUNCTION RANDOM.VALIDAR_DNI(@DNI int)
+RETURNS INT
+AS BEGIN
+DECLARE @RTA INT
+IF(EXISTS (SELECT * FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B WHERE B.IdProfesional = A.IdPersona AND A.Documento = @DNI))
+BEGIN
+SET @RTA = 1
+END
+ELSE
+BEGIN
+SET @RTA = -1
+END
+RETURN @RTA
+END
+GO
 
 
---GO 
---CREATE PROCEDURE RANDOM.GET_AGENDA(@IdProfesional int)  AS
---BEGIN
-
---	CREATE TABLE #TABLA_DE_DIAS_NUMERO (
---		DiaNumero INT,
---		DiaLetra nvarchar(255)
---	)
-	
---	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
---	VALUES ('domingo', 1)
---	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
---	VALUES ('lunes', 2)
---	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
---	VALUES ('martes', 3)
---	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
---	VALUES ('miércoles', 4)
---	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
---	VALUES ('jueves', 5)
---	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
---	VALUES ('viernes', 6)
---	INSERT TABLA_DE_DIAS_NUMERO (DiaLetra, DiaNumero)
---	VALUES ('sábado', 7)
-	
-	
---	SELECT B.DiaLetra, A.HoraDesde, A.HoraHasta 
---	FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A, #TABLA_DE_DIAS_NUMERO B
---	WHERE A.IdProfesional = @IdProfesional AND A.Activa = 1
---	AND A.Dia = B.DiaNumero
-	
---	IF OBJECT_ID('#TABLA_DE_DIAS_NUMERO') IS NOT NULL
---	DROP TABLE #TABLA_DE_DIAS_NUMERO
---END 
---GO
 GO  
 CREATE PROCEDURE RANDOM.GET_AGENDA(@IdProfesional int)  AS
 BEGIN
@@ -2132,11 +2081,4 @@ BEGIN
 	AND A.habilitado = 0
 	ORDER BY 2
 END
-         
-	/* PARA PROBAR LO DE LA AGENDA !!!	 
-	SELECT * FROM RANDOM.AGENDA_HORARIO_DISPONIBLE WHERE IdProfesional = 5578
-
-
-		dni =  96743144     id 5578  apellido arias
-		dni 2 = 10675835
-		*/
+GO
