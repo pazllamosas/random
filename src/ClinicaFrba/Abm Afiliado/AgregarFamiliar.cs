@@ -114,27 +114,23 @@ namespace ClinicaFrba.Abm_Afiliado
                 return false;
             }
 
-            if (txtMail.Text.Length >= 18)
+            if (txtMail.Text.Length >= 70)
             {
                 MessageBox.Show("Verifique la longitud del mail", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return false;
             }
-            if (txtNombre.Text.Length >= 18)
+            if (txtNombre.Text.Length >= 58)
             {
                 MessageBox.Show("Verifique la longitud del nombre", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return false;
             }
-            if (txtApellido.Text.Length >= 18)
+            if (txtApellido.Text.Length >= 58)
             {
                 MessageBox.Show("Verifique la longitud del apellido", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return false;
             }
             
-            if (txtDomicilio.Text.Length >= 18)
-            {
-                MessageBox.Show("Verifique la longitud del domicilio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return false;
-            }
+            
                 
             return true;
         }

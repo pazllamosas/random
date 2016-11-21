@@ -312,12 +312,12 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private bool validacionLongitud()
         {
-            if (txtNombre.Text.Length >= 18)
+            if (txtNombre.Text.Length >= 58)
             {
                 MessageBox.Show("Nombre supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return false;
             }
-                if (txtApellido.Text.Length >= 18)
+                if (txtApellido.Text.Length >= 58)
                 {
                     MessageBox.Show("Apellido supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return false;
@@ -327,11 +327,7 @@ namespace ClinicaFrba.Abm_Afiliado
                 MessageBox.Show("Teléfono supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return false;
             }
-            if (txtDomicilio.Text.Length >= 18)
-            {
-                MessageBox.Show("Domicilio supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return false;
-            }
+            
             if (txtNroDoc.Text.Length >= 18)
             {
                 MessageBox.Show("Nro documento supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -342,7 +338,7 @@ namespace ClinicaFrba.Abm_Afiliado
                 MessageBox.Show("Familiar a cargo supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return false;
             }
-            if (txtMail.Text.Length >= 18)
+            if (txtMail.Text.Length >= 70)
             {
                 MessageBox.Show("Mail supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return false;
