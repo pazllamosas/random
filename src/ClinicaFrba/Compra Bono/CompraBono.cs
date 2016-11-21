@@ -155,7 +155,7 @@ namespace ClinicaFrba.Compra_Bono
 
         private Int32 calculoMontoTotal(Int32 afiliado, Int32 cantidadBonos)
         {
-            String query = "SELECT RANDOM.VALIDAR_AFILIADO ('" + afiliado + "') AS id";
+            String query = "SELECT RANDOM.VALIDAR_AFILIADO_SOLO_RAIZ ('" + afiliado + "') AS id";
             SqlDataReader reader = Conexion.ejecutarQuery(query);
             reader.Read();
             Int32 afiliadoValidacion = int.Parse(reader["id"].ToString());

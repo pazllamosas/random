@@ -163,6 +163,9 @@ DROP PROCEDURE RANDOM.COMPRA_DE_BONO
 IF OBJECT_ID('RANDOM.CALCULO_MONTO') IS NOT NULL
 DROP FUNCTION RANDOM.CALCULO_MONTO
 
+IF OBJECT_ID('RANDOM.VALIDAR_AFILIADO_SOLO_RAIZ') IS NOT NULL
+DROP FUNCTION RANDOM.VALIDAR_AFILIADO_SOLO_RAIZ
+
 --10 pedido de turno
 IF OBJECT_ID('RANDOM.FILTRAR_MEDICO') IS NOT NULL
 DROP PROCEDURE RANDOM.FILTRAR_MEDICO
@@ -1714,7 +1717,8 @@ BEGIN
 	  DECLARE @IdTurno INT
 
 	  SET @IdEspecialidad = (SELECT B.IdEspecialidad FROM RANDOM.ESPECIALIDAD B WHERE B.Descripcion = @Especialidad)
-	  SET @IdAgenda = (SELECT A.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @Profesional AND A.Dia = @Dia AND A.IdEspecialidad = @IdEspecialidad AND A.Activa = 1)
+	  SET @IdAgenda = (SELECT A.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @Profesional 
+	  AND A.Dia = @Dia AND A.IdEspecialidad = @IdEspecialidad AND A.Activa = 1)
 	  SELECT @IdTurno = (SELECT IdTurno FROM RANDOM.TURNO WHERE IdTurno = (SELECT MAX(IdTurno) FROM RANDOM.TURNO))
 	  
 	  INSERT INTO RANDOM.TURNO(IdTurno, IdAgenda, IdAfiliado, FechaYHoraTurno, Habilitado, IdEspecialidad)
@@ -1727,10 +1731,28 @@ CREATE FUNCTION RANDOM.VALIDAR_AFILIADO(@IdAfiliado int)
  RETURNS INT
  AS BEGIN
     DECLARE @Resultado INT
- 	IF (EXISTS (SELECT * FROM RANDOM.AFILIADO WHERE NumeroAfiliadoRaiz = @IdAfiliado) 
-	AND (SELECT Estado FROM RANDOM.AFILIADO WHERE NumeroAfiliadoRaiz= @IdAfiliado) = 1)
+ 	IF (EXISTS (SELECT * FROM RANDOM.AFILIADO WHERE CONCAT(NumeroAfiliadoRaiz, NumeroAfiliadoExt) = @IdAfiliado) 
+	AND (SELECT Estado FROM RANDOM.AFILIADO WHERE CONCAT(NumeroAfiliadoRaiz, NumeroAfiliadoExt)= @IdAfiliado) = 1)
  	   BEGIN
         SET @Resultado = @IdAfiliado
+ 	   END
+ 	ELSE
+ 	   BEGIN
+    SET @Resultado = -1
+ 	   END
+ 
+ 	RETURN @Resultado
+ END
+GO
+
+CREATE FUNCTION RANDOM.VALIDAR_AFILIADO_SOLO_RAIZ(@IdAfiliado int)
+ RETURNS INT
+ AS BEGIN
+    DECLARE @Resultado INT
+ 	IF (EXISTS (SELECT * FROM RANDOM.AFILIADO WHERE NumeroAfiliadoRaiz = @IdAfiliado) 
+	AND (SELECT Estado FROM RANDOM.AFILIADO WHERE NumeroAfiliadoRaiz = @IdAfiliado) = 1)
+ 	   BEGIN
+        SET @Resultado = 1
  	   END
  	ELSE
  	   BEGIN
@@ -1772,12 +1794,17 @@ BEGIN
 END
 GO
 
+
 CREATE PROCEDURE RANDOM.BONOS_DISPONIBLES(@IdAfiliado INT) AS 
 BEGIN
+	
+	DECLARE @RAIZ INT
+	SET @RAIZ = (SELECT A.NumeroAfiliadoRaiz FROM RANDOM.AFILIADO A WHERE CONCAT(A.NumeroAfiliadoRaiz, A.NumeroAfiliadoExt) = @IdAfiliado)
 
 	SELECT DISTINCT B.IdAfiliado, A.IdBono
 	FROM RANDOM.BONO A, RANDOM.COMPRA_BONO B, RANDOM.AFILIADO C
-	WHERE @IdAfiliado = B.IdAfiliado AND A.IdCompra = B.IdCompra and A.Usado = 0 AND A.Habilitado = 1
+	WHERE @RAIZ = B.IdAfiliado 
+	AND A.IdCompra = B.IdCompra and A.Usado = 0 AND A.Habilitado = 1
 	AND A.Usado = 0 AND A.IdPlan = C.IdPlan AND C.Estado = 1
 END
 GO
