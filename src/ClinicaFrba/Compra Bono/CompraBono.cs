@@ -25,9 +25,10 @@ namespace ClinicaFrba.Compra_Bono
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (txtNroAfiliado.Text != "" && txtNroAfiliado.Text.Length < 10 && txtCantBonos.Text != "" && txtCantBonos.Text.Length < 10)
+            if (txtNroAfiliado.Text != "" && txtCantBonos.Text != "" )
             {
-
+                if(txtNroAfiliado.Text.Length < 10 && txtCantBonos.Text.Length < 10)
+                {
                 bool afiliadoEnNumeros = funciones.permiteNumeros(txtNroAfiliado.Text);
                 bool cantidadBonosEnNumeros = funciones.permiteNumeros(txtCantBonos.Text);
 
@@ -65,6 +66,11 @@ namespace ClinicaFrba.Compra_Bono
                 {
                     MessageBox.Show("El afiliado y bono deben ser numeros", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
+            }
+             else
+            {
+                    MessageBox.Show("Para comprar bonos, ingrese longitudes validas para afiliado y cantidad", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
             }
             else
             {
@@ -108,8 +114,10 @@ namespace ClinicaFrba.Compra_Bono
 
         private void calculoMonto_Click(object sender, EventArgs e)
         {
-            if (txtNroAfiliado.Text != "" && txtNroAfiliado.Text.Length < 10 && txtCantBonos.Text != "" && txtCantBonos.Text.Length < 10)
+            if (txtNroAfiliado.Text != "" && txtCantBonos.Text != "" )
             {
+                if (txtNroAfiliado.Text.Length < 10 && txtCantBonos.Text.Length < 10 )
+                {
                 bool afiliadoEnNumeros = funciones.permiteNumeros(txtNroAfiliado.Text);
                 bool cantidadBonosEnNumeros = funciones.permiteNumeros(txtCantBonos.Text);
 
@@ -132,7 +140,13 @@ namespace ClinicaFrba.Compra_Bono
                     MessageBox.Show("El afiliado y bono deben ser numeros", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
+         
             else
+            {
+                    MessageBox.Show("Para saber monto total, ingrese longitudes validas para afiliado y cantidad", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            }
+                else
             {
                 MessageBox.Show("Para saber monto total, ingrese afiliado y cantidad", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
