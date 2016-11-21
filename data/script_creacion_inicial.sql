@@ -1604,13 +1604,11 @@ CREATE PROCEDURE RANDOM.COMPRA_DE_BONO(@IdAfiliado int, @Cantidad int, @MontoTot
  	DECLARE @Raiz INT
  	DECLARE @IdCompra INT
  
- 	SET @IdPlan = (SELECT A.IdPlan FROM RANDOM.AFILIADO A WHERE A.NumeroAfiliadoRaiz = @IdAfiliado)
+ 	SET @IdPlan = (SELECT A.IdPlan FROM RANDOM.AFILIADO A WHERE A.NumeroAfiliadoRaiz = @IdAfiliado AND A.NumeroAfiliadoExt = (CONCAT('0','1')))
  	SET @Monto = (SELECT B.MontoConsulta FROM RANDOM.PLANES B WHERE B.IdPlan = @IdPlan)
- 	SET @Estado = (SELECT C.Estado FROM RANDOM.AFILIADO C WHERE C.NumeroAfiliadoRaiz = @IdAfiliado)
- 	SET @Raiz = (SELECT D.NumeroAfiliadoRaiz FROM RANDOM.AFILIADO D WHERE D.NumeroAfiliadoRaiz = @IdAfiliado)
  
  	   INSERT INTO RANDOM.COMPRA_BONO(IdAfiliado, Fecha, MontoTotal, Cantidad)
- 	   values(@Raiz, @Fecha, @MontoTotal, @Cantidad)
+ 	   values(@IdAfiliado, @Fecha, @MontoTotal, @Cantidad)
  	   SET @IdCompra = SCOPE_IDENTITY()
   
  	 WHILE (@CONTADOR < @Cantidad)
@@ -1633,10 +1631,29 @@ CREATE FUNCTION RANDOM.CALCULO_MONTO(@IdAfiliado int, @Cantidad int)
  	DECLARE @Numero INT
  	DECLARE @Resultado INT
  	
-       SET @IdPlan = (SELECT A.IdPlan FROM RANDOM.AFILIADO A WHERE A.NumeroAfiliadoRaiz = @IdAfiliado)
+       SET @IdPlan = (SELECT A.IdPlan FROM RANDOM.AFILIADO A WHERE A.NumeroAfiliadoRaiz = @IdAfiliado AND A.NumeroAfiliadoExt = (CONCAT('0','1')))
  	   SET @Monto = (SELECT P.MontoConsulta FROM RANDOM.PLANES P WHERE P.IdPlan = @IdPlan)
  	   SET @MontoTotal = (@Monto * @Cantidad)
  	   SET @Resultado = @MontoTotal
+ 
+ 	RETURN @Resultado
+ END
+GO
+
+CREATE FUNCTION RANDOM.VALIDAR_AFILIADO_SOLO_RAIZ(@IdAfiliado int)
+ RETURNS INT
+ AS BEGIN
+    DECLARE @Resultado INT
+ 	IF (EXISTS (SELECT * FROM RANDOM.AFILIADO WHERE NumeroAfiliadoRaiz = @IdAfiliado) 
+	AND (SELECT Estado FROM RANDOM.AFILIADO WHERE NumeroAfiliadoRaiz = @IdAfiliado and NumeroAfiliadoExt =(concat('0', '1'))) = 1)
+	--valido activo el princiapal!!!
+ 	   BEGIN
+        SET @Resultado = 1
+ 	   END
+ 	ELSE
+ 	   BEGIN
+    SET @Resultado = -1
+ 	   END
  
  	RETURN @Resultado
  END
@@ -1745,23 +1762,7 @@ CREATE FUNCTION RANDOM.VALIDAR_AFILIADO(@IdAfiliado int)
  END
 GO
 
-CREATE FUNCTION RANDOM.VALIDAR_AFILIADO_SOLO_RAIZ(@IdAfiliado int)
- RETURNS INT
- AS BEGIN
-    DECLARE @Resultado INT
- 	IF (EXISTS (SELECT * FROM RANDOM.AFILIADO WHERE NumeroAfiliadoRaiz = @IdAfiliado) 
-	AND (SELECT Estado FROM RANDOM.AFILIADO WHERE NumeroAfiliadoRaiz = @IdAfiliado) = 1)
- 	   BEGIN
-        SET @Resultado = 1
- 	   END
- 	ELSE
- 	   BEGIN
-    SET @Resultado = -1
- 	   END
- 
- 	RETURN @Resultado
- END
-GO
+
 
 --11 registro de llegada para atencion medica
 CREATE PROCEDURE RANDOM.GET_ESPECIALIDAD AS
