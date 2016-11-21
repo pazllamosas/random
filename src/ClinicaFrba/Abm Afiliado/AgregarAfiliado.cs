@@ -232,22 +232,25 @@ namespace ClinicaFrba.Abm_Afiliado
 
                 if (validacion())
                 {
-                    if(!existeDni(txtNroDoc.Text))
+                    if (validacionLongitud())
                     {
-                    Conexion.executeProcedure("RANDOM.CREAR_AFILIADO",
-                        Conexion.generarArgumentos("@NOMBRE", "@APELLIDO", "@SEXO", "@IDTIPODOC", "@DOCUMENTO", "@DIRECCION", "@TELEFONO", "@MAIL", "@FECHANAC", "@IDESTADOCIVIL", "@FAMILIARESACARGO", "@IDPLAN"),
-                            txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value.ToString("yyyy-MM-dd"), Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));
-                    MessageBox.Show("Afiliado Principal Creado");
+                        if (!existeDni(txtNroDoc.Text))
+                        {
+                            Conexion.executeProcedure("RANDOM.CREAR_AFILIADO",
+                                Conexion.generarArgumentos("@NOMBRE", "@APELLIDO", "@SEXO", "@IDTIPODOC", "@DOCUMENTO", "@DIRECCION", "@TELEFONO", "@MAIL", "@FECHANAC", "@IDESTADOCIVIL", "@FAMILIARESACARGO", "@IDPLAN"),
+                                    txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value.ToString("yyyy-MM-dd"), Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));
+                            MessageBox.Show("Afiliado Principal Creado");
 
-                        this.cargaDeAgregarFamiliar();
+                            this.cargaDeAgregarFamiliar();
 
-                        string query = "SELECT RANDOM.GET_NRO_AFILIADO_RAIZ ('" + txtNroDoc.Text + "') AS id";
-                        SqlDataReader reader = Conexion.ejecutarQuery(query);
-                        reader.Read();
-                        string respuesta = (reader["id"].ToString());
-                        reader.Close();
-                        txtNroAf.Text =  respuesta;
+                            string query = "SELECT RANDOM.GET_NRO_AFILIADO_RAIZ ('" + txtNroDoc.Text + "') AS id";
+                            SqlDataReader reader = Conexion.ejecutarQuery(query);
+                            reader.Read();
+                            string respuesta = (reader["id"].ToString());
+                            reader.Close();
+                            txtNroAf.Text = respuesta;
 
+                        }
                     }
 
                 }
@@ -286,21 +289,7 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private bool validacion()
         {
-            if (this.txtNombre.Text.Trim() == "" && txtNombre.Text.Length <= 18)
-                return false;
-            if (this.txtApellido.Text.Trim() == "" && txtApellido.Text.Length <= 18)
-                return false;
-            if (this.txtTelefono.Text.Trim() == "" && txtTelefono.Text.Length <= 18)
-                return false;
-            if (this.txtDomicilio.Text.Trim() == "" && txtDomicilio.Text.Length <= 18)
-                return false;
-            if (this.txtNroDoc.Text.Trim() == "" && txtNroDoc.Text.Length <= 18)
-                return false;
-            if (this.txtFamACargo.Text.Trim() == "" && txtFamACargo.Text.Length <= 10)
-                return false;
-            if (this.txtMail.Text.Trim() == "" && txtMail.Text.Length <= 18)
-                return false;
-            if (cmbSexo.Text.Trim() == "")
+           if (cmbSexo.Text.Trim() == "")
                 return false;
             if (cmbTipoDoc.SelectedIndex == -1)
                 return false;
@@ -310,9 +299,66 @@ namespace ClinicaFrba.Abm_Afiliado
                 return false;
             if (dtpFechaNac.Text.Length < 0)
                  return false;
+            if(this.txtNombre.Text.Trim() == "" )
+                return false;
+            if (this.txtApellido.Text.Trim() == "")
+                return false;
+            if(this.txtTelefono.Text.Trim() == "" )
+            return false;
+            if (this.txtDomicilio.Text.Trim() == "")
+                return false;
+            if(this.txtNroDoc.Text.Trim() == "")
+                return false;
+            if(this.txtFamACargo.Text.Trim() == "")
+                return false;
+            if(this.txtMail.Text.Trim() == "" )
+                return false;
+
+
+
 
             
 
+            return true;
+        }
+
+        private bool validacionLongitud()
+        {
+            if (txtNombre.Text.Length >= 18)
+            {
+                MessageBox.Show("Nombre supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+                if (txtApellido.Text.Length >= 18)
+                {
+                    MessageBox.Show("Apellido supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return false;
+                }
+            if (txtTelefono.Text.Length >= 18)
+            {
+                MessageBox.Show("Teléfono supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+            if (txtDomicilio.Text.Length >= 18)
+            {
+                MessageBox.Show("Domicilio supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+            if (txtNroDoc.Text.Length >= 18)
+            {
+                MessageBox.Show("Nro documento supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+            if (txtFamACargo.Text.Length >= 10)
+            {
+                MessageBox.Show("Familiar a cargo supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+            if (txtMail.Text.Length >= 18)
+            {
+                MessageBox.Show("Mail supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
             return true;
         }
 

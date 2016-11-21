@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -94,9 +95,31 @@ namespace ClinicaFrba.Abm_Afiliado
                 return false;
             if (dtpFechaNac.Checked == false)
                 return false;
+            if (this.txtTelefono.Text.Trim() == "")
+                return false;
+            if (this.txtNroDoc.Text.Trim() == "")
+                return false;
 
             return true;
         }
+
+        private bool validacionLongitud()
+        {
+            if (txtTelefono.Text.Length >= 18)
+            {
+                MessageBox.Show("Verifique la longitud del teléfono", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+                
+            if (txtNroDoc.Text.Length >= 18)
+            {
+                MessageBox.Show("Verifique la longitud del nro de documento", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+                
+            return true;
+        }
+
 
         private void txtNroDoc_TextChanged(object sender, EventArgs e)
         {
@@ -112,63 +135,69 @@ namespace ClinicaFrba.Abm_Afiliado
         {
             if (validacion())
             {
-
-                string nombre = txtNombre.Text;
-                string apellido = txtApellido.Text;
-                string sexo = cmbSexo.Text;
-                Int32 idTipoDocumento = Convert.ToInt32(cmbTipoDoc.SelectedValue);
-                Int32 documento = Convert.ToInt32(txtNroDoc.Text);
-                string direccion = txtDomicilio.Text;
-                string telefono = txtTelefono.Text;
-                string mail = txtMail.Text;
-                string fechaNacimiento = dtpFechaNac.Value.ToString("yyyy-MM-dd");
-                string nroAfiliadoRaiz = txtNroAf.Text;
-                Int32 idEstadoCivil = estadoCivilAfiliado;
-                Int32 idPlan = planMedico;
-                Int32 cantidadACargo = cantACargoAfiliado;
-
-                //if (Conexion.executeProcedure("RANDOM.CREAR_FAMILIAR",
-                //     Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
-                //     nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento, idPlan, idEstadoCivil, nroAfiliadoRaiz))
-
-                    if (cmbFamiliar.Text == "Pareja")
+                if (validacionLongitud())
+                {
+                    if (!existeDni(txtNroDoc.Text))
                     {
-                        if (Conexion.executeProcedure("RANDOM.CREAR_CONYUGE",
-                    Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
-                    nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento, idPlan, idEstadoCivil, nroAfiliadoRaiz))
+                        string nombre = txtNombre.Text;
+                        string apellido = txtApellido.Text;
+                        string sexo = cmbSexo.Text;
+                        Int32 idTipoDocumento = Convert.ToInt32(cmbTipoDoc.SelectedValue);
+                        Int32 documento = Convert.ToInt32(txtNroDoc.Text);
+                        string direccion = txtDomicilio.Text;
+                        string telefono = txtTelefono.Text;
+                        string mail = txtMail.Text;
+                        string fechaNacimiento = dtpFechaNac.Value.ToString("yyyy-MM-dd");
+                        string nroAfiliadoRaiz = txtNroAf.Text;
+                        Int32 idEstadoCivil = estadoCivilAfiliado;
+                        Int32 idPlan = planMedico;
+                        Int32 cantidadACargo = cantACargoAfiliado;
+
+                        //if (Conexion.executeProcedure("RANDOM.CREAR_FAMILIAR",
+                        //     Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
+                        //     nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento, idPlan, idEstadoCivil, nroAfiliadoRaiz))
+
+                        if (cmbFamiliar.Text == "Pareja")
                         {
-                            Conexion.executeProcedure("RANDOM.NRO_AFILIADO_CONYUGE",
-                            Conexion.generarArgumentos("NROAFILIADORAIZ", "DOCUMENTO"),
-                            nroAfiliadoRaiz, documento);
-                            MessageBox.Show("Conyuge creado");
-                            this.LimpiarCampos();
-                            this.Hide();
+                            if (Conexion.executeProcedure("RANDOM.CREAR_CONYUGE",
+                        Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
+                        nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento, idPlan, idEstadoCivil, nroAfiliadoRaiz))
+                            {
+                                Conexion.executeProcedure("RANDOM.NRO_AFILIADO_CONYUGE",
+                                Conexion.generarArgumentos("NROAFILIADORAIZ", "DOCUMENTO"),
+                                nroAfiliadoRaiz, documento);
+                                MessageBox.Show("Conyuge creado");
+                                this.LimpiarCampos();
+                                this.Hide();
+                            }
+                            else
+                            {
+                                this.LimpiarCampos();
+                                this.Hide();
+                            }
                         }
                         else
                         {
-                            this.LimpiarCampos();
-                            this.Hide();
+                            if (Conexion.executeProcedure("RANDOM.CREAR_FAMILIAR",
+                         Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
+                         nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento, idPlan, idEstadoCivil, nroAfiliadoRaiz))
+                            {
+                                Conexion.executeProcedure("RANDOM.NRO_AFILIADO_FAMILIARES",
+                                Conexion.generarArgumentos("NROAFILIADORAIZ", "DOCUMENTO", "CANTIDAD_A_CARGO"),
+                                nroAfiliadoRaiz, documento, cantidadACargo);
+                                MessageBox.Show("Familiar a cargo creado");
+                                this.LimpiarCampos();
+                                this.Hide();
+                            }
+                            else
+                            {
+                                this.LimpiarCampos();
+                                this.Hide();
+                            }
                         }
                     }
-                    else
-                    {
-                        if (Conexion.executeProcedure("RANDOM.CREAR_FAMILIAR",
-                     Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
-                     nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento, idPlan, idEstadoCivil, nroAfiliadoRaiz))
-                        {
-                            Conexion.executeProcedure("RANDOM.NRO_AFILIADO_FAMILIARES",
-                            Conexion.generarArgumentos("NROAFILIADORAIZ", "DOCUMENTO", "CANTIDAD_A_CARGO"),
-                            nroAfiliadoRaiz, documento, cantidadACargo);
-                            MessageBox.Show("Familiar a cargo creado");
-                            this.LimpiarCampos();
-                            this.Hide();
-                        }
-                        else
-                        {
-                            this.LimpiarCampos();
-                            this.Hide();
-                        }
-                    }
+                }
+                
             }
             else
             {
@@ -212,6 +241,26 @@ namespace ClinicaFrba.Abm_Afiliado
             }
         }
 
+        public Boolean existeDni(string dni)
+        {
+            string query = "SELECT RANDOM.EXISTE_AFILIADO ('" + dni + "' ) AS id";
+
+            SqlDataReader reader = Conexion.ejecutarQuery(query);
+            reader.Read();
+            int respuesta = int.Parse(reader["id"].ToString());
+            reader.Close();
+
+            if (respuesta >= 1)
+            {
+                MessageBox.Show("El Dni ya esta ingresado en la base", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return true;
+
+             }
+            else
+            {
+                return false;
+            }
+        }
 
 
     }
