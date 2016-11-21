@@ -10,6 +10,7 @@ namespace ClinicaFrba
 {
     class funciones
     {
+        //algoritmo de SHA256
         internal static string SHA256Encripta(string input)
         {
             SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
@@ -46,6 +47,8 @@ namespace ClinicaFrba
             }
             return true;
         }
+
+        //obtener la fecha del archivo config
         internal static DateTime ObtenerFecha()
         {
             string fecha;
@@ -53,6 +56,8 @@ namespace ClinicaFrba
             DateTime fechaHoy = Convert.ToDateTime(fecha);
             return fechaHoy;
         }
+
+        //obtener el número de día del string del día
         internal static Int32 numeroDiaSemana(string dia)
         {
             if (dia == "domingo") { return 1; }

@@ -43,9 +43,12 @@ namespace ClinicaFrba.Inicio
             string contrasenia = funciones.SHA256Encripta(this.password);
             if (cmbRol.SelectedIndex != -1)
             {
+               //verifica que sea un usuario válido
                 if (usuarioValido(usuario))
                 {
+                    //verifica que sea la contraseña correcta
                     if (passwordValida(usuario, password))
+                        //verifica que sea el rol adecuado para el usuario
                         if (rolValido(usuario, cmbRol.Text))
                         {
                             {
@@ -106,6 +109,7 @@ namespace ClinicaFrba.Inicio
             }
         }
 
+        
         public Boolean passwordValida(string usuario, string password)
         {
 
@@ -142,7 +146,7 @@ namespace ClinicaFrba.Inicio
             intentos(usuario, 0);
         }
 
-
+        //Método para contabilizar los intentos del usuario al login
         private static void intentos(string usuario, int acceso)
         {
             Conexion.executeProcedure("RANDOM.INTENTO_LOGIN", Conexion.generarArgumentos("@usuario", "@acceso"), usuario, acceso);

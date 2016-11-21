@@ -19,6 +19,7 @@ namespace ClinicaFrba.Abm_Afiliado
             InitializeComponent();
         }
 
+        //se obtiene el historial para el afiliado (todo el grupo con mismo número raiz)
         public void cargaDatos(string nroAfiliadoRaiz)
         {
             numeroAfiliadoRaiz = nroAfiliadoRaiz;

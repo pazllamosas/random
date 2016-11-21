@@ -29,6 +29,7 @@ namespace ClinicaFrba.Abm_Afiliado
             FormProvider.Agafiliado.Show();
         }
 
+        //Recibe los datos del afiliado principal y agrega las personas a cargar
         public void recepcionDatos(string nroAfiliadoRaiz, Int32 estadoCivil, Int32 cantACargo, Int32 idPlan)
         {
             txtNroAf.Text = nroAfiliadoRaiz;
@@ -56,11 +57,7 @@ namespace ClinicaFrba.Abm_Afiliado
 
             this.cmbTipoDoc.SelectedIndex = -1;
 
-            //if (estadoCivilAfiliado == "Casado" || estadoCivilAfiliado == "Concubinato")
-            //    cmbFamiliar.Items.Add("Pareja");
-            //if (Convert.ToInt32(cantACargoAfiliado) > 0)
-            //    cmbFamiliar.Items.Add("Familiar a cargo");
-        }
+         }
 
         private void txtTelefono_TextChanged(object sender, EventArgs e)
         {
@@ -119,7 +116,23 @@ namespace ClinicaFrba.Abm_Afiliado
 
             if (txtMail.Text.Length >= 18)
             {
-                MessageBox.Show("Mail supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Verifique la longitud del mail", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+            if (txtNombre.Text.Length >= 18)
+            {
+                MessageBox.Show("Verifique la longitud del nombre", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+            if (txtApellido.Text.Length >= 18)
+            {
+                MessageBox.Show("Verifique la longitud del apellido", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+            
+            if (txtDomicilio.Text.Length >= 18)
+            {
+                MessageBox.Show("Verifique la longitud del domicilio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return false;
             }
                 
@@ -139,10 +152,13 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void btnGuardar_Click_1(object sender, EventArgs e)
         {
+            //valida que todos los campos esten completos
             if (validacion())
             {
+                //valida la longitud de los campos
                 if (validacionLongitud())
                 {
+                    //verifica que no exista el numero de documento en la base
                     if (!existeDni(txtNroDoc.Text))
                     {
                         string nombre = txtNombre.Text;
@@ -159,10 +175,7 @@ namespace ClinicaFrba.Abm_Afiliado
                         Int32 idPlan = planMedico;
                         Int32 cantidadACargo = cantACargoAfiliado;
 
-                        //if (Conexion.executeProcedure("RANDOM.CREAR_FAMILIAR",
-                        //     Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
-                        //     nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento, idPlan, idEstadoCivil, nroAfiliadoRaiz))
-
+                        //si agrega a la pareja entonces se ejecuta el procedure de agregar el cónyuge
                         if (cmbFamiliar.Text == "Pareja")
                         {
                             if (Conexion.executeProcedure("RANDOM.CREAR_CONYUGE",
@@ -184,6 +197,7 @@ namespace ClinicaFrba.Abm_Afiliado
                         }
                         else
                         {
+                            //si agrega a un familiar entonces se ejecuta el procedure de agregar el familiar
                             if (Conexion.executeProcedure("RANDOM.CREAR_FAMILIAR",
                          Conexion.generarArgumentos("NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDPLAN", "IDESTADOCIVIL", "NRO_AFILIADO_RAIZ"),
                          nombre, apellido, sexo, idTipoDocumento, documento, direccion, telefono, mail, fechaNacimiento, idPlan, idEstadoCivil, nroAfiliadoRaiz))

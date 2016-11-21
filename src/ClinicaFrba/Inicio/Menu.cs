@@ -18,6 +18,7 @@ namespace ClinicaFrba.Inicio
             InitializeComponent();
         }
 
+        //Método para habilitar la funcionalidades dependiendo del rol con el que el usuario se loggea
         public void habilitarFuncionalidadesPorRol(string rol)
         {
             btnTop5.Visible = false;

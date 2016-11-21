@@ -29,6 +29,7 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void btnEditarAf_Click(object sender, EventArgs e)
         {
+            //pasaje de los datos del afiliado que se desea editar
             Int32 selectedRowCount = dgvAfiliados.Rows.GetRowCount(DataGridViewElementStates.Selected);
             if(selectedRowCount == 1)
             {
@@ -78,8 +79,10 @@ namespace ClinicaFrba.Abm_Afiliado
         {
             string dni = txtBusqDni.Text;
 
+            //verifica que el campo del dni no este vacio y que tenga la longitud adecuada
             if (!(dni == "" || dni.Length >= 18))
             {
+                //verifica que el dni ingresa sea de un afiliado activo
                 if (afiliadoValido(dni))
                 {
                     dgvAfiliados.DataSource = Conexion.obtenerTablaProcedure("RANDOM.GET_AFILIADOS", Conexion.generarArgumentos("@DNI"), dni);
@@ -116,6 +119,7 @@ namespace ClinicaFrba.Abm_Afiliado
             
         }
 
+        //verifica que exista el afiliado
         public Boolean afiliadoValido(string dni)
         {
             string query = "SELECT RANDOM.EXISTE_AFILIADO ('" + dni + "' ) AS id";
@@ -145,9 +149,12 @@ namespace ClinicaFrba.Abm_Afiliado
                 DataGridViewRow d = dgvAfiliados.SelectedRows[0];
                 string idAfiliado = d.Cells[0].Value.ToString();
 
+                //se efectua la baja del afiliado
                 Conexion.executeProcedure("RANDOM.BAJA_AFILIADO",
                     Conexion.generarArgumentos("IDPERSONA"),
                     idAfiliado);
+
+                //se efectua la asignacion de los números de afilado de extensión
                 Conexion.executeProcedure("RANDOM.BAJA_AFILIADO_ASIGNACION",
                     Conexion.generarArgumentos("IDPERSONA"),
                     idAfiliado);

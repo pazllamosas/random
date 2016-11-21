@@ -47,7 +47,7 @@
             // 
             // textAfiliado
             // 
-            this.textAfiliado.Location = new System.Drawing.Point(184, 75);
+            this.textAfiliado.Location = new System.Drawing.Point(272, 80);
             this.textAfiliado.Name = "textAfiliado";
             this.textAfiliado.Size = new System.Drawing.Size(154, 20);
             this.textAfiliado.TabIndex = 17;
@@ -57,11 +57,11 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(55, 74);
+            this.label2.Location = new System.Drawing.Point(12, 79);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(107, 18);
+            this.label2.Size = new System.Drawing.Size(238, 18);
             this.label2.TabIndex = 18;
-            this.label2.Text = "Ingrese Afiliado";
+            this.label2.Text = "Ingrese su nro de afiliado completo";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // dgvHorariosDisp
@@ -183,7 +183,7 @@
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Image = global::ClinicaFrba.Properties.Resources.delete;
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(410, 67);
+            this.button1.Location = new System.Drawing.Point(474, 72);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(148, 32);
             this.button1.TabIndex = 29;

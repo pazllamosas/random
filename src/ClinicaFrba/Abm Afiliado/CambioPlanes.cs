@@ -26,6 +26,7 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            //valida que los campos esten completos
             if (validacion())
             {
 
@@ -33,7 +34,8 @@ namespace ClinicaFrba.Abm_Afiliado
                 Int32 idPlan = cmbNuevoPlan.SelectedIndex;
                 string nuevoPlan = cmbNuevoPlan.Text;
                 string motivo = txtMotivo.Text;
-
+                
+                //se efectua el cambio del plan
                 Conexion.executeProcedure("RANDOM.CAMBIO_PLAN",
                     Conexion.generarArgumentos("@NUMERO_AFILIADO_RAIZ", "@IDPLAN", "@MOTIVO"),
                         numeroAfiliado, idPlan, motivo);

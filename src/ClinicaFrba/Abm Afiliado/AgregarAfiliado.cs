@@ -98,6 +98,7 @@ namespace ClinicaFrba.Abm_Afiliado
             FormProvider.AgregarFamiliarAfiliado.Show();
         }
 
+        //Método para cargar datos y habilitar funcionalidades, dependiendo si se esta editando y si es afiliado principal
         public void EditarAfiliado(string idAfiliado, string apellido, string nombre, string nroDocumento, string telefono, string direccion, string fechaNacimiento, string sexo, string tipoDocumento, string plan, string estadoCivil, string cantACargo, string mail, string nroAfiliadoRaiz, string nroAfiliadoExt)
         {
             this.cargaCombos();
@@ -136,8 +137,10 @@ namespace ClinicaFrba.Abm_Afiliado
             }
             else
             {
-                cmbPlanMedico.Enabled = false;
+                cmbPlanMedico.Enabled = true;
                 btnCambiarPlan.Visible = true;
+                cmbEstadoCivil.Enabled = true;
+                txtFamACargo.Enabled = true;
 
             }
 
@@ -202,23 +205,28 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            //ver si se esta editando o no
             if (!editando)
             {
-
-
-                if (validacion())
+                //valida que los campos esten completos
+              if (validacion())
                 {
+                  //valida la longitud de los campos
                     if (validacionLongitud())
                     {
+                        //verifica que el nro de documento no este cargado en la base
                         if (!existeDni(txtNroDoc.Text))
                         {
+                            //creación del afiliado
                             Conexion.executeProcedure("RANDOM.CREAR_AFILIADO",
                                 Conexion.generarArgumentos("@NOMBRE", "@APELLIDO", "@SEXO", "@IDTIPODOC", "@DOCUMENTO", "@DIRECCION", "@TELEFONO", "@MAIL", "@FECHANAC", "@IDESTADOCIVIL", "@FAMILIARESACARGO", "@IDPLAN"),
                                     txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value.ToString("yyyy-MM-dd"), Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));
                             MessageBox.Show("Afiliado Principal Creado");
 
+                            //habilitación o no del boton de agregar afiliar
                             this.cargaDeAgregarFamiliar();
 
+                            //se obtiene el numero de afiliado raiz
                             string query = "SELECT RANDOM.GET_NRO_AFILIADO_RAIZ ('" + txtNroDoc.Text + "') AS id";
                             SqlDataReader reader = Conexion.ejecutarQuery(query);
                             reader.Read();
@@ -237,21 +245,30 @@ namespace ClinicaFrba.Abm_Afiliado
             }
             else
             {
+                //valida que los campos esten completos
                 if (validacion())
                 {
-                    string dni = txtNroDoc.Text;
-                    string query = "SELECT RANDOM.GET_ID_PERSONA ('" + dni + "' ) AS id";
+                    //valida la longitud de los campos
+                    if (validacionLongitud())
+                    {
+                        string dni = txtNroDoc.Text;
+                        string query = "SELECT RANDOM.GET_ID_PERSONA ('" + dni + "' ) AS id";
 
-                    SqlDataReader reader = Conexion.ejecutarQuery(query);
-                    reader.Read();
-                    int idPersona = int.Parse(reader["id"].ToString());
-                    reader.Close();
+                        SqlDataReader reader = Conexion.ejecutarQuery(query);
+                        reader.Read();
+                        int idPersona = int.Parse(reader["id"].ToString());
+                        reader.Close();
 
-                    Conexion.executeProcedure("RANDOM.MODIFICAR_AFILIADO",
-                        Conexion.generarArgumentos("IDPERSONA", "NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDESTADOCIVIL", "FAMILIARESACARGO", "IDPLAN"),
-                        idPersona, txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value.ToString("yyyy-MM-dd"), Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));
-                    MessageBox.Show("Afiliado Principal Modificado");
-                    this.cargaDeAgregarFamiliar();
+                        //modificación del afiliado
+                        Conexion.executeProcedure("RANDOM.MODIFICAR_AFILIADO",
+                            Conexion.generarArgumentos("IDPERSONA", "NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDESTADOCIVIL", "FAMILIARESACARGO", "IDPLAN"),
+                            idPersona, txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value.ToString("yyyy-MM-dd"), Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));
+                        
+                        MessageBox.Show("Afiliado Modificado");
+
+                        //habilitación o no del boton de agregar afiliar
+                        this.cargaDeAgregarFamiliar();
+                    }
                 }
                 else
                 {
@@ -358,7 +375,7 @@ namespace ClinicaFrba.Abm_Afiliado
         }
 
 
-
+        //Habilita el boton de agregar un familiar si cumple con las condiciones
         private void cargaDeAgregarFamiliar()
         {
             Int32 EstadoCivil = cmbEstadoCivil.SelectedIndex;
@@ -397,6 +414,7 @@ namespace ClinicaFrba.Abm_Afiliado
             }
         }
 
+        //Método que verifica que el dni no exista en la base
         public Boolean existeDni(string dni)
         {
             string query = "SELECT RANDOM.EXISTE_AFILIADO ('" + dni + "' ) AS id";
@@ -418,6 +436,7 @@ namespace ClinicaFrba.Abm_Afiliado
             }
         }
 
+        //carga el nuevo plan luego de la modificación del mismo
         public void cargaNuevoPlan(string nuevoPlan)
         {
             cmbPlanMedico.Text = nuevoPlan;
