@@ -1257,7 +1257,7 @@ IF ( @FAMILIARESACARGO > @FAMILIARESACARGAR)
 		AND P.Documento = @DOCUMENTO
 
 	INSERT INTO RANDOM.HISTORIAL_PLAN(IdAfiliado, IdPlan, Fecha, Motivo)
-	VALUES((SELECT A.IdPersona FROM RANDOM.AFILIADO A, RANDOM.PERSONA P WHERE A.IdPersona = P.IdPersona AND P.Documento = @DOCUMENTO), @IDPLAN, GETDATE(), 'Inscripcion Afiliado Principal')
+	VALUES((SELECT A.IdPersona FROM RANDOM.AFILIADO A, RANDOM.PERSONA P WHERE A.IdPersona = P.IdPersona AND P.Documento = @DOCUMENTO), @IDPLAN, GETDATE(), 'Inscripcion Afiliado Familiar')
 
 	END
 
@@ -1302,7 +1302,7 @@ IF (( NOT EXISTS ( SELECT * FROM RANDOM.AFILIADO WHERE NumeroAfiliadoRaiz = @NRO
 		AND P.Documento = @DOCUMENTO
 
 	INSERT INTO RANDOM.HISTORIAL_PLAN(IdAfiliado, IdPlan, Fecha, Motivo)
-	VALUES((SELECT A.IdPersona FROM RANDOM.AFILIADO A, RANDOM.PERSONA P WHERE A.IdPersona = P.IdPersona AND P.Documento = @DOCUMENTO), @IDPLAN, GETDATE(), 'Inscripcion Afiliado Principal')
+	VALUES((SELECT A.IdPersona FROM RANDOM.AFILIADO A, RANDOM.PERSONA P WHERE A.IdPersona = P.IdPersona AND P.Documento = @DOCUMENTO), @IDPLAN, GETDATE(), 'Inscripcion Afiliado Cónyuge')
 
 
 	END

@@ -21,27 +21,7 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void AgregarAfiliado_Load(object sender, EventArgs e)
         {
-            //cmbPlanMedico.ValueMember = "IdPlan";
-            //cmbPlanMedico.DisplayMember = "Nombre";
-            //cmbPlanMedico.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_PLANES");
-
-            //cmbSexo.Items.Add("Femenino");
-            //cmbSexo.Items.Add("Masculino");
-
-            //cmbEstadoCivil.ValueMember = "IdEstadoCivil";
-            //cmbEstadoCivil.DisplayMember = "Descripcion";
-            //cmbEstadoCivil.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_ESTADO_CIVIL");
-
-            //cmbTipoDoc.ValueMember = "IdTipoDocumento";
-            //cmbTipoDoc.DisplayMember = "Descripcion";
-            //cmbTipoDoc.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_TIPO_DOCUMENTO");
-
-           
-
-            //this.cmbPlanMedico.SelectedIndex = -1;
-            //this.cmbSexo.SelectedIndex = -1;
-            //this.cmbEstadoCivil.SelectedIndex = -1;
-            //this.cmbTipoDoc.SelectedIndex = -1;
+            
 
 
         }
@@ -135,9 +115,6 @@ namespace ClinicaFrba.Abm_Afiliado
             cmbPlanMedico.SelectedValue = plan;
             cmbTipoDoc.SelectedValue = tipoDocumento;
 
-            //cmbSexo.Items.Add("Femenino");
-            //cmbSexo.Items.Add("Masculino");
-
             editando = true;
             btnGuardar.Text = "Guardar";
 
@@ -146,9 +123,7 @@ namespace ClinicaFrba.Abm_Afiliado
             cmbTipoDoc.Enabled = false;
             txtNroDoc.ReadOnly = true;
             dtpFechaNac.Enabled = false;
-            //cmbPlanMedico.Enabled = false;
-            //btnCambiarPlan.Visible = true;
-
+            
             this.cargaDeAgregarFamiliar();
 
             if (!(nroAfiliadoExt == "01"))
@@ -199,6 +174,7 @@ namespace ClinicaFrba.Abm_Afiliado
             this.txtNroAf.Clear();
             this.txtNroDoc.Clear();
             this.txtTelefono.Clear();
+            this.cmbSexo.Items.Clear();
             dtpFechaNac.Checked = false;
             dtpFechaNac.Value = DateTime.Today;
             
@@ -314,11 +290,6 @@ namespace ClinicaFrba.Abm_Afiliado
             if(this.txtMail.Text.Trim() == "" )
                 return false;
 
-
-
-
-            
-
             return true;
         }
 
@@ -399,15 +370,7 @@ namespace ClinicaFrba.Abm_Afiliado
             {
                 btnAgregarFamiliar.Enabled = false;
             }
-            //if (Convert.ToInt32(txtFamACargo.Text) > 0)
-            //{
-            //    btnAgregarFamiliar.Enabled = true;
-            //}
-            //else
-            //{
-            //    btnAgregarFamiliar.Enabled = false;
-            //}
-
+           
         }
 
         private void cmbSexo_SelectedIndexChanged(object sender, EventArgs e)

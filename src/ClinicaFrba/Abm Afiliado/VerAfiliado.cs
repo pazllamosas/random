@@ -78,7 +78,7 @@ namespace ClinicaFrba.Abm_Afiliado
         {
             string dni = txtBusqDni.Text;
 
-            if (!(dni == ""))
+            if (!(dni == "" || dni.Length >= 18))
             {
                 if (afiliadoValido(dni))
                 {
@@ -96,7 +96,7 @@ namespace ClinicaFrba.Abm_Afiliado
             }
             else
             {
-                MessageBox.Show("Por favor ingrese un Número de Documento", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Por favor ingrese un Número de Documento Válido", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
