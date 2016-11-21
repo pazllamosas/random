@@ -61,6 +61,7 @@
             this.dgvRol.Location = new System.Drawing.Point(12, 85);
             this.dgvRol.MultiSelect = false;
             this.dgvRol.Name = "dgvRol";
+            this.dgvRol.ReadOnly = true;
             this.dgvRol.Size = new System.Drawing.Size(647, 211);
             this.dgvRol.TabIndex = 0;
             this.dgvRol.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRol_CellContentClick);
@@ -69,11 +70,13 @@
             // 
             this.IdRol.HeaderText = "Número Rol";
             this.IdRol.Name = "IdRol";
+            this.IdRol.ReadOnly = true;
             // 
             // RolDesc
             // 
             this.RolDesc.HeaderText = "Descripción Rol";
             this.RolDesc.Name = "RolDesc";
+            this.RolDesc.ReadOnly = true;
             // 
             // EstadoRol
             // 

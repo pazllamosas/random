@@ -69,6 +69,7 @@
             this.dgvAfiliados.Location = new System.Drawing.Point(16, 174);
             this.dgvAfiliados.MultiSelect = false;
             this.dgvAfiliados.Name = "dgvAfiliados";
+            this.dgvAfiliados.ReadOnly = true;
             this.dgvAfiliados.Size = new System.Drawing.Size(647, 171);
             this.dgvAfiliados.TabIndex = 3;
             // 

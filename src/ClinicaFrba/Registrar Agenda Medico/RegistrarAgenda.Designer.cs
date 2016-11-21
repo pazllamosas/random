@@ -175,11 +175,13 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             // dgvProfesional
             // 
             this.dgvProfesional.AllowUserToAddRows = false;
+            this.dgvProfesional.AllowUserToDeleteRows = false;
             this.dgvProfesional.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvProfesional.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvProfesional.Location = new System.Drawing.Point(50, 95);
             this.dgvProfesional.MultiSelect = false;
             this.dgvProfesional.Name = "dgvProfesional";
+            this.dgvProfesional.ReadOnly = true;
             this.dgvProfesional.Size = new System.Drawing.Size(643, 105);
             this.dgvProfesional.TabIndex = 52;
             this.dgvProfesional.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProfesional_CellContentClick);

@@ -116,6 +116,12 @@ namespace ClinicaFrba.Abm_Afiliado
                 MessageBox.Show("Verifique la longitud del nro de documento", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+
+            if (txtMail.Text.Length >= 18)
+            {
+                MessageBox.Show("Mail supera la longitud máxima", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
                 
             return true;
         }
