@@ -67,9 +67,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             cmbMes.Items.Add("Diciembre");
             this.cmbMes.SelectedIndex = -1;
 
-
-
-        }
+    }
 
 
         private void cmbDias_SelectedIndexChanged(object sender, EventArgs e)
@@ -193,6 +191,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
 
                         if (FechaDesdeInt < FechaHastaInt)
                         {
+                            //verifica que la fecha sea la correcta
                             if (FechaDesde >= fechaHoy)
                             {
                                 DataGridViewRow d = dgvProfesional.SelectedRows[0];
@@ -203,6 +202,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                                 string diaS = cmbDias.Text;
                                 Int32 Dia = funciones.numeroDiaSemana(diaS);
 
+                                //chequeo de la agenda
                                 String query = "SELECT RANDOM.CHEQUEAR_AGENDA ('" + IdProfesional + "', '" + IdEspecialidad + "', '" + Dia + "', '" + FechaDesde.Year + "', '" + FechaDesde.Month + "', '" + fechaHasta.Year + "', '" + fechaHasta.Month + "') AS id";
                                 SqlDataReader reader = Conexion.ejecutarQuery(query);
                                 reader.Read();
@@ -210,6 +210,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                                 reader.Close();
                                 if (resultado == 1)
                                 {
+                                    //carga la nueva agenda
                                     if (Conexion.executeProcedure("RANDOM.CARGA_AGENDA", Conexion.generarArgumentos("@IdProfesional", "@IdEspecialidad", "@HoraDesde", "@HoraHasta", "@Dia", "@FechaDesde", "@FechaHasta"), IdProfesional, IdEspecialidad, HoraDesde, HoraHasta, Dia, FechaDesde, fechaHasta))
                                     
                                     {
@@ -383,6 +384,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
 
         }
 
+        //busqueda del profesional
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             dgvNuevaAgenda.DataSource = null;
@@ -429,6 +431,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             dgvNuevaAgenda.DataSource = null;
         }
 
+        //validacion del dni
         public Int32 validarDNI(Int32 dni)
         {
             String query = "SELECT RANDOM.VALIDAR_DNI ('" + dni + "') AS id";

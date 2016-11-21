@@ -34,6 +34,7 @@ namespace ClinicaFrba.Cancelar_Atencion
         {
             if (cmbProfesional.SelectedIndex >= 0)
             {
+                //verifica las fechas
                 if (dtpDesde.Value.Date > funciones.ObtenerFecha() && dtpHasta.Value.Date > funciones.ObtenerFecha() && dtpDesde.Value.Date <= dtpHasta.Value.Date)
                 {
                     if (cmbTipoCancelacion.SelectedIndex >= 0 && txtMotivoCancelacion.Text.Length > 0)
@@ -43,6 +44,8 @@ namespace ClinicaFrba.Cancelar_Atencion
                         DateTime fechaHasta = dtpHasta.Value.Date;
                         string tipo = cmbTipoCancelacion.SelectedValue.ToString();
                         string motivo = txtMotivoCancelacion.Text;
+
+                        //cancelacion del turno del profesional
                         bool resultado = Conexion.executeProcedure("RANDOM.CANCELAR_TURNO_PROFESIONAL", Conexion.generarArgumentos("@PROFESIONAL", "@FECHADESDE", "@FECHAHASTA", "@TIPO", "@MOTIVO"), profesional, fechaDesde, fechaHasta, tipo, motivo);
                         if (resultado)
                         {

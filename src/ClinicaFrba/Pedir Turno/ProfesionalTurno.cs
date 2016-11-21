@@ -66,6 +66,7 @@ namespace ClinicaFrba.Pedir_Turno
 
         }
 
+        //busqueda de los turnos
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             DateTime fechaHoy = funciones.ObtenerFecha();
@@ -73,12 +74,15 @@ namespace ClinicaFrba.Pedir_Turno
             DateTime fechaHora = Convert.ToDateTime(fechaHoraTurnoS);
             int comparacion = DateTime.Compare(fechaHoy, fechaHora);
 
+            //verifica que la fecha sea la correcta
             if (comparacion < 0 || (fechaHoy.Year == fechaHora.Year && fechaHoy.Day == fechaHora.Day && fechaHoy.Month == fechaHora.Month))
             {
                 String dia = dayOfWeek(fechaHora);
                 string Apellido = cmbProfesional.Text;
                 string descripcion = cmbEspecialidad.Text;
                 Int32 DiaNumero = funciones.numeroDiaSemana(dia);
+
+                //verifica la seleccion del profesional
                 if (Apellido == "" && descripcion == "")
                 {
                     MessageBox.Show("Seleccione un medico y/o una especialidad", "Atención", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
@@ -122,7 +126,8 @@ namespace ClinicaFrba.Pedir_Turno
         {
 
             bool afiliadoEnNumeros = funciones.permiteNumeros(textAfiliado.Text);
-
+            
+            //valida el afiliado
             if (afiliadoEnNumeros == true && textAfiliado.Text != "" && textAfiliado.Text.Length <= 10)
                 {
                     string query = "SELECT RANDOM.VALIDAR_AFILIADO ('" + textAfiliado.Text + "') AS id";

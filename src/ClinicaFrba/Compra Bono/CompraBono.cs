@@ -27,6 +27,7 @@ namespace ClinicaFrba.Compra_Bono
         {
             if (txtNroAfiliado.Text != "" && txtCantBonos.Text != "" )
             {
+                //verifica longitudes
                 if(txtNroAfiliado.Text.Length < 10 && txtCantBonos.Text.Length < 10)
                 {
                 bool afiliadoEnNumeros = funciones.permiteNumeros(txtNroAfiliado.Text);
@@ -39,8 +40,10 @@ namespace ClinicaFrba.Compra_Bono
                     Int32 cantidadBonos = Convert.ToInt32(txtCantBonos.Text);
                     Int32 montoTotal = calculoMontoTotal(afiliado, cantidadBonos);
 
+                    //verifica el monto total
                     if (montoTotal != -1)
                     {
+                        //ejecuta la compra del bono
                         DateTime fechaHoy = funciones.ObtenerFecha();
                         bool resultado = Conexion.executeProcedure("RANDOM.COMPRA_DE_BONO", Conexion.generarArgumentos("@IdAfiliado", "@Cantidad", "@MontoTotal", "@Fecha"), afiliado, cantidadBonos, montoTotal, fechaHoy);
                         if (resultado)
@@ -116,6 +119,7 @@ namespace ClinicaFrba.Compra_Bono
         {
             if (txtNroAfiliado.Text != "" && txtCantBonos.Text != "" )
             {
+                //verifica longitudes
                 if (txtNroAfiliado.Text.Length < 10 && txtCantBonos.Text.Length < 10 )
                 {
                 bool afiliadoEnNumeros = funciones.permiteNumeros(txtNroAfiliado.Text);
@@ -152,7 +156,7 @@ namespace ClinicaFrba.Compra_Bono
             }
         }
 
-
+        //calcula el monto total de la compra
         private Int32 calculoMontoTotal(Int32 afiliado, Int32 cantidadBonos)
         {
             String query = "SELECT RANDOM.VALIDAR_AFILIADO_SOLO_RAIZ ('" + afiliado + "') AS id";

@@ -25,27 +25,16 @@ namespace ClinicaFrba.Cancelar_Atencion
 
         private void CargarTurnos()
         {
-          /*  dgvTurnosCancelar.Rows.Clear();
-            string query = "SELECT IdTurno, FechaYHoraTurno ";
-            query = query + "FROM RANDOM.TURNO T ";
-            query = query + "WHERE T.IdAfiliado = " + txtAfiliado.Text + " AND T.FechaYHoraTurno > '" + funciones.ObtenerFecha().ToString() + "' AND T.Habilitado = 0 ";
-            query = query + "ORDER BY 2";
-
-            SqlDataReader reader = Conexion.ejecutarQuery(query);
-
-            while (reader.Read())
-            {
-                dgvTurnosCancelar.Rows.Add(reader["IdTurno"], reader["FechaYHoraTurno"]);
-            }
-            reader.Close();*/
         }
 
         private void btnBuscarTurno_Click(object sender, EventArgs e)
         {
             if (IsNumber(txtAfiliado.Text))
             {
+                //verifica las longitudes 
                 if (txtAfiliado.Text.Length > 0 && txtAfiliado.Text.Length <= 10)
                 {
+                    //valida el afiliado 
                     string query = "SELECT RANDOM.VALIDAR_AFILIADO ('" + txtAfiliado.Text + "') AS id";
                     SqlDataReader reader = Conexion.ejecutarQuery(query);
                     reader.Read();
@@ -59,6 +48,7 @@ namespace ClinicaFrba.Cancelar_Atencion
                         string afiliadoS = txtAfiliado.Text;
                         Int32 Afiliado = Convert.ToInt32(afiliadoS);
 
+                        //obtiene los turnos del afiliado
                         dgvTurnosCancelar.DataSource = Conexion.obtenerTablaProcedure("RANDOM.CANCELACION_TURNO_AFILIADO", Conexion.generarArgumentos("@Afiliado", "Fecha"), Afiliado, fechaHoy);
                         dgvTurnosCancelar.Columns[0].Visible = false;
                     }
@@ -92,13 +82,15 @@ namespace ClinicaFrba.Cancelar_Atencion
                         string turno = d.Cells[0].Value.ToString();
                         string tipo = cmbTipoCancelacion.SelectedValue.ToString();
                         string motivo = txtMotivoCancelacion.Text;
+
+                        //cancelación del turno
                         resultado = resultado && Conexion.executeProcedure("RANDOM.CANCELAR_TURNO_AFILIADO", Conexion.generarArgumentos("@TURNO", "@TIPO", "@MOTIVO"), turno, tipo, motivo);
                     }
                     if (resultado)
                     {
                         MessageBox.Show("Turno(s) cancelado(s) satisfactoriamente");
                     }
-                    //CargarTurnos();
+                   
                     txtAfiliado.Text = null;
                     dgvTurnosCancelar.DataSource = null;
                     cmbTipoCancelacion.Text = null;
