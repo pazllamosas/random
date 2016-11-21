@@ -21,9 +21,7 @@ namespace ClinicaFrba.AbmRol
 
         public void CargarRoles()
         {
-            //dgvRol.Columns.Clear();
-            //dgvRol.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_ROLES");
-
+            
             dgvRol.Rows.Clear();
             string query = "SELECT IdRol, Descripcion, Estado FROM RANDOM.ROL order by IdRol";
             SqlDataReader reader = Conexion.ejecutarQuery(query);
@@ -52,7 +50,7 @@ namespace ClinicaFrba.AbmRol
                 DataGridViewRow d = dgvRol.SelectedRows[0];
                 string rol = d.Cells[0].Value.ToString();
                 string rolDesc = d.Cells[1].Value.ToString();
-               // FormProvider.AgRol.Show(); 
+               
                 FormProvider.AgRol.EditarRol(rol, rolDesc);
                 FormProvider.AgRol.Show(); 
                 this.Hide();
@@ -69,6 +67,7 @@ namespace ClinicaFrba.AbmRol
             FormProvider.MainMenu.Show();
         }
 
+        //Inhablitar un rol
         private void btnBajaRol_Click(object sender, EventArgs e)
         {
             Int32 selectedRowCount = dgvRol.Rows.GetRowCount(DataGridViewElementStates.Selected);
@@ -96,6 +95,7 @@ namespace ClinicaFrba.AbmRol
             }
         }
 
+        //verificar que es un rol Habilitado
         public Boolean rolHabilitado(string rol)
         {
             string query = "SELECT RANDOM.ROL_HABILITADO ('" + rol + "') AS id";

@@ -46,12 +46,15 @@ namespace ClinicaFrba.AbmRol
 
         private void btnCrearRol_Click(object sender, EventArgs e)
         {
+            //verifica si se esta editando o no
            if (!editando)
             {
                 string nombre = txtNombre.Text;
 
+               //verifica que todos los campos esten completos
                 if (validacion())
                 {
+                    //creación del rol
                     bool resultado = Conexion.executeProcedure("RANDOM.CREAR_ROL", Conexion.generarArgumentos("@NOMBRE"), nombre);
                     if (resultado)
                     {
@@ -73,9 +76,10 @@ namespace ClinicaFrba.AbmRol
 
             } else
             {
-                
+                //modificación del rol
                     string nombre = txtNombre.Text;
                     string idRol = txtIdRol.Text;
+               //modificación del nombre del rol, para evaluar si existe o no ese nombre del rol
                     bool resultado = Conexion.executeProcedure("RANDOM.MODIFICAR_NOMBRE_ROL", Conexion.generarArgumentos("@NOMBRE", "@ROL "), nombre, idRol);
                     if (resultado)
                     {
@@ -107,6 +111,7 @@ namespace ClinicaFrba.AbmRol
 
         }
 
+        //agrega las funcionalidades, de a una al rol que se esta editando
        private void btnAgregarFunc_Click(object sender, EventArgs e)
         {
             Int32 selectedRowCount = dgvFuncionalidades.Rows.GetRowCount(DataGridViewElementStates.Selected);
@@ -134,6 +139,7 @@ namespace ClinicaFrba.AbmRol
                 }
        }
         
+        //verifica que esa funcionalidad no este asignada a ese rol
         public Boolean existeFuncionalidad(Int32 funcionalidad, Int32 rol)
         {
             string query = "SELECT RANDOM.EXISTE_FUNCIONALIDAD_ROL ('" + funcionalidad + "', '" + rol + "' ) AS id";
@@ -150,6 +156,7 @@ namespace ClinicaFrba.AbmRol
                     }
          }
 
+        //verifica si ya existe el rol
         public Boolean existeRol(string nombre)
         {
             string query = "SELECT RANDOM.EXISTE_ROL ('" + nombre + "' ) AS id";
@@ -179,6 +186,7 @@ namespace ClinicaFrba.AbmRol
             btnCrearRol.Enabled = true;
         }
 
+        //eliminación de las funcionalidades del rol que se está editando
         private void btnEliminarFunc_Click(object sender, EventArgs e)
         {
             Int32 selectedRowCount = dgvFuncionalidades.Rows.GetRowCount(DataGridViewElementStates.Selected);
@@ -205,6 +213,7 @@ namespace ClinicaFrba.AbmRol
                 }
         }
 
+        //asigna un usuario al rol que se está editando
         private void btnAsignarUsuario_Click(object sender, EventArgs e)
         {
             Int32 idRol = Convert.ToInt32(txtIdRol.Text);
@@ -235,6 +244,7 @@ namespace ClinicaFrba.AbmRol
                 }
         }
 
+        //verifica si existe el usuario en el rol que se está editando
         public Boolean existeUsuarioEnRol(Int32 usuario, Int32 rol)
         {
             string query = "SELECT RANDOM.EXISTE_USUARIO_ROL ('" + usuario + "', '" + rol + "' ) AS id";
@@ -256,12 +266,11 @@ namespace ClinicaFrba.AbmRol
             cmbUsuario.ValueMember = "IdUsuario";
             cmbUsuario.DisplayMember = "Username";
             cmbUsuario.DataSource = Conexion.cargarTablaConsulta("RANDOM.GET_USUARIOS");
-            //this.txtNombre.Clear();
-            //this.txtIdRol.Clear();
+            
             this.cmbUsuario.SelectedIndex = -1;
-
         }
 
+        //habilitación del rol
         private void btnHabilitarRol_Click(object sender, EventArgs e)
         {
             string rolDesc = txtNombre.Text;

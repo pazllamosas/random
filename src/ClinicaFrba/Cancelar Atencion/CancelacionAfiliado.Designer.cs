@@ -131,11 +131,11 @@
             // 
             this.lblAfiliado.AutoSize = true;
             this.lblAfiliado.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAfiliado.Location = new System.Drawing.Point(77, 61);
+            this.lblAfiliado.Location = new System.Drawing.Point(12, 61);
             this.lblAfiliado.Name = "lblAfiliado";
-            this.lblAfiliado.Size = new System.Drawing.Size(197, 20);
+            this.lblAfiliado.Size = new System.Drawing.Size(256, 20);
             this.lblAfiliado.TabIndex = 10;
-            this.lblAfiliado.Text = "Ingrese número de afiliado";
+            this.lblAfiliado.Text = "Ingrese su nro de afiliado completo";
             // 
             // btnBuscarTurno
             // 
