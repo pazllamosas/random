@@ -1363,6 +1363,10 @@ BEGIN
 			WHERE IdAfiliado = @IDPERSONA
 			AND Habilitado = '0'
 
+			INSERT INTO RANDOM.HISTORIAL_PLAN(IdAfiliado, IdPlan, Fecha, Motivo)
+			VALUES(@IDPERSONA, (select IdPlan from RANDOM.AFILIADO where IdPersona = @IDPERSONA), GETDATE(), 'Baja de un afiliado')
+
+
 END
 GO
 
@@ -1405,7 +1409,7 @@ BEGIN
 	WHERE @NUMERO_AFILIADO_RAIZ = NumeroAfiliadoRaiz
 
 	INSERT INTO RANDOM.HISTORIAL_PLAN(IdAfiliado, Fecha, Motivo, IdPlan)
-	VALUES (@IDPERSONA, GETDATE(), @MOTIVO, @IDPLAN+1)
+	VALUES (@IDPERSONA, GETDATE(), ('Cambio plan por ' + @MOTIVO), @IDPLAN+1)
 	
 END
 GO
