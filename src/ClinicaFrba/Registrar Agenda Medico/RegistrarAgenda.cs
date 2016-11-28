@@ -44,7 +44,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
         {
             cmbDias.Items.Add("lunes");
             cmbDias.Items.Add("martes");
-            cmbDias.Items.Add("miércoles");
+            cmbDias.Items.Add("miÃ©rcoles");
             cmbDias.Items.Add("jueves");
             cmbDias.Items.Add("viernes");
             cmbDias.Items.Add("sabado");
@@ -154,7 +154,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
         {
             if (!funciones.permiteNumeros(txtDNI.Text))
             {
-                MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Solo se permiten nÃºmeros", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtDNI.Clear();
             }
         }
@@ -192,7 +192,11 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                         if (FechaDesdeInt < FechaHastaInt)
                         {
                             //verifica que la fecha sea la correcta
-                            if (FechaDesde >= fechaHoy)
+                           // if (FechaDesde >= fechaHoy)
+                           
+                            int comparacion = DateTime.Compare(fechaHoy, FechaDesde);
+
+                            if (comparacion < 0 || (fechaHoy.Year == FechaDesde.Year && fechaHoy.Month == FechaDesde.Month))
                             {
                                 DataGridViewRow d = dgvProfesional.SelectedRows[0];
                                 string IdProfesionalS = d.Cells[2].Value.ToString();
@@ -225,12 +229,12 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Ese día ya fue cargado", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                                    MessageBox.Show("Ese dÃ­a ya fue cargado", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                                 }
                             }
                             else
                             {
-                                MessageBox.Show("El año ingresado no puede ser menor al actual", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("La fecha ingresada no puede ser menor a la actual", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 txtAnio.Clear();
                             }
 
@@ -488,7 +492,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
         {
             if (!funciones.permiteNumeros(txtAnio.Text))
             {
-                MessageBox.Show("Solo se permiten números", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Solo se permiten nÃºmeros", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtAnio.Clear();
             }
 
