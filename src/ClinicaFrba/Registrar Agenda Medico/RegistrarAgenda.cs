@@ -29,7 +29,7 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
             comboBox1.Items.Clear();
             comboBox2.Items.Clear();
             cmbMes.Text = null;
-            cmbMes.Items.Clear();
+            //cmbMes.Items.Clear();
             txtAnio.Text = null;
             this.Hide();
             FormProvider.MainMenu.Show();
