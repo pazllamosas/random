@@ -755,8 +755,8 @@ WHERE joinBonoCompra.IdCompra = RANDOM.COMPRA_BONO.IdCompra
 
 
 /*AGENDA_HORARIO_DISPONIBLE*/
-insert INTO RANDOM.AGENDA_HORARIO_DISPONIBLE 
-SELECT DISTINCT P.IdPersona, ES.IdEspecialidad,  min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta',DATepart(weekday, M.Turno_Fecha) AS 'DIA DE SEMANA', 0, '2015-01-01 00:00:00.000', '2015-12-31 00:00:00.000',1
+insert INTO RANDOM.AGENDA_HORARIO_DISPONIBLE
+SELECT DISTINCT P.IdPersona, ES.IdEspecialidad, min(datepart(hour,m.Turno_Fecha)) as 'Hora Desde', max(datepart(hour,m.Turno_Fecha)) + 1 as 'Hora Hasta', datepart(weekday, M.Turno_Fecha) AS 'DIA DE SEMANA', 0, convert(datetime, '2015-01-01 00:00:00.000', 121), convert(datetime, '2015-12-31 00:00:00.000', 121), 1
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Medico_Dni = P.Documento
 JOIN RANDOM.ESPECIALIDAD ES ON ES.Codigo = M.Especialidad_Codigo 
