@@ -192,11 +192,11 @@ namespace ClinicaFrba.Registrar_Agenta_Medico
                         if (FechaDesdeInt < FechaHastaInt)
                         {
                             //verifica que la fecha sea la correcta
-                           // if (FechaDesde >= fechaHoy)
+                            if (FechaDesde >= fechaHoy)
                            
-                            int comparacion = DateTime.Compare(fechaHoy, FechaDesde);
+                            //int comparacion = DateTime.Compare(fechaHoy, FechaDesde);
 
-                            if (comparacion < 0 || (fechaHoy.Year == FechaDesde.Year && fechaHoy.Month == FechaDesde.Month))
+                           // if (comparacion < 0 || (fechaHoy.Year == FechaDesde.Year && fechaHoy.Month == FechaDesde.Month))
                             {
                                 DataGridViewRow d = dgvProfesional.SelectedRows[0];
                                 string IdProfesionalS = d.Cells[2].Value.ToString();
