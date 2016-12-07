@@ -642,13 +642,13 @@ VALUES('jose','jose', NULL, 1, 11111711, 'Casa Rosada', 46512356, 'sarasa@sarasa
 
 /*inserto los roles de los ususarios afiliados y medicos*/
 INSERT INTO RANDOM.USUARIO_POR_ROL(IdUsuario,IdRol)
-SELECT distinct u.IdUsuario, 2
+SELECT distinct u.IdUsuario, 3
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Medico_Dni = P.Documento
 join random.USUARIO u on u.IdUsuario = p.IdUsuario
 
 INSERT INTO RANDOM.USUARIO_POR_ROL(IdUsuario,IdRol)
-SELECT distinct u.IdUsuario, 3
+SELECT distinct u.IdUsuario, 2
 FROM gd_esquema.Maestra M
 JOIN RANDOM.PERSONA P ON M.Paciente_Dni = P.Documento
 join random.USUARIO u on u.IdUsuario = p.IdUsuario
