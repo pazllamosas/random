@@ -162,7 +162,8 @@ namespace ClinicaFrba.Pedir_Turno
                             Int32 IdProfesional = Convert.ToInt32(IdProfesionalS);
                             string IdEspecialidadS = d.Cells[4].Value.ToString();
                             Int32 IdEspecialidad = Convert.ToInt32(IdEspecialidadS);
-                            FormProvider.Turno.dataGridView1.DataSource = Conexion.obtenerTablaProcedure("RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES", Conexion.generarArgumentos("@Desde", "@Hasta", "@IdProfesional", "@Dia", "@IdEspecialidad"), HoraDesde, HoraHasta, IdProfesional, DiaNumero, IdEspecialidad);
+                             Int32 Mes = fechaHora.Month;
+                            FormProvider.Turno.dataGridView1.DataSource = Conexion.obtenerTablaProcedure("RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES", Conexion.generarArgumentos("@Desde", "@Hasta", "@IdProfesional", "@Dia", "@IdEspecialidad", "@Mes"), HoraDesde, HoraHasta, IdProfesional, DiaNumero, IdEspecialidad, Mes);
                             string Apellido = d.Cells[0].Value.ToString();
                             FormProvider.Turno.textProfesional.Text = Apellido;
                             string Especialidad = d.Cells[3].Value.ToString();
