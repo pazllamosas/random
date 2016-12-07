@@ -101,7 +101,7 @@ namespace ClinicaFrba.Inicio
             }
             if (funcionalidad == 11)
             {
-                btnRegLlegada.Visible = true;
+                btnRegResultado.Visible = true;
             }
             if (funcionalidad == 12)
             {
