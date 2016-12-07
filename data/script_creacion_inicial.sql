@@ -1693,7 +1693,7 @@ IF(@Descripcion != '' AND @Apellido != '')
 END
 GO
 
-CREATE PROCEDURE RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES(@Desde DATETIME, @Hasta DATETIME, @IdProfesional INT, @Dia INT, @IdEspecialidad INT) AS
+CREATE PROCEDURE RANDOM.PEDIDO_DE_TURNO_HORARIOS_DISPONIBLES(@Desde DATETIME, @Hasta DATETIME, @IdProfesional INT, @Dia INT, @IdEspecialidad INT, @Mes INT) AS
 BEGIN
    IF OBJECT_ID('TEMPORALTURNOS') IS NOT NULL
    DROP TABLE TEMPORALTURNOS 
@@ -1705,7 +1705,7 @@ BEGIN
    DECLARE @X DATETIME = @Desde
    DECLARE @Agenda INT
 
-   SET @Agenda = (SELECT B.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE B WHERE B.IdProfesional = @IdProfesional AND B.Dia = @Dia AND B.IdEspecialidad = @IdEspecialidad AND B.Activa = 1)
+   SET @Agenda = (SELECT B.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE B WHERE B.IdProfesional = @IdProfesional AND B.Dia = @Dia AND B.IdEspecialidad = @IdEspecialidad AND B.Activa = 1 AND MONTH(B.FechaDesde) = @Mes)
 
 	WHILE(datepart(hour,@Hasta) != datepart(hour,@X))
 	BEGIN
