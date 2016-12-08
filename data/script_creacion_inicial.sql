@@ -1675,7 +1675,7 @@ IF(@Descripcion = '')
 	FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B, RANDOM.AGENDA_HORARIO_DISPONIBLE C, RANDOM.ESPECIALIDAD_POR_PROFESIONAL D, RANDOM.ESPECIALIDAD E
 	WHERE @Apellido = A.Apellido AND A.IdPersona = B.IdProfesional AND C.Dia = @DiaNumero
 	AND D.IdProfesional = A.IdPersona AND C.IdEspecialidad = D.IdEspecialidad AND D.IdEspecialidad = E.IdEspecialidad AND C.Activa = 1
-	AND @Fecha BETWEEN C.FechaDesde AND C.FechaHasta
+	AND convert(date,@Fecha) BETWEEN C.FechaDesde AND C.FechaHasta
    END
 IF(@Apellido = '') 
   BEGIN                           
@@ -1683,7 +1683,7 @@ IF(@Apellido = '')
 	FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B, RANDOM.AGENDA_HORARIO_DISPONIBLE C, RANDOM.ESPECIALIDAD_POR_PROFESIONAL D, RANDOM.ESPECIALIDAD E
 	WHERE @Descripcion = E.Descripcion AND E.IdEspecialidad = D.IdEspecialidad AND D.IdEspecialidad = C.IdEspecialidad AND @DiaNumero = C.Dia
 	AND A.IdPersona = B.IdProfesional AND C.IdProfesional = A.IdPersona AND C.Activa = 1
-	AND @Fecha BETWEEN C.FechaDesde AND C.FechaHasta
+	AND convert(date,@Fecha) BETWEEN C.FechaDesde AND C.FechaHasta
   END
 IF(@Descripcion != '' AND @Apellido != '') 
   BEGIN
@@ -1691,7 +1691,7 @@ IF(@Descripcion != '' AND @Apellido != '')
 	FROM RANDOM.PERSONA A, RANDOM.PROFESIONAL B, RANDOM.AGENDA_HORARIO_DISPONIBLE C, RANDOM.ESPECIALIDAD_POR_PROFESIONAL D, RANDOM.ESPECIALIDAD E
 	WHERE @Descripcion = E.Descripcion AND @Apellido = A.Apellido AND E.IdEspecialidad = D.IdEspecialidad AND D.IdEspecialidad = C.IdEspecialidad
 	AND @DiaNumero = C.Dia 	AND A.IdPersona = B.IdProfesional AND C.IdProfesional = A.IdPersona AND C.Activa = 1
-	AND @Fecha BETWEEN C.FechaDesde AND C.FechaHasta
+	AND convert(date,@Fecha) BETWEEN C.FechaDesde AND C.FechaHasta
   END
 END
 GO
@@ -1743,7 +1743,7 @@ BEGIN
 
 	  SET @IdEspecialidad = (SELECT B.IdEspecialidad FROM RANDOM.ESPECIALIDAD B WHERE B.Descripcion = @Especialidad)
 	  SET @IdAgenda = (SELECT A.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @Profesional 
-	  AND A.Dia = @Dia AND A.IdEspecialidad = @IdEspecialidad AND A.Activa = 1 AND @FechaElegida between a.FechaDesde and a.FechaHasta)
+	  AND A.Dia = @Dia AND A.IdEspecialidad = @IdEspecialidad AND A.Activa = 1 AND convert(date,@FechaElegida) between a.FechaDesde and a.FechaHasta)
 	  SELECT @IdTurno = (SELECT IdTurno FROM RANDOM.TURNO WHERE IdTurno = (SELECT MAX(IdTurno) FROM RANDOM.TURNO))
 	  SET @ID = (SELECT A.IdPersona FROM RANDOM.AFILIADO A WHERE  (CONCAT (A.NumeroAfiliadoRaiz, A.NumeroAfiliadoExt)) = @Afiliado)
 
