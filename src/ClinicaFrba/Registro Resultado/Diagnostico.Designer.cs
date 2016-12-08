@@ -80,13 +80,12 @@
             // 
             // dtpFecha
             // 
-            this.dtpFecha.Checked = false;
             this.dtpFecha.Location = new System.Drawing.Point(265, 81);
             this.dtpFecha.MaxDate = new System.DateTime(3000, 1, 1, 0, 0, 0, 0);
             this.dtpFecha.MinDate = new System.DateTime(1999, 12, 27, 0, 0, 0, 0);
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(270, 20);
-            this.dtpFecha.TabIndex = 3;
+            this.dtpFecha.TabIndex = 24;
             this.dtpFecha.ValueChanged += new System.EventHandler(this.dtpFecha_ValueChanged);
             // 
             // lblSintomas
@@ -236,7 +235,6 @@
         private System.Windows.Forms.Label lblTurno;
         private System.Windows.Forms.CheckBox cckTurno;
         private System.Windows.Forms.Label lblFecha;
-        private System.Windows.Forms.DateTimePicker dtpFecha;
         private System.Windows.Forms.Label lblSintomas;
         private System.Windows.Forms.Label lblEnfermedad;
         private System.Windows.Forms.TextBox txtSintomas;
@@ -249,5 +247,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Nombre;
         private System.Windows.Forms.DataGridViewTextBoxColumn Apellido;
         private System.Windows.Forms.DataGridViewTextBoxColumn FechaYHoraTurno;
+        public System.Windows.Forms.DateTimePicker dtpFecha;
     }
 }
