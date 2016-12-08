@@ -1737,13 +1737,15 @@ BEGIN
 	  DECLARE @IdEspecialidad INT
 	  DECLARE @IdTurno INT
 
-	  SET @IdEspecialidad = (SELECT B.IdEspecialidad FROM RANDOM.ESPECIALIDAD B WHERE B.Descripcion = @Especialidad)
+	   SET @IdEspecialidad = (SELECT B.IdEspecialidad FROM RANDOM.ESPECIALIDAD B WHERE B.Descripcion = @Especialidad)
 	  SET @IdAgenda = (SELECT A.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @Profesional 
-	  AND A.Dia = @Dia AND A.IdEspecialidad = @IdEspecialidad AND A.Activa = 1)
+	  AND A.Dia = @Dia AND A.IdEspecialidad = @IdEspecialidad AND A.Activa = 1 AND @FechaElegida between a.FechaDesde and a.FechaHasta)
 	  SELECT @IdTurno = (SELECT IdTurno FROM RANDOM.TURNO WHERE IdTurno = (SELECT MAX(IdTurno) FROM RANDOM.TURNO))
 	  
 	  INSERT INTO RANDOM.TURNO(IdTurno, IdAgenda, IdAfiliado, FechaYHoraTurno, Habilitado, IdEspecialidad)
-      VALUES (@IdTurno + 1, @IdAgenda, @Afiliado, @FechaElegida, 0, @IdEspecialidad) 
+      VALUES (@IdTurno + 1, @IdAgenda, @Afiliado, @FechaElegida, 0, @IdEspecialidad)
+	  
+	 
 
 END
 GO 
@@ -1814,6 +1816,8 @@ BEGIN
 END
 GO
 
+
+
 CREATE PROCEDURE RANDOM.REGISTRO_LLEGADA(@IdAfiliado int, @IdBono INT, @FechaHoy DATETIME) AS
 BEGIN
 
@@ -1823,10 +1827,13 @@ BEGIN
         SET Usado= 1, ConsultaNumero = (SELECT MAX(ConsultaNumero) FROM RANDOM.BONO)
         WHERE IdBono = @IdBono
 
-		SET @X = (SELECT A.IdTurno FROM RANDOM.TURNO A WHERE A.IdAfiliado = @IdAfiliado 
-		AND datepart(YEAR,FechaYHoraTurno) = datepart(YEAR,@FechaHoy) AND datepart(MONTH,FechaYHoraTurno) = datepart(MONTH,@FechaHoy)
-	    AND datepart(DAY,FechaYHoraTurno) = datepart(DAY,@FechaHoy)
-		AND datepart(HOUR,FechaYHoraTurno) = datepart(HOUR,@FechaHoy) AND datepart(MINUTE,FechaYHoraTurno) = datepart(MINUTE,@FechaHoy))
+		SET @X = (SELECT A.IdTurno FROM RANDOM.TURNO A WHERE  FechaYHoraTurno = convert(datetime, @FechaHoy))
+		
+		
+		--SELECT A.IdTurno FROM RANDOM.TURNO A WHERE A.IdAfiliado = @IdAfiliado 
+		--AND datepart(YEAR,FechaYHoraTurno) = datepart(YEAR,@FechaHoy) AND datepart(MONTH,FechaYHoraTurno) = datepart(MONTH,@FechaHoy)
+	 --   AND datepart(DAY,FechaYHoraTurno) = datepart(DAY,@FechaHoy)
+		--AND datepart(HOUR,FechaYHoraTurno) = datepart(HOUR,@FechaHoy) AND datepart(MINUTE,FechaYHoraTurno) = datepart(MINUTE,@FechaHoy))
 
 		UPDATE RANDOM.TURNO
 		SET RegistrarLlegada=1
@@ -1834,6 +1841,9 @@ BEGIN
 		
 END
 GO
+
+	
+
 -------------------------------TOP 5------------------------------
 
 
