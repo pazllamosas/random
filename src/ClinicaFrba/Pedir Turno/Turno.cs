@@ -44,7 +44,7 @@ namespace ClinicaFrba.Pedir_Turno
                         MessageBox.Show("No puede elegir para antes de hora actual", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                 }
-                if (fechaActual.Day != fechaElegida.Day)
+                if (fechaActual != fechaElegida)
                 {
                     MessageBox.Show("Confirme el turno");
                     confirmarTurno.Visible = true;
