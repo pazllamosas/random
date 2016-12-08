@@ -165,7 +165,7 @@ namespace ClinicaFrba.Abm_Afiliado
                         string direccion = txtDomicilio.Text;
                         string telefono = txtTelefono.Text;
                         string mail = txtMail.Text;
-                        string fechaNacimiento = dtpFechaNac.Value.ToString("yyyy-MM-dd");
+                        DateTime fechaNacimiento = dtpFechaNac.Value;
                         string nroAfiliadoRaiz = txtNroAf.Text;
                         Int32 idEstadoCivil = estadoCivilAfiliado;
                         Int32 idPlan = planMedico;
@@ -275,6 +275,22 @@ namespace ClinicaFrba.Abm_Afiliado
             else
             {
                 return false;
+            }
+        }
+
+        private void dtpFechaNac_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime fechaHoy = funciones.ObtenerFecha();
+            if (dtpFechaNac.Value >= fechaHoy)
+            {
+                MessageBox.Show("Fecha de nacimiento superior a la fecha actual", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dtpFechaNac.Checked = false;
+                dtpFechaNac.Format = DateTimePickerFormat.Custom;
+                dtpFechaNac.CustomFormat = " ";
+            }
+            else
+            {
+                dtpFechaNac.Format = DateTimePickerFormat.Short;
             }
         }
 

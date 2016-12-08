@@ -59,6 +59,7 @@
             this.dtpFechaNac.Name = "dtpFechaNac";
             this.dtpFechaNac.Size = new System.Drawing.Size(180, 20);
             this.dtpFechaNac.TabIndex = 47;
+            this.dtpFechaNac.ValueChanged += new System.EventHandler(this.dtpFechaNac_ValueChanged);
             // 
             // txtTelefono
             // 

@@ -149,6 +149,8 @@ namespace ClinicaFrba.Abm_Afiliado
         public void agregarNuevoAfiliado()
         {
             this.LimpiarCampos();
+            cmbSexo.Items.Add("Femenino");
+            cmbSexo.Items.Add("Masculino");
             txtNombre.ReadOnly = false;
             txtApellido.ReadOnly = false;
             cmbTipoDoc.Enabled = true;
@@ -177,7 +179,8 @@ namespace ClinicaFrba.Abm_Afiliado
             this.txtNroAf.Clear();
             this.txtNroDoc.Clear();
             this.txtTelefono.Clear();
-            this.cmbSexo.Items.Clear();
+            this.cmbSexo.Items.Remove("Femenino");
+            this.cmbSexo.Items.Remove("Masculino");
             dtpFechaNac.Checked = false;
             dtpFechaNac.Value = DateTime.Today;
             
@@ -220,7 +223,7 @@ namespace ClinicaFrba.Abm_Afiliado
                             //creación del afiliado
                             Conexion.executeProcedure("RANDOM.CREAR_AFILIADO",
                                 Conexion.generarArgumentos("@NOMBRE", "@APELLIDO", "@SEXO", "@IDTIPODOC", "@DOCUMENTO", "@DIRECCION", "@TELEFONO", "@MAIL", "@FECHANAC", "@IDESTADOCIVIL", "@FAMILIARESACARGO", "@IDPLAN"),
-                                    txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value.ToString("yyyy-MM-dd"), Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));
+                                    txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value, Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));
                             MessageBox.Show("Afiliado Principal Creado");
 
                             //habilitación o no del boton de agregar afiliar
@@ -348,7 +351,9 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void dtpFechaNac_ValueChanged(object sender, EventArgs e)
         {
-            if (dtpFechaNac.Value > DateTime.Today)
+            DateTime fechaHoy = funciones.ObtenerFecha();
+            if (dtpFechaNac.Value >= fechaHoy)
+            
             {
                 MessageBox.Show("Fecha de nacimiento superior a la fecha actual", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 dtpFechaNac.Checked = false;

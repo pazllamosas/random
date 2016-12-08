@@ -302,6 +302,7 @@
             this.dtpFechaNac.Name = "dtpFechaNac";
             this.dtpFechaNac.Size = new System.Drawing.Size(218, 20);
             this.dtpFechaNac.TabIndex = 29;
+            this.dtpFechaNac.Value = new System.DateTime(2016, 12, 8, 13, 1, 10, 0);
             this.dtpFechaNac.ValueChanged += new System.EventHandler(this.dtpFechaNac_ValueChanged);
             // 
             // btnGuardar

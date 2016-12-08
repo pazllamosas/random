@@ -20,7 +20,7 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void btnCrearAf_Click(object sender, EventArgs e)
         {
-            
+
             FormProvider.Agafiliado.cargaCombos();
             FormProvider.Agafiliado.agregarNuevoAfiliado();
             FormProvider.Agafiliado.Show();
