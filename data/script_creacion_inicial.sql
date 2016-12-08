@@ -1808,12 +1808,15 @@ END
 GO
 
 
+
 CREATE PROCEDURE RANDOM.BONOS_DISPONIBLES(@IdAfiliado INT) AS 
 BEGIN
+	DECLARE @RAIZ INT
+	SET @RAIZ = (SELECT A.NumeroAfiliadoRaiz FROM RANDOM.AFILIADO A WHERE A.IdPersona = @IdAfiliado)
 
 	SELECT DISTINCT B.IdAfiliado, A.IdBono
 	FROM RANDOM.BONO A, RANDOM.COMPRA_BONO B, RANDOM.AFILIADO C
-	WHERE @IdAfiliado = B.IdAfiliado 
+	WHERE @RAIZ = B.IdAfiliado 
 	AND A.IdCompra = B.IdCompra and A.Usado = 0 AND A.Habilitado = 1
 	AND A.Usado = 0 AND A.IdPlan = C.IdPlan AND C.Estado = 1
 END
