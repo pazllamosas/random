@@ -1584,7 +1584,9 @@ BEGIN
 	WHERE A.IdProfesional = @PROFESIONAL AND
 		  T.IdAgenda = A.IdAgenda AND
 		  T.habilitado = 0 AND
-		  T.FechaYHoraTurno BETWEEN @FECHADESDE AND @FECHAHASTA
+		  T.FechaYHoraTurno BETWEEN convert(datetime2,@FECHADESDE) AND convert(datetime2,@FECHAHASTA)
+
+
 
 END
 GO
@@ -2117,16 +2119,31 @@ BEGIN
 END 
 GO
 
+
+
+
+
 CREATE PROCEDURE RANDOM.CANCELACION_TURNO_AFILIADO(@Afiliado INT, @Fecha DATETIME) AS
 BEGIN
+	
+	DECLARE @IDAFILIADO INT
+	SET @IDAFILIADO = (SELECT A.IdPersona FROM RANDOM.AFILIADO A WHERE CONCAT(A.NumeroAfiliadoRaiz, A.NumeroAfiliadoExt) = @Afiliado)
+
 	SELECT A.IdTurno, A.FechaYHoraTurno
 	FROM RANDOM.TURNO A
-	WHERE @Afiliado = A.IdAfiliado 
+	WHERE @IDAFILIADO = A.IdAfiliado 
+
+
+	--AND a.FechaYHoraTurno < (convert(datetime2, @fecha))
 	AND (
-	(datepart(YEAR,@Fecha) = datepart(YEAR,A.FechaYHoraTurno) AND datepart(MONTH,@Fecha) = datepart(MONTH,A.FechaYHoraTurno)
-	AND datepart(DAY,@Fecha) < datepart(DAY,A.FechaYHoraTurno)) OR --SI AÑO Y MES IGUAL, DIA MENOR
-	(datepart(YEAR,@Fecha) = datepart(YEAR,A.FechaYHoraTurno) AND datepart(MONTH,@Fecha) < datepart(MONTH,A.FechaYHoraTurno)) OR --SI AÑO IGUAL, MES MENOR
-	(datepart(YEAR,@Fecha) < datepart(YEAR,A.FechaYHoraTurno))
+	(datepart(YEAR,convert(datetime2,@Fecha)) = datepart(YEAR,A.FechaYHoraTurno) 
+	AND datepart(MONTH,convert(datetime2,@Fecha)) = datepart(MONTH,A.FechaYHoraTurno)
+	AND datepart(DAY,convert(datetime2,@Fecha)) < datepart(DAY,A.FechaYHoraTurno)) 
+	OR --SI AÑO Y MES IGUAL, DIA MENOR
+	(datepart(YEAR,convert(datetime2,@Fecha)) = datepart(YEAR,A.FechaYHoraTurno) 
+	AND datepart(MONTH,convert(datetime2,@Fecha)) < datepart(MONTH,A.FechaYHoraTurno)) 
+	OR --SI AÑO IGUAL, MES MENOR
+	(datepart(YEAR,convert(datetime2,@Fecha)) < datepart(YEAR,A.FechaYHoraTurno))
 	) 
 	AND A.habilitado = 0
 	ORDER BY 2
