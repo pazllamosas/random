@@ -30,7 +30,7 @@ namespace ClinicaFrba.Registro_Resultado
             dgvTurnos.Rows.Clear();
             string query = "SELECT T.IdTurno, CONVERT(nvarchar(18), A.NumeroAfiliadoRaiz) + '-' + A.NumeroAfiliadoExt AS 'Afiliado', P.Nombre, P.Apellido, T.FechaYHoraTurno ";
             query = query + "FROM RANDOM.TURNO T, RANDOM.AFILIADO A, RANDOM.PERSONA P ";
-            query = query + "WHERE A.NumeroAfiliadoRaiz = T.IdAfiliado AND P.IdPersona = A.IdPersona AND DAY(T.FechaYHoraTurno) = ";
+            query = query + "WHERE A.IdPersona = T.IdAfiliado AND P.IdPersona = A.IdPersona AND DAY(T.FechaYHoraTurno) = ";
             query = query + turnoFecha.Day.ToString() + " AND MONTH(T.FechaYHoraTurno) = " + turnoFecha.Month.ToString();
             query = query + " AND YEAR(T.FechaYHoraTurno) = " + turnoFecha.Year.ToString() + " AND T.Habilitado = 0";
             
@@ -60,6 +60,7 @@ namespace ClinicaFrba.Registro_Resultado
                         if (resultado)
                         {
                             MessageBox.Show("El diagnóstico finalizó correctamente");
+                            this.limpiarCampos();
                         }
                         CargarTurnosDelDia(dtpFecha.Value.Date);
                     }
@@ -92,6 +93,7 @@ namespace ClinicaFrba.Registro_Resultado
                     if (resultado)
                     {
                         MessageBox.Show("El diagnóstico se finalizó sin concretar");
+                        this.limpiarCampos();
                     }
                     CargarTurnosDelDia(dtpFecha.Value.Date);
                 }
@@ -113,6 +115,13 @@ namespace ClinicaFrba.Registro_Resultado
         {
             this.Hide();
             FormProvider.MainMenu.Show();
+        }
+
+        public void limpiarCampos()
+        {
+            txtSintomas.Clear();
+            txtEnfermedad.Clear();
+            cckTurno.Checked = false;
         }
     }
 }
