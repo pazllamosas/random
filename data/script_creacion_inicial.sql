@@ -1795,14 +1795,15 @@ GO
 
 CREATE PROCEDURE RANDOM.TRAER_TURNOS_MEDICO(@IdMedico INT, @Anio int, @Mes int, @Dia int ,@IdEspecialidad INT, @DiaSemana INT) AS
 BEGIN
-    SELECT DISTINCT B.FechaYHoraTurno, B.IdAfiliado
-	FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A, RANDOM.TURNO B
+    SELECT DISTINCT B.FechaYHoraTurno, B.IdAfiliado, CONCAT(C.NumeroAfiliadoRaiz, C.NumeroAfiliadoExt) AS NumeroAfiliadoCompleto
+	FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A, RANDOM.TURNO B, RANDOM.AFILIADO C
 	WHERE @IdMedico = A.IdProfesional AND @IdEspecialidad = B.IdEspecialidad AND @DiaSemana = A.Dia
 	AND @IdEspecialidad = A.IdEspecialidad AND B.IdAgenda = A.IdAgenda
 	AND datepart(YEAR,B.FechaYHoraTurno) = @Anio AND datepart(MONTH,B.FechaYHoraTurno) = @Mes
 	AND datepart(DAY,B.FechaYHoraTurno) = @Dia
 	AND B.Habilitado = 0
     AND B.RegistrarLlegada = 0 AND A.Activa = 1
+	AND B.IdAfiliado = C.IdPersona
 	ORDER BY B.FechaYHoraTurno ASC
 END
 GO
