@@ -123,5 +123,56 @@ namespace ClinicaFrba.Registro_Resultado
             txtEnfermedad.Clear();
             cckTurno.Checked = false;
         }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            string dniS = txtDNI.Text;
+            if (dniS != "" && dniS.Length <= 18)
+            {
+
+                Int32 dni = Convert.ToInt32(dniS);
+                Int32 rta = validarDNI(dni);
+                if (rta == 1)
+                {
+                    cckTurno.Enabled = true;
+                    dtpFecha.Enabled = true;
+                    dgvTurnos.Enabled = true;
+                    txtEnfermedad.Enabled = true;
+                    txtSintomas.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Seleccione un DNI valido", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Complete un DNI de un Profesional", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        public Int32 validarDNI(Int32 dni)
+        {
+            String query = "SELECT RANDOM.VALIDAR_DNI ('" + dni + "') AS id";
+            SqlDataReader reader = Conexion.ejecutarQuery(query);
+            reader.Read();
+            int respuesta = int.Parse(reader["id"].ToString());
+            reader.Close();
+            if (respuesta == 1)
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormProvider.MainMenu.Show();
+
+        }
     }
 }
