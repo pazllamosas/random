@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace ClinicaFrba.Pedir_Turno
 {
@@ -25,19 +26,30 @@ namespace ClinicaFrba.Pedir_Turno
             if (selectedRowCount == 1)//primero que si o si elija uno
             {
                 DataGridViewRow d = dataGridView1.SelectedRows[0];
+                string fechaQueAtiendeS = d.Cells[0].Value.ToString();
+                DateTime fechaQueAtiende = Convert.ToDateTime(fechaQueAtiendeS);
 
                 if (fechaActual.Year == fechaElegida.Year && fechaActual.Month == fechaElegida.Month && fechaActual.Day == fechaElegida.Day)
                 {
                     //si es en el mismo dia
 
-                    string fechaQueAtiendeS = d.Cells[0].Value.ToString();
-                    DateTime fechaQueAtiende = Convert.ToDateTime(fechaQueAtiendeS);
+
+
 
                     if (fechaActual.Hour < fechaQueAtiende.Hour || fechaActual.Hour == fechaQueAtiende.Hour && fechaActual.Minute < fechaQueAtiende.Minute)
                     //chequeo no sea antes de hora actual
                     {
-                        MessageBox.Show("Confirme el turno");
-                        confirmarTurno.Visible = true;
+
+                        Int32 x = validarAfiliadoTurno(Convert.ToInt32(textAfiliado.Text), fechaQueAtiende.Year, fechaQueAtiende.Month, fechaQueAtiende.Day, fechaQueAtiende.Hour, fechaQueAtiende.Minute);
+                        if (x == 1)
+                        {
+                            MessageBox.Show("Confirme el turno");
+                            confirmarTurno.Visible = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("El afiliado ya tiene un turno asignado en ese mismo dia y horario", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
                     }
                     else
                     {
@@ -46,8 +58,17 @@ namespace ClinicaFrba.Pedir_Turno
                 }
                 if (fechaActual != fechaElegida)
                 {
-                    MessageBox.Show("Confirme el turno");
-                    confirmarTurno.Visible = true;
+
+                    Int32 x = validarAfiliadoTurno(Convert.ToInt32(textAfiliado.Text), fechaQueAtiende.Year, fechaQueAtiende.Month, fechaQueAtiende.Day, fechaQueAtiende.Hour, fechaQueAtiende.Minute);
+                    if (x == 1)
+                    {
+                        MessageBox.Show("Confirme el turno");
+                        confirmarTurno.Visible = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("El afiliado ya tiene un turno asignado en ese mismo dia y horario", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
                 }
             }
             else
@@ -55,6 +76,17 @@ namespace ClinicaFrba.Pedir_Turno
                 MessageBox.Show("Elegir un turno", "Atención", MessageBoxButtons.RetryCancel, MessageBoxIcon.Information);
 
             }
+        }
+
+        public Int32 validarAfiliadoTurno(Int32 afiliado, Int32 Año, Int32 Mes, Int32 Dia, Int32 Hora, Int32 Minutos)
+        {
+            string query =
+                "SELECT RANDOM.VALIDACION_TURNOS_POR_AFILIADO ('" + afiliado + "', '" + Año + "' ,'" + Mes + "', '" + Dia + "' ,'" + Hora + "', '" + Minutos + "' ) AS id";
+            SqlDataReader reader = Conexion.ejecutarQuery(query);
+            reader.Read();
+            Int32 validacion = int.Parse(reader["id"].ToString());
+            reader.Close();
+            return validacion;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -100,7 +132,7 @@ namespace ClinicaFrba.Pedir_Turno
 
         public void textProfesional_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void textEspecialidad_TextChanged(object sender, EventArgs e)
