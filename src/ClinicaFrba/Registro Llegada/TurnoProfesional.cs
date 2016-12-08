@@ -98,13 +98,13 @@ namespace ClinicaFrba.Registro_Llegada
             if (selectedRowCount == 1)
             {
                 DataGridViewRow d = BonosDisponibles.SelectedRows[0];
-                string afiliadoS = d.Cells[0].Value.ToString();
-                Int32 afiliado = Convert.ToInt32(afiliadoS);
                 string IdBonoS = d.Cells[1].Value.ToString();
                 Int32 IdBono = Convert.ToInt32(IdBonoS);
                 DataGridViewRow d2 = dgvTurnoProfesional.SelectedRows[0];
                 string fechaS = d2.Cells[0].Value.ToString();
                 DateTime fecha = Convert.ToDateTime(fechaS);
+                string afiliadoS = d2.Cells[1].Value.ToString();
+                Int32 afiliado = Convert.ToInt32(afiliadoS);
                 bool resultado = Conexion.executeProcedure("RANDOM.REGISTRO_LLEGADA", Conexion.generarArgumentos("@IdAfiliado", "IdBono", "@FechaHoy"), afiliado, IdBono, fecha);
                 if (resultado)
                 {
