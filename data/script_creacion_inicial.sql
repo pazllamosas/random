@@ -1607,12 +1607,15 @@ CREATE PROCEDURE RANDOM.COMPRA_DE_BONO(@IdAfiliado int, @Cantidad int, @MontoTot
  	DECLARE @CONTADOR INT = 0 
  	DECLARE @Raiz INT
  	DECLARE @IdCompra INT
+	DECLARE @AFILIADO INT
  
  	SET @IdPlan = (SELECT A.IdPlan FROM RANDOM.AFILIADO A WHERE A.NumeroAfiliadoRaiz = @IdAfiliado AND A.NumeroAfiliadoExt = (CONCAT('0','1')))
  	SET @Monto = (SELECT B.MontoConsulta FROM RANDOM.PLANES B WHERE B.IdPlan = @IdPlan)
+	SET @AFILIADO = (SELECT A.IdPersona FROM RANDOM.AFILIADO A WHERE  A.NumeroAfiliadoRaiz = @IdAfiliado AND A.NumeroAfiliadoExt = (CONCAT('0','1')))
+
  
  	   INSERT INTO RANDOM.COMPRA_BONO(IdAfiliado, Fecha, MontoTotal, Cantidad)
- 	   values(@IdAfiliado, @Fecha, @MontoTotal, @Cantidad)
+ 	   values(@AFILIADO, @Fecha, @MontoTotal, @Cantidad)
  	   SET @IdCompra = SCOPE_IDENTITY()
   
  	 WHILE (@CONTADOR < @Cantidad)
@@ -1736,14 +1739,17 @@ BEGIN
 	  DECLARE @IdAgenda INT
 	  DECLARE @IdEspecialidad INT
 	  DECLARE @IdTurno INT
+	  DECLARE @ID INT
 
-	   SET @IdEspecialidad = (SELECT B.IdEspecialidad FROM RANDOM.ESPECIALIDAD B WHERE B.Descripcion = @Especialidad)
+	  SET @IdEspecialidad = (SELECT B.IdEspecialidad FROM RANDOM.ESPECIALIDAD B WHERE B.Descripcion = @Especialidad)
 	  SET @IdAgenda = (SELECT A.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE A WHERE A.IdProfesional = @Profesional 
 	  AND A.Dia = @Dia AND A.IdEspecialidad = @IdEspecialidad AND A.Activa = 1 AND @FechaElegida between a.FechaDesde and a.FechaHasta)
 	  SELECT @IdTurno = (SELECT IdTurno FROM RANDOM.TURNO WHERE IdTurno = (SELECT MAX(IdTurno) FROM RANDOM.TURNO))
-	  
+	  SET @ID = (SELECT A.IdPersona FROM RANDOM.AFILIADO A WHERE  (CONCAT (A.NumeroAfiliadoRaiz, A.NumeroAfiliadoExt)) = @Afiliado)
+
+
 	  INSERT INTO RANDOM.TURNO(IdTurno, IdAgenda, IdAfiliado, FechaYHoraTurno, Habilitado, IdEspecialidad)
-      VALUES (@IdTurno + 1, @IdAgenda, @Afiliado, @FechaElegida, 0, @IdEspecialidad)
+      VALUES (@IdTurno + 1, @IdAgenda, @ID, @FechaElegida, 0, @IdEspecialidad)
 	  
 	 
 
@@ -1804,13 +1810,10 @@ GO
 
 CREATE PROCEDURE RANDOM.BONOS_DISPONIBLES(@IdAfiliado INT) AS 
 BEGIN
-	
-	DECLARE @RAIZ INT
-	SET @RAIZ = (SELECT A.NumeroAfiliadoRaiz FROM RANDOM.AFILIADO A WHERE CONCAT(A.NumeroAfiliadoRaiz, A.NumeroAfiliadoExt) = @IdAfiliado)
 
 	SELECT DISTINCT B.IdAfiliado, A.IdBono
 	FROM RANDOM.BONO A, RANDOM.COMPRA_BONO B, RANDOM.AFILIADO C
-	WHERE @RAIZ = B.IdAfiliado 
+	WHERE @IdAfiliado = B.IdAfiliado 
 	AND A.IdCompra = B.IdCompra and A.Usado = 0 AND A.Habilitado = 1
 	AND A.Usado = 0 AND A.IdPlan = C.IdPlan AND C.Estado = 1
 END
@@ -1827,7 +1830,8 @@ BEGIN
         SET Usado= 1, ConsultaNumero = (SELECT MAX(ConsultaNumero) FROM RANDOM.BONO)
         WHERE IdBono = @IdBono
 
-		SET @X = (SELECT A.IdTurno FROM RANDOM.TURNO A WHERE  FechaYHoraTurno = convert(datetime, @FechaHoy))
+		SET @X = (SELECT A.IdTurno FROM RANDOM.TURNO A WHERE @IdAfiliado = A.IdAfiliado AND 
+		FechaYHoraTurno = convert(datetime, @FechaHoy))
 		
 		
 		--SELECT A.IdTurno FROM RANDOM.TURNO A WHERE A.IdAfiliado = @IdAfiliado 
