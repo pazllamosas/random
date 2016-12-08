@@ -1702,7 +1702,7 @@ BEGIN
    Turnos DATETIME,
    DisponibilidadTurno bit) 
                      
-   DECLARE @X DATETIME = @Desde
+   DECLARE @X DATETIME = convert(datetime, @Desde, 101)
    DECLARE @Agenda INT
 
    SET @Agenda = (SELECT B.IdAgenda FROM RANDOM.AGENDA_HORARIO_DISPONIBLE B WHERE B.IdProfesional = @IdProfesional AND B.Dia = @Dia AND B.IdEspecialidad = @IdEspecialidad AND B.Activa = 1 AND MONTH(B.FechaDesde) = @Mes)
