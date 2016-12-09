@@ -39,11 +39,6 @@
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.dgvTurnos = new System.Windows.Forms.DataGridView();
-            this.IdTurno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Afiliado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Apellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FechaYHoraTurno = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.txtDNI = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -92,7 +87,6 @@
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(270, 20);
             this.dtpFecha.TabIndex = 24;
-            this.dtpFecha.ValueChanged += new System.EventHandler(this.dtpFecha_ValueChanged);
             // 
             // lblSintomas
             // 
@@ -167,12 +161,6 @@
             this.dgvTurnos.AllowUserToAddRows = false;
             this.dgvTurnos.AllowUserToDeleteRows = false;
             this.dgvTurnos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTurnos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.IdTurno,
-            this.Afiliado,
-            this.Nombre,
-            this.Apellido,
-            this.FechaYHoraTurno});
             this.dgvTurnos.Enabled = false;
             this.dgvTurnos.Location = new System.Drawing.Point(75, 202);
             this.dgvTurnos.MultiSelect = false;
@@ -180,39 +168,7 @@
             this.dgvTurnos.ReadOnly = true;
             this.dgvTurnos.Size = new System.Drawing.Size(523, 150);
             this.dgvTurnos.TabIndex = 13;
-            // 
-            // IdTurno
-            // 
-            this.IdTurno.HeaderText = "Turno";
-            this.IdTurno.Name = "IdTurno";
-            this.IdTurno.ReadOnly = true;
-            this.IdTurno.Visible = false;
-            // 
-            // Afiliado
-            // 
-            this.Afiliado.HeaderText = "Número de Afiliado";
-            this.Afiliado.Name = "Afiliado";
-            this.Afiliado.ReadOnly = true;
-            this.Afiliado.Width = 121;
-            // 
-            // Nombre
-            // 
-            this.Nombre.HeaderText = "Nombre";
-            this.Nombre.Name = "Nombre";
-            this.Nombre.ReadOnly = true;
-            // 
-            // Apellido
-            // 
-            this.Apellido.HeaderText = "Apellido";
-            this.Apellido.Name = "Apellido";
-            this.Apellido.ReadOnly = true;
-            // 
-            // FechaYHoraTurno
-            // 
-            this.FechaYHoraTurno.HeaderText = "Fecha y Hora del Turno";
-            this.FechaYHoraTurno.Name = "FechaYHoraTurno";
-            this.FechaYHoraTurno.ReadOnly = true;
-            this.FechaYHoraTurno.Width = 142;
+            this.dgvTurnos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTurnos_CellContentClick);
             // 
             // btnBuscar
             // 
@@ -226,6 +182,7 @@
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click_1);
             // 
             // txtDNI
             // 
@@ -301,11 +258,6 @@
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.DataGridView dgvTurnos;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IdTurno;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Afiliado;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Nombre;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Apellido;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FechaYHoraTurno;
         public System.Windows.Forms.DateTimePicker dtpFecha;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.TextBox txtDNI;

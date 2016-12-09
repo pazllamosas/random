@@ -17,30 +17,38 @@ namespace ClinicaFrba.Registro_Resultado
         {
             InitializeComponent();
             dtpFecha.Value = funciones.ObtenerFecha();
-            CargarTurnosDelDia(dtpFecha.Value.Date);
+            //CargarTurnosDelDia(dtpFecha.Value.Date);
         }
 
-        private void dtpFecha_ValueChanged(object sender, EventArgs e)
-        {
-            CargarTurnosDelDia(dtpFecha.Value.Date);
-        }
+        //private void dtpFecha_ValueChanged(object sender, EventArgs e)
+        //{
+        //    CargarTurnosDelDia(dtpFecha.Value.Date);
+        //}
 
         public void CargarTurnosDelDia(DateTime turnoFecha)
         {
-            dgvTurnos.Rows.Clear();
-            string query = "SELECT T.IdTurno, CONVERT(nvarchar(18), A.NumeroAfiliadoRaiz) + '-' + A.NumeroAfiliadoExt AS 'Afiliado', P.Nombre, P.Apellido, T.FechaYHoraTurno ";
-            query = query + "FROM RANDOM.TURNO T, RANDOM.AFILIADO A, RANDOM.PERSONA P ";
-            query = query + "WHERE A.IdPersona = T.IdAfiliado AND P.IdPersona = A.IdPersona AND DAY(T.FechaYHoraTurno) = ";
-            query = query + turnoFecha.Day.ToString() + " AND MONTH(T.FechaYHoraTurno) = " + turnoFecha.Month.ToString();
-            query = query + " AND YEAR(T.FechaYHoraTurno) = " + turnoFecha.Year.ToString() + " AND T.Habilitado = 0";
-            
-            SqlDataReader reader = Conexion.ejecutarQuery(query);
+            //dgvTurnos.Rows.Clear();
+            //string query = "SELECT T.IdTurno, CONVERT(nvarchar(18), A.NumeroAfiliadoRaiz) + '-' + A.NumeroAfiliadoExt AS 'Afiliado', P.Nombre, P.Apellido, T.FechaYHoraTurno ";
+            //query = query + "FROM RANDOM.TURNO T, RANDOM.AFILIADO A, RANDOM.PERSONA P, RANDOM.PROFESIONAL PR, RANDOM.PERSONA P2";
+            //query = query + "WHERE A.IdPersona = T.IdAfiliado AND P.IdPersona = A.IdPersona AND DAY(T.FechaYHoraTurno) = ";
+            //query = query + turnoFecha.Day.ToString() + " AND MONTH(T.FechaYHoraTurno) = " + turnoFecha.Month.ToString();
+            //query = query + " AND YEAR(T.FechaYHoraTurno) = " + turnoFecha.Year.ToString() + " AND T.Habilitado = 0";
+            ////query = query + " AND P.Documento = " + txtDNI.Text + " AND PR.IdProfesional = P2.IdPersona";
 
-            while (reader.Read())
-            {
-                dgvTurnos.Rows.Add(reader["IdTurno"], reader["Afiliado"], reader["Nombre"], reader["Apellido"], reader["FechaYHoraTurno"]);
-            }
-            reader.Close();
+            Int32 dni = Convert.ToInt32(txtDNI.Text);
+
+            dgvTurnos.DataSource = Conexion.obtenerTablaProcedure("RANDOM.TURNOS_DEL_DIA",
+                Conexion.generarArgumentos("@TurnoFecha", "@Documento"), dtpFecha.Value, dni);
+            txtDNI.ReadOnly = true;
+            
+            
+            //SqlDataReader reader = Conexion.ejecutarQuery(query);
+
+            //while (reader.Read())
+            //{
+            //    dgvTurnos.Rows.Add(reader["IdTurno"], reader["Afiliado"], reader["Nombre"], reader["Apellido"], reader["FechaYHoraTurno"]);
+            //}
+            //reader.Close();
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -113,6 +121,8 @@ namespace ClinicaFrba.Registro_Resultado
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
+            txtDNI.ReadOnly = true;
+            dgvTurnos.Columns.Clear();
             this.Hide();
             FormProvider.MainMenu.Show();
         }
@@ -122,35 +132,15 @@ namespace ClinicaFrba.Registro_Resultado
             txtSintomas.Clear();
             txtEnfermedad.Clear();
             cckTurno.Checked = false;
+            cckTurno.Enabled = false;
+            dtpFecha.Enabled = false;
+            dgvTurnos.Enabled = false;
+            txtEnfermedad.Enabled = false;
+            txtSintomas.Enabled = false;
+
         }
 
-        private void btnBuscar_Click(object sender, EventArgs e)
-        {
-            string dniS = txtDNI.Text;
-            if (dniS != "" && dniS.Length <= 18)
-            {
-
-                Int32 dni = Convert.ToInt32(dniS);
-                Int32 rta = validarDNI(dni);
-                if (rta == 1)
-                {
-                    cckTurno.Enabled = true;
-                    dtpFecha.Enabled = true;
-                    dgvTurnos.Enabled = true;
-                    txtEnfermedad.Enabled = true;
-                    txtSintomas.Enabled = true;
-                }
-                else
-                {
-                    MessageBox.Show("Seleccione un DNI valido", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Complete un DNI de un Profesional", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-        }
-
+        
         public Int32 validarDNI(Int32 dni)
         {
             String query = "SELECT RANDOM.VALIDAR_DNI ('" + dni + "') AS id";
@@ -170,8 +160,46 @@ namespace ClinicaFrba.Registro_Resultado
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
+            txtDNI.ReadOnly = true;
+            dgvTurnos.Columns.Clear();
             this.Hide();
             FormProvider.MainMenu.Show();
+
+        }
+
+        private void btnBuscar_Click_1(object sender, EventArgs e)
+        {
+            string dniS = txtDNI.Text;
+            if (dniS != "" && dniS.Length <= 18)
+            {
+
+                Int32 dni = Convert.ToInt32(dniS);
+                Int32 rta = validarDNI(dni);
+                if (rta == 1)
+                {
+                    CargarTurnosDelDia(dtpFecha.Value.Date);
+                    cckTurno.Enabled = true;
+                    dtpFecha.Enabled = true;
+                    dgvTurnos.Enabled = true;
+                    txtEnfermedad.Enabled = true;
+                    txtSintomas.Enabled = true;
+                    btnGuardar.Enabled = true;
+                    btnCancelar.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Seleccione un DNI valido", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Complete un DNI de un Profesional", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+        }
+
+        private void dgvTurnos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
         }
     }

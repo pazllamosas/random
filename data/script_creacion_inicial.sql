@@ -92,6 +92,8 @@ IF OBJECT_ID('RANDOM.GET_NRO_AFILIADO_RAIZ') IS NOT NULL
 DROP FUNCTION RANDOM.GET_NRO_AFILIADO_RAIZ
 
 
+IF OBJECT_ID('RANDOM.TURNOS_DEL_DIA') IS NOT NULL
+DROP PROCEDURE RANDOM.TURNOS_DEL_DIA
 IF OBJECT_ID('RANDOM.GET_ROLES_ESTADO') IS NOT NULL
 DROP PROCEDURE RANDOM.GET_ROLES_ESTADO
 IF OBJECT_ID('RANDOM.GET_AGENDA') IS NOT NULL
@@ -2180,3 +2182,26 @@ END
 RETURN @RTA
 END
 GO
+
+
+
+CREATE PROCEDURE RANDOM.TURNOS_DEL_DIA (@TurnoFecha datetime, @Documento int) AS
+
+BEGIN
+
+	SELECT T.IdTurno, CONVERT(nvarchar(18), A.NumeroAfiliadoRaiz) + '-' + A.NumeroAfiliadoExt AS 'Afiliado', P.Nombre, P.Apellido, T.FechaYHoraTurno
+            FROM RANDOM.TURNO T, RANDOM.AFILIADO A, RANDOM.PERSONA P, RANDOM.PROFESIONAL PR, RANDOM.PERSONA P2
+			WHERE A.IdPersona = T.IdAfiliado AND P.IdPersona = A.IdPersona 
+			AND CONVERT(date,T.FechaYHoraTurno) = CONVERT(date, @TurnoFecha)
+			--AND DAY(T.FechaYHoraTurno) = @Fecha 
+			--AND MONTH(T.FechaYHoraTurno) = @Fecha
+   --         AND YEAR(T.FechaYHoraTurno) = @Fecha
+			AND T.Habilitado = 0
+			AND T.RegistrarLlegada = 1
+            AND P2.Documento = @Documento
+			AND PR.IdProfesional = P2.IdPersona
+END
+GO
+
+--drop procedure RANDOM.TURNOS_DEL_DIA 
+
