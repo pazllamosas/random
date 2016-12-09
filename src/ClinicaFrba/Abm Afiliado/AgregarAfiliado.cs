@@ -107,7 +107,8 @@ namespace ClinicaFrba.Abm_Afiliado
             txtNroDoc.Text = nroDocumento;
             txtTelefono.Text = telefono;
             txtDomicilio.Text = direccion;
-            dtpFechaNac.Text = fechaNacimiento;
+            dtpFechaNac.Value = Convert.ToDateTime(fechaNacimiento);
+            //dtpFechaNac.Text = fechaNacimiento;
             cmbSexo.Text = sexo;
             txtFamACargo.Text = cantACargo;
             txtMail.Text = mail;
@@ -212,31 +213,42 @@ namespace ClinicaFrba.Abm_Afiliado
             if (!editando)
             {
                 //valida que los campos esten completos
-              if (validacion())
+                if (validacion())
                 {
-                  //valida la longitud de los campos
+                    //valida la longitud de los campos
                     if (validacionLongitud())
                     {
-                        //verifica que el nro de documento no este cargado en la base
-                        if (!existeDni(txtNroDoc.Text))
+                        DateTime fechaHoy = funciones.ObtenerFecha();
+                        if (dtpFechaNac.Value >= fechaHoy)
                         {
-                            //creación del afiliado
-                            Conexion.executeProcedure("RANDOM.CREAR_AFILIADO",
-                                Conexion.generarArgumentos("@NOMBRE", "@APELLIDO", "@SEXO", "@IDTIPODOC", "@DOCUMENTO", "@DIRECCION", "@TELEFONO", "@MAIL", "@FECHANAC", "@IDESTADOCIVIL", "@FAMILIARESACARGO", "@IDPLAN"),
-                                    txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value, Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));
-                            MessageBox.Show("Afiliado Principal Creado");
+                            MessageBox.Show("Fecha de nacimiento superior a la fecha actual", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            dtpFechaNac.Checked = false;
+                            dtpFechaNac.Format = DateTimePickerFormat.Custom;
+                            dtpFechaNac.CustomFormat = " ";
+                        }
+                        else
+                        {
+                            //verifica que el nro de documento no este cargado en la base
+                            if (!existeDni(txtNroDoc.Text))
+                            {
+                                //creación del afiliado
+                                Conexion.executeProcedure("RANDOM.CREAR_AFILIADO",
+                                    Conexion.generarArgumentos("@NOMBRE", "@APELLIDO", "@SEXO", "@IDTIPODOC", "@DOCUMENTO", "@DIRECCION", "@TELEFONO", "@MAIL", "@FECHANAC", "@IDESTADOCIVIL", "@FAMILIARESACARGO", "@IDPLAN"),
+                                        txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value, Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));
+                                MessageBox.Show("Afiliado Principal Creado");
 
-                            //habilitación o no del boton de agregar afiliar
-                            this.cargaDeAgregarFamiliar();
+                                //habilitación o no del boton de agregar afiliar
+                                this.cargaDeAgregarFamiliar();
 
-                            //se obtiene el numero de afiliado raiz
-                            string query = "SELECT RANDOM.GET_NRO_AFILIADO_RAIZ ('" + txtNroDoc.Text + "') AS id";
-                            SqlDataReader reader = Conexion.ejecutarQuery(query);
-                            reader.Read();
-                            string respuesta = (reader["id"].ToString());
-                            reader.Close();
-                            txtNroAf.Text = respuesta;
+                                //se obtiene el numero de afiliado raiz
+                                string query = "SELECT RANDOM.GET_NRO_AFILIADO_RAIZ ('" + txtNroDoc.Text + "') AS id";
+                                SqlDataReader reader = Conexion.ejecutarQuery(query);
+                                reader.Read();
+                                string respuesta = (reader["id"].ToString());
+                                reader.Close();
+                                txtNroAf.Text = respuesta;
 
+                            }
                         }
                     }
 
@@ -254,29 +266,42 @@ namespace ClinicaFrba.Abm_Afiliado
                     //valida la longitud de los campos
                     if (validacionLongitud())
                     {
-                        string dni = txtNroDoc.Text;
-                        string query = "SELECT RANDOM.GET_ID_PERSONA ('" + dni + "' ) AS id";
+                        DateTime fechaHoy = funciones.ObtenerFecha();
+                        if (dtpFechaNac.Value >= fechaHoy)
+                        {
+                            MessageBox.Show("Fecha de nacimiento superior a la fecha actual", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            dtpFechaNac.Checked = false;
+                            dtpFechaNac.Format = DateTimePickerFormat.Custom;
+                            dtpFechaNac.CustomFormat = " ";
+                        }
+                        else
+                        {
+                            string dni = txtNroDoc.Text;
+                            string query = "SELECT RANDOM.GET_ID_PERSONA ('" + dni + "' ) AS id";
 
-                        SqlDataReader reader = Conexion.ejecutarQuery(query);
-                        reader.Read();
-                        int idPersona = int.Parse(reader["id"].ToString());
-                        reader.Close();
+                            SqlDataReader reader = Conexion.ejecutarQuery(query);
+                            reader.Read();
+                            int idPersona = int.Parse(reader["id"].ToString());
+                            reader.Close();
 
-                        //modificación del afiliado
-                        Conexion.executeProcedure("RANDOM.MODIFICAR_AFILIADO",
-                            Conexion.generarArgumentos("IDPERSONA", "NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDESTADOCIVIL", "FAMILIARESACARGO", "IDPLAN"),
-                            idPersona, txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value.ToString("yyyy-MM-dd"), Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));
-                        
-                        MessageBox.Show("Afiliado Modificado");
+                            //modificación del afiliado
+                            Conexion.executeProcedure("RANDOM.MODIFICAR_AFILIADO",
+                                Conexion.generarArgumentos("IDPERSONA", "NOMBRE", "APELLIDO", "SEXO", "IDTIPODOC", "DOCUMENTO", "DIRECCION", "TELEFONO", "MAIL", "FECHANAC", "IDESTADOCIVIL", "FAMILIARESACARGO", "IDPLAN"),
+                                idPersona, txtNombre.Text, txtApellido.Text, cmbSexo.Text, Convert.ToInt32(cmbTipoDoc.SelectedValue), txtNroDoc.Text, txtDomicilio.Text, txtTelefono.Text, txtMail.Text, dtpFechaNac.Value, Convert.ToInt32(cmbEstadoCivil.SelectedValue), txtFamACargo.Text, Convert.ToInt32(cmbPlanMedico.SelectedValue));
 
-                        //habilitación o no del boton de agregar afiliar
-                        this.cargaDeAgregarFamiliar();
+                            MessageBox.Show("Afiliado Modificado");
+
+                            //habilitación o no del boton de agregar afiliar
+                            this.cargaDeAgregarFamiliar();
+                            {
+                            }
+                        }
                     }
-                }
-                else
-                {
-                    MessageBox.Show("Faltan cargar datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                    {
+                        MessageBox.Show("Faltan cargar datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
+                    }
                 }
             }
 
@@ -351,19 +376,16 @@ namespace ClinicaFrba.Abm_Afiliado
 
         private void dtpFechaNac_ValueChanged(object sender, EventArgs e)
         {
-            DateTime fechaHoy = funciones.ObtenerFecha();
-            if (dtpFechaNac.Value >= fechaHoy)
+           // DateTime fechaHoy = funciones.ObtenerFecha();
+           // if (dtpFechaNac.Value >= fechaHoy)
             
-            {
-                MessageBox.Show("Fecha de nacimiento superior a la fecha actual", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                dtpFechaNac.Checked = false;
-                dtpFechaNac.Format = DateTimePickerFormat.Custom;
-                dtpFechaNac.CustomFormat = " ";
-           }
-            else
-            {
-                dtpFechaNac.Format = DateTimePickerFormat.Short;
-            }
+           // {
+           //     MessageBox.Show("Fecha de nacimiento superior a la fecha actual", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+           //     dtpFechaNac.Checked = false;
+           //     dtpFechaNac.Format = DateTimePickerFormat.Custom;
+           //     dtpFechaNac.CustomFormat = " ";
+           //}
+            
         }
 
         private void txtNroDoc_TextChanged(object sender, EventArgs e)
