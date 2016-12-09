@@ -436,9 +436,9 @@
         private System.Windows.Forms.TextBox txtFamACargo;
         private System.Windows.Forms.TextBox txtNroAf;
         private System.Windows.Forms.Button btnVolver;
-        private System.Windows.Forms.DateTimePicker dtpFechaNac;
         private System.Windows.Forms.Button btnCambiarPlan;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnAgregarFamiliar;
+        public System.Windows.Forms.DateTimePicker dtpFechaNac;
     }
 }

@@ -229,7 +229,7 @@ namespace ClinicaFrba.Abm_Afiliado
             this.txtApellido.Clear();
             this.txtNombre.Clear();
             dtpFechaNac.Checked = false;
-            dtpFechaNac.Value = DateTime.Today;
+            dtpFechaNac.Value = funciones.ObtenerFecha();
             this.txtTelefono.Clear();
             this.txtDomicilio.Clear();
             this.txtMail.Clear();

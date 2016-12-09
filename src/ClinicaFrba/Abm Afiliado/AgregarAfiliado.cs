@@ -182,7 +182,7 @@ namespace ClinicaFrba.Abm_Afiliado
             this.cmbSexo.Items.Remove("Femenino");
             this.cmbSexo.Items.Remove("Masculino");
             dtpFechaNac.Checked = false;
-            dtpFechaNac.Value = DateTime.Today;
+            dtpFechaNac.Value = funciones.ObtenerFecha();
             
         }
 

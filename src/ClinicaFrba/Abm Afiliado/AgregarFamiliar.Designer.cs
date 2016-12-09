@@ -320,7 +320,6 @@
 
         #endregion
 
-        private System.Windows.Forms.DateTimePicker dtpFechaNac;
         private System.Windows.Forms.TextBox txtTelefono;
         private System.Windows.Forms.ComboBox cmbTipoDoc;
         private System.Windows.Forms.ComboBox cmbSexo;
@@ -343,5 +342,6 @@
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.TextBox txtNroAf;
+        public System.Windows.Forms.DateTimePicker dtpFechaNac;
     }
 }
