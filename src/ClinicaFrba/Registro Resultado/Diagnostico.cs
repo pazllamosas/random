@@ -68,7 +68,7 @@ namespace ClinicaFrba.Registro_Resultado
                         if (resultado)
                         {
                             MessageBox.Show("El diagnóstico finalizó correctamente");
-                            this.limpiarCampos();
+                            //this.limpiarCampos();
                         }
                         CargarTurnosDelDia(dtpFecha.Value.Date);
                     }
@@ -101,7 +101,7 @@ namespace ClinicaFrba.Registro_Resultado
                     if (resultado)
                     {
                         MessageBox.Show("El diagnóstico se finalizó sin concretar");
-                        this.limpiarCampos();
+                        //this.limpiarCampos();
                     }
                     CargarTurnosDelDia(dtpFecha.Value.Date);
                 }
