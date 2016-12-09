@@ -132,7 +132,7 @@ namespace ClinicaFrba.Registro_Resultado
             txtSintomas.Clear();
             txtEnfermedad.Clear();
             cckTurno.Checked = false;
-            cckTurno.Enabled = false;
+            cckTurno.Enabled = true;
             dtpFecha.Enabled = false;
             dgvTurnos.Enabled = false;
             txtEnfermedad.Enabled = false;

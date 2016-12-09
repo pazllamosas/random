@@ -1825,8 +1825,8 @@ BEGIN
 	SET @RAIZ = (SELECT A.NumeroAfiliadoRaiz FROM RANDOM.AFILIADO A WHERE A.IdPersona = @IdAfiliado)
 
 	SELECT DISTINCT B.IdAfiliado, A.IdBono
-	FROM RANDOM.BONO A, RANDOM.COMPRA_BONO B, RANDOM.AFILIADO C
-	WHERE @RAIZ = B.IdAfiliado 
+	FROM RANDOM.BONO A, RANDOM.COMPRA_BONO B, RANDOM.AFILIADO C, RANDOM.PERSONA P
+	WHERE P.IdPersona = B.IdAfiliado AND C.IdPersona = B.IdAfiliado AND C.NumeroAfiliadoRaiz = @RAIZ 
 	AND A.IdCompra = B.IdCompra and A.Usado = 0 AND A.Habilitado = 1
 	AND A.Usado = 0 AND A.IdPlan = C.IdPlan AND C.Estado = 1
 END
