@@ -121,7 +121,7 @@ namespace ClinicaFrba.Registro_Resultado
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            txtDNI.ReadOnly = true;
+            this.limpiarCampos();
             dgvTurnos.Columns.Clear();
             this.Hide();
             FormProvider.MainMenu.Show();
@@ -137,6 +137,9 @@ namespace ClinicaFrba.Registro_Resultado
             dgvTurnos.Enabled = false;
             txtEnfermedad.Enabled = false;
             txtSintomas.Enabled = false;
+            txtDNI.Clear();
+            txtDNI.ReadOnly = false;
+
 
         }
 
@@ -160,7 +163,7 @@ namespace ClinicaFrba.Registro_Resultado
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            txtDNI.ReadOnly = true;
+            this.limpiarCampos();
             dgvTurnos.Columns.Clear();
             this.Hide();
             FormProvider.MainMenu.Show();
